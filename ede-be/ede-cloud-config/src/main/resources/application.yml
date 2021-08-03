@@ -9,7 +9,7 @@ spring:
                basedir: target/config
                default-label: master
 server:
-   port: 9196
+   port: 8888
 eureka:
    client:
       register-with-eureka: true
