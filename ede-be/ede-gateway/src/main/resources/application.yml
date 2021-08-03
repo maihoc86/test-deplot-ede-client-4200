@@ -1,5 +1,5 @@
 spring:
-  application:    name: ede-eureka-server  cloud:    gateway:      routes:      - id: ede-hystrix-dashboard
+  application:    name: ede-api-gateway  cloud:    gateway:      routes:      - id: ede-hystrix-dashboard
         uri: lb://ede-hystrix-dashboard        predicates:        - Path=/ede-hystrix-dashboard/**
       - id: ede-cloud-config
         uri: lb://ede-cloud-config
