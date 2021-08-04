@@ -5,7 +5,7 @@ spring:
       config:
          server:
             git:
-               uri: https://gitlab.com/group-poly/ede/-/tree/master/ede-be/config-cloud-file
+               uri: https://github.com/maihoc86/cloud-config-server
                basedir: target/config
                default-label: master
 server:
