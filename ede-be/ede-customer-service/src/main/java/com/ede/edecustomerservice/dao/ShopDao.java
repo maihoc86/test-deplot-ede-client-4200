@@ -2,8 +2,8 @@ package com.ede.edecustomerservice.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ede.edecustomerservice.entity.shop;
+import com.ede.edecustomerservice.entity.Shop;
 
-public interface shop_dao extends JpaRepository<shop, String>{
+public interface ShopDao extends JpaRepository<Shop, String>{
 
 }

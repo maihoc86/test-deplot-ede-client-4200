@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "shiper_partner")
-public class shiper_partner {
+public class ShiperPartner {
 	@Id
 	String id;
 	String name;

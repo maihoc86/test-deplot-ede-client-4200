@@ -14,10 +14,9 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "shop")
-public class shop {
+public class Shop {
 	@Id
 	String id;
-	@ManyToOne
 	String user_id;
 	String image;
 	Date create_date;

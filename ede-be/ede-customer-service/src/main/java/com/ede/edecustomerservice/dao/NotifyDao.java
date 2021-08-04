@@ -2,8 +2,8 @@ package com.ede.edecustomerservice.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ede.edecustomerservice.entity.notify;
+import com.ede.edecustomerservice.entity.Notify;
 
-public interface notify_dao extends JpaRepository<notify, String> {
+public interface NotifyDao extends JpaRepository<Notify, String> {
 
 }

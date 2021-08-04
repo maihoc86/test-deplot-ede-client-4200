@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "notify")
-public class notify {
+public class Notify {
 	@Id
 	String id;
 	String user_id;

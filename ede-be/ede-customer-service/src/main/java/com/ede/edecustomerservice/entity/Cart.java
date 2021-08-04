@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "cart")
-public class cart {
+public class Cart {
 	@Id
 	String id;
 	String user_id;
