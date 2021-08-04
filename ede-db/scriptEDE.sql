@@ -299,18 +299,18 @@ CREATE TABLE IF NOT EXISTS "product_tag" (
 /*!40000 ALTER TABLE "product_tag" DISABLE KEYS */;
 /*!40000 ALTER TABLE "product_tag" ENABLE KEYS */;
 
--- Dumping structure for table EDE.shiper
-DROP TABLE IF EXISTS "shiper";
-CREATE TABLE IF NOT EXISTS "shiper" (
+-- Dumping structure for table EDE.shiper_partner
+DROP TABLE IF EXISTS "shiper_partner";
+CREATE TABLE IF NOT EXISTS "shiper_partner" (
 	"id" CHAR(36) NOT NULL COLLATE 'SQL_Latin1_General_CP1_CI_AS',
 	"name" NVARCHAR(200) NOT NULL COLLATE 'SQL_Latin1_General_CP1_CI_AS',
 	"api" NVARCHAR(max) NOT NULL COLLATE 'SQL_Latin1_General_CP1_CI_AS',
 	PRIMARY KEY ("id")
 );
 
--- Dumping data for table EDE.shiper: 0 rows
-/*!40000 ALTER TABLE "shiper" DISABLE KEYS */;
-/*!40000 ALTER TABLE "shiper" ENABLE KEYS */;
+-- Dumping data for table EDE.shiper_partner: 0 rows
+/*!40000 ALTER TABLE "shiper_partner" DISABLE KEYS */;
+/*!40000 ALTER TABLE "shiper_partner" ENABLE KEYS */;
 
 -- Dumping structure for table EDE.shiper_shop
 DROP TABLE IF EXISTS "shiper_shop";
