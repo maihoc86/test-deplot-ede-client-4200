@@ -32,7 +32,23 @@
             "styles": [
               "src/styles.css",
               "src/assets/css/bootstrap/css/bootstrap.min.css",
-              "src/assets/css/font-awesome/css/font-awesome.min.css"
+              "node_modules/font-awesome/css/font-awesome.css",
+              "src/assets/css/bootstrap/css/bootstrap.css",
+              "src/assets/css/docs.css",
+              "src/assets/css/prettify.css",
+              "src/assets/css/font-awesome/css/font-awesome.min.css",
+              "src/assets/js/datetimepicker/bootstrap-datetimepicker.min.css",
+              "src/assets/js/owl-carousel/owl.carousel.css",
+              "src/assets/js/jquery-ui/jquery-ui.min.css",
+              "src/assets/js/minicolors/miniColors.css",
+              "src/assets/css/themecss/lib.css",
+              "src/assets/css/themecss/so_searchpro.css",
+              "src/assets/css/themecss/so_megamenu.css",
+              "src/assets/css/themecss/so-categories.css",
+              "src/assets/css/themecss/so-listing-tabs.css",
+              "src/assets/css/themecss/so-newletter-popup.css",
+              "src/assets/css/theme.css",
+              "src/assets/css/responsive.css"
             ],
             "scripts": [
               "src/assets/js/jquery-2.2.4.min.js",
