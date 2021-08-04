@@ -4,7 +4,7 @@
  *	Author: Magentech
  *	Author URI: http://www.magentech.com
  *	Version: 1.0.0
- *	Description: This is html5 Sass template 
+ *	Description: This is html5 Sass template
  *******************************************/
 /* [2] */
 /* [8] */
@@ -263,7 +263,11 @@
  [5] NO RESPONSIVE BOOTSTRAP
  [6] PRELOADING SCREEN
  [7] BANNER EFFECT
- [8] POPUP ADDED TO CART 
+<<<<<<< HEAD
+ [8] POPUP ADDED TO CART
+=======
+ [8] POPUP ADDED TO CART
+>>>>>>> 46-framework-initialize
  [9] PAGE COMINGSOON
  ==============================================*/
 /*============BACK TO TOP ==================*/
@@ -535,7 +539,7 @@
 
   .lazy.lazy-loaded img {
     opacity: 1; } }
-/* Overlay pattern 
+/* Overlay pattern
  --------------------------------------- */
 body.no-bgbody {
   background-image: none; }
@@ -714,16 +718,16 @@ header.navbar-compact {
 /* 4.LARY LOADER
  --------------------------------------- */
 .mfp-iframe-scaler iframe {
-  background: white url(../image/theme/lazy-loader.gif) no-repeat center center; }
+  background: white url(/assets/image/theme/lazy-loader.gif) no-repeat center center; }
 
 .lazy {
   display: block;
   position: relative;
   overflow: hidden;
-  background: transparent url(../image/theme/lazy-loader.gif) no-repeat center center; }
+  background: transparent url(/assets/image/theme/lazy-loader.gif) no-repeat center center; }
 
 .loadeding {
-  background: white url(../image/theme/lazy-loader.gif) no-repeat center center;
+  background: white url(/assets/image/theme/lazy-loader.gif) no-repeat center center;
   height: 100%;
   position: absolute;
   z-index: 2;
@@ -750,7 +754,7 @@ header.navbar-compact {
 
   .lazy.lazy-loaded img {
     opacity: 1; } }
-/* Overlay pattern 
+/* Overlay pattern
  --------------------------------------- */
 body.no-bgbody {
   background-image: none; }
@@ -2657,7 +2661,7 @@ ul.breadcrumb {
       position: static;
       font-weight: 400; }
   .content-aside .product-simple .so-extraslider:hover .owl2-controls {
-    /*@include transform(scale(1));          
+    /*@include transform(scale(1));
      @include effect-block-show();*/ }
   .content-aside .product-simple .so-extraslider .extraslider-inner .item .item-inner {
     display: inline-block;
@@ -2842,7 +2846,7 @@ ul.breadcrumb {
      display: block ;
      .content{
      display: block ;
-     } 
+     }
      }*/ }
   .container-megamenu.horizontal ul.megamenu .item-style1 {
     /*.sub-menu{
@@ -2850,7 +2854,7 @@ ul.breadcrumb {
      display: block ;
      .content{
      display: block ;
-     } 
+     }
      }*/ }
   .container-megamenu.horizontal ul.megamenu .item-style1 .subcategory li a {
     float: left;
@@ -2866,7 +2870,7 @@ ul.breadcrumb {
      display: block ;
      .content{
      display: block ;
-     } 
+     }
      }*/ }
   .container-megamenu.horizontal ul.megamenu .blog-item .sub-menu .content {
     padding: 30px 25px; }
@@ -3086,14 +3090,14 @@ ul.breadcrumb {
       .container-megamenu.vertical .vertical-wrapper ul.megamenu {
         /*.sub-menu{
          .content{
-         padding: 0;   
+         padding: 0;
          .col-sm-7{
          padding-#{$right}: 0;
-         }                 
+         }
          .col-sm-5{
          padding-#{$left}: 0;
          }
-         } 
+         }
          }*/ }
   .container-megamenu.vertical .vertical-wrapper ul.megamenu .item-vertical.style1 .img-vbanner {
     float: right;
@@ -3115,7 +3119,7 @@ ul.breadcrumb {
      display: block ;
      > .row{
      }
-     } 
+     }
      }  */ }
   .container-megamenu.vertical .vertical-wrapper ul.megamenu .item-vertical.css-menu .content {
     padding: 0; }
@@ -3603,6 +3607,7 @@ body #sosearchpro .dropdown-menu .media-body .box-price .price-new {
     padding-top: 8px; }
 
 #so_popup_countdown .list-cates {
+  background: url(/assets/image/bg-popupc.jpg) no-repeat;
   background-size: 100%; }
   #so_popup_countdown .list-cates ul {
     width: 64%;
@@ -3622,7 +3627,7 @@ body #sosearchpro .dropdown-menu .media-body .box-price .price-new {
       width: 87px;
       height: 87px;
       background-color: #f7e7de;
-      /* background-image: url(../../image/icon/css_sprites.png); */
+      background-image: url(/assets/image/icon/css_sprites.png);
       background-repeat: no-repeat;
       border-radius: 50%;
       display: block;
@@ -4404,8 +4409,7 @@ select {
   -webkit-box-shadow: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* background: url("../image/icons/bg-selectbox.png") no-repeat right center #fff; */
- }
+  background: url("/src/assetsimage/icons/bg-selectbox.png") no-repeat right center #fff; }
 
 textarea {
   height: auto;
@@ -4617,7 +4621,11 @@ table.table-bordered thead > * {
  [1]		Page Faq
  [2]		Page About us
  [3]		Page Contact
- [4]		page 404 
+<<<<<<< HEAD
+ [4]		page 404
+=======
+ [4]		page 404
+>>>>>>> 46-framework-initialize
  */
 #map-canvas {
   height: 600px; }
@@ -4708,7 +4716,7 @@ ul.yt-accordion li.accordion-group h3.accordion-heading:hover .fa {
   .our-member img:hover {
     opacity: 0.7; }
   .our-member .title-about-us {
-    background: url("../image/icon/bg-title-about.png") repeat-x left 12px;
+    background: url("/assets/image/icon/bg-title-about.png") repeat-x left 12px;
     margin-bottom: 17px;
     text-align: center; }
   .our-member .title-about-us h2 {
@@ -4850,7 +4858,7 @@ ul.yt-accordion li.accordion-group h3.accordion-heading:hover .fa {
     margin: 0 3px;
     position: relative; }
   .happy-about-us .owl2-controls .owl2-prev {
-    background-image: url("../image/icon/btn-prev-hp.png");
+    background-image: url("/assets/image/icon/btn-prev-hp.png");
     margin-right: 3px;
     right: 0px;
     left: inherit; }
@@ -4860,7 +4868,7 @@ ul.yt-accordion li.accordion-group h3.accordion-heading:hover .fa {
     height: 26px;
     background: #fff; }
   .happy-about-us .owl2-controls .owl2-next {
-    background-image: url("../image/icon/btn-next-hp.png");
+    background-image: url("/assets/image/icon/btn-next-hp.png");
     right: 0px; }
   .happy-about-us .item > div:before {
     content: "";
@@ -5151,7 +5159,11 @@ ul.yt-accordion li.accordion-group h3.accordion-heading:hover .fa {
  [SASS DIRECTORY ]
  [1] BOX SALE,NEW
  [2] RATE
- [3] TODAY'S DEALS 
+<<<<<<< HEAD
+ [3] TODAY'S DEALS
+=======
+ [3] TODAY'S DEALS
+>>>>>>> 46-framework-initialize
  [4] PRODUCT CATEGORY
  [5] TOOLBAR
  [6] PRODUCT LIST GRID SIMPLE
@@ -5473,7 +5485,7 @@ span.fa-stack {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: url(../image/icon/bg-select.png) no-repeat center right;
+    background: url(/assets/image/icon/bg-select.png) no-repeat center right;
     border: 1px solid #e5e5e5;
     height: 33px;
     line-height: 33px;
@@ -6130,7 +6142,7 @@ button {
     margin-top: -12px;
     position: absolute; }
     .left-content-product .content-product-left .full_slider .owl2-nav div.owl2-prev, .left-content-product .content-product-left .not_full_slider .owl2-nav div.owl2-prev {
-      background: url("../image/icon/next-prev-detail.png") no-repeat;
+      background: url("/assets/image/icon/next-prev-detail.png") no-repeat;
       background-position: -36px 0px;
       left: -14px;
       float: left;
@@ -6143,7 +6155,7 @@ button {
     .left-content-product .content-product-left .full_slider .owl2-nav div.owl2-prev.disabled, .left-content-product .content-product-left .not_full_slider .owl2-nav div.owl2-prev.disabled {
       display: none; }
     .left-content-product .content-product-left .full_slider .owl2-nav div.owl2-next, .left-content-product .content-product-left .not_full_slider .owl2-nav div.owl2-next {
-      background: url("../image/icon/next-prev-detail.png") no-repeat;
+      background: url("/assets/image/icon/next-prev-detail.png") no-repeat;
       background-position: -71px 0px;
       right: -14px;
       float: right;
@@ -6596,7 +6608,7 @@ button {
     position: relative;
     background-color: #fff; }
   .related .releate-products .owl2-nav div.owl2-prev {
-    background: url(../image/icon/next-prev-detail.png) no-repeat;
+    background: url(/assets/image/icon/next-prev-detail.png) no-repeat;
     background-position: -41px 0px; }
   .related .releate-products .owl2-nav div.owl2-prev:hover {
     border-color: #ff3c20;
@@ -6606,7 +6618,7 @@ button {
   .related .releate-products .owl2-nav div.owl2-prev.disabled {
     display: none; }
   .related .releate-products .owl2-nav div.owl2-next {
-    background: url(../image/icon/next-prev-detail.png) no-repeat;
+    background: url(/assets/image/icon/next-prev-detail.png) no-repeat;
     background-position: -76px 0px; }
   .related .releate-products .owl2-nav div.owl2-next:hover {
     border-color: #ff3c20;
@@ -6694,28 +6706,28 @@ button {
   .banner-policy .policy a:hover {
     color: #ff3c20; }
   .banner-policy .policy.policy1 a span {
-    /* background: url("../image/icons/policy_1.png") no-repeat; */
+    /* background: url("/assets/image/icons/policy_1.png") no-repeat; */
     background-position: center 0;
     width: 48px;
     height: 36px;
     font-size: 0;
     float: left; }
   .banner-policy .policy.policy2 a span {
-    /* background: url("../image/icons/ico-freeship.png") no-repeat; */
+    /* background: url("/assets/image/icons/ico-freeship.png") no-repeat; */
     background-position: center 0;
     width: 53px;
     height: 35px;
     font-size: 0;
     float: left; }
   .banner-policy .policy.policy3 a span {
-    /* background: url("../image/icons/ico-celander.png") no-repeat; */
+    /* background: url("/assets/image/icons/ico-celander.png") no-repeat; */
     background-position: center 0;
     width: 34px;
     height: 34px;
     font-size: 0;
     float: left; }
   .banner-policy .policy.policy4 a span {
-    /* background: url("../image/icons/ico-umbrella.png") no-repeat; */
+    /* background: url("/assets/image/icons/ico-umbrella.png") no-repeat; */
     background-position: center 0;
     width: 34px;
     height: 34px;
@@ -6833,7 +6845,7 @@ header ul.top-link > li.language .btn-link img {
  }*/
 .container-megamenu.horizontal {
   /*ul.megamenu > li.home > a,
-   ul.megamenu > li.active > a, 
+   ul.megamenu > li.active > a,
    ul.megamenu > li:hover > a{
    background-color: transparent;
    color: $linkColor;
@@ -7208,7 +7220,11 @@ footer .copyright a {
   color: #ff3c20; }
 /*===============================================
  [SASS DIRECTORY ]
- [1] 
+<<<<<<< HEAD
+ [1]
+=======
+ [1]
+>>>>>>> 46-framework-initialize
  ==============================================*/
 /*===============================*/
 .hidden-menuvertical {
@@ -7317,7 +7333,11 @@ footer .copyright a {
  margin-bottom: 30px;
  }*/
 /************************************************************************************************
- MODULE HOME SLIDER  
+<<<<<<< HEAD
+ MODULE HOME SLIDER
+=======
+ MODULE HOME SLIDER
+>>>>>>> 46-framework-initialize
  *************************************************************************************************/
 .sohomepage-slider .so-homeslider .owl2-nav div::before, .sohomepage-slider .so-homeslider .owl2-nav div:hover:before {
   background-color: transparent; }
@@ -7405,7 +7425,11 @@ footer .copyright a {
       -webkit-box-shadow: none;
       background: #ff3c20; }
 /************************************************************************************************
- SHORTCODE HTML 
+<<<<<<< HEAD
+ SHORTCODE HTML
+=======
+ SHORTCODE HTML
+>>>>>>> 46-framework-initialize
  *************************************************************************************************/
 .banners1 .b-img {
   margin-bottom: 30px; }

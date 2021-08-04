@@ -31,16 +31,28 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/assets/css/bootstrap.min.css",
-              "src/assets/css/docs.css",
-              "src/assets/css/header/header1.css",
-              "src/assets/css/header/header2.css",
-              "src/assets/css/header/header3.css",
-              "src/assets/css/header/header4.css",
-              "src/assets/css/font-awesome/css/font-awesome.min.css",
-              "src/assets/css/theme.css"
+              "src/assets/css/bootstrap/css/bootstrap.min.css",
+              "src/assets/css/font-awesome/css/font-awesome.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-2.2.4.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/owl-carousel/owl.carousel.js",
+              "src/assets/js/themejs/libs.js",
+              "src/assets/js/unveil/jquery.unveil.js",
+              "src/assets/js/countdown/jquery.countdown.min.js",
+              "src/assets/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js",
+              "src/assets/js/datetimepicker/moment.js",
+              "src/assets/js/datetimepicker/bootstrap-datetimepicker.min.js",
+              "src/assets/js/jquery-ui/jquery-ui.min.js",
+              "src/assets/js/modernizr/modernizr-2.6.2.min.js",
+              "src/assets/js/minicolors/jquery.miniColors.min.js",
+              "src/assets/js/themejs/application.js",
+              "src/assets/js/themejs/homepage.js",
+              "src/assets/js/themejs/toppanel.js",
+              "src/assets/js/themejs/so_megamenu.js",
+              "src/assets/js/themejs/addtocart.js"
+            ]
           },
           "configurations": {
             "production": {
