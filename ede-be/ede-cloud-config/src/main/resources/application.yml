@@ -1,0 +1,12 @@
+spring:
+   application:
+      name: CONFIG-SERVER
+   cloud:
+      config:
+         server:
+            git:
+               uri: https://github.com/maihoc86/cloud-config-server
+               basedir: target/config
+               default-label: master
+server:
+   port: 8888
