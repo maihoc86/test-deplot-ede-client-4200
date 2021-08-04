@@ -8,6 +8,7 @@ eureka:
       hostname: localhost
       
 microservice:
+<<<<<<< HEAD
   #  payment-service:
   #     endpoints:
   #        endpoint:
@@ -16,3 +17,13 @@ microservice:
   #     endpoints:
   #        endpoint:
   #           uri: http://ORDER-SERVICE/order/bookOrder
+=======
+   payment-service:
+      endpoints:
+         endpoint:
+            uri: http://PAYMENT-SERVICE/payment/doPayment
+   order-service:
+      endpoints:
+         endpoint:
+            uri: http://ORDER-SERVICE/order/bookOrder
+>>>>>>> origin/SP2021-0001
