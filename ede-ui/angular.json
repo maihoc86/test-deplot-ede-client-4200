@@ -37,8 +37,8 @@
               "src/assets/css/header/header2.css",
               "src/assets/css/header/header3.css",
               "src/assets/css/header/header4.css",
-              "src/assets/css/font-awesome/css/font-awesome.min.css"
-
+              "src/assets/css/font-awesome/css/font-awesome.min.css",
+              "src/assets/css/theme.css"
             ],
             "scripts": []
           },
