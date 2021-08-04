@@ -6,6 +6,7 @@ export interface User {
   lasname: string;
   email: string;
   phone: string;
+  photo?: string;
   gender: string;
   address: string;
   is_deleted: boolean;

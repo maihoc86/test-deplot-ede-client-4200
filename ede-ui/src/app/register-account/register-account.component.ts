@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user.model';
-import { CustomerServiceService } from '../Services/customer-service.service';
+import { CustomerServiceService } from '../Services/register-service';
 @Component({
   selector: 'app-register-account',
   templateUrl: './register-account.component.html',
   styleUrls: ['./register-account.component.css'],
 })
-
 export class RegisterAccountComponent implements OnInit {
   public register = new FormGroup({
     username: new FormControl(''),
@@ -17,13 +16,13 @@ export class RegisterAccountComponent implements OnInit {
     address: new FormControl(''),
     lastname: new FormControl(''),
     gender: new FormControl(''),
+    photo: new FormControl(''),
     email: new FormControl(''),
     is_deleted: new FormControl(false),
     role: new FormControl('USER'),
     otp: new FormControl(''),
     phone: new FormControl(''),
   });
-   
   genders = [
     new Genders('N', 'Nam'),
     new Genders('NU', 'Nữ'),
@@ -36,12 +35,14 @@ export class RegisterAccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-
   private createNewData() {
     const newUser: any = {};
     for (const controlName in this.register.controls) {
       if (controlName) {
         newUser[controlName] = this.register.controls[controlName].value;
+        // var splied = newUser['photo'].split('fakepath', 3);
+        // console.log(splied);
+        // console.log(newUser['photo']);
       }
     }
     return newUser as User;
