@@ -23,6 +23,7 @@ public class User implements Serializable{
 	String first_name;
 	String last_name;
 	String email;
+	String photo;
 	String gender;
 	String address;
 	String phone;
