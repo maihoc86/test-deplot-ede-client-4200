@@ -43,6 +43,9 @@ public class CustomerImpl implements CustomerService {
 	@Override
 	public boolean resetPasswordOtp(User user) {
 		User userOri = this.dao.findByEmailLike(user.getEmail());
+		if (null == userOri) {
+			return false;
+		}
 		if (!this.jwtToken.checkToken(userOri.getOtp())) {
 			return false;
 		}

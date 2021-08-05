@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -51,7 +52,8 @@ public class CustomerRestController {
 	 * @return True if mail added into schedule
 	 */
 	@PostMapping("/ede-customer/forgot-password/get-otp")
-	ResponseEntity<Boolean> forgotPasswordGetOtp(@RequestBody(required = true) String email) {
+	ResponseEntity<Boolean> forgotPasswordGetOtp(@RequestBody Map<String, String> requestBody) {
+		String email = requestBody.get("email");
 		Random rand = new Random();
 		String otp = "";
 		for (int i = 0; i < 6; i++) {
@@ -72,9 +74,15 @@ public class CustomerRestController {
 	 * @author vinh
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forgot-password/reset-password/")
-	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody User user){
-		return ResponseEntity.ok(this.service.resetPasswordOtp(user));
+	@PostMapping("/ede-customer/forgot-password/reset-password")
+	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody Map<String, String> requestBody){
+		System.err.println(requestBody);
+		User user = new User();
+		user.setEmail(requestBody.get("email"));
+		user.setPassword(requestBody.get("password"));
+		user.setOtp(requestBody.get("otp"));
+		boolean b = this.service.resetPasswordOtp(user);
+		return ResponseEntity.ok(b);
 	}
 	
 	/**
@@ -84,8 +92,14 @@ public class CustomerRestController {
 	 * @see #resetPasswordToken(User)
 	 */
 	@PostMapping("/ede-customer/forgot-password/reset-password/token")
-	ResponseEntity<Boolean> resetPasswordToken(@RequestBody User user){
-		return ResponseEntity.ok(this.service.resetPasswordToken(user));
+	ResponseEntity<Boolean> resetPasswordToken(@RequestBody Map<String, String> requestBody){
+		System.err.println(requestBody);
+		User user = new User();
+		user.setEmail(requestBody.get("email"));
+		user.setPassword(requestBody.get("password"));
+		user.setOtp(requestBody.get("otp"));
+		boolean b = this.service.resetPasswordToken(user);
+		return ResponseEntity.ok(b);
 	}
 
 }

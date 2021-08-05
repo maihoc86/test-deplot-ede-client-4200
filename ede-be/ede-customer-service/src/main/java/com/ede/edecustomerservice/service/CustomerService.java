@@ -13,4 +13,5 @@ public interface CustomerService {
 	boolean resetPasswordOtp(User user);
 	
 	List<User> getAll();
+	
 }
