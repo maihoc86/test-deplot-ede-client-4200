@@ -1,24 +1,23 @@
 spring:
-  application:
-    name: ede-customer
-  datasource:
-     url: jdbc:sqlserver://localhost;databaseName=EDE
-     username: sa
-     passowrd: 123
-     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  jpa:
-     hibernate:
-        dialect: org.hibernate.dialect.SQLServer2012Dialect
-        ddl-auto: non
+   application:
+      name: ede-customer
+   datasource:
+      url: jdbc:sqlserver://localhost;databaseName=EDE
+      username: sa
+      password: 123
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+   jpa:
+      hibernate:
+         dialect: org.hibernate.dialect.SQLServer2012Dialect
+         ddl-auto: none
+      show-sql: true
 eureka:
-  client:
-    register-with-eureka:  true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    hostname: localhost
-    
-    
+   client:
+      register-with-eureka: true
+      fetch-registry: true
+      service-url:
+         defaultZone: http://localhost:8761/eureka/
+   instance:
+      hostname: localhost
 server:
-  port: 8080  
+   port: 8081
