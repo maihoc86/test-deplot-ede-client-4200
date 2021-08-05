@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
 @Data
+@Entity 
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity 
