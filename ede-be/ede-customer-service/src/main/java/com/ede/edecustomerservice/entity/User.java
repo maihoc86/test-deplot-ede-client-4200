@@ -29,7 +29,7 @@ public class User implements Serializable{
 	String address;
 	String phone;
 	Boolean is_delete;
-	Boolean role;
+	String role;
 	String otp;
 	
 }
