@@ -54,7 +54,6 @@ public class CustomerRestController {
 		MailEntity mail = new MailEntity();
 		mail.setSubject("");
 		this.mailService.addMail(mail);
-		this.mailService.send();
 		return ResponseEntity.ok(true);
 	}
 	
@@ -65,7 +64,6 @@ public class CustomerRestController {
 		mail.setSubject("subject");
 		mail.setText("Nội dung <b>Nè</b>è");
 		this.mailService.addMail(mail);
-		this.mailService.send();
 		return "Ok";
 	}
 	
