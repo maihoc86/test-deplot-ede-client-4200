@@ -237,17 +237,18 @@ GO
 
 CREATE TABLE "users" (
 	"id" CHAR(36) NOT NULL,
-	"username" VARCHAR(50) NOT NULL,
+	"username" VARCHAR(50) NOT NULL UNIQUE,
 	"password" NVARCHAR(100) NOT NULL,
 	"first_name" NVARCHAR(50) NOT NULL,
 	"last_name" NVARCHAR(50) NOT NULL,
 	"email" NVARCHAR(100) NULL DEFAULT NULL,
-	"gender" CHAR(1) NOT NULL,
+	"gender" CHAR(1) NOT NULL, --M-an W-oman D-ifferent
 	"address" NVARCHAR(200) NOT NULL,
 	"phone" VARCHAR(20) NULL DEFAULT NULL,
 	"is_delete" BIT NOT NULL,
-	"role" BIT NOT NULL,
+	"role" CHAR(2) NOT NULL, --AD UR SL GE
 	"otp" NVARCHAR(64) NULL,
+	"photo" NVARCHAR(64) NULL,
 	PRIMARY KEY ("id")
 );
 GO
