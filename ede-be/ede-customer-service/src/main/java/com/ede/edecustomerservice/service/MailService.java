@@ -11,10 +11,6 @@ import com.ede.edecustomerservice.implement.mail.MailEntity;
 @Service
 public interface MailService {
 	
-	public void send();
-	
-	public MailEntity getMail();
-
 	public void addMail(MailEntity mail);
 
 }
