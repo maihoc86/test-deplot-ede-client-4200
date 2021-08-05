@@ -17,11 +17,11 @@ export class CustomerServiceService {
     }),
   };
 
-  private REST_API_SERVER = 'https://poly-java6-4066b-default-rtdb.firebaseio.com/';
+  private REST_API_SERVER = 'http://localhost:8081/ede-customer/register';
 
   constructor(private httpClient: HttpClient) {}
   public addUser(data: User) {
-    const url = `${this.REST_API_SERVER}/user.json`;
+    const url = `${this.REST_API_SERVER}`;
     console.log(data);
     return this.httpClient.post<any>(url, data, this.httpOptions);
   }
