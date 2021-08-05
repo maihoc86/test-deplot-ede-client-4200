@@ -18,6 +18,8 @@
         [formGroup]="register"
         class="form-horizontal account-register clearfix"
       >
+      <p>Form Status: {{ register.status }}</p>
+      
         <input type="file" class="form-control" formControlName="photo" />
         <fieldset id="account">
           <legend>Your Personal Details</legend>
@@ -38,17 +40,22 @@
             </div>
           </div>
           <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-username" id="to_name"
+            <label
+              class="col-sm-2 control-label"
+              for="input-username"
+              id="to_name"
               >Username</label
             >
             <div class="col-sm-10">
               <input
+              formControlName="username"
                 type="text"
-                formControlName="username"
                 placeholder="Username"
                 id="input-username"
                 class="form-control"
+                required 
               />
+              <span *ngIf="f.username.invalid" class="invalid-feedback" class="alert alert-danger">*Không được để trống Username</span>
             </div>
           </div>
           <div class="form-group required">
@@ -118,11 +125,16 @@
               >Giới tính</label
             >
             <div class="col-sm-10">
-              <select name="zone_id" id="input-zone" class="form-control" formControlName="gender">  
-                <option [ngValue]="null" disabled>--- Chọn giới tính ---</option>
+              <select
+                name="zone_id"
+                id="input-zone"
+                class="form-control"
+                formControlName="gender"
+              >
+                <option selected="selected">--- Chọn giới tính ---</option>
                 <option *ngFor="let prf of genders" [ngValue]="prf.gdName">
-                    {{ prf.gdName}}
-                   </option>
+                  {{ prf.gdName }}
+                </option>
               </select>
             </div>
           </div>
@@ -256,7 +268,7 @@
           <div class="pull-right">
             I have read and agree to the
             <a href="#" class="agree"><b>Pricing Tables</b></a>
-            <input class="box-checkbox" />
+            <input type="checkbox" />
             &nbsp;
             <input
               type="submit"

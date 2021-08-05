@@ -18,6 +18,7 @@ export class CustomerServiceService {
   };
 
   private REST_API_SERVER = 'http://localhost:8080/ede-customer/register';
+  // private REST_API_ADDRESS = 'http://provinces.open-api.vn/api/p/';
 
   constructor(private httpClient: HttpClient) {}
   public addUser(data: User) {
@@ -25,4 +26,7 @@ export class CustomerServiceService {
     console.log(data);
     return this.httpClient.post<any>(url, data, this.httpOptions);
   }
+  // public getApiAddress() {
+  //   return this.httpClient.get<any>(this.REST_API_ADDRESS, this.httpOptions);
+  // }
 }
