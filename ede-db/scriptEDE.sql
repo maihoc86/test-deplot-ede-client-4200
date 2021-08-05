@@ -235,7 +235,7 @@ CREATE TABLE "system_config" (
 );
 GO
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
 	"id" CHAR(36) NOT NULL,
 	"username" VARCHAR(50) NOT NULL,
 	"password" NVARCHAR(100) NOT NULL,
