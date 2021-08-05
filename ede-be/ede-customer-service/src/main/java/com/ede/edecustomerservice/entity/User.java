@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
 @Data
+@Entity
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity 
-@Table(name = "users")
 public class User implements Serializable{
 	@Id
 	String id;
