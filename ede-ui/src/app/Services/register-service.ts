@@ -17,7 +17,7 @@ export class CustomerServiceService {
     }),
   };
 
-  private REST_API_SERVER = 'http://localhost:8081/ede-customer/register';
+  private REST_API_SERVER = 'http://localhost:8080/ede-customer/register';
 
   constructor(private httpClient: HttpClient) {}
   public addUser(data: User) {
