@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User implements Serializable{
 	@Id
+	String id;
 	String username;
 	String password;
 	String first_name;
@@ -28,7 +29,7 @@ public class User implements Serializable{
 	String address;
 	String phone;
 	Boolean is_delete;
-	Boolean role;
+	String role;
 	String otp;
 	
 }
