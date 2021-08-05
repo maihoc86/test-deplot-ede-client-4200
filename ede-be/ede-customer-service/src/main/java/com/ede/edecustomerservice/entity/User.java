@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User implements Serializable{
 	@Id
+	String id;
 	String username;
 	String password;
 	String first_name;
