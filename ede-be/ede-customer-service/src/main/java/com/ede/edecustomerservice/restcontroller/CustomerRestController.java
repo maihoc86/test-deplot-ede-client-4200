@@ -37,21 +37,21 @@ public class CustomerRestController {
 	}
 
 	@PostMapping("/ede-customer/register")
-	public ResponseEntity register(@RequestBody User user) {
+	public ResponseEntity<User> register(@RequestBody User user) {
 		UUID uuid = UUID.randomUUID();
 		user.setId(uuid.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
 	}
 	
 	/**
-	 * Use for user Forget Password <br/>
+	 * Use for user forgot Password <br/>
 	 * Use to send otp to email for user contain url with token and otp
 	 * @author vinh
 	 * @param email is address of otp receiver
 	 * @return True if mail added into schedule
 	 */
-	@PostMapping("/ede-customer/forget-password/get-otp")
-	ResponseEntity<Boolean> forgetPasswordGetOtp(@RequestBody(required = true) String email) {
+	@PostMapping("/ede-customer/forgot-password/get-otp")
+	ResponseEntity<Boolean> forgotPasswordGetOtp(@RequestBody(required = true) String email) {
 		Random rand = new Random();
 		String otp = "";
 		for (int i = 0; i < 6; i++) {
@@ -62,7 +62,7 @@ public class CustomerRestController {
 		MailEntity mail = new MailEntity();
 		mail.setMailReceiver(email);
 		mail.setSubject("Quên mật khẩu");
-		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forget-password?token=$s\">vào đây nhanh hơn</a> ", otp, token));
+		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forgot-password?token=%s\">vào đây nhanh hơn</a> ", otp, token));
 		this.mailService.addMail(mail); 
 		return ResponseEntity.ok(true);
 	}
@@ -72,7 +72,7 @@ public class CustomerRestController {
 	 * @author vinh
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forget-password/reset-password/")
+	@PostMapping("/ede-customer/forgot-password/reset-password/")
 	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody User user){
 		return ResponseEntity.ok(this.service.resetPasswordOtp(user));
 	}
@@ -83,10 +83,9 @@ public class CustomerRestController {
 	 * @see #resetPasswordOtp(User)
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forget-password/reset-password/token")
+	@PostMapping("/ede-customer/forgot-password/reset-password/token")
 	ResponseEntity<Boolean> resetPasswordToken(@RequestBody User user){
 		return ResponseEntity.ok(this.service.resetPasswordToken(user));
 	}
-
 
 }
