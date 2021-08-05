@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity 
+@Table(name = "users")
 public class User implements Serializable{
 	@Id
 	String id;
@@ -29,7 +31,7 @@ public class User implements Serializable{
 	String address;
 	String phone;
 	Boolean is_delete;
-	Boolean role;
+	String role;
 	String otp;
 	
 }

@@ -18,7 +18,7 @@ import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")
 @RestController
 public class CustomerRestController {
 
@@ -37,13 +37,9 @@ public class CustomerRestController {
 	}
 
 	@PostMapping("/ede-customer/register")
-	public ResponseEntity<User> register(@RequestBody User user) {
-		System.out.println(user);
+	public ResponseEntity register(@RequestBody User user) {
 		UUID uuid = UUID.randomUUID();
-		System.out.println(uuid);
 		user.setId(uuid.toString());
-		System.out.println(user);
-		System.out.println("Vào đây r");
 		return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
 	}
 	

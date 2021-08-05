@@ -1,5 +1,7 @@
 package com.ede.edecustomerservice.implement;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,13 @@ public class CustomerImpl implements CustomerService {
 
 	@Override
 	public User saveUser(User entity) {
-		return dao.saveAndFlush(entity);
+		return dao.save(entity);
+	}
+
+	@Override
+	public List<User> getAll() {
+		// TODO Auto-generated method stub
+		return dao.findAll();
 	}
 
 	@Override

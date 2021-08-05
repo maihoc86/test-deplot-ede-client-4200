@@ -9,9 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableEurekaClient
 @EnableScheduling
 public class EdeCustomerServiceApplication {
-	
 	public static void main(String[] args) {
 		SpringApplication.run(EdeCustomerServiceApplication.class, args);
 	}
-
 }
