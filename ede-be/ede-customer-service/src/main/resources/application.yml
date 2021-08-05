@@ -2,14 +2,26 @@ spring:
   application:
     name: ede-customer
   datasource:
-     url: jdbc:sqlserver://localhost;databaseName=EDE
-     username: sa
-     passowrd: 123
-     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost;databaseName=EDE
+    username: sa
+    password: 123
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
-     hibernate:
-        dialect: org.hibernate.dialect.SQLServer2012Dialect
-        ddl-auto: non
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: noreply.vinh.bot@gmail.com
+    password: Admin0123/
+    properties:
+      mail:
+        smpt:
+          auth: true
+        smtp:
+          starttls:
+            enable: true
 eureka:
   client:
     register-with-eureka:  true
@@ -18,7 +30,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
-    
-    
 server:
-  port: 8080  
+  port: 8081
