@@ -246,6 +246,7 @@ CREATE TABLE "users" (
 	"address" NVARCHAR(200) NOT NULL,
 	"phone" VARCHAR(20) NULL DEFAULT NULL,
 	"is_delete" BIT NOT NULL,
+	"is_active" BIT NOT NULL,
 	"role" CHAR(2) NOT NULL, --AD UR SL GE
 	"otp" NVARCHAR(64) NULL,
 	"photo" NVARCHAR(64) NULL,
