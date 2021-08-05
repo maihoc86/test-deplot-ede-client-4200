@@ -6,4 +6,9 @@ public interface CustomerService {
 	
 	
 	User saveUser(User entity);
+
+	boolean resetPasswordToken(User user);
+
+	boolean resetPasswordOtp(User user);
+
 }

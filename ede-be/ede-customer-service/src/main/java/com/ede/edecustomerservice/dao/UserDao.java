@@ -6,4 +6,6 @@ import com.ede.edecustomerservice.entity.User;
 
 public interface UserDao extends JpaRepository<User, String>{
 
+	User findByEmailLike(String email);
+
 }

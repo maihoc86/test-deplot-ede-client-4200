@@ -16,7 +16,5 @@ public class MailServiceAdapter implements MailService {
 	public void addMail(MailEntity mail) {
 		this.mailSchedule.addMail(mail);
 	}
-	
-	
 
 }

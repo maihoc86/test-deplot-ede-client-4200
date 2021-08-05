@@ -16,7 +16,8 @@ import com.ede.edecustomerservice.implement.mail.MailEntity;
 @Component
 public class MailSchedule {
 
-	private Queue<MailEntity> queueList = new LinkedList<>();	
+	private Queue<MailEntity> queueList = new LinkedList<>();
+	
 	public void addMail(MailEntity mailEntity) {
 		this.queueList.add(mailEntity);
 	}
@@ -25,24 +26,19 @@ public class MailSchedule {
 	private JavaMailSender sender;
 	
 	@Scheduled(fixedDelay = 1000)
-	private void run() {
-		System.err.println("OK send mail" + this.queueList.size());
-		try {
-			if (!this.queueList.isEmpty()) {
-				this.send(this.queueList.poll());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	void run() {
+		if (!this.queueList.isEmpty()) {
+			this.send(this.queueList.poll());
 		}
 	}
 
-	private void send(MailEntity mailEntity) {
+	void send(MailEntity mailEntity) {
 		try {
 			MimeMessage message = sender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 			
 			helper.setFrom(
-				String.format("%s <%s>",mailEntity.getNameSender(), mailEntity.getMailSender())
+				String.format("%s <%s>", mailEntity.getNameSender(), mailEntity.getMailSender())
 			);
 			
 			helper.setTo(mailEntity.getMailReceiver());
