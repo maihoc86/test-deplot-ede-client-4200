@@ -15,7 +15,6 @@
                 <a routerLink="/login">Đăng nhập</a>.
             </p>
             <form [formGroup]="register" class="form-horizontal account-register clearfix">
-                <input type="file" class="form-control" formControlName="photo" />
                 <fieldset id="account">
                     <legend>Thông tin cá nhân</legend>
                     <div class="form-group required" style="display: none">
@@ -32,7 +31,8 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-username" id="to_name">Tài khoản</label>
                         <div class="col-sm-10">
-                            <input formControlName="username" type="text" placeholder="Tài khoản" id="input-username" class="form-control" required />
+                            <input formControlName="username" type="text" placeholder="Tài khoản" id="input-username"
+                                class="form-control" required />
                             <div *ngIf="
                   register.controls['username'].invalid &&
                   (register.controls['username'].dirty ||
@@ -52,7 +52,8 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-firstname">Họ</label>
                         <div class="col-sm-10">
-                            <input type="text" formControlName="first_name" placeholder="Họ" id="input-firstname" class="form-control" />
+                            <input type="text" formControlName="first_name" placeholder="Họ" id="input-firstname"
+                                class="form-control" />
                             <div *ngIf="
                   register.controls['first_name'].invalid &&
                   (register.controls['first_name'].dirty ||
@@ -72,7 +73,8 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-lastname">Tên</label>
                         <div class="col-sm-10">
-                            <input type="text" name="lastname" value="" formControlName="last_name" placeholder="Tên" id="input-firstname" class="form-control" />
+                            <input type="text" name="lastname" value="" formControlName="last_name" placeholder="Tên"
+                                id="input-lastname" class="form-control" />
                             <div *ngIf="
                   register.controls['last_name'].invalid &&
                   (register.controls['last_name'].dirty ||
@@ -92,7 +94,8 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-email">E-Mail</label>
                         <div class="col-sm-10">
-                            <input type="email" name="email" value="" formControlName="email" placeholder="E-Mail" id="input-email" class="form-control" />
+                            <input type="email" name="email" value="" formControlName="email" placeholder="E-Mail"
+                                id="input-email" class="form-control" />
                             <div *ngIf="
                   register.controls['email'].invalid &&
                   (register.controls['email'].dirty ||
@@ -112,7 +115,8 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-telephone">Số điện thoại</label>
                         <div class="col-sm-10">
-                            <input type="tel" name="telephone" value="" formControlName="phone" placeholder="Số điện thoại" id="input-telephone" class="form-control" />
+                            <input type="tel" name="telephone" value="" formControlName="phone"
+                                placeholder="Số điện thoại" id="input-telephone" class="form-control" />
                             <div *ngIf="
                     register.controls['phone'].invalid &&
                     (register.controls['phone'].dirty ||
@@ -135,7 +139,7 @@
                             <select name="zone_id" id="input-zone" class="form-control" formControlName="gender">
                                 <option [ngValue]="null" disabled>--- Chọn giới tính ---</option>
                                 <option *ngFor="let prf of genders" [ngValue]="prf.gdName">
-                                    {{ prf.gdName == 'M' ? 'Nam' : prf.gdName == 'W' ? 'Nữ' :  'Khác'  }}
+                                    {{ prf.gdName == 'M' ? 'Nam' : prf.gdName == 'W' ? 'Nữ' : 'Khác' }}
                                 </option>
                             </select>
                             <div *ngIf="
@@ -150,11 +154,43 @@
                     </div>
                 </fieldset>
                 <fieldset id="address">
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-city">Tỉnh thành</label>
+                        <div class="col-sm-10">
+                            <select name="country_id" id="input-city" class="form-control" formControlName="city"
+                                (change)="getDistricts()">
+                                <option [ngValue]="null" disabled>--- Chọn tỉnh thành ---</option>
+                                <option *ngFor="let prf of listCitys" [ngValue]="prf">{{prf.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-district">Quận, huyện</label>
+                        <div class="col-sm-10">
+                            <select name="country_id" id="input-district" class="form-control"
+                                formControlName="district" (change)="getWards()">
+                                <option [ngValue]="null" disabled>--- Chọn quận, huyện ---</option>
+                                <option *ngFor="let prf of listDistricts" [ngValue]="prf">{{prf.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-wards">Phường, xã</label>
+                        <div class="col-sm-10">
+
+
+                            <select name="country_id" id="input-wards" class="form-control" formControlName="wards">
+                                <option [ngValue]="null" disabled>--- Chọn phường xã ---</option>
+                                <option *ngFor="let prf of listWards" [ngValue]="prf">{{prf.name}}</option>
+                            </select>
+                        </div>
+                    </div>
                     <legend>Địa chỉ</legend>
                     <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-address-1">Địa chỉ</label>
+                        <label class="col-sm-2 control-label" for="input-address-1">Địa chỉ cụ thể</label>
                         <div class="col-sm-10">
-                            <input type="text" formControlName="address" placeholder="Địa chỉ" id="input-address-1" class="form-control" />
+                            <input type="text" formControlName="address" placeholder="Địa chỉ" id="input-address-1"
+                                class="form-control" />
                             <div *ngIf="
                 register.controls['address'].invalid &&
                 (register.controls['address'].dirty ||
@@ -172,52 +208,15 @@
                         </div>
 
                     </div>
-                    <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-city">Thành phố</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="city" value="" placeholder="Thành phố" id="input-city" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-postcode">Post Code</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="postcode" value="" placeholder="Post Code" id="input-postcode" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-country">Quốc gia</label>
-                        <div class="col-sm-10">
-                            <select name="country_id" id="input-country" class="form-control">
-                                <option value="">--- Please Select ---</option>
-                                <option value="244">Aaland Islands</option>
-                                <option value="1">Afghanistan</option>
-                                <option value="2">Albania</option>
-                                <option value="3">Algeria</option>
-                                <option value="4">American Samoa</option>
-                                <option value="5">Andorra</option>
-                                <option value="6">Angola</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-zone">Vùng / Tiểu bang</label>
-                        <div class="col-sm-10">
-                            <select name="zone_id" id="input-zone" class="form-control">
-                                <option value="">--- Please Select ---</option>
-                                <option value="3513">Aberdeen</option>
-                                <option value="3514">Aberdeenshire</option>
-                                <option value="3515">Anglesey</option>
-                                <option value="3516">Angus</option>
-                            </select>
-                        </div>
-                    </div>
                 </fieldset>
                 <fieldset>
                     <legend>Mật khẩu</legend>
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-password">Mật khẩu</label>
                         <div class="col-sm-10">
-                            <input type="password" name="password" formControlName="password" value="" placeholder="Mật khẩu" (change)="onPasswordChange()" id="input-password" class="form-control" />
+                            <input type="password" name="password" formControlName="password" value=""
+                                placeholder="Mật khẩu" (change)="onPasswordChange()" id="input-password"
+                                class="form-control" />
                             <div *ngIf="
                 register.controls['password'].invalid &&
                 (register.controls['password'].dirty ||
@@ -238,9 +237,12 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-confirm">Xác nhận mật khẩu</label>
                         <div class="col-sm-10">
-                            <input type="password" name="confirmPassword" formControlName="confirmPassword" (change)="onPasswordChange()" placeholder="Xác nhận mật khẩu Confirm" class="form-control" />
-                            <span *ngIf="register.controls['confirmPassword'].hasError('mismatch')" class="alert alert-danger">Mật khẩu không trùng khớp
-                                </span>
+                            <input type="password" name="confirmPassword" formControlName="confirmPassword"
+                                (change)="onPasswordChange()" placeholder="Xác nhận mật khẩu Confirm"
+                                class="form-control" />
+                            <span *ngIf="register.controls['confirmPassword'].hasError('mismatch')"
+                                class="alert alert-danger">Mật khẩu không trùng khớp
+                            </span>
                         </div>
                     </div>
                 </fieldset>
@@ -249,7 +251,8 @@
                         Tôi đã đọc và đồng ý với
                         <a href="#" class="agree "><b>điều khoản</b></a>
                         <input type="checkbox" /> &nbsp;
-                        <input *ngIf="register.valid " type="submit " class="btn btn-success " (click)="registerUser() " name="agree " value="1 " value="Continue " class="btn btn-primary " />
+                        <input *ngIf="register.valid " type="submit " class="btn btn-success " (click)="registerUser() "
+                            name="agree " value="1 " value="Continue " class="btn btn-primary " />
                     </div>
                 </div>
             </form>

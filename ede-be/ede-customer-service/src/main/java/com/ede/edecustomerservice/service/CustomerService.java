@@ -13,4 +13,8 @@ public interface CustomerService {
 	boolean resetPasswordOtp(User user);
 	
 	List<User> getAll();
+	
+	User findByUsername(String username);
+	User findByEmail(String username);
+	User findByPhone(String phone);
 }
