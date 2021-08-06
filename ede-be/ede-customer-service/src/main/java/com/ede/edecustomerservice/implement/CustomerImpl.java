@@ -26,7 +26,6 @@ public class CustomerImpl implements CustomerService {
 
 	@Override
 	public List<User> getAll() {
-		// TODO Auto-generated method stub
 		return dao.findAll();
 	}
 
@@ -57,6 +56,20 @@ public class CustomerImpl implements CustomerService {
 		userOri.setPassword(user.getPassword());
 		this.dao.save(userOri);
 		return true;
+	}
+
+	@Override
+	public User findByEmailLike(String email) {
+		return this.dao.findByEmailLike(email);
+	}
+
+	@Override
+	public User updateUserById(User userUpdate) {
+		User userOri = this.dao.findById(userUpdate.getId()).orElse(null);
+		if (null == userOri) {
+			return null;
+		}
+		return this.dao.save(userUpdate);
 	}
 	
 }

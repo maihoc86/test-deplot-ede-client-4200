@@ -53,19 +53,31 @@ public class CustomerRestController {
 	 */
 	@PostMapping("/ede-customer/forgot-password/get-otp")
 	ResponseEntity<Boolean> forgotPasswordGetOtp(@RequestBody Map<String, String> requestBody) {
+		//create email
 		String email = requestBody.get("email");
 		Random rand = new Random();
 		String otp = "";
 		for (int i = 0; i < 6; i++) {
 			otp += rand.nextInt(10);
 		}
+		//create and save token
+		User userOri = this.service.findByEmailLike(email);
+		if (null == userOri) {
+			return ResponseEntity.ok(false);
+		}
 		String token = this.jwtService.createToken(otp, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 minue
-		
+		System.err.println(token);
+		userOri.setOtp(token);
+		if (null == this.service.updateUserById(userOri)) {
+			return ResponseEntity.ok(false);
+		}
+		//send mail
 		MailEntity mail = new MailEntity();
 		mail.setMailReceiver(email);
 		mail.setSubject("Quên mật khẩu");
-		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forgot-password?token=%s\">vào đây nhanh hơn</a> ", otp, token));
-		this.mailService.addMail(mail); 
+		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forgot-password?email=%s&token=%s\">vào đây nhanh hơn</a> ", otp, email, token));
+		this.mailService.addMail(mail);
+		
 		return ResponseEntity.ok(true);
 	}
 	
@@ -76,7 +88,6 @@ public class CustomerRestController {
 	 */
 	@PostMapping("/ede-customer/forgot-password/reset-password")
 	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody Map<String, String> requestBody){
-		System.err.println(requestBody);
 		User user = new User();
 		user.setEmail(requestBody.get("email"));
 		user.setPassword(requestBody.get("password"));
@@ -93,7 +104,6 @@ public class CustomerRestController {
 	 */
 	@PostMapping("/ede-customer/forgot-password/reset-password/token")
 	ResponseEntity<Boolean> resetPasswordToken(@RequestBody Map<String, String> requestBody){
-		System.err.println(requestBody);
 		User user = new User();
 		user.setEmail(requestBody.get("email"));
 		user.setPassword(requestBody.get("password"));
