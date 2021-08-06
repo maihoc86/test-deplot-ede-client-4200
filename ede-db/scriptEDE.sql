@@ -247,7 +247,7 @@ CREATE TABLE "users" (
 	"phone" VARCHAR(20) NULL DEFAULT NULL,
 	"is_delete" BIT NOT NULL,
 	"role" CHAR(2) NOT NULL, --AD UR SL GE
-	"otp" NVARCHAR(64) NULL,
+	"otp" VARCHAR(70) NULL,
 	"photo" NVARCHAR(64) NULL,
 	PRIMARY KEY ("id")
 );
