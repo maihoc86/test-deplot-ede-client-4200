@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -37,33 +38,46 @@ public class CustomerRestController {
 	}
 
 	@PostMapping("/ede-customer/register")
-	public ResponseEntity register(@RequestBody User user) {
+	public ResponseEntity<User> register(@RequestBody User user) {
 		UUID uuid = UUID.randomUUID();
 		user.setId(uuid.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
 	}
 	
 	/**
-	 * Use for user Forget Password <br/>
+	 * Use for user forgot Password <br/>
 	 * Use to send otp to email for user contain url with token and otp
 	 * @author vinh
 	 * @param email is address of otp receiver
 	 * @return True if mail added into schedule
 	 */
-	@PostMapping("/ede-customer/forget-password/get-otp")
-	ResponseEntity<Boolean> forgetPasswordGetOtp(@RequestBody(required = true) String email) {
+	@PostMapping("/ede-customer/forgot-password/get-otp")
+	ResponseEntity<Boolean> forgotPasswordGetOtp(@RequestBody Map<String, String> requestBody) {
+		//create email
+		String email = requestBody.get("email");
 		Random rand = new Random();
 		String otp = "";
 		for (int i = 0; i < 6; i++) {
 			otp += rand.nextInt(10);
 		}
+		//create and save token
+		User userOri = this.service.findByEmailLike(email);
+		if (null == userOri) {
+			return ResponseEntity.ok(false);
+		}
 		String token = this.jwtService.createToken(otp, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 minue
-		
+		System.err.println(token);
+		userOri.setOtp(token);
+		if (null == this.service.updateUserById(userOri)) {
+			return ResponseEntity.ok(false);
+		}
+		//send mail
 		MailEntity mail = new MailEntity();
 		mail.setMailReceiver(email);
 		mail.setSubject("Quên mật khẩu");
-		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forget-password?token=$s\">vào đây nhanh hơn</a> ", otp, token));
-		this.mailService.addMail(mail); 
+		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forgot-password?email=%s&token=%s\">vào đây nhanh hơn</a> ", otp, email, token));
+		this.mailService.addMail(mail);
+		
 		return ResponseEntity.ok(true);
 	}
 	
@@ -72,9 +86,14 @@ public class CustomerRestController {
 	 * @author vinh
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forget-password/reset-password/")
-	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody User user){
-		return ResponseEntity.ok(this.service.resetPasswordOtp(user));
+	@PostMapping("/ede-customer/forgot-password/reset-password")
+	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody Map<String, String> requestBody){
+		User user = new User();
+		user.setEmail(requestBody.get("email"));
+		user.setPassword(requestBody.get("password"));
+		user.setOtp(requestBody.get("otp"));
+		boolean b = this.service.resetPasswordOtp(user);
+		return ResponseEntity.ok(b);
 	}
 	
 	/**
@@ -83,10 +102,14 @@ public class CustomerRestController {
 	 * @see #resetPasswordOtp(User)
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forget-password/reset-password/token")
-	ResponseEntity<Boolean> resetPasswordToken(@RequestBody User user){
-		return ResponseEntity.ok(this.service.resetPasswordToken(user));
+	@PostMapping("/ede-customer/forgot-password/reset-password/token")
+	ResponseEntity<Boolean> resetPasswordToken(@RequestBody Map<String, String> requestBody){
+		User user = new User();
+		user.setEmail(requestBody.get("email"));
+		user.setPassword(requestBody.get("password"));
+		user.setOtp(requestBody.get("otp"));
+		boolean b = this.service.resetPasswordToken(user);
+		return ResponseEntity.ok(b);
 	}
-
 
 }

@@ -12,5 +12,10 @@ public interface CustomerService {
 
 	boolean resetPasswordOtp(User user);
 	
+	User findByEmailLike(String email);
+	
 	List<User> getAll();
+
+	User updateUserById(User userUpdate);
+	
 }

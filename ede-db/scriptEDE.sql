@@ -248,7 +248,7 @@ CREATE TABLE "users" (
 	"is_delete" BIT NOT NULL,
 	"is_active" BIT NOT NULL,
 	"role" CHAR(2) NOT NULL, --AD UR SL GE
-	"otp" NVARCHAR(64) NULL,
+	"otp" VARCHAR(132) NULL,
 	"photo" NVARCHAR(64) NULL,
 	PRIMARY KEY ("id")
 );
