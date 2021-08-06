@@ -22,7 +22,7 @@ export class RegisterAccountComponent implements OnInit {
     last_name: new FormControl('', Validators.required),
     gender: new FormControl('', Validators.required),
     photo: new FormControl(null),
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required,Validators.email]),
     is_delete: new FormControl(false),
     role: new FormControl('US'),
     otp: new FormControl(null),

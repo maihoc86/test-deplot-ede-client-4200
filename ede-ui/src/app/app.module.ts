@@ -10,7 +10,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterAccountComponent } from './register-account/register-account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +29,9 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
