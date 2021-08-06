@@ -135,7 +135,7 @@
                             <select name="zone_id" id="input-zone" class="form-control" formControlName="gender">
                                 <option [ngValue]="null" disabled>--- Chọn giới tính ---</option>
                                 <option *ngFor="let prf of genders" [ngValue]="prf.gdName">
-                                    {{ prf.gdName }}
+                                    {{ prf.gdName == 'M' ? 'Nam' : prf.gdName == 'W' ? 'Nữ' :  'Khác'  }}
                                 </option>
                             </select>
                             <div *ngIf="
@@ -239,17 +239,17 @@
                         <label class="col-sm-2 control-label" for="input-confirm">Xác nhận mật khẩu</label>
                         <div class="col-sm-10">
                             <input type="password" name="confirmPassword" formControlName="confirmPassword" (change)="onPasswordChange()" placeholder="Xác nhận mật khẩu Confirm" class="form-control" />
-                            <span *ngIf="register.controls['confirmPassword'].dirty && register.controls['confirmPassword'].hasError('mismatch')" class="alert alert-danger">Mật khẩu không trùng khớp
-                            </span>
+                            <span *ngIf="register.controls['confirmPassword'].hasError('mismatch')" class="alert alert-danger">Mật khẩu không trùng khớp
+                                </span>
                         </div>
                     </div>
                 </fieldset>
-                <div class="buttons">
-                    <div class="pull-right">
+                <div class="buttons ">
+                    <div class="pull-right ">
                         Tôi đã đọc và đồng ý với
-                        <a href="#" class="agree"><b>điều khoản</b></a>
+                        <a href="#" class="agree "><b>điều khoản</b></a>
                         <input type="checkbox" /> &nbsp;
-                        <input *ngIf="register.valid" type="submit" class="btn btn-success" (click)="registerUser()" name="agree" value="1" value="Continue" class="btn btn-primary" />
+                        <input *ngIf="register.valid " type="submit " class="btn btn-success " (click)="registerUser() " name="agree " value="1 " value="Continue " class="btn btn-primary " />
                     </div>
                 </div>
             </form>

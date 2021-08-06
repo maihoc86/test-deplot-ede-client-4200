@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import {
   FormGroup,
   FormControl,
@@ -15,23 +16,45 @@ import { CustomerServiceService } from '../Services/register-service';
 })
 export class RegisterAccountComponent implements OnInit {
   genders = [
-    new Genders('N', 'Nam'),
-    new Genders('NU', 'Nữ'),
-    new Genders('K', 'Khác'),
+    new Genders('N', 'M'),
+    new Genders('NU', 'W'),
+    new Genders('K', 'D'),
   ];
   public register = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9_-]{6,50}$")]),
-    password: new FormControl('', [Validators.required, Validators.pattern("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,50}$")]),
-    first_name: new FormControl('', [Validators.required, Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,}[ \\-\\']{0,}){1,}$")]),
-    address: new FormControl('', [Validators.required, Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){1,}$")]),
-    last_name: new FormControl('', [Validators.required, Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){1,}$")]),
+    username: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-z0-9_-]{6,50}$'),
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,50}$'),
+    ]),
+    first_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,}[ \\-\\']{0,}){1,}$"),
+    ]),
+    address: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){1,}$"
+      ),
+    ]),
+    last_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){1,}$"
+      ),
+    ]),
     gender: new FormControl('', Validators.required),
     photo: new FormControl(null),
     email: new FormControl('', [Validators.required, Validators.email]),
     is_delete: new FormControl(false),
     role: new FormControl('US'),
     otp: new FormControl(null),
-    phone: new FormControl('', [Validators.required, Validators.pattern("(84|0[3|5|7|8|9])+([0-9]{8})\\b")]),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'),
+    ]),
     confirmPassword: new FormControl('', Validators.required),
   });
   constructor(
@@ -74,11 +97,32 @@ export class RegisterAccountComponent implements OnInit {
     return newUser as User;
   }
   public registerUser() {
-    this.customerservice.addUser(this.createNewData()).subscribe((data) => {
-      console.log(data);
-      console.log('vào đây');
-      this.router.navigate(['register']);
-    });
+    this.customerservice.addUser(this.createNewData()).subscribe(
+      (data) => {
+        Swal.fire({
+          icon: 'success',
+          title:'Đăng ký thành công!',
+          text:'Nhấp Ok để hoàn thành!',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.router.navigate(['login']);
+          } else {
+            this.router.navigate(['login']);
+          }
+        })
+       
+      },
+      (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+        });
+        console.log();
+      }
+    );
   }
 }
 class Genders {
