@@ -15,7 +15,8 @@ public interface CustomerService {
 	User findByEmailLike(String email);
 	
 	List<User> getAll();
-
 	User updateUserById(User userUpdate);
-	
+	User findByUsername(String username);
+	User findByEmail(String username);
+	User findByPhone(String phone);
 }

@@ -71,5 +71,18 @@ public class CustomerImpl implements CustomerService {
 		}
 		return this.dao.save(userUpdate);
 	}
+	public User findByUsername(String username) {
+		return dao.findByUsername(username);
+	}
+
+	@Override
+	public User findByEmail(String username) {
+		return dao.findByEmail(username);
+	}
+
+	@Override
+	public User findByPhone(String phone) {
+		return dao.findByPhone(phone);
+	}
 	
 }

@@ -8,17 +8,14 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CustomerServiceService {
+export class RegisterService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // Authorization: 'my-auth-token',
-      // Authorization: 'Basic ' + btoa('username:password'),
     }),
   };
 
   private REST_API_SERVER = 'http://localhost:8080/ede-customer/register';
-
   constructor(private httpClient: HttpClient) {}
   public addUser(data: User) {
     const url = `${this.REST_API_SERVER}`;

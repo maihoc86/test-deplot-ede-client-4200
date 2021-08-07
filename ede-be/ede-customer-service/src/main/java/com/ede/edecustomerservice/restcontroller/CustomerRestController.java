@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
@@ -25,28 +25,39 @@ public class CustomerRestController {
 
 	@Autowired
 	CustomerService service;
-	
+
 	@Autowired
 	private MailService mailService;
-	
+
 	@Autowired
 	private JsonWebTokenService jwtService;
 
-	@RequestMapping("/ede-customer/index")
-	public String getView() {
-		return "Hello World";
-	}
-
 	@PostMapping("/ede-customer/register")
-	public ResponseEntity<User> register(@RequestBody User user) {
+	public ResponseEntity register(@RequestBody User user) {
 		UUID uuid = UUID.randomUUID();
 		user.setId(uuid.toString());
-		return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
+
+		User findByEmail = service.findByEmail(user.getEmail());
+		User findByUsername = service.findByUsername(user.getUsername());
+		User findByPhone = service.findByPhone(user.getPhone());
+		if (findByUsername != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Tài khoản đã tồn tại", "username",
+					null);
+		} else if (findByEmail != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Email đã tồn tại", "email", null);
+		} else if (findByPhone != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Số điện thoại đã tồn tại", "phone",
+					null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
+		}
+
 	}
-	
+
 	/**
 	 * Use for user forgot Password <br/>
 	 * Use to send otp to email for user contain url with token and otp
+	 * 
 	 * @author vinh
 	 * @param email is address of otp receiver
 	 * @return True if mail added into schedule
@@ -77,12 +88,12 @@ public class CustomerRestController {
 		mail.setSubject("Quên mật khẩu");
 		mail.setText(String.format("Mã OTP là: <b>%s</b> hoặc <a href=\"http://localhost:4200/forgot-password?email=%s&token=%s\">vào đây nhanh hơn</a> ", otp, email, token));
 		this.mailService.addMail(mail);
-		
 		return ResponseEntity.ok(true);
 	}
-	
+
 	/**
 	 * Reset password with OTP
+	 * 
 	 * @author vinh
 	 * @see #resetPasswordToken(User)
 	 */
@@ -95,10 +106,11 @@ public class CustomerRestController {
 		boolean b = this.service.resetPasswordOtp(user);
 		return ResponseEntity.ok(b);
 	}
-	
+
 	/**
 	 * Reset password with Token
-	 * @author vinh 
+	 * 
+	 * @author vinh
 	 * @see #resetPasswordOtp(User)
 	 * @see #resetPasswordToken(User)
 	 */
