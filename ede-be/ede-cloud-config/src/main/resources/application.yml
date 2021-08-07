@@ -6,9 +6,16 @@ spring:
          server:
             git:
                uri: https://gitlab.com/group-poly/ede.git
+               skipSslValidation: true
                clone-on-start: true
-               default-label: SP0001-ST01
                username: teamsdarkeyes2021
                password: teamsdarkeyes2021
+               default-label: SP0001-ST01
+               search-paths: /ede-be/config-cloud-file 
+management:
+   endpoints:
+      web:
+         exposure:
+            include: /*
 server:
    port: 8888
