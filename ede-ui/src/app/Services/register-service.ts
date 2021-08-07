@@ -15,11 +15,17 @@ export class RegisterService {
     }),
   };
 
-  private REST_API_SERVER = 'http://localhost:8080/ede-customer/register';
-  constructor(private httpClient: HttpClient) {}
-  public addUser(data: User) {
-    const url = `${this.REST_API_SERVER}`;
-    console.log(data);
+  private REST_API_SERVER = 'http://localhost:8080/ede-customer';
+  constructor(private httpClient: HttpClient) { }
+  public registerAccount(data: User) {
+    return this.sendData(data, this.REST_API_SERVER + '/register');
+  }
+
+  public createAccountByAdmin(data: User) {
+    return this.sendData(data, this.REST_API_SERVER + '/create-account-by-admin');
+  }
+
+  public sendData(data: User, url: string) {
     return this.httpClient.post<any>(url, data, this.httpOptions);
   }
 }

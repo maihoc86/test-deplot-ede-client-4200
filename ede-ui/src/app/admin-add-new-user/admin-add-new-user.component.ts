@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RegisterAccountComponent } from '../register-account/register-account.component';
 import Swal from 'sweetalert2';
 import {
   FormGroup,
@@ -6,18 +7,15 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { User } from '../models/user.model';
 import { RegisterService } from '../Services/register-service';
 import { ApiAddressService } from '../Services/api-address.service';
-import { Genders } from '../models/genders.model';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
-  selector: 'app-register-account',
-  templateUrl: './register-account.component.html',
-  styleUrls: ['./register-account.component.css'],
+  selector: 'app-admin-add-new-user',
+  templateUrl: './admin-add-new-user.component.html',
+  styleUrls: ['./admin-add-new-user.component.css']
 })
-export class RegisterAccountComponent implements OnInit {
+export class ADMINAddNewUserComponent implements OnInit {
   public register = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -59,84 +57,15 @@ export class RegisterAccountComponent implements OnInit {
     ]),
     confirmPassword: new FormControl('', Validators.required),
   });
-  constructor(
-    private router: Router,
+  constructor(private router: Router,
     private route: ActivatedRoute,
     private registerService: RegisterService,
-    private apiAddressService: ApiAddressService,
-  ) { }
-  get f(): { [key: string]: AbstractControl } {
-    return this.register.controls;
+    private apiAddressService: ApiAddressService,) {
   }
   public listCitys: any = [];
   public listDistricts: any = [];
   public listWards: any = [];
-  // All is this method
-  onPasswordChange() {
-    if (this.confirm_password.value == this.password.value) {
-      this.confirm_password.setErrors(null);
-    } else {
-      this.confirm_password.setErrors({ mismatch: true });
-    }
-  }
-  // get city
-  getDistricts() {
-    this.getApiDistricts(this.register.controls["city"].value.id);
-  }
-  // get wards
-  getWards() {
-    this.getApiWards(this.register.controls["district"].value.id);
-  }
-  //get password
-  get password(): AbstractControl {
-    return this.register.controls['password'];
-  }
-  //get confirm password
-  get confirm_password(): AbstractControl {
-    return this.register.controls['confirmPassword'];
-  }
   ngOnInit(): void {
-    this.getApiCity();
-    this.listCitys;
-    this.genders;
-  }
-  private createNewData() {
-    const newUser: any = {};
-    for (const controlName in this.register.controls) {
-      if (controlName) {
-        newUser[controlName] = this.register.controls[controlName].value;
-      }
-    }
-    return newUser as User;
-  }
-  public registerUser() {
-    const oldAddress = this.register.controls['address'].value;
-    const newAddress = (this.register.controls['address'].value + ", " + this.register.controls['wards'].value.name + ', ' + this.register.controls['district'].value.name + ', ' + this.register.controls['city'].value.name);
-    this.register.controls['address'].setValue(newAddress);
-    this.registerService.registerAccount(this.createNewData()).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Đăng ký thành công!',
-          text: 'Nhấp Ok để hoàn thành!',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.router.navigate(['login']);
-          } else {
-            this.router.navigate(['login']);
-          }
-        })
-      },
-      (err) => {
-        this.register.controls['address'].setValue(oldAddress);
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
-      }
-    );
   }
   public getApiCity() {
     this.apiAddressService.getApiCity().subscribe(
@@ -165,10 +94,5 @@ export class RegisterAccountComponent implements OnInit {
       this.listWards = listWard;
     });
   }
-  genders = [
-    new Genders('N', 'M'),
-    new Genders('NU', 'W'),
-    new Genders('K', 'D'),
-  ];
 
 }
