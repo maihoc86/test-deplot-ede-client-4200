@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user.model';
 import { RegisterService } from '../Services/register-service';
 import { ApiAddressService } from '../Services/api-address.service';
+import { Genders } from '../models/genders.model';
 
 @Component({
   selector: 'app-register-account',
@@ -112,7 +113,7 @@ export class RegisterAccountComponent implements OnInit {
     const oldAddress = this.register.controls['address'].value;
     const newAddress = (this.register.controls['address'].value + ", " + this.register.controls['wards'].value.name + ', ' + this.register.controls['district'].value.name + ', ' + this.register.controls['city'].value.name);
     this.register.controls['address'].setValue(newAddress);
-    this.registerService.addUser(this.createNewData()).subscribe(
+    this.registerService.registerAccount(this.createNewData()).subscribe(
       (data) => {
         Swal.fire({
           icon: 'success',
@@ -170,7 +171,4 @@ export class RegisterAccountComponent implements OnInit {
     new Genders('K', 'D'),
   ];
 
-}
-class Genders {
-  constructor(public gdID: string, public gdName: string) { }
 }
