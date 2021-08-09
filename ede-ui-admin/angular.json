@@ -42,7 +42,10 @@
               "src/assets/css/app.css",
               "src/assets/css/dark-theme.css",
               "src/assets/css/semi-dark.css",
-              "src/assets/css/header-colors.css"
+              "src/assets/css/icons.css",
+              "src/assets/css/header-colors.css",
+              "src/assets/plugins/select2/css/select2.min.css",
+              "src/assets/plugins/select2/css/select2-bootstrap4.css"
             ],
             "scripts": [
               "src/assets/js/bootstrap.bundle.min.js",
@@ -60,7 +63,9 @@
               "src/assets/plugins/apexcharts-bundle/js/apexcharts.min.js",
               "src/assets/js/index.js",
               "src/assets/js/app.js",
-              "src/assets/js/pace.min.js"
+              "src/assets/js/pace.min.js",
+              "src/assets/plugins/select2/js/select2.min.js",
+              "src/assets/plugins/select2/js/select2-config.js"
             ]
           },
           "configurations": {

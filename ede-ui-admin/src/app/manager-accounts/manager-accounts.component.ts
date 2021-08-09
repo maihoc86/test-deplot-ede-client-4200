@@ -6,19 +6,19 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { User } from '../models/user.model';
-import { RegisterService } from '../Services/register-service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiAddressService } from '../Services/api-address.service';
 import { Genders } from '../models/genders.model';
-
+import { User } from '../models/user.model';
+import { ManageAccountsService } from '../Services/manage-accounts.service';
 @Component({
-  selector: 'app-register-account',
-  templateUrl: './register-account.component.html',
-  styleUrls: ['./register-account.component.css'],
+  selector: 'app-manager-accounts',
+  templateUrl: './manager-accounts.component.html',
+  styleUrls: ['./manager-accounts.component.css']
 })
-export class RegisterAccountComponent implements OnInit {
-  public register = new FormGroup({
+export class ManagerAccountsComponent implements OnInit {
+
+  public manageAccount = new FormGroup({
     username: new FormControl('', [
       Validators.required,
       Validators.pattern('^[a-z0-9_-]{6,50}$'),
@@ -57,19 +57,19 @@ export class RegisterAccountComponent implements OnInit {
     ]),
     confirmPassword: new FormControl('', Validators.required),
   });
-  constructor(
-    private router: Router,
+  constructor(private router: Router,
     private route: ActivatedRoute,
-    private registerService: RegisterService,
     private apiAddressService: ApiAddressService,
-  ) { }
-  get f(): { [key: string]: AbstractControl } {
-    return this.register.controls;
+    private manageAccountService: ManageAccountsService,) {
   }
   public listCitys: any = [];
   public listDistricts: any = [];
   public listWards: any = [];
-  // All is this method
+  ngOnInit(): void {
+    this.getApiCity();
+    this.listCitys;
+    this.genders;
+  }
   onPasswordChange() {
     if (this.confirm_password.value == this.password.value) {
       this.confirm_password.setErrors(null);
@@ -77,64 +77,21 @@ export class RegisterAccountComponent implements OnInit {
       this.confirm_password.setErrors({ mismatch: true });
     }
   }
-  // get city
-  getDistricts() {
-    this.getApiDistricts(this.register.controls["city"].value.id);
-  }
-  // get wards
-  getWards() {
-    this.getApiWards(this.register.controls["district"].value.id);
-  }
   //get password
   get password(): AbstractControl {
-    return this.register.controls['password'];
+    return this.manageAccount.controls['password'];
   }
   //get confirm password
   get confirm_password(): AbstractControl {
-    return this.register.controls['confirmPassword'];
+    return this.manageAccount.controls['confirmPassword'];
   }
-  ngOnInit(): void {
-    this.getApiCity();
-    this.listCitys;
-    this.genders;
+  // get city
+  getDistricts() {
+    this.getApiDistricts(this.manageAccount.controls["city"].value.id);
   }
-  private createNewData() {
-    const newUser: any = {};
-    for (const controlName in this.register.controls) {
-      if (controlName) {
-        newUser[controlName] = this.register.controls[controlName].value;
-      }
-    }
-    return newUser as User;
-  }
-  public registerUser() {
-    const oldAddress = this.register.controls['address'].value;
-    const newAddress = (this.register.controls['address'].value + ", " + this.register.controls['wards'].value.name + ', ' + this.register.controls['district'].value.name + ', ' + this.register.controls['city'].value.name);
-    this.register.controls['address'].setValue(newAddress);
-    this.registerService.registerAccount(this.createNewData()).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Đăng ký thành công!',
-          text: 'Nhấp Ok để hoàn thành!',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.router.navigate(['login']);
-          } else {
-            this.router.navigate(['login']);
-          }
-        })
-      },
-      (err) => {
-        this.register.controls['address'].setValue(oldAddress);
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
-      }
-    );
+  // get wards
+  getWards() {
+    this.getApiWards(this.manageAccount.controls["district"].value.id);
   }
   public getApiCity() {
     this.apiAddressService.getApiCity().subscribe(
@@ -162,6 +119,48 @@ export class RegisterAccountComponent implements OnInit {
       });
       this.listWards = listWard;
     });
+  }
+
+  // lấy dữ liệu từ FormControl về
+  private createNewData() {
+    const newUser: any = {};
+    for (const controlName in this.manageAccount.controls) {
+      if (controlName) {
+        newUser[controlName] = this.manageAccount.controls[controlName].value;
+      }
+    }
+    return newUser as User;
+  }
+  // thêm mới user
+  public addNewUser() {
+    const oldAddress = this.manageAccount.controls['address'].value;
+    const newAddress = (this.manageAccount.controls['address'].value + ", " + this.manageAccount.controls['wards'].value.name + ', ' + this.manageAccount.controls['district'].value.name + ', ' + this.manageAccount.controls['city'].value.name);
+    this.manageAccount.controls['address'].setValue(newAddress);
+    this.manageAccountService.addNewUser(this.createNewData()).subscribe(
+      (data) => {
+        console.log(data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Đăng ký thành công!',
+          text: 'Nhấp Ok để hoàn thành!',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.manageAccount.reset()
+          } else {
+            this.manageAccount.reset()
+          }
+        })
+      },
+      (err) => {
+        this.manageAccount.controls['address'].setValue(oldAddress);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+        });
+      }
+    );
   }
   genders = [
     new Genders('N', 'M'),
