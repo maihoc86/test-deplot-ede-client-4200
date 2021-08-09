@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ADMINAddNewUserComponent } from './admin-add-new-user/admin-add-new-user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +20,6 @@ import { ADMINAddNewUserComponent } from './admin-add-new-user/admin-add-new-use
     IndexComponent,
     LoginComponent,
     RegisterAccountComponent,
-    ADMINAddNewUserComponent,
   ],
   imports: [
     BrowserModule,
