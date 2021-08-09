@@ -51,7 +51,7 @@ public class CustomerRestController {
 	 * @see #addNewUser(User)
 	 */
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/ede-customer/create-account-by-admin")
+	@PostMapping("/ede-customer/admin/add-new-user")
 	public ResponseEntity addNewUser(@RequestBody User user) {
 		return checkDataUser(user);
 	}
