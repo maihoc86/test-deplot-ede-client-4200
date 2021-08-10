@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user.model';
-import { RegisterService } from '../Services/register-service';
-import { ApiAddressService } from '../Services/api-address.service';
+import { RegisterService } from '../Services/register/register-service';
+import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { Genders } from '../models/genders.model';
 
 @Component({
