@@ -1,7 +1,9 @@
 package com.ede.edecustomerservice.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.User;
 
 public interface CustomerService {
@@ -19,4 +21,5 @@ public interface CustomerService {
 	User findByUsername(String username);
 	User findByEmail(String username);
 	User findByPhone(String phone);
+
 }

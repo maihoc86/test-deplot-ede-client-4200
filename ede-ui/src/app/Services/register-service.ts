@@ -28,4 +28,8 @@ export class RegisterService {
   public sendData(data: User, url: string) {
     return this.httpClient.post<any>(url, data, this.httpOptions);
   }
+
+  async sendEmail(email: string) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/send-email-verify', { email: email }).toPromise()
+  }
 }
