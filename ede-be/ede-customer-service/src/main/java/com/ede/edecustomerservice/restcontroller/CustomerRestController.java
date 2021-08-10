@@ -70,7 +70,7 @@ public class CustomerRestController {
 		} else if (validate != null && validate.equals("phone")) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Số điện thoại đã tồn tại", "phone",
 					null);
-		} else if (validate != null && user.getRole().equals("US")) { 
+		} else if (validate != null && user.getRole().equals("AD")) { 
 			// cần check thêm đã request.RemoteUser != null 														
 			// quyền phải ADMIN, nếu sử dụng cho chức năng thêm user của ADMINs													
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Bạn không có quyền thêm Admin",
@@ -79,7 +79,30 @@ public class CustomerRestController {
 			return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
 		}
 	}
-
+		
+	
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity activeAccountRegister(@RequestBody User user) {
+			String email = user.getEmail();
+			Random rand = new Random();
+			String otp = "";
+			for (int i = 0; i < 6; i++) {
+				otp += rand.nextInt(10);
+			}
+			// create and save token
+			User userOri = this.service.findByEmailLike(email);
+			if (null == userOri) {
+				return ResponseEntity.ok(false);
+			}
+			String token = this.jwtService.createToken(otp, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 minue
+			System.err.println(token);
+			userOri.setOtp(token);
+			if (null == this.service.updateUserById(userOri)) {
+				return ResponseEntity.ok(false);
+			}
+			return null;
+	}
+	
 	// validate data user
 	public String validateUser(@RequestBody User user) {
 		User findByUsername = service.findByUsername(user.getUsername());
