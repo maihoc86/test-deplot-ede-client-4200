@@ -1,4 +1,4 @@
-USE [EDE]
+﻿﻿USE [EDE]
 GO
 /****** Object:  Table [dbo].[authorities]    Script Date: 08/10/2021 11:26:29 ******/
 SET ANSI_NULLS ON
