@@ -1,8 +1,11 @@
 package com.ede.edecustomerservice.restcontroller;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.ResponseHandler;
+import com.ede.edecustomerservice.dao.AuthoritiesDao;
+import com.ede.edecustomerservice.dao.RoleDao;
+import com.ede.edecustomerservice.entity.Authorities;
+import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
@@ -30,7 +38,16 @@ public class CustomerRestController {
 	private MailService mailService;
 
 	@Autowired
+	RoleDao roleDao;
+
+	@Autowired
+	AuthoritiesDao authoritiesDao;
+
+	@Autowired
 	private JsonWebTokenService jwtService;
+	
+	@Autowired
+	HttpServletRequest request;
 
 	/**
 	 * Register Account
@@ -70,13 +87,83 @@ public class CustomerRestController {
 		} else if (validate != null && validate.equals("phone")) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Số điện thoại đã tồn tại", "phone",
 					null);
-		} else if (validate != null && user.getRole().equals("US")) { 
-			// cần check thêm đã request.RemoteUser != null 														
-			// quyền phải ADMIN, nếu sử dụng cho chức năng thêm user của ADMINs													
+		} else if (validate != null && user.getRole().equals("AD") && request.getRemoteUser() != null) {
+			// cần check thêm đã request.RemoteUser != null
+			// quyền phải ADMIN, nếu sử dụng cho chức năng thêm user của ADMINs
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Bạn không có quyền thêm Admin",
 					"role", null);
 		} else {
+			Optional<Roles> roles = roleDao.findById("US");
+			@SuppressWarnings("rawtypes")
+			ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
+			Authorities addAuthorities = new Authorities();
+			addAuthorities.setUser(user);
+			addAuthorities.setRole(roles.get());
+			authoritiesDao.saveAndFlush(addAuthorities);
 			return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
+		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping("/ede-customer/send-email-verify")
+	public ResponseEntity activeAccountRegister(@RequestBody Map<String, String> request) {
+		String email = request.get("email");
+		System.out.println(email);
+		Random rand = new Random();
+		String otp = "";
+		for (int i = 0; i < 6; i++) {
+			otp += rand.nextInt(10);
+		}
+		// create and save token
+		User userOri = this.service.findByEmailLike(email);
+		System.out.println(userOri);
+		if (null == userOri) {
+			return ResponseEntity.ok(false);
+		}
+		String token = this.jwtService.createToken(otp, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 minue
+		System.err.println(token);
+		userOri.setOtp(token);
+		if (null == this.service.updateUserById(userOri)) {
+			return ResponseEntity.ok(false);
+		}
+		// send mail
+		MailEntity mail = new MailEntity();
+		mail.setMailReceiver(email);
+		mail.setSubject("Kích hoạt tài khoản");
+		mail.setText(String.format(
+				"<a href=\"http://localhost:4200/account/verify?email=%s&token=%s\">Nhấp vào đây để xác nhận tài khoản</a> ",
+				email, token));
+		this.mailService.addMail(mail);
+		return ResponseEntity.ok(true);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping("/ede-customer/account/verify")
+	public ResponseEntity checkActiveAccount(@RequestParam String email, @RequestParam String token) {
+		User active = service.findByEmail(email);
+		if (active == null) {
+			return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Hệ thống không có Email này", "email",
+					null);
+		} else {
+			if (active.getOtp() == null && active.getIs_active() == true) {
+				return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Tài khoản này đã được kích hoạt",
+						"email", null);
+			} else if (!active.getOtp().equals(token)) {
+				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token không chính xác", "email",
+						null);
+			} else {
+				if (jwtService.checkToken(token)) {
+					active.setIs_active(true);
+					active.setOtp(null);
+					return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(active));
+				} else {
+					active.setOtp(null);
+					active.setIs_active(false);
+					this.service.saveUser(active);
+					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token đã hết hạn", "email",
+							null);
+				}
+			}
 		}
 	}
 

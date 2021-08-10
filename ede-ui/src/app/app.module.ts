@@ -13,6 +13,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AccountActiveComponent } from './account-active/account-active.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     LoginComponent,
     RegisterAccountComponent,
     ForgotPasswordComponent,
+    AccountActiveComponent,
   ],
   imports: [
     BrowserModule,

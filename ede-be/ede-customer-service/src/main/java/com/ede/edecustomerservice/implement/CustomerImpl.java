@@ -1,11 +1,13 @@
 package com.ede.edecustomerservice.implement;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ede.edecustomerservice.dao.UserDao;
+import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
@@ -84,5 +86,6 @@ public class CustomerImpl implements CustomerService {
 	public User findByPhone(String phone) {
 		return dao.findByPhone(phone);
 	}
+
 	
 }

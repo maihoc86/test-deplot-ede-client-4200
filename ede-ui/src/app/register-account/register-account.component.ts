@@ -46,7 +46,6 @@ export class RegisterAccountComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     is_delete: new FormControl(false),
     is_active: new FormControl(false),
-    role: new FormControl('US'),
     otp: new FormControl(null),
     city: new FormControl(''),
     district: new FormControl(''),
@@ -56,6 +55,7 @@ export class RegisterAccountComponent implements OnInit {
       Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'),
     ]),
     confirmPassword: new FormControl('', Validators.required),
+
   });
   constructor(
     private router: Router,
@@ -113,6 +113,8 @@ export class RegisterAccountComponent implements OnInit {
     this.register.controls['address'].setValue(newAddress);
     this.registerService.registerAccount(this.createNewData()).subscribe(
       (data) => {
+        console.log(data);
+        this.registerService.sendEmail(data.email);
         Swal.fire({
           icon: 'success',
           title: 'Đăng ký thành công!',
