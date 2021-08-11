@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ede.edecustomerservice.dao.UserDao;
 import com.ede.edecustomerservice.entity.Roles;
@@ -13,6 +14,7 @@ import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 
 @Service
+@Transactional
 public class CustomerImpl implements CustomerService {
 	
 	@Autowired
@@ -92,6 +94,13 @@ public class CustomerImpl implements CustomerService {
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
 		return dao.findAll();
+	}
+
+	@Override
+	public User deleteByUsername(String username) {
+		User u = dao.findByUsername(username);
+		dao.deleteByUsername(username);
+		return u;
 	}
 	
 }

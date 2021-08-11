@@ -1,6 +1,8 @@
 package com.ede.edecustomerservice.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ede.edecustomerservice.entity.User;
 
@@ -11,4 +13,6 @@ public interface UserDao extends JpaRepository<User, String>{
 	User findByUsername(String username);
 	User findByEmail(String email);
 	User findByPhone(String phone);
+	
+	Long deleteByUsername(String username);
 }

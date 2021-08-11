@@ -309,7 +309,7 @@
         <input type="text"
           class="form-control" placeholder="Search..." name="searchBar"
           id="searchBar"
-
+          [(ngModel)]="term"
           > <span
           class="mdi mdi-magnify"></span>
       </div>
@@ -331,16 +331,18 @@
                 <th>Phone</th>
                 <th>Gender</th>
                 <th>Address</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let e of items  ">
-                <th>{{e.username}}</th>
-                <td>{{e.password}}</td>
-                <td>{{e.email}}</td>
-                <td>{{e.phone}}</td>
-                <td>{{e.gender}}</td>
-                <td>{{e.address}}</td>
+              <tr *ngFor="let e of items  |filter:term" >
+                <th *ngIf="e">{{e.username}}</th>
+                <td *ngIf="e">{{e.password}}</td>
+                <td *ngIf="e">{{e.email}}</td>
+                <td *ngIf="e">{{e.phone}}</td>
+                <td *ngIf="e">{{e.gender}}</td>
+                <td *ngIf="e">{{e.address}}</td>
+                <td><button *ngIf="e" (click)="deleteUser(e.username)" class="btn btn-danger px-5">Delete</button></td>
               </tr>
 
                 <!-- <th scope="row">1</th>

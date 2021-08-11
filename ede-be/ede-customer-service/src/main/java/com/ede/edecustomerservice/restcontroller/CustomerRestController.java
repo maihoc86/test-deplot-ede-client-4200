@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,6 @@ import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
-
 
 @CrossOrigin("*")
 @RestController
@@ -48,7 +48,7 @@ public class CustomerRestController {
 
 	@Autowired
 	private JsonWebTokenService jwtService;
-	
+
 	@Autowired
 	HttpServletRequest request;
 
@@ -250,20 +250,28 @@ public class CustomerRestController {
 		boolean b = this.service.resetPasswordToken(user);
 		return ResponseEntity.ok(b);
 	}
-	
-	
+
 	/**
 	 * Load data on the table
 	 * 
 	 * @author thanh
-	 * @see 
+	 * @see
 	 * @see #search(user-admin)
 	 */
-	
-	
+
 	@GetMapping("/ede-customer/users")
 	public List<User> getAccounts() {
 		return service.findAll();
 	}
 
+	@PostMapping("/ede-customer/delete/users/{username}")
+	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
+		System.err.println("Detele username :" + username);
+		try {
+			return ResponseEntity.ok(service.deleteByUsername(username));
+		} catch (Exception e) {
+			System.err.println(e);
+			return ResponseEntity.notFound().build();
+		}
+	}
 }
