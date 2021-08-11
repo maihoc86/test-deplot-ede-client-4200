@@ -18,6 +18,12 @@ import { ManageAccountsService } from '../Services/manage-accounts/manage-accoun
 })
 export class ManagerAccountsComponent implements OnInit {
 
+
+
+  // filterTerm: string;
+
+
+
   public manageAccount = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -59,7 +65,9 @@ export class ManagerAccountsComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private apiAddressService: ApiAddressService,
-    private manageAccountService: ManageAccountsService,) {
+    private manageAccountService: ManageAccountsService,
+    // private filterTerm: string,
+    ) {
   }
   public listCitys: any = [];
   public listDistricts: any = [];
@@ -68,6 +76,8 @@ export class ManagerAccountsComponent implements OnInit {
     this.getApiCity();
     this.listCitys;
     this.genders;
+    this.loadUser();
+
   }
   onPasswordChange() {
     if (this.confirm_password.value == this.password.value) {
@@ -167,4 +177,34 @@ export class ManagerAccountsComponent implements OnInit {
     new Genders('K', 'D'),
   ];
 
+
+
+
+public items: any = [];
+public loadUser() {
+  this.manageAccountService.loadUser().subscribe((data) => {
+    const item = data.map(function (obj: {
+      id: any; username: any;
+      password: any; first_name: any;
+      last_name: any; email: any;
+      photo: any; gender: any;
+      address: any; phone: any;
+      is_delete: any; is_active: any;
+      role: any
+
+
+    }) {
+      return obj;
+    });
+    this.items = item;
+  });
 }
+
+
+
+
+
+
+}
+
+

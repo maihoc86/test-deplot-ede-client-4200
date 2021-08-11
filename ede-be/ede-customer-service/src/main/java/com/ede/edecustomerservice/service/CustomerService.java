@@ -22,4 +22,12 @@ public interface CustomerService {
 	User findByEmail(String username);
 	User findByPhone(String phone);
 
+	List<User> findAll();
+
+
+
+
+	
+
+	
 }
