@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountActiveService } from '../Services/account-active.service';
+import { AccountActiveService } from '../Services/account/account-active.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-account-active',
