@@ -18,6 +18,12 @@ import { ManageAccountsService } from '../Services/manage-accounts.service';
 })
 export class ManagerAccountsComponent implements OnInit {
 
+
+
+  // filterTerm: string;
+
+
+
   public manageAccount = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -61,6 +67,7 @@ export class ManagerAccountsComponent implements OnInit {
     private route: ActivatedRoute,
     private apiAddressService: ApiAddressService,
     private manageAccountService: ManageAccountsService,
+    // private filterTerm: string,
     ) {
   }
   public listCitys: any = [];

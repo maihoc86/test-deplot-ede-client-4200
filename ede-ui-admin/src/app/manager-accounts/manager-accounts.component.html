@@ -308,7 +308,7 @@
       <div class="position-relative">
         <input type="text"
           class="form-control" placeholder="Search..." name="searchBar"
-          id="searchBar" [(ngModel)]="searchBar" (ngModelChange)="Search()"
+          id="searchBar"
 
           > <span
           class="mdi mdi-magnify"></span>
@@ -334,7 +334,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let e of items ">
+              <tr *ngFor="let e of items  ">
                 <th>{{e.username}}</th>
                 <td>{{e.password}}</td>
                 <td>{{e.email}}</td>
