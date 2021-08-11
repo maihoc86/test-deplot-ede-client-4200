@@ -118,7 +118,7 @@ export class RegisterAccountComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Đăng ký thành công!',
-          text: 'Nhấp Ok để hoàn thành!',
+          text: 'Một liên kết đã gửi tới email của bạn, vui lòng xác nhận nó để kích hoạt tài khoản',
           confirmButtonText: `OK`,
         }).then((result) => {
           if (result.isConfirmed) {

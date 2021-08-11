@@ -36,7 +36,6 @@ public class User implements Serializable {
 	String phone;
 	Boolean is_delete;
 	Boolean is_active;
-	String role;
 	String otp;
 	
 	@JsonIgnore
