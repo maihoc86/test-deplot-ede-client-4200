@@ -4,7 +4,8 @@ import {
   HttpClient,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { User } from '../models/user.model';
+import { User } from 'src/app/models/user.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,5 +20,8 @@ export class ManageAccountsService {
   constructor(private httpClient: HttpClient) { }
   public addNewUser(data: User) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/admin/add-new-user', data, this.httpOptions);
+  }
+  async sendEmail(email: string) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/send-email-verify', { email: email }).toPromise()
   }
 }

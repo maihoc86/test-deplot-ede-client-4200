@@ -87,15 +87,9 @@ public class CustomerRestController {
 		} else if (validate != null && validate.equals("phone")) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Số điện thoại đã tồn tại", "phone",
 					null);
-		} else if (validate != null && user.getRole().equals("AD") && request.getRemoteUser() != null) {
-			// cần check thêm đã request.RemoteUser != null
-			// quyền phải ADMIN, nếu sử dụng cho chức năng thêm user của ADMINs
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Bạn không có quyền thêm Admin",
-					"role", null);
 		} else {
 			Optional<Roles> roles = roleDao.findById("US");
-			@SuppressWarnings("rawtypes")
-			ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(user));
+			this.service.saveUser(user);
 			Authorities addAuthorities = new Authorities();
 			addAuthorities.setUser(user);
 			addAuthorities.setRole(roles.get());

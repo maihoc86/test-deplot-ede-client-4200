@@ -7,10 +7,10 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiAddressService } from '../Services/api-address.service';
+import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { Genders } from '../models/genders.model';
 import { User } from '../models/user.model';
-import { ManageAccountsService } from '../Services/manage-accounts.service';
+import { ManageAccountsService } from '../Services/manage-accounts/manage-accounts.service';
 @Component({
   selector: 'app-manager-accounts',
   templateUrl: './manager-accounts.component.html',
@@ -46,7 +46,6 @@ export class ManagerAccountsComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     is_delete: new FormControl(false),
     is_active: new FormControl(false),
-    role: new FormControl('US'),
     otp: new FormControl(null),
     city: new FormControl(''),
     district: new FormControl(''),
@@ -138,11 +137,11 @@ export class ManagerAccountsComponent implements OnInit {
     this.manageAccount.controls['address'].setValue(newAddress);
     this.manageAccountService.addNewUser(this.createNewData()).subscribe(
       (data) => {
-        console.log(data);
+        this.manageAccountService.sendEmail(data.email);
         Swal.fire({
           icon: 'success',
           title: 'Đăng ký thành công!',
-          text: 'Nhấp Ok để hoàn thành!',
+          text: 'Một liên kết đã gửi tới email của bạn, vui lòng xác nhận nó để kích hoạt tài khoản',
           confirmButtonText: `OK`,
         }).then((result) => {
           if (result.isConfirmed) {
