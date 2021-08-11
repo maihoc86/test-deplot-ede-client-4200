@@ -24,6 +24,10 @@ public interface CustomerService {
 
 	List<User> findAll();
 
+	User deleteByUsername(String username);
+
+	
+
 
 
 

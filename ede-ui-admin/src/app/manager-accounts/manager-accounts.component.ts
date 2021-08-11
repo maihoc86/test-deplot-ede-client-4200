@@ -11,6 +11,7 @@ import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { Genders } from '../models/genders.model';
 import { User } from '../models/user.model';
 import { ManageAccountsService } from '../Services/manage-accounts/manage-accounts.service';
+
 @Component({
   selector: 'app-manager-accounts',
   templateUrl: './manager-accounts.component.html',
@@ -66,7 +67,7 @@ export class ManagerAccountsComponent implements OnInit {
     private route: ActivatedRoute,
     private apiAddressService: ApiAddressService,
     private manageAccountService: ManageAccountsService,
-    // private filterTerm: string,
+   //private term: string,
     ) {
   }
   public listCitys: any = [];
@@ -200,11 +201,32 @@ public loadUser() {
   });
 }
 
+public term:string ="";
 
+public deleteUser(username:string){
+ 
+  this.manageAccountService.deleteUser(username).subscribe(data=>{
+    Swal.fire({
+      icon:'success',
+      title:'Xóa tài khoản',
+      text: 'Xóa thành công'
+    }).then(respone=>{
+      const item = respone;
+      this.items.forEach((any:any,index:number) => {
+       console.log(index)
+       delete this.items[index]
+      }); 
+    })
 
-
-
-
+  } ,(err) => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Lỗi',
+      text: err.error,
+    });
+  })
+}
 }
 
 
