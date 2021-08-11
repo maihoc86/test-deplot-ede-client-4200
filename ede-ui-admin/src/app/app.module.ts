@@ -9,6 +9,10 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ManagerAccountsComponent } from './manager-accounts/manager-accounts.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +29,7 @@ import { ManagerAccountsComponent } from './manager-accounts/manager-accounts.co
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
+    Ng2SearchPipeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

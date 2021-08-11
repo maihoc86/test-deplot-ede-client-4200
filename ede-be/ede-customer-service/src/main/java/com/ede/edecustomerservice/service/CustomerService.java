@@ -19,4 +19,13 @@ public interface CustomerService {
 	User findByUsername(String username);
 	User findByEmail(String username);
 	User findByPhone(String phone);
+
+	List<User> findAll();
+
+
+
+
+	
+
+	
 }

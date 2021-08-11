@@ -1,6 +1,8 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -8,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.ResponseHandler;
@@ -18,6 +22,7 @@ import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
+
 
 @CrossOrigin("*")
 @RestController
@@ -165,6 +170,21 @@ public class CustomerRestController {
 		user.setOtp(requestBody.get("otp"));
 		boolean b = this.service.resetPasswordToken(user);
 		return ResponseEntity.ok(b);
+	}
+	
+	
+	/**
+	 * Load data on the table
+	 * 
+	 * @author thanh
+	 * @see 
+	 * @see #search(user-admin)
+	 */
+	
+	
+	@GetMapping("/ede-customer/users")
+	public List<User> getAccounts() {
+		return service.findAll();
 	}
 
 }
