@@ -299,5 +299,70 @@
         </div>
       </div>
     </div>
+
+
+<div class="row">
+  <div class="col-md-6">DATATABLE EXAMPLE</div>
+  <div class="col-md-6">
+    <form class="app-search d-none d-lg-block">
+      <div class="position-relative">
+        <input type="text"
+          class="form-control" placeholder="Search..." name="searchBar"
+          id="searchBar"
+
+          > <span
+          class="mdi mdi-magnify"></span>
+      </div>
+    </form>
+  </div>
+
+
+</div>
+    <hr/>
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let e of items  ">
+                <th>{{e.username}}</th>
+                <td>{{e.password}}</td>
+                <td>{{e.email}}</td>
+                <td>{{e.phone}}</td>
+                <td>{{e.gender}}</td>
+                <td>{{e.address}}</td>
+              </tr>
+
+                <!-- <th scope="row">1</th>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td> -->
+
+
+
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 </div>
+
+
+
+
+

@@ -87,5 +87,11 @@ public class CustomerImpl implements CustomerService {
 		return dao.findByPhone(phone);
 	}
 
+
+	@Override
+	public List<User> findAll() {
+		// TODO Auto-generated method stub
+		return dao.findAll();
+	}
 	
 }

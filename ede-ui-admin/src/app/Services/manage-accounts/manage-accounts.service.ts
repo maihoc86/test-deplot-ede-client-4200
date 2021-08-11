@@ -21,7 +21,17 @@ export class ManageAccountsService {
   public addNewUser(data: User) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/admin/add-new-user', data, this.httpOptions);
   }
+
   async sendEmail(email: string) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/send-email-verify', { email: email }).toPromise()
   }
+
+
+
+  public loadUser() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/users', this.httpOptions);
+  }
+
+
+
 }

@@ -2,9 +2,9 @@ spring:
   application:
     name: ede-customer
   datasource:
-    url: jdbc:sqlserver://localhost;databaseName=EDE
+    url: jdbc:sqlserver://localhost;database=EDE
     username: sa
-    password: 123
+    password: K!mThanh123
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     hibernate:
