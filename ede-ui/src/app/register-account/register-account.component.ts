@@ -25,11 +25,11 @@ export class RegisterAccountComponent implements OnInit {
     ]),
     password: new FormControl('', [
       Validators.required,
-      Validators.pattern('^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,50}$'),
+      Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,50}$'),
     ]),
     first_name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){1,25}$"),
+      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"),
     ]),
     address: new FormControl('', [
       Validators.required,
@@ -39,7 +39,7 @@ export class RegisterAccountComponent implements OnInit {
     ]),
     last_name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){1,25}$"),
+      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"),
     ]),
     gender: new FormControl('', Validators.required),
     photo: new FormControl(null),
@@ -52,7 +52,7 @@ export class RegisterAccountComponent implements OnInit {
     wards: new FormControl(''),
     phone: new FormControl('', [
       Validators.required,
-      Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'),
+      Validators.pattern('(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b'),
     ]),
     confirmPassword: new FormControl('', Validators.required),
 

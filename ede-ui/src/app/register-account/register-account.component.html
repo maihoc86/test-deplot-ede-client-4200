@@ -270,7 +270,7 @@
             Tôi đã đọc và đồng ý với
             <a href="#" class="agree"><b>điều khoản</b></a>
             <input type="checkbox" /> &nbsp;
-            <input *ngIf="register.valid" type="submit " class="btn btn-success" (click)="registerUser()" name="agree "
+            <input [disabled]="register.invalid ? 'disabled': null" type="submit " class="btn btn-success" (click)="registerUser()" name="agree "
               value="1 " value="Continue " class="btn btn-primary" />
           </div>
         </div>
