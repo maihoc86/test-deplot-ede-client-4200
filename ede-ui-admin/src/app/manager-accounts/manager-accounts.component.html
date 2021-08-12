@@ -331,6 +331,7 @@
                 <th>Phone</th>
                 <th>Gender</th>
                 <th>Address</th>
+                <th>Is Delete</th>
                 <th></th>
               </tr>
             </thead>
@@ -342,10 +343,12 @@
                 <td *ngIf="e">{{e.phone}}</td>
                 <td *ngIf="e">{{e.gender}}</td>
                 <td *ngIf="e">{{e.address}}</td>
+
                 <td>
                   <button *ngIf="e" (click)="editUser(e)" class="btn btn-primary px-5">Edit</button>
                   <button *ngIf="e" (click)="deleteUser(e.username)" class="btn btn-danger px-5">Delete</button>
                 </td>
+
               </tr>
 
                 <!-- <th scope="row">1</th>

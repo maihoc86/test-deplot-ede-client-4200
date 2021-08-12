@@ -97,7 +97,8 @@ public class CustomerImpl implements CustomerService {
 	@Override
 	public User deleteByUsername(String username) {
 		User u = dao.findByUsername(username);
-		dao.deleteByUsername(username);
+		u.setIs_delete(true);
+		dao.save(u);
 		return u;
 	}
 
