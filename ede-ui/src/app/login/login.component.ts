@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   FormGroup,
   FormControl,
@@ -17,7 +19,7 @@ export class LoginComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl('')
   })
-  constructor(private loginService:LoginServiceService,private cookieService:CookieService) { }
+  constructor(private loginService:LoginServiceService,private cookieService:CookieService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -31,4 +33,29 @@ export class LoginComponent implements OnInit {
         console.log(error)
       })
   } 
+
+  public doLogin2(){
+    this.loginService.doLogin(this.form.controls['username'].value,this.form.controls['password'].value)
+    .subscribe(data=>{
+      console.log(data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Thông báo',
+          text: 'Đăng nhập thành công!',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.cookieService.set('auth',data.token);
+
+          this.router.navigate(['']);
+        })
+    },
+    (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: "Sai thông tin đăng nhập",
+      });
+    })
+
+  }
 }
