@@ -44,6 +44,9 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "";
+		return String.format("%s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s ",
+				this.id, this.username, this.password, this.first_name, this.last_name,
+				this.email, this.photo, this.address, this.phone, this.is_delete,
+				this.is_active, this.otp);
 	}
 }

@@ -1,9 +1,6 @@
 package com.ede.edecustomerservice.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.User;
 
 public interface CustomerService {
@@ -25,6 +22,10 @@ public interface CustomerService {
 	List<User> findAll();
 
 	User deleteByUsername(String username);
+
+	boolean existsById(String id);
+
+	boolean existsUsername(String username);
 
 	
 
