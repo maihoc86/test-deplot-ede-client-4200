@@ -28,7 +28,7 @@ export class ManagerAccountsComponent implements OnInit {
   public manageAccount = new FormGroup({
     username: new FormControl('', [
       Validators.required,
-      Validators.pattern('^[a-z0-9_-]{6,50}$'),
+      Validators.pattern('^[a-zA-Z0-9_-]{6,50}$'),
     ]),
     password: new FormControl('', [
       Validators.required,
@@ -173,9 +173,9 @@ export class ManagerAccountsComponent implements OnInit {
     );
   }
   genders = [
-    new Genders('N', 'M'),
-    new Genders('NU', 'W'),
-    new Genders('K', 'D'),
+    new Genders('M', 'M'),
+    new Genders('W', 'W'),
+    new Genders('D', 'D'),
   ];
 
 
@@ -204,7 +204,7 @@ public loadUser() {
 public term:string ="";
 
 public deleteUser(username:string){
- 
+
   this.manageAccountService.deleteUser(username).subscribe(data=>{
     Swal.fire({
       icon:'success',
@@ -215,7 +215,7 @@ public deleteUser(username:string){
       this.items.forEach((any:any,index:number) => {
        console.log(index)
        delete this.items[index]
-      }); 
+      });
     })
 
   } ,(err) => {
@@ -227,6 +227,62 @@ public deleteUser(username:string){
     });
   })
 }
+
+
+  /**
+   * Đưa user lên form
+   * @author vinh
+   */
+  public editUser(user: any) {
+    const newUser: any = {};
+    for (const controlName in this.manageAccount.controls) {
+      if (controlName) {
+        this.manageAccount.controls[controlName].setValue(user[controlName])
+      }
+      if (user['address']) {
+        this.manageAccount.controls['address'].setValue(user['address'])
+        // let arrAddress = user['address'].split(', ')
+        // this.manageAccount.controls['city'].setValue(arrAddress.pop())
+        // this.manageAccount.controls['district'].setValue(arrAddress.pop())
+        // this.manageAccount.controls['wards'].setValue(arrAddress.pop())
+        // this.manageAccount.controls['address'].setValue(arrAddress.join(', '))
+      }
+    }
+    return newUser as User;
+  }
+
+  /**
+   * Cập nhật user
+   * @author vinh
+   */
+  public updateUser(){
+    const oldAddress = this.manageAccount.controls['address'].value
+      const newAddress = (this.manageAccount.controls['address'].value + ", " + this.manageAccount.controls['wards'].value.name + ', ' + this.manageAccount.controls['district'].value.name + ', ' + this.manageAccount.controls['city'].value.name)
+      this.manageAccount.controls['address'].setValue(newAddress)
+      this.manageAccountService.updateUser(this.createNewData()).subscribe(
+        () => {
+          this.loadUser()
+          Swal.fire({
+            icon: 'success',
+            title: 'Cập nhật thành công!',
+            text: 'Dữ liệu của bạn đã thay đổi',
+            confirmButtonText: `OK`,
+          }).then((result) => {
+            this.manageAccount.reset()
+          })
+        },
+        err => {
+          this.manageAccount.controls['address'].setValue(oldAddress);
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: err,
+          })
+        }
+      )
+  }
+
 }
 
 

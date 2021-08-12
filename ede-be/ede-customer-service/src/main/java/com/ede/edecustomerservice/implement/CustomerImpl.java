@@ -1,14 +1,12 @@
 package com.ede.edecustomerservice.implement;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ede.edecustomerservice.dao.UserDao;
-import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
@@ -101,6 +99,16 @@ public class CustomerImpl implements CustomerService {
 		User u = dao.findByUsername(username);
 		dao.deleteByUsername(username);
 		return u;
+	}
+
+	@Override
+	public boolean existsById(String id) {
+		return this.dao.existsById(id);
+	}
+
+	@Override
+	public boolean existsUsername(String username) {
+		return null != this.dao.findByUsername(username);
 	}
 	
 }

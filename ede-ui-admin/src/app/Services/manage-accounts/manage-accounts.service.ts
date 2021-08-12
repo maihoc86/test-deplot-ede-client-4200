@@ -36,4 +36,8 @@ export class ManageAccountsService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/delete/users/'+username, this.httpOptions);
   }
 
+  public updateUser(user: User) {
+    return this.httpClient.post<any>(`${this.REST_API_SERVER}/admin/update-customer`, user, this.httpOptions);
+  }
+
 }
