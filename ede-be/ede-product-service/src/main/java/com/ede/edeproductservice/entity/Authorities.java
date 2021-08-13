@@ -16,11 +16,13 @@ import lombok.Data;
 @Entity
 @Table(name = "Authorities", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_user", "id_role" }) })
 public class Authorities {
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne @JoinColumn(name = "id_user")
+	@ManyToOne
+	@JoinColumn(name = "id_user")
 	private User user;
-	@ManyToOne  @JoinColumn(name = "id_role")
+	@ManyToOne
+	@JoinColumn(name = "id_role")
 	private Roles role;
 }

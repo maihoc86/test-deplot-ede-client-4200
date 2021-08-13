@@ -13,6 +13,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +35,9 @@ public class Shop implements Serializable {
 	String address;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "shop")
+	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product> product;
+	
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
