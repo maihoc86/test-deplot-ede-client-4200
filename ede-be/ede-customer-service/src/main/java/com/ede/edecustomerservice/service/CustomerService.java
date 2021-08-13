@@ -10,13 +10,17 @@ public interface CustomerService {
 	boolean resetPasswordToken(User user);
 
 	boolean resetPasswordOtp(User user);
-	
+
 	User findByEmailLike(String email);
-	
+
 	List<User> getAll();
+
 	User updateUserById(User userUpdate);
+
 	User findByUsername(String username);
+
 	User findByEmail(String username);
+
 	User findByPhone(String phone);
 
 	List<User> findAll();
@@ -27,12 +31,6 @@ public interface CustomerService {
 
 	boolean existsUsername(String username);
 
-	
+	User findById(String id);
 
-
-
-
-	
-
-	
 }

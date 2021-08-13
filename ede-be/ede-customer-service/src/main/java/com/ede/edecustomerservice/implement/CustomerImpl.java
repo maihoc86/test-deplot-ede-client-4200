@@ -14,10 +14,10 @@ import com.ede.edecustomerservice.service.JsonWebTokenService;
 @Service
 @Transactional
 public class CustomerImpl implements CustomerService {
-	
+
 	@Autowired
 	JsonWebTokenService jwtToken;
-	
+
 	@Autowired
 	UserDao dao;
 
@@ -33,7 +33,7 @@ public class CustomerImpl implements CustomerService {
 
 	@Override
 	public boolean resetPasswordToken(User user) {
-		if(!this.jwtToken.checkToken(user.getOtp())) {
+		if (!this.jwtToken.checkToken(user.getOtp())) {
 			return false;
 		}
 		String otp = this.jwtToken.getValue(user.getOtp());
@@ -73,6 +73,7 @@ public class CustomerImpl implements CustomerService {
 		}
 		return this.dao.save(userUpdate);
 	}
+
 	public User findByUsername(String username) {
 		return dao.findByUsername(username);
 	}
@@ -86,7 +87,6 @@ public class CustomerImpl implements CustomerService {
 	public User findByPhone(String phone) {
 		return dao.findByPhone(phone);
 	}
-
 
 	@Override
 	public List<User> findAll() {
@@ -111,5 +111,10 @@ public class CustomerImpl implements CustomerService {
 	public boolean existsUsername(String username) {
 		return null != this.dao.findByUsername(username);
 	}
-	
+
+	@Override
+	public User findById(String id) {
+		return dao.findById(id).get();
+	}
+
 }
