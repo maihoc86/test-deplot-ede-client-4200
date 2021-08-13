@@ -28,4 +28,9 @@ public class Product_child_category_impl implements Product_child_category_servi
 		return dao.findAll();
 	}
 
+	@Override
+	public Iterable<Product_child_category> saveAll(List<Product_child_category> listTemp) {
+		return dao.saveAll(listTemp);
+	}
+
 }

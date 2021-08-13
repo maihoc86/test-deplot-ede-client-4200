@@ -10,7 +10,7 @@ public interface Product_child_parent_category_service {
 
 	List<Product_parent_child_category> findAll();
 
-	List<Product_parent_child_category> saveAll(List<Product_parent_child_category> child_parent_category);
+	Iterable<Product_parent_child_category> saveAll(List<Product_parent_child_category> child_parent_category);
 
 
 

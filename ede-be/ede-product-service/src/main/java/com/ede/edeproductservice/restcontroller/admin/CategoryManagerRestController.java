@@ -1,7 +1,9 @@
 package com.ede.edeproductservice.restcontroller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,34 +54,36 @@ public class CategoryManagerRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/child_parent_category")
 	public ResponseEntity create_parent_child(@RequestBody List<Product_parent_child_category> child_parent_category) {
+		List<Product_parent_child_category> listTemp = new ArrayList<Product_parent_child_category>();
 		for (Product_parent_child_category item : child_parent_category) {
 			UUID uuid = UUID.randomUUID();
 			item.setId(uuid.toString());
-			product_child_parent_category_service.save(item);
+			listTemp.add(item);
 		}
-		return null; // save đc list nhưng chưa nghĩ ra return để làm sau
+		return ResponseEntity.status(HttpStatus.OK).body(product_child_parent_category_service.saveAll(listTemp));
 	}
 
 	@GetMapping("/view/child_parent_category")
 	public List<Product_parent_child_category> view_child_parent() {
-
 		return product_child_parent_category_service.findAll();
 	}
+
 	/*************************************************/
-	
+
 	/* Xem và thêm child_category */
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/child_category")
 	public ResponseEntity create_child(@RequestBody List<Product_child_category> child_categories) {
+		List<Product_child_category> listTemp = new ArrayList<Product_child_category>();
 		for (Product_child_category item : child_categories) {
 			UUID uuid = UUID.randomUUID();
 			item.setId(uuid.toString());
-			product_child_category_service.save(item);
+			listTemp.add(item);
 		}
-		return null; // save đc list nhưng chưa nghĩ ra return để làm sau
+		return ResponseEntity.status(HttpStatus.OK).body(product_child_category_service.saveAll(listTemp));
 	}
 
-	@GetMapping("/view/child_parent_category")
+	@GetMapping("/view/child_category")
 	public List<Product_child_category> view_child() {
 
 		return product_child_category_service.findAll();

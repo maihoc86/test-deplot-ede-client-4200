@@ -28,7 +28,7 @@ public class Product_parent_child_category_impl implements Product_child_parent_
 	}
 
 	@Override
-	public List<Product_parent_child_category> saveAll(List<Product_parent_child_category> child_parent_category) {
+	public Iterable<Product_parent_child_category> saveAll(List<Product_parent_child_category> child_parent_category) {
 		return dao.saveAll(child_parent_category);
 	}
 
