@@ -3,21 +3,16 @@ package com.ede.edeproductservice.restcontroller.admin;
 import java.util.List;
 import java.util.UUID;
 
-import javax.transaction.Transaction;
-import javax.transaction.Transactional;
-
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 import com.ede.edeproductservice.service.Product_child_category_service;
@@ -69,6 +64,25 @@ public class CategoryManagerRestController {
 	public List<Product_parent_child_category> view_child_parent() {
 
 		return product_child_parent_category_service.findAll();
+	}
+	/*************************************************/
+	
+	/* Xem và thêm child_category */
+	@SuppressWarnings("rawtypes")
+	@PostMapping("/create/child_category")
+	public ResponseEntity create_child(@RequestBody List<Product_child_category> child_categories) {
+		for (Product_child_category item : child_categories) {
+			UUID uuid = UUID.randomUUID();
+			item.setId(uuid.toString());
+			product_child_category_service.save(item);
+		}
+		return null; // save đc list nhưng chưa nghĩ ra return để làm sau
+	}
+
+	@GetMapping("/view/child_parent_category")
+	public List<Product_child_category> view_child() {
+
+		return product_child_category_service.findAll();
 	}
 	/*************************************************/
 
