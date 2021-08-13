@@ -43,7 +43,6 @@ public class ShopRestController {
 					"Bạn không được sửa thông tin cửa hàng khác", "username", null);
 		}
 	}
-
 	// Lấy thông tin của Shop
 	@GetMapping("/shop/info/{id}")
 	public Shop getInfoShop(@PathVariable String id) {
