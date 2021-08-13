@@ -23,6 +23,7 @@ public class Product {
 	String description;
 	Boolean enable;
 	Boolean deleted;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_shop")
 	Shop shop;
