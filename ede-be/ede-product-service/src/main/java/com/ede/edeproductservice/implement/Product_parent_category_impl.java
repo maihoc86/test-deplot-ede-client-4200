@@ -1,6 +1,7 @@
 package com.ede.edeproductservice.implement;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class Product_parent_category_impl implements Product_parent_category_ser
 	@Override
 	public List<Product_parent_category> findAll() {
 		return dao.findAll();
+	}
+
+	@Override
+	public Optional<Product_parent_category> findById(String id) {
+		return dao.findById(id);
 	}
 
 }
