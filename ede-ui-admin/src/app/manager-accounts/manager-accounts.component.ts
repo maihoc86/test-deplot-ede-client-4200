@@ -179,8 +179,13 @@ export class ManagerAccountsComponent implements OnInit {
   ];
 
 
+/**
+   * Load user + search + pagination
+   * @author Thanh
+   */
 
-
+public term:string ="";
+public p: number = 1;
 public items: any = [];
 public loadUser() {
   this.manageAccountService.loadUser().subscribe((data) => {
@@ -201,7 +206,7 @@ public loadUser() {
   });
 }
 
-public term:string ="";
+
 
 public deleteUser(username:string){
 

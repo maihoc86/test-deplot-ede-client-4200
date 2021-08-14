@@ -336,7 +336,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let e of items  |filter:term" >
+              <tr *ngFor="let e of items  |filter:term | paginate: { itemsPerPage: 3, currentPage: p }" >
                 <th *ngIf="e">{{e.username}}</th>
                 <td *ngIf="e">{{e.password}}</td>
                 <td *ngIf="e">{{e.email}}</td>
@@ -350,17 +350,8 @@
                 </td>
 
               </tr>
-
-                <!-- <th scope="row">1</th>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td> -->
-
-
-
           </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </div>
       </div>
     </div>
