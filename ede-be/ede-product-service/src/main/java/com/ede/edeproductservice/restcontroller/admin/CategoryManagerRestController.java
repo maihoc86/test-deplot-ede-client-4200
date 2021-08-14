@@ -2,6 +2,7 @@ package com.ede.edeproductservice.restcontroller.admin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -39,7 +40,14 @@ public class CategoryManagerRestController {
 	@PostMapping("/create/parent_category")
 	public ResponseEntity create_parent_category(@RequestBody Product_parent_category parent_category) {
 		UUID uuid = UUID.randomUUID();
-		parent_category.setId(uuid.toString());
+		System.out.println(uuid.toString());
+		Optional<Product_parent_category> findCategory = product_parent_categoryService.findById(uuid.toString());
+		if (findCategory.isPresent() && findCategory != null) {
+			UUID uuid2 = UUID.randomUUID();
+			parent_category.setId(uuid2.toString());
+		} else {
+			parent_category.setId(uuid.toString());
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(product_parent_categoryService.save(parent_category));
 	}
 
@@ -57,7 +65,14 @@ public class CategoryManagerRestController {
 		List<Product_parent_child_category> listTemp = new ArrayList<Product_parent_child_category>();
 		for (Product_parent_child_category item : child_parent_category) {
 			UUID uuid = UUID.randomUUID();
-			item.setId(uuid.toString());
+			Optional<Product_parent_child_category> findCategory = product_child_parent_category_service
+					.findById(uuid.toString());
+			if (findCategory.isPresent() && findCategory != null) {
+				UUID uuid2 = UUID.randomUUID();
+				item.setId(uuid2.toString());
+			} else {
+				item.setId(uuid.toString());
+			}
 			listTemp.add(item);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(product_child_parent_category_service.saveAll(listTemp));
@@ -77,7 +92,13 @@ public class CategoryManagerRestController {
 		List<Product_child_category> listTemp = new ArrayList<Product_child_category>();
 		for (Product_child_category item : child_categories) {
 			UUID uuid = UUID.randomUUID();
-			item.setId(uuid.toString());
+			Optional<Product_child_category> findCategory = product_child_category_service.findById(uuid.toString());
+			if (findCategory.isPresent() && findCategory != null) {
+				UUID uuid2 = UUID.randomUUID();
+				item.setId(uuid2.toString());
+			} else {
+				item.setId(uuid.toString());
+			}
 			listTemp.add(item);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(product_child_category_service.saveAll(listTemp));
@@ -85,7 +106,6 @@ public class CategoryManagerRestController {
 
 	@GetMapping("/view/child_category")
 	public List<Product_child_category> view_child() {
-
 		return product_child_category_service.findAll();
 	}
 	/*************************************************/

@@ -1,6 +1,7 @@
 package com.ede.edeproductservice.implement;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -31,6 +32,11 @@ public class Product_child_category_impl implements Product_child_category_servi
 	@Override
 	public Iterable<Product_child_category> saveAll(List<Product_child_category> listTemp) {
 		return dao.saveAll(listTemp);
+	}
+
+	@Override
+	public Optional<Product_child_category> findById(String string) {
+		return dao.findById(string);
 	}
 
 }
