@@ -32,5 +32,13 @@ public interface CustomerService {
 	boolean existsUsername(String username);
 
 	User findById(String id);
+	List<User> findByUsernameContaining(String username);
+
+	
+
+
+
+
+	
 
 }

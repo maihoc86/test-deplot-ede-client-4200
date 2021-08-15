@@ -251,18 +251,7 @@ public class CustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-	/**
-	 * Load data on the table
-	 * 
-	 * @author thanh
-	 * @see
-	 * @see #search(user-admin)
-	 */
-
-	@GetMapping("/ede-customer/users")
-	public List<User> getAccounts() {
-		return service.findAll();
-	}
+	
 
 	@PostMapping("/ede-customer/delete/users/{username}")
 	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
@@ -274,4 +263,38 @@ public class CustomerRestController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	
+	
+	/**
+	 * Load data on the table
+	 * 
+	 * @author thanh
+	 * @see
+	 */
+
+	@GetMapping("/ede-customer/admin/users")
+	public List<User> getAccounts() {
+		return service.findAll();
+	}
+	
+	/**
+	 * Create search account admin
+	 * @author Thanh
+	 */
+	
+	@GetMapping("/ede-customer/admin/search/{username}")
+	public List<User> search(@PathVariable("username") String username){
+		System.out.println("username: "+username);
+		if(username == "") {
+			System.out.println("ahihi lala ");
+			return this.getAccounts();
+			
+		}
+		else {
+			return service.findByUsernameContaining(username);
+		}
+		
+	}
+	
 }

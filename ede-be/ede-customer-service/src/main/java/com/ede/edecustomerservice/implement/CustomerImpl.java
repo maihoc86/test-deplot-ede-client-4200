@@ -117,4 +117,9 @@ public class CustomerImpl implements CustomerService {
 		return dao.findById(id).get();
 	}
 
+	public List<User> findByUsernameContaining(String username) {
+		// TODO Auto-generated method stub
+		return dao.findByUsernameContaining(username);
+	}
+	
 }

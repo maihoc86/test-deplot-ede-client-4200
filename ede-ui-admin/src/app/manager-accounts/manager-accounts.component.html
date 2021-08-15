@@ -309,9 +309,10 @@
         <input type="text"
           class="form-control" placeholder="Search..." name="searchBar"
           id="searchBar"
-          [(ngModel)]="term"
+          (keypress)="Search(myInput.value)"#myInput
           > <span
           class="mdi mdi-magnify"></span>
+
       </div>
     </form>
   </div>
@@ -326,41 +327,34 @@
             <thead>
               <tr>
                 <th>Username</th>
-                <th>Password</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Gender</th>
                 <th>Address</th>
                 <th>Is Delete</th>
-                <th></th>
+                <th>Acction</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let e of items  |filter:term" >
+              <tr *ngFor="let e of items | paginate: { itemsPerPage: 3, currentPage: p }" >
                 <th *ngIf="e">{{e.username}}</th>
-                <td *ngIf="e">{{e.password}}</td>
                 <td *ngIf="e">{{e.email}}</td>
                 <td *ngIf="e">{{e.phone}}</td>
-                <td *ngIf="e">{{e.gender}}</td>
+                <td *ngIf="e">{{e.gender=='M'?'Nam':(e.gender=='W'?'Nữ':'Khác')}}</td>
                 <td *ngIf="e">{{e.address}}</td>
+                <td *ngIf="e">{{e.is_delete?'Đã xoá':'Hoạt động'}}</td>
 
                 <td>
-                  <button *ngIf="e" (click)="editUser(e)" class="btn btn-primary px-5">Edit</button>
-                  <button *ngIf="e" (click)="deleteUser(e.username)" class="btn btn-danger px-5">Delete</button>
-                </td>
+               <i *ngIf="e" (click)="editUser(e)" class="bx bx-edit-alt btn-success btn" style="margin-right: 10px;" ></i>
+               <i *ngIf="e" (click)="deleteUser(e.username)" class="bx bx-delete-alt btn-danger btn" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+              </svg></i>
+
+               </td>
 
               </tr>
-
-                <!-- <th scope="row">1</th>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td> -->
-
-
-
           </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </div>
       </div>
     </div>
