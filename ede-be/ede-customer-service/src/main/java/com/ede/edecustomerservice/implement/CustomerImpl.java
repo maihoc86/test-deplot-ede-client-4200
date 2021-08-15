@@ -111,5 +111,11 @@ public class CustomerImpl implements CustomerService {
 	public boolean existsUsername(String username) {
 		return null != this.dao.findByUsername(username);
 	}
+
+	@Override
+	public List<User> findByUsernameContaining(String username) {
+		// TODO Auto-generated method stub
+		return dao.findByUsernameContaining(username);
+	}
 	
 }

@@ -29,8 +29,19 @@ export class ManageAccountsService {
 
 
   public loadUser() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/users', this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/admin/users', this.httpOptions);
   }
+
+  public SearchUser(username:string){
+    if(username==""){
+      console.log("null ròi");
+      return this.httpClient.get<any>(this.REST_API_SERVER + '/admin/users', this.httpOptions);
+    }
+      return this.httpClient.get<any>(this.REST_API_SERVER + '/admin/search/'+username, this.httpOptions);
+
+
+  }
+
 
   public deleteUser(username:string) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/delete/users/'+username, this.httpOptions);
