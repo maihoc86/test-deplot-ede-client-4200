@@ -180,11 +180,11 @@ export class ManagerAccountsComponent implements OnInit {
 
 
 /**
-   * Load user + search + pagination
+   * Load user + pagination
    * @author Thanh
    */
 
-public term:string ="";
+
 public p: number = 1;
 public items: any = [];
 public loadUser() {
@@ -207,6 +207,40 @@ public loadUser() {
 }
 
 
+/**
+   * Search
+   * @author Thanh
+   */
+
+
+
+public Search(temp:string){
+  // console.log("hihi");
+  this.manageAccountService.SearchUser(temp).subscribe((data) =>{
+    const ite = data.map(function (obj: {
+      id: any; username: any;
+      password: any; first_name: any;
+      last_name: any; email: any;
+      photo: any; gender: any;
+      address: any; phone: any;
+      is_delete: any; is_active: any;
+      role: any
+
+
+    }) {
+      return obj;
+    });
+    this.items = ite;
+  });
+
+}
+
+
+/**
+   * deleteUser
+   * @author Việt
+   */
+
 
 public deleteUser(username:string){
 
@@ -216,11 +250,7 @@ public deleteUser(username:string){
       title:'Xóa tài khoản',
       text: 'Xóa thành công'
     }).then(respone=>{
-      const item = respone;
-      this.items.forEach((any:any,index:number) => {
-       console.log(index)
-       delete this.items[index]
-      });
+      this.loadUser();
     })
 
   } ,(err) => {

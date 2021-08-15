@@ -27,6 +27,8 @@ public interface CustomerService {
 
 	boolean existsUsername(String username);
 
+	List<User> findByUsernameContaining(String username);
+
 	
 
 
