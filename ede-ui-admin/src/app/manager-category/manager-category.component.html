@@ -45,8 +45,6 @@
             </div>
             <hr />
 
-
-
             <br><br><br>
 
             <div class="card-body">
@@ -79,6 +77,10 @@
                   </a>
                 </li>
               </ul>
+
+
+              <!----------------------------------------------------------------Category Parent nè ------------------------------------------------------------------------------->
+
               <div class="tab-content pt-3">
                 <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
                   <br><br>
@@ -89,15 +91,10 @@
                           <div class="card" style="height: 300px; border-radius: 3px; border: 2px dashed #A2B4CA;">
                             <div class="card-body" style="height: 70%;width: auto;">
                               <label for="fancy-file-upload" style="height: 100%;width: 100%; text-align: center; ">
-
                                 <img style="height: 100%;width: 100%; " src="assets/images/fancy_upload.png">
                                 <input style="display: none;" id="fancy-file-upload" type="file" name="files"
                                   accept=".jpg, .png, image/jpeg, image/png" multiple>
                               </label>
-                              <!-- <label for="inputProductDescription" class="form-label">Product Images</label>
-                              <input id="image-uploadify" type="file"
-                                accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple> -->
-
                             </div>
                           </div>
                         </div>
@@ -149,8 +146,6 @@
                       </div>
 
                     </div>
-
-
                     <div class="col">
                       <button type="submit" class="btn btn-success px-5">
                         Create
@@ -176,25 +171,19 @@
                             class="bx bx-search"></i></span>
                       </div>
                     </div>
-
-
                   </div>
                   <hr />
                   <div class="card">
                     <div class="card-body">
                       <div class="d-lg-flex align-items-center mb-4 gap-3">
                         <div class="position-relative">
-
                         </div>
-                        <!-- <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                              class="bx bxs-plus-square"></i>Add New Order</a></div> -->
                       </div>
                       <div class="table-responsive">
                         <table class="table mb-0">
                           <thead class="table-light">
                             <tr>
-                              <th>Id#</th>
-                              <th>Name</th>
+                              <th>#Name</th>
                               <th>Image</th>
                               <th>Is enable</th>
                               <th>Is Delete</th>
@@ -203,23 +192,15 @@
                           </thead>
                           <tbody>
                             <tr *ngFor="let e of items">
-                              <td>
-                                <div class="d-flex align-items-center">
-
-                                  <div class="ms-2">
-                                   <h6 *ngIf="e">{{e.id}}</h6>
-                                  </div>
-                                </div>
-                              </td>
                               <td *ngIf="e">{{e.name}}</td>
                               <td *ngIf="e">{{e.image_url}}</td>
-                              <td >
-                          <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                              <td>
+                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
                               </td>
 
 
-                              <td >
+                              <td>
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
@@ -237,6 +218,13 @@
                     </div>
                   </div>
                 </div>
+
+                <!---------------------------------------------------------------- Kết thúc Category Parent ------------------------------------------------------------------------------->
+
+
+
+                <!----------------------------------------------------------------Category Parent Child nè ------------------------------------------------------------------------------->
+
                 <div class="tab-pane fade" id="primaryprofile" role="tabpanel">
                   <br><br>
                   <form class="row g-3">
@@ -251,17 +239,12 @@
                                 <input style="display: none;" id="fancy-file-upload" type="file" name="files"
                                   accept=".jpg, .png, image/jpeg, image/png" multiple>
                               </label>
-                              <!-- <label for="inputProductDescription" class="form-label">Product Images</label>
-                              <input id="image-uploadify" type="file"
-                                accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple> -->
-
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
-
                       <div class="col-md-12">
                         <label for="inputUsername" class="form-label">Name</label>
                         <div class="input-group">
@@ -276,10 +259,8 @@
                           <label class="form-label">Category Parent</label>
                           <select class="form-select" formControlName="city">
                             <option [ngValue]="null" disabled>
-
                             </option>
                             <option>
-
                             </option>
                           </select>
                         </div>
@@ -317,10 +298,7 @@
                           </div>
                         </div>
                       </div>
-
                     </div>
-
-
                     <div class="col">
                       <button type="submit" class="btn btn-success px-5">
                         Create
@@ -346,26 +324,20 @@
                             class="bx bx-search"></i></span>
                       </div>
                     </div>
-
-
                   </div>
                   <hr />
                   <div class="card">
                     <div class="card-body">
                       <div class="d-lg-flex align-items-center mb-4 gap-3">
                         <div class="position-relative">
-
                         </div>
-                        <!-- <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                              class="bx bxs-plus-square"></i>Add New Order</a></div> -->
                       </div>
                       <div class="table-responsive">
                         <table class="table mb-0">
                           <thead class="table-light">
                             <tr>
-                              <th>Id#</th>
-                              <th>Name</th>
-                              <th>Category Parent Child</th>
+                              <th>#Name</th>
+                              <th>Name Parent</th>
                               <th>Image</th>
                               <th>Is enable</th>
                               <th>Is Delete</th>
@@ -373,25 +345,18 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr >
-                              <td>
-                                <div class="d-flex align-items-center">
+                            <tr *ngFor="let e of itemP">
 
-                                  <div class="ms-2">
-                                    <h6 class="mb-0 font-14"></h6>
-                                  </div>
-                                </div>
-                              </td>
-                              <td ></td>
-                              <td ></td>
-                              <td>Gaspur Antunes</td>
-                              <td>
+                              <td *ngIf="e">{{e.name}}</td>
+                              <td *ngIf="e">{{e.parent_category.name}}</td>
+                              <td *ngIf="e">{{e.image_url}}</td>
+                              <td *ngIf="e">
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>FulFilled</div>
+                                    class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
                               </td>
-                              <td>
+                              <td *ngIf="e">
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>FulFilled</div>
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
@@ -407,6 +372,14 @@
                     </div>
                   </div>
                 </div>
+
+
+                <!----------------------------------------------------------------Kết thúc Category Parent Child  ------------------------------------------------------------------------------->
+
+
+
+                <!---------------------------------------------------------------- Category Child nè------------------------------------------------------------------------------->
+
                 <div class="tab-pane fade" id="primarycontact" role="tabpanel">
                   <br><br>
                   <form class="row g-3">
@@ -421,17 +394,12 @@
                                 <input style="display: none;" id="fancy-file-upload" type="file" name="files"
                                   accept=".jpg, .png, image/jpeg, image/png" multiple>
                               </label>
-                              <!-- <label for="inputProductDescription" class="form-label">Product Images</label>
-                              <input id="image-uploadify" type="file"
-                                accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple> -->
-
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
-
                       <div class="col-md-12">
                         <label for="inputUsername" class="form-label">Name</label>
                         <div class="input-group">
@@ -443,14 +411,12 @@
                       <br>
                       <div class="col-12">
                         <div>
-                          <label class="form-label">Category Parent Child</label>
+                          <label class="form-label">ID Child</label>
                           <select class="form-select" formControlName="city">
                             <option [ngValue]="null" disabled>
-
                             </option>
                             <option>
-
-                            </option>
+                          </option>
                           </select>
                         </div>
                       </div>
@@ -487,10 +453,7 @@
                           </div>
                         </div>
                       </div>
-
                     </div>
-
-
                     <div class="col">
                       <button type="submit" class="btn btn-success px-5">
                         Create
@@ -516,26 +479,20 @@
                             class="bx bx-search"></i></span>
                       </div>
                     </div>
-
-
                   </div>
                   <hr />
-
                   <div class="card">
                     <div class="card-body">
                       <div class="d-lg-flex align-items-center mb-4 gap-3">
                         <div class="position-relative">
                         </div>
-                        <!-- <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                              class="bx bxs-plus-square"></i>Add New Order</a></div> -->
                       </div>
                       <div class="table-responsive">
                         <table class="table mb-0">
                           <thead class="table-light">
                             <tr>
-                              <th>Id#</th>
-                              <th>Name</th>
-                              <th>Category Parent Child</th>
+                              <th>#Name</th>
+                              <th>Name Parent Child</th>
                               <th>Image</th>
                               <th>Is enable</th>
                               <th>Is Delete</th>
@@ -543,27 +500,17 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>
-                                <div class="d-flex align-items-center">
-                                  <div>
-                                    <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
-                                  </div>
-                                  <div class="ms-2">
-                                    <h6 class="mb-0 font-14">#OS-000354</h6>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>Gaspur Antunes</td>
-                              <td>Gaspur Antunes</td>
-                              <td>Gaspur Antunes</td>
-                              <td>
+                            <tr *ngFor="let e of itemC ">
+                              <td *ngIf="e">{{e.name}}</td>
+                              <td *ngIf="e">{{e.child_parentCategory.name}}</td>
+                              <td *ngIf="e">{{e.image_url}}</td>
+                              <td *ngIf="e">
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>FulFilled</div>
+                                    class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
                               </td>
-                              <td>
+                              <td *ngIf="e">
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>FulFilled</div>
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
@@ -572,13 +519,14 @@
                                 </div>
                               </td>
                             </tr>
-
                           </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
                 </div>
+  <!---------------------------------------------------------------- Kết thúc Category Child ------------------------------------------------------------------------------->
+
               </div>
             </div>
           </div>

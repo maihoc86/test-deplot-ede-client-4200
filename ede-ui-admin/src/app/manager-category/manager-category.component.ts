@@ -9,9 +9,9 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { Parent_Category } from '../models/Parent_category.module';
-import { Parent_Child_Category } from '../models/Parent_Child_category.module';
-import { Child_Category } from '../models/Child_category.module';
+import { Parent_Category } from '../models/Parent_category.model';
+import { Parent_Child_Category } from '../models/Parent_Child_category.model';
+import { Child_Category } from '../models/Child_category.model';
 import { ManageCategotyService } from '../Services/manage-category/manage-categoty.service';
 @Component({
   selector: 'app-manager-category',
@@ -27,6 +27,9 @@ export class ManagerCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadParentCategory();
+    this.loadParent_Child_Category();
+    this.load_Child_Category();
+
   }
 
 
@@ -61,6 +64,24 @@ export class ManagerCategoryComponent implements OnInit {
         return obj;
       });
       this.itemP = item;
+    })
+  }
+
+
+  public itemC:any=[];
+  public load_Child_Category(){
+    this.manageCategoryService.load_Child_Category().subscribe((data) =>{
+      const item = data.map(function(obj: {
+        id: any;
+        name: any;
+        id_parent_Child: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.itemC = item;
     })
   }
 

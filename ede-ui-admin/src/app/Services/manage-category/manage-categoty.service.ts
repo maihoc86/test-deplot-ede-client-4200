@@ -5,9 +5,9 @@ import{
   HttpErrorResponse,
 }
 from '@angular/common/http';
-import { Parent_Category } from 'src/app/models/Parent_category.module';
-import { Parent_Child_Category } from 'src/app/models/Parent_Child_category.module';
-import { Child_Category } from 'src/app/models/Child_category.module';
+import { Parent_Category } from 'src/app/models/Parent_category.model';
+import { Parent_Child_Category } from 'src/app/models/Parent_Child_category.model';
+import { Child_Category } from 'src/app/models/Child_category.model';
 
 @Injectable({
   providedIn: 'root'
