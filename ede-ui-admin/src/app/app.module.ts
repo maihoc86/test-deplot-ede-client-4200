@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ManagerAccountsComponent } from './manager-accounts/manager-accounts.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ManagerCategoryComponent } from './manager-category/manager-category.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     IndexComponent,
     SidebarComponent,
     ManagerAccountsComponent,
+    ManagerCategoryComponent,
   ],
   imports: [
     BrowserModule,
