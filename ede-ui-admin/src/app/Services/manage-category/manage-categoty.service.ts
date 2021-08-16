@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{
+import {
   HttpHeaders,
   HttpClient,
   HttpErrorResponse,
@@ -13,25 +13,36 @@ import { Child_Category } from 'src/app/models/Child_category.model';
   providedIn: 'root'
 })
 export class ManageCategotyService {
-  private httpOptions ={
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
   };
 
 
-  private REST_API_SERVER ='http://localhost:8080/ede-product';
+  private REST_API_SERVER = 'http://localhost:8080/ede-product';
 
-  constructor(private httClient: HttpClient) { }
-  public loadParentCategory(){
-    return this.httClient.get<any>(this.REST_API_SERVER+'/view/parent_category', this.httpOptions);
+  constructor(private httpClient: HttpClient) { }
+  public loadParentCategory() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/parent_category', this.httpOptions);
   }
 
-  public loadParent_Child_Category(){
-    return this.httClient.get<any>(this.REST_API_SERVER+'/view/child_parent_category', this.httpOptions);
+  public loadParent_Child_Category() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/child_parent_category', this.httpOptions);
   }
 
-  public load_Child_Category(){
-    return this.httClient.get<any>(this.REST_API_SERVER+'/view/child_category', this.httpOptions);
+  public load_Child_Category() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/child_category', this.httpOptions);
   }
+
+  public addNewParentCategory(data: Parent_Category) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/parent_category', data, this.httpOptions);
+  }
+
+  public addNewParent_child_Category(data: Parent_Category) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/child_parent_category', data, this.httpOptions);
+  }
+
+  
+
 }

@@ -19,12 +19,7 @@ import { ManageAccountsService } from '../Services/manage-accounts/manage-accoun
 })
 export class ManagerAccountsComponent implements OnInit {
 
-
-
   // filterTerm: string;
-
-
-
   public manageAccount = new FormGroup({
     username: new FormControl('', [
       Validators.required,

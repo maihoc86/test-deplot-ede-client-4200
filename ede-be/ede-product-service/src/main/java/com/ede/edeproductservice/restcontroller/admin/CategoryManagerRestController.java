@@ -61,21 +61,21 @@ public class CategoryManagerRestController {
 	/* Xem và thêm child_parent_category */
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/child_parent_category")
-	public ResponseEntity create_parent_child(@RequestBody List<Product_parent_child_category> child_parent_category) {
-		List<Product_parent_child_category> listTemp = new ArrayList<Product_parent_child_category>();
-		for (Product_parent_child_category item : child_parent_category) {
-			UUID uuid = UUID.randomUUID();
-			Optional<Product_parent_child_category> findCategory = product_child_parent_category_service
-					.findById(uuid.toString());
-			if (findCategory.isPresent() && findCategory != null) {
-				UUID uuid2 = UUID.randomUUID();
-				item.setId(uuid2.toString());
-			} else {
-				item.setId(uuid.toString());
-			}
-			listTemp.add(item);
+	public ResponseEntity create_parent_child(@RequestBody Product_parent_child_category child_parent_category) {
+		System.out.println(child_parent_category.getParent_category());
+		System.out.println(child_parent_category);
+		UUID uuid = UUID.randomUUID();
+		Optional<Product_parent_child_category> findCategory = product_child_parent_category_service
+				.findById(uuid.toString());
+		if (findCategory.isPresent() && findCategory != null) {
+			UUID uuid2 = UUID.randomUUID();
+			child_parent_category.setId(uuid2.toString());
+		} else {
+			child_parent_category.setId(uuid.toString());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(product_child_parent_category_service.saveAll(listTemp));
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(product_child_parent_category_service.save(child_parent_category));
+		
 	}
 
 	@GetMapping("/view/child_parent_category")

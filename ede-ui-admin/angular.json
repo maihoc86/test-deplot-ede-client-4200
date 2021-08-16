@@ -45,9 +45,7 @@
               "src/assets/css/icons.css",
               "src/assets/css/header-colors.css",
               "src/assets/plugins/select2/css/select2.min.css",
-              "src/assets/plugins/select2/css/select2-bootstrap4.css",
-              "src/assets/plugins/datatable/css/dataTables.bootstrap5.min.css"
-
+              "src/assets/plugins/select2/css/select2-bootstrap4.css"
             ],
             "scripts": [
               "src/assets/js/bootstrap.bundle.min.js",
@@ -69,7 +67,6 @@
               "src/assets/plugins/select2/js/select2.min.js",
               "src/assets/plugins/select2/js/select2-config.js",
               "src/assets/plugins/datatable/js/jquery.dataTables.min.js"
-
             ]
           },
           "configurations": {
