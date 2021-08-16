@@ -4,7 +4,7 @@ import {
   HttpClient,
   HttpErrorResponse,
 }
-  from '@angular/common/http';
+from '@angular/common/http';
 import { Parent_Category } from 'src/app/models/Parent_category.model';
 import { Parent_Child_Category } from 'src/app/models/Parent_Child_category.model';
 import { Child_Category } from 'src/app/models/Child_category.model';
@@ -38,4 +38,11 @@ export class ManageCategotyService {
   public addNewParentCategory(data: Parent_Category) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/parent_category', data, this.httpOptions);
   }
+
+  public addNewParent_child_Category(data: Parent_Category) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/child_parent_category', data, this.httpOptions);
+  }
+
+  
+
 }
