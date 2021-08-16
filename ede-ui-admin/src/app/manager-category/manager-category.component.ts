@@ -64,4 +64,25 @@ export class ManagerCategoryComponent implements OnInit {
     })
   }
 
+  public DeleteParent_Child_Category(id:string){
+
+    this.manageCategoryService.DeleteParent_Child_Category(id).subscribe(data=>{
+      Swal.fire({
+        icon:'success',
+        title:'Xóa tài khoản',
+        text: 'Xóa thành công'
+      }).then(respone=>{
+        this.loadParentCategory();
+      })
+  
+    } ,(err) => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: err.error,
+      });
+    })
+  }
+
 }

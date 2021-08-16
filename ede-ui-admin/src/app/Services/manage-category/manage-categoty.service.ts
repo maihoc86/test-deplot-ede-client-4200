@@ -34,4 +34,8 @@ export class ManageCategotyService {
   public load_Child_Category(){
     return this.httClient.get<any>(this.REST_API_SERVER+'/view/child_category', this.httpOptions);
   }
+
+  public DeleteParent_Child_Category(id:string){
+    return this.httClient.get<any>(this.REST_API_SERVER+'/delete/child_parent_category/'+id,this.httpOptions);
+  }
 }

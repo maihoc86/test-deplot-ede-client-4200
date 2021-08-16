@@ -33,4 +33,12 @@ public class Product_parent_category_impl implements Product_parent_category_ser
 		return dao.findById(id);
 	}
 
+	@Override
+	public Product_parent_category deleteParent(String id) {
+		Product_parent_category pr = dao.findById(id).get();
+		pr.setIs_delete(true);
+		dao.save(pr);
+		return pr;
+	}
+
 }
