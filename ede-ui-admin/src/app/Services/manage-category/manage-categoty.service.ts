@@ -35,6 +35,7 @@ export class ManageCategotyService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/child_category', this.httpOptions);
   }
 
+
   public addNewParentCategory(data: Parent_Category) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/parent_category', data, this.httpOptions);
   }
@@ -44,5 +45,7 @@ export class ManageCategotyService {
   }
 
   
-
+  public DeleteParent_Child_Category(id:string){
+    return this.httpClient.get<any>(this.REST_API_SERVER+'/delete/child_parent_category/'+id,this.httpOptions);
+  }
 }
