@@ -10,7 +10,7 @@ spring:
                clone-on-start: true
                username: teamsdarkeyes2021
                password: teamsdarkeyes2021
-               default-label: SP0001-ST01
+               default-label: SP0001-ST02
                search-paths: /ede-be/config-cloud-file 
 management:
    endpoints:
