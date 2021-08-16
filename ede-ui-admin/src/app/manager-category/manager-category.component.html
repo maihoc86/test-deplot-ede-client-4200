@@ -202,28 +202,26 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
+                            <tr *ngFor="let e of items">
                               <td>
                                 <div class="d-flex align-items-center">
-                                  <div>
-                                    <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
-                                  </div>
+
                                   <div class="ms-2">
-                                    <h6 class="mb-0 font-14">#OS-000354</h6>
+                                   <h6 *ngIf="e">{{e.id}}</h6>
                                   </div>
                                 </div>
                               </td>
-                              <td>Gaspur Antunes</td>
-                              <td>June 10, 2020</td>
-                              <td>
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>FulFilled</div>
+                              <td *ngIf="e">{{e.name}}</td>
+                              <td *ngIf="e">{{e.image_url}}</td>
+                              <td >
+                          <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
                               </td>
 
 
-                              <td>
+                              <td >
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>FulFilled</div>
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
@@ -375,20 +373,17 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
+                            <tr >
                               <td>
                                 <div class="d-flex align-items-center">
-                                  <div>
-                                    <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
-                                  </div>
+
                                   <div class="ms-2">
-                                    <h6 class="mb-0 font-14">#OS-000354</h6>
+                                    <h6 class="mb-0 font-14"></h6>
                                   </div>
                                 </div>
                               </td>
-                              <td>Gaspur Antunes</td>
-
-                              <td>Gaspur Antunes</td>
+                              <td ></td>
+                              <td ></td>
                               <td>Gaspur Antunes</td>
                               <td>
                                 <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
