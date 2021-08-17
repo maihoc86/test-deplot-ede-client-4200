@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -135,8 +136,16 @@ public class CategoryManagerRestController {
 	
 
 	/*************************************************/
-	@GetMapping("/delete/child_parent_category/{id}")
-	public Product_parent_category deleteChild_parent_category(@PathVariable("id") String id) {
+	@GetMapping("/delete/parent_category/{id}")
+	public Product_parent_category deleteParent_category(@PathVariable("id") String id) {
 		return product_parent_categoryService.deleteParent(id);
+	}
+	@GetMapping("/delete/parent_child_category/{id}")
+	public Product_parent_child_category deleteparent_child_category(@PathVariable("id") String id) {
+		return product_child_parent_category_service.deleteParent_Child(id);
+	}
+	@GetMapping("/delete/child_category/{id}")
+	public Product_child_category deletechild_category(@PathVariable("id") String id) {
+		return product_child_category_service.deleteChild(id);
 	}
 }

@@ -45,6 +45,14 @@ public class Product_parent_child_category_impl implements Product_child_parent_
 		return dao.findByNameContaining(name);
 	}
 
+	@Override
+	public Product_parent_child_category deleteParent_Child(String id) {
+		Product_parent_child_category e = dao.findById(id).get();
+		e.setIs_delete(true);
+		dao.save(e);
+		return e;
+	}
+
 
 	
 
