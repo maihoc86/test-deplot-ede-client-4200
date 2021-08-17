@@ -13,4 +13,8 @@ public interface Product_parent_category_service {
 
 	Optional<Product_parent_category> findById(String id);
 
+	List<Product_parent_category> findByNameContaining(String name);
+
+
+
 }

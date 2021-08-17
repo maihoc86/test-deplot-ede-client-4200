@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,6 +109,46 @@ public class CategoryManagerRestController {
 	public List<Product_child_category> view_child() {
 		return product_child_category_service.findAll();
 	}
+	
+	
 	/*************************************************/
+	
+	/**
+	 * Search 
+	 * 
+	 * @author thanh
+	 * @see
+	 */
+	
+	@GetMapping("/search/parent_category/{name}")
+	public List<Product_parent_category>searchP(@PathVariable("name") String name){
+		System.out.println("name Parent category: "+name);
+		return product_parent_categoryService.findByNameContaining(name);
+	}
+	
+	@GetMapping("/search/parent_child_category/{name}")
+	public List<Product_parent_child_category>searchPC(@PathVariable("name") String name){
+		System.out.println("name parent child category: "+name);
+		return product_child_parent_category_service.findByNameContaining(name);
+	}
+	
+	@GetMapping("/search/child_category/{name}")
+	public List<Product_child_category>searchC(@PathVariable("name") String name){
+		System.out.println("name child category: "+name);
+		return product_child_category_service.findByNameContaining(name);
+	}
+	
+	
+
+	/*************************************************/
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

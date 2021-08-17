@@ -27,12 +27,13 @@ export class ManagerCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadParentCategory();
-    this.loadParent_Child_Category();
-    this.load_Child_Category();
+    // this.loadParent_Child_Category();
+    // this.load_Child_Category();
 
   }
 
 
+  public p: number = 1;
   public items:any=[];
   public loadParentCategory(){
     this.manageCategoryService.loadParentCategory().subscribe((data) =>{
@@ -49,7 +50,7 @@ export class ManagerCategoryComponent implements OnInit {
     })
   }
 
-
+  public pc: number = 1;
   public itemP:any=[];
   public loadParent_Child_Category(){
     this.manageCategoryService.loadParent_Child_Category().subscribe((data) =>{
@@ -68,6 +69,7 @@ export class ManagerCategoryComponent implements OnInit {
   }
 
 
+  public c: number = 1;
   public itemC:any=[];
   public load_Child_Category(){
     this.manageCategoryService.load_Child_Category().subscribe((data) =>{
@@ -84,5 +86,61 @@ export class ManagerCategoryComponent implements OnInit {
       this.itemC = item;
     })
   }
+
+
+  public SearchP(tem:string){
+    this.manageCategoryService.SearchP(tem).subscribe((data) =>{
+      const itemP = data.map(function(obj: {
+        id: any;
+        name: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.items = itemP;
+    })
+  }
+
+
+  public SearchPC(tem:string){
+    this.manageCategoryService.SearchPC(tem).subscribe((data) =>{
+      const it = data.map(function(obj: {
+        id: any;
+        name: any;
+        id_parent: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.itemP = it;
+    })
+  }
+
+
+  public SearchC(tem:string){
+    this.manageCategoryService.SearchC(tem).subscribe((data) =>{
+      const itema = data.map(function(obj: {
+        id: any;
+        name: any;
+        id_parent_Child: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.itemC = itema;
+    })
+  }
+
+
+
+
+
+
 
 }

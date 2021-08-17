@@ -33,4 +33,10 @@ public class Product_parent_category_impl implements Product_parent_category_ser
 		return dao.findById(id);
 	}
 
+	@Override
+	public List<Product_parent_category> findByNameContaining(String name) {
+		// TODO Auto-generated method stub
+		return dao.findByNameContaining(name);
+	}
+
 }
