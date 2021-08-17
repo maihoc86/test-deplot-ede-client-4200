@@ -90,7 +90,6 @@
                         <div class="col-xl-9 mx-auto">
                           <div class="card" style="height: 300px; border-radius: 3px; border: 2px dashed #A2B4CA;">
                             <div class="card-body" style="height: 70%;width: auto;">
-
                               <img [src]="urlParent" height="100%" width="100%" formControlName="image_url">
                             </div>
                             <input type="file" #parentInputImage_Parent (change)="onselectFileParent($event)"
@@ -106,6 +105,16 @@
                           <span class="input-group-text bg-transparent"><i class="bx bxs-cart"></i></span>
                           <input formControlName="name" type="text" class="form-control border-start-0"
                             placeholder="Tên loại" />
+                        </div>
+                        <div
+                          *ngIf="parent.controls['name'].invalid && (parent.controls['name'].dirty || parent.controls['name'].touched)"
+                          class="alert alert-danger">
+                          <span *ngIf="
+                          parent.controls['name'].errors &&
+                          parent.controls['name'].errors.required">Tên loại là bắt buộc.</span>
+                          <span *ngIf="
+                          parent.controls['name'].errors &&
+                          parent.controls['name'].errors.pattern">Tên loại không đúng định dạng.</span>
                         </div>
                       </div>
                       <br>
@@ -129,7 +138,8 @@
                       </div>
                     </div>
                     <div class="col">
-                      <button type="submit" class="btn btn-success px-5" (click)="addNewParentCategory()">
+                      <button type="submit" [disabled]="parent.invalid ? 'disabled': null" class="btn btn-success px-5"
+                        (click)="addNewParentCategory()">
                         Create
                       </button>
                       <button type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
@@ -188,8 +198,9 @@
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;"  class=""><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" (click)="DeleteParent_Child_Category(e.id)" class="ms-3"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" (click)="DeleteParent_Child_Category(e.id)" class="ms-3"><i
+                                      class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
@@ -232,6 +243,16 @@
                           <input formControlName="name" type="text" class="form-control border-start-0"
                             id="inputUsername" placeholder="Tên loại" />
                         </div>
+                        <div
+                          *ngIf="parent_child_category.controls['name'].invalid && (parent_child_category.controls['name'].dirty || parent_child_category.controls['name'].touched)"
+                          class="alert alert-danger">
+                          <span *ngIf="
+                          parent_child_category.controls['name'].errors &&
+                          parent_child_category.controls['name'].errors.required">Tên loại là bắt buộc.</span>
+                          <span *ngIf="
+                          parent_child_category.controls['name'].errors &&
+                          parent_child_category.controls['name'].errors.pattern">Tên loại không đúng định dạng.</span>
+                        </div>
                       </div>
                       <br>
                       <div class="col-12">
@@ -244,6 +265,13 @@
                               {{ prf.name }}
                             </option>
                           </select>
+                        </div>
+                        <div
+                          *ngIf=" parent_child_category.controls['parent_category'].invalid && parent_child_category.controls['parent_category'].touched"
+                          class="alert alert-danger">
+                          <span
+                            *ngIf="parent_child_category.controls['parent_category'].errors && parent_child_category.controls['parent_category'].errors.required">
+                            Category Parent là bắt buộc</span>
                         </div>
                       </div>
                       <br>
@@ -266,7 +294,8 @@
                       </div>
                     </div>
                     <div class="col">
-                      <button type="submit" class="btn btn-success px-5" (click)="addNewParent_child_Category()">
+                      <button type="submit" [disabled]="parent_child_category.invalid ? 'disabled': null"
+                        class="btn btn-success px-5" (click)="addNewParent_child_Category()">
                         Create
                       </button>
                       <button type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
@@ -347,80 +376,82 @@
 
                 <div class="tab-pane fade" id="primarycontact" role="tabpanel">
                   <br><br>
-                  <form class="row g-3">
+                  <form class="row g-3" [formGroup]="child_category">
                     <div class="col-md-6">
                       <div class="row">
                         <div class="col-xl-9 mx-auto">
                           <div class="card" style="height: 300px; border-radius: 3px; border: 2px dashed #A2B4CA;">
                             <div class="card-body" style="height: 70%;width: auto;">
-                              <label for="fancy-file-upload" style="height: 100%;width: 100%; text-align: center; ">
 
-                                <img style="height: 100%;width: 100%; " src="assets/images/fancy_upload.png">
-                                <input style="display: none;" id="fancy-file-upload" type="file" name="files"
-                                  accept=".jpg, .png, image/jpeg, image/png" multiple>
-                              </label>
+                              <img [src]="urlChild" height="100%" width="100%" formControlName="image_url">
                             </div>
+                            <input type="file" #parentInputImage_Child (change)="onselectFile_Child($event)"
+                              accept=".jpg, .png, image/jpeg, image/png">
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="col-md-12">
-                        <label for="inputUsername" class="form-label">Name</label>
+                        <label for="inputUsername" class="form-label">Tên loại</label>
                         <div class="input-group">
                           <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                          <input formControlName="username" type="text" class="form-control border-start-0"
-                            id="inputUsername" placeholder="Username" />
+                          <input formControlName="name" type="text" class="form-control border-start-0"
+                            id="inputUsername" placeholder="Tên loại" />
+                        </div>
+                        <div
+                          *ngIf="child_category.controls['name'].invalid && (child_category.controls['name'].dirty || child_category.controls['name'].touched)"
+                          class="alert alert-danger">
+                          <span *ngIf="
+                          child_category.controls['name'].errors &&
+                          child_category.controls['name'].errors.required">Tên loại là bắt buộc.</span>
+                          <span *ngIf="
+                          child_category.controls['name'].errors &&
+                          child_category.controls['name'].errors.pattern">Tên loại không đúng định dạng.</span>
                         </div>
                       </div>
                       <br>
                       <div class="col-12">
                         <div>
-                          <label class="form-label">ID Child</label>
-                          <select class="form-select" formControlName="city">
+                          <label class="form-label">Category Parent Child</label>
+                          <select class="form-select" formControlName="child_parentCategory">
                             <option [ngValue]="null" disabled>
                             </option>
-                            <option>
+                            <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf">
+                              {{ prf.name }}
                             </option>
                           </select>
+                          <div
+                          *ngIf=" child_category.controls['child_parentCategory'].invalid && child_category.controls['child_parentCategory'].touched"
+                          class="alert alert-danger">
+                          <span
+                            *ngIf="child_category.controls['child_parentCategory'].errors && child_category.controls['child_parentCategory'].errors.required">
+                            Category Parent Child là bắt buộc</span>
+                        </div>
                         </div>
                       </div>
                       <br>
                       <div class="row">
                         <div class="col-sm-3">
-                          <label for="inputUsername" class="form-label">Is enable</label>
+                          <label for="inputUsername" class="form-label">Hoạt động</label>
                           <div class="input-group">
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                value="option1">
-                              <label class="form-check-label" for="inlineRadio1">1</label>
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio1" value="true">
+                              <label class="form-check-label" for="inlineRadio1">Kích hoạt</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                value="option2">
-                              <label class="form-check-label" for="inlineRadio2">2</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                          <label for="inputUsername" class="form-label">Is Delete</label>
-                          <div class="input-group">
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                value="option1">
-                              <label class="form-check-label" for="inlineRadio1">1</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                value="option2">
-                              <label class="form-check-label" for="inlineRadio2">2</label>
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio2" value="false">
+                              <label class="form-check-label" for="inlineRadio2">Không Kích hoạt</label>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col">
-                      <button type="submit" class="btn btn-success px-5">
+                      <button type="submit" [disabled]="child_category.invalid ? 'disabled': null"
+                        class="btn btn-success px-5" (click)="addNew_child_Category()">
                         Create
                       </button>
                       <button type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
@@ -479,7 +510,7 @@
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;"  class=""><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
                                   <a href="javascript:;" class="ms-3"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
