@@ -90,7 +90,6 @@ public class CustomerImpl implements CustomerService {
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
 		return dao.findAll();
 	}
 
@@ -118,7 +117,6 @@ public class CustomerImpl implements CustomerService {
 	}
 
 	public List<User> findByUsernameContaining(String username) {
-		// TODO Auto-generated method stub
 		return dao.findByUsernameContaining(username);
 	}
 	

@@ -11,7 +11,6 @@ import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
 @Table(name = "Authorities", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_user", "id_role" }) })
