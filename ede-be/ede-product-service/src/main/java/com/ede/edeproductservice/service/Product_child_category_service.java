@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ede.edeproductservice.entity.Product_child_category;
-<<<<<<< HEAD
-=======
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 
