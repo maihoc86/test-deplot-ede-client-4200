@@ -276,9 +276,9 @@ export class ManagerCategoryComponent implements OnInit {
   }
 
 
-  public DeleteParent_Child_Category(id: string) {
+  public DeleteParent_Category(id: string) {
 
-    this.manageCategoryService.DeleteParent_Child_Category(id).subscribe(data => {
+    this.manageCategoryService.DeleteParent_Category(id).subscribe(data => {
       Swal.fire({
         icon: 'success',
         title: 'Xóa danh mục ',
@@ -298,7 +298,93 @@ export class ManagerCategoryComponent implements OnInit {
   }
 
 
+  public DeleteParent_Child_Category(id: string) {
 
+    this.manageCategoryService.DeleteParent_Child_Category(id).subscribe(data => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Xóa danh mục ',
+        text: 'Xóa thành công'
+      }).then(respone => {
+        this.loadParent_Child_Category();
+      })
+
+    }, (err) => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: err.error,
+      });
+    })
+  }
+
+  
+  public DeleteChild_Category(id: string) {
+
+    this.manageCategoryService.DeleteChild_Category(id).subscribe(data => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Xóa danh mục ',
+        text: 'Xóa thành công'
+      }).then(respone => {
+        this.load_Child_Category();
+      })
+
+    }, (err) => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: err.error,
+      });
+    })
+  }
+  public editP(e: any) {
+    const newP: any = {};
+    for (const controlName in this.parent.controls) {
+      if (controlName) {
+        this.parent.controls[controlName].setValue(e[controlName])
+      } 
+    
+    }
+    if(e['is_enable']){
+      this.parent.controls['is_enable'].setValue('true')
+    }else{
+      this.parent.controls['is_enable'].setValue('false')
+    }
+    return newP as Parent_Category;
+  }
+  public editPC(e: any) {
+    const newP: any = {};
+    for (const controlName in this.parent_child_category.controls) {
+      if (controlName) {
+        this.parent_child_category.controls[controlName].setValue(e[controlName])
+      } 
+    
+    }
+    if(e['is_enable']){
+      this.parent_child_category.controls['is_enable'].setValue('true')
+    }else{
+      this.parent_child_category.controls['is_enable'].setValue('false')
+    }
+    return newP as Parent_Child_Category;
+  }
+  public editC(e: any) {
+    const newP: any = {};
+    for (const controlName in this.child_category.controls) {
+      if (controlName) {
+        this.child_category.controls[controlName].setValue(e[controlName])
+      } 
+    
+    }
+    if(e['is_enable']){
+      this.child_category.controls['is_enable'].setValue('true')
+    }else{
+      this.child_category.controls['is_enable'].setValue('false')
+    }
+    return newP as Child_Category;
+  }
   public SearchP(tem:string){
     this.manageCategoryService.SearchP(tem).subscribe((data:any) =>{
       const itemP = data.map(function(obj: {

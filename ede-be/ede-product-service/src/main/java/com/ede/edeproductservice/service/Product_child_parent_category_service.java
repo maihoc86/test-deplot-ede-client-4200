@@ -18,6 +18,8 @@ public interface Product_child_parent_category_service {
 
 	List<Product_parent_child_category> findByNameContaining(String name);
 
+	Product_parent_child_category deleteParent_Child(String id);
+
 	
 
 
