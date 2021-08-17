@@ -44,4 +44,6 @@ public class Product_parent_child_category {
 		return String.format("%s | %s | %s | %s | %s | %s  ", this.id, this.name, this.image_url, this.is_enable,
 				this.is_enable, this.is_delete);
 	}
+
+
 }

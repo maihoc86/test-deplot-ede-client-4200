@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_child_category_Dao;
 import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.service.Product_child_category_service;
 
 @Service
@@ -38,5 +39,13 @@ public class Product_child_category_impl implements Product_child_category_servi
 	public Optional<Product_child_category> findById(String string) {
 		return dao.findById(string);
 	}
+
+	@Override
+	public List<Product_child_category> findByNameContaining(String name) {
+		// TODO Auto-generated method stub
+		return dao.findByNameContaining(name);
+	}
+
+
 
 }

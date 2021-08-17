@@ -49,7 +49,7 @@
 
             <div class="card-body">
               <ul class="nav nav-tabs nav-primary mb-0" role="tablist">
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" (click)="loadParentCategory()">
                   <a class="nav-link active" data-bs-toggle="tab" href="#primaryhome" role="tab" aria-selected="true">
                     <div class="d-flex align-items-center">
                       <div class="tab-icon"><i class='bx bx-comment-detail font-18 me-1'></i>
@@ -58,7 +58,7 @@
                     </div>
                   </a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" (click)="loadParent_Child_Category()">
                   <a class="nav-link" data-bs-toggle="tab" href="#primaryprofile" role="tab" aria-selected="false">
                     <div class="d-flex align-items-center">
                       <div class="tab-icon"><i class='bx bx-bookmark-alt font-18 me-1'></i>
@@ -67,7 +67,7 @@
                     </div>
                   </a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" (click)="load_Child_Category()">
                   <a class="nav-link" data-bs-toggle="tab" href="#primarycontact" role="tab" aria-selected="false">
                     <div class="d-flex align-items-center">
                       <div class="tab-icon"><i class='bx bx-star font-18 me-1'></i>
@@ -158,7 +158,8 @@
                     <div class="col-md-6">DATATABLE EXAMPLE</div>
                     <div class="col-md-6">
                       <div class="position-relative">
-                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                          (keyup)="SearchP(myInput.value)" #myInput> <span
                           class="position-absolute top-50 product-show translate-middle-y"><i
                             class="bx bx-search"></i></span>
                       </div>
@@ -183,31 +184,42 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let e of items">
+                            <tr *ngFor="let e of items |  paginate: { itemsPerPage: 5, currentPage: p }">
                               <td *ngIf="e">{{e.name}}</td>
                               <td *ngIf="e">{{e.image_url}}</td>
                               <td>
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
+                                <div *ngIf="e.is_enable"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Hoạt động</div>
+                                <div *ngIf="!e.is_enable"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
 
 
                               <td>
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                <div *ngIf="e.is_delete"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                                <div *ngIf="!e.is_delete"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" (click)="DeleteParent_Child_Category(e.id)" class="ms-3"><i
-                                      class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" (click)="DeleteParent_Child_Category(e.id)" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
 
                           </tbody>
                         </table>
+
                       </div>
+                    </div>
+                    <div style="text-align: center;">
+                      <pagination-controls (pageChange)="p = $event"></pagination-controls>
                     </div>
                   </div>
                 </div>
@@ -314,7 +326,8 @@
                     <div class="col-md-6">DATATABLE EXAMPLE</div>
                     <div class="col-md-6">
                       <div class="position-relative">
-                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                          (keyup)="SearchPC(myInputPC.value)" #myInputPC> <span
                           class="position-absolute top-50 product-show translate-middle-y"><i
                             class="bx bx-search"></i></span>
                       </div>
@@ -340,22 +353,32 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let e of itemP">
+                            <tr *ngFor="let e of itemP |  paginate: { itemsPerPage: 5, currentPage: pc }">
                               <td *ngIf="e">{{e.name}}</td>
                               <td *ngIf="e">{{e.parent_category.name}}</td>
                               <td *ngIf="e">{{e.image_url}}</td>
-                              <td *ngIf="e">
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
+                              <td>
+                                <div *ngIf="e.is_enable"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Hoạt động</div>
+                                <div *ngIf="!e.is_enable"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
-                              <td *ngIf="e">
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+
+
+                              <td>
+                                <div *ngIf="e.is_delete"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                                <div *ngIf="!e.is_delete"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" class="ms-3"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
@@ -363,6 +386,9 @@
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                    <div style="text-align: center;">
+                      <pagination-controls (pageChange)="pc = $event"></pagination-controls>
                     </div>
                   </div>
                 </div>
@@ -419,6 +445,7 @@
                             </option>
                             <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf">
                               {{ prf.name }}
+                            <option>
                             </option>
                           </select>
                           <div
@@ -470,7 +497,8 @@
                     <div class="col-md-6">DATATABLE EXAMPLE</div>
                     <div class="col-md-6">
                       <div class="position-relative">
-                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                          (keyup)="SearchC(myInputC.value)" #myInputC> <span
                           class="position-absolute top-50 product-show translate-middle-y"><i
                             class="bx bx-search"></i></span>
                       </div>
@@ -496,28 +524,41 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let e of itemC ">
+                            <tr *ngFor="let e of itemC |  paginate: { itemsPerPage: 5, currentPage: c } ">
                               <td *ngIf="e">{{e.name}}</td>
                               <td *ngIf="e">{{e.child_parentCategory.name}}</td>
                               <td *ngIf="e">{{e.image_url}}</td>
-                              <td *ngIf="e">
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_enable}}</div>
+                              <td>
+                                <div *ngIf="e.is_enable"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Hoạt động</div>
+                                <div *ngIf="!e.is_enable"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
-                              <td *ngIf="e">
-                                <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+
+
+                              <td>
+                                <div *ngIf="e.is_delete"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                                <div *ngIf="!e.is_delete"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
                               </td>
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" class="ms-3"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                    <div style="text-align: center;">
+                      <pagination-controls (pageChange)="c = $event"></pagination-controls>
                     </div>
                   </div>
                 </div>

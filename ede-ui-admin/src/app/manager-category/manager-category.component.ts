@@ -112,8 +112,6 @@ export class ManagerCategoryComponent implements OnInit {
     this.listParentFilterOption;
     this.listParent_Child_FilterOption;
     this.loadParentCategory();
-    this.loadParent_Child_Category();
-    this.load_Child_Category();
   }
   private createNewData(formGroup: FormGroup, url: string) {
     const stringReturn: any = {}
@@ -219,10 +217,14 @@ export class ManagerCategoryComponent implements OnInit {
       }
     );
   }
-  public items: any = [];
-  public loadParentCategory() {
-    this.manageCategoryService.loadParentCategory().subscribe((data) => {
-      const item = data.map(function (obj: {
+
+
+
+  public p: number = 1;
+  public items:any=[];
+  public loadParentCategory(){
+    this.manageCategoryService.loadParentCategory().subscribe((data) =>{
+      const item = data.map(function(obj: {
         id: any;
         name: any;
         image_url: any;
@@ -235,10 +237,13 @@ export class ManagerCategoryComponent implements OnInit {
       this.items = item;
     })
   }
-  public itemP: any = [];
-  public loadParent_Child_Category() {
-    this.manageCategoryService.loadParent_Child_Category().subscribe((data) => {
-      const item = data.map(function (obj: {
+
+
+  public pc: number = 1;
+  public itemP:any=[];
+  public loadParent_Child_Category(){
+    this.manageCategoryService.loadParent_Child_Category().subscribe((data) =>{
+      const item = data.map(function(obj: {
         id: any;
         name: any;
         id_parent: any;
@@ -252,10 +257,11 @@ export class ManagerCategoryComponent implements OnInit {
       this.itemP = item;
     })
   }
-  public itemC: any = [];
-  public load_Child_Category() {
-    this.manageCategoryService.load_Child_Category().subscribe((data) => {
-      const item = data.map(function (obj: {
+  public c: number = 1;
+  public itemC:any=[];
+  public load_Child_Category(){
+    this.manageCategoryService.load_Child_Category().subscribe((data) =>{
+      const item = data.map(function(obj: {
         id: any;
         name: any;
         id_parent_Child: any;
@@ -269,12 +275,13 @@ export class ManagerCategoryComponent implements OnInit {
     })
   }
 
+
   public DeleteParent_Child_Category(id: string) {
 
     this.manageCategoryService.DeleteParent_Child_Category(id).subscribe(data => {
       Swal.fire({
         icon: 'success',
-        title: 'Xóa tài khoản',
+        title: 'Xóa danh mục ',
         text: 'Xóa thành công'
       }).then(respone => {
         this.loadParentCategory();
@@ -287,9 +294,65 @@ export class ManagerCategoryComponent implements OnInit {
         title: 'Lỗi',
         text: err.error,
       });
-
     })
   }
+
+
+
+  public SearchP(tem:string){
+    this.manageCategoryService.SearchP(tem).subscribe((data:any) =>{
+      const itemP = data.map(function(obj: {
+        id: any;
+        name: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.items = itemP;
+    })
+  }
+
+
+  public SearchPC(tem:string){
+    this.manageCategoryService.SearchPC(tem).subscribe((data:any) =>{
+      const it = data.map(function(obj: {
+        id: any;
+        name: any;
+        id_parent: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.itemP = it;
+    })
+  }
+
+
+
+  public SearchC(tem:string){
+    this.manageCategoryService.SearchC(tem).subscribe((data:any) =>{
+      const itema = data.map(function(obj: {
+        id: any;
+        name: any;
+        id_parent_Child: any;
+        image_url: any;
+        is_enable: any;
+        is_delete: any;
+      }){
+        return obj;
+      });
+      this.itemC = itema;
+    })
+  }
+
+
+
+
+
 
 
 }
