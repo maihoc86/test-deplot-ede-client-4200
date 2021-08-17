@@ -1,7 +1,5 @@
 package com.ede.edeoauth.security;
 
-import java.security.AuthProvider;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.ede.edeoauth.security.jwt.AuthEntryPoinJwt;
 import com.ede.edeoauth.security.jwt.AuthTokenFilter;
 import com.ede.edeoauth.security.services.UserDetailServiceImpl;
-import com.ede.edeoauth.security.services.UserDetailsImpl;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

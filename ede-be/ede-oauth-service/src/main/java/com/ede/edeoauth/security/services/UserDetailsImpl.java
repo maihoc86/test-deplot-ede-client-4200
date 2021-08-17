@@ -9,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ede.edeoauth.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import lombok.NoArgsConstructor;
