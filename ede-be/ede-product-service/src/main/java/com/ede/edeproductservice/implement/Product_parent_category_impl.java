@@ -43,8 +43,17 @@ public class Product_parent_category_impl implements Product_parent_category_ser
 
 	@Override
 	public List<Product_parent_category> findByNameContaining(String name) {
-		// TODO Auto-generated method stub
 		return dao.findByNameContaining(name);
+	}
+
+	@Override
+	public Product_parent_category update(Product_parent_category parentCategory) {
+		return this.dao.save(parentCategory);
+	}
+
+	@Override
+	public boolean existsById(String id) {
+		return this.dao.existsById(id);
 	}
 
 }

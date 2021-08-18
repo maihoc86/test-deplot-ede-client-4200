@@ -1,5 +1,0 @@
-package com.ede.edecustomerservice.restcontroller.admin;
-
-public class AccountManagerRestController {
-
-}

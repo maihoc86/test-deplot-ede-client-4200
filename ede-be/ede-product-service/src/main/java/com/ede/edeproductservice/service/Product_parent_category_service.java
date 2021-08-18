@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ede.edeproductservice.entity.Product_parent_category;
-import com.ede.edeproductservice.entity.Product_parent_child_category;
 
 public interface Product_parent_category_service {
 
@@ -16,6 +15,10 @@ public interface Product_parent_category_service {
 
 	Product_parent_category deleteParent(String id);
 	List<Product_parent_category> findByNameContaining(String name);
+
+	Product_parent_category update(Product_parent_category parentCategory);
+
+	boolean existsById(String id);
 
 
 

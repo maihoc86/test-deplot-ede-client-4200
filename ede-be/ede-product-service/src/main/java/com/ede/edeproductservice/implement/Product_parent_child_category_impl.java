@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ede.edeproductservice.dao.Product_parent_child_category_Dao;
-import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
 
@@ -41,7 +40,6 @@ public class Product_parent_child_category_impl implements Product_child_parent_
 
 	@Override
 	public List<Product_parent_child_category> findByNameContaining(String name) {
-		// TODO Auto-generated method stub
 		return dao.findByNameContaining(name);
 	}
 
@@ -51,6 +49,16 @@ public class Product_parent_child_category_impl implements Product_child_parent_
 		e.setIs_delete(true);
 		dao.save(e);
 		return e;
+	}
+
+	@Override
+	public Product_parent_child_category update(Product_parent_child_category parentChildCategory) {
+		return this.dao.save(parentChildCategory);
+	}
+
+	@Override
+	public boolean existsById(String id) {
+		return this.dao.existsById(id);
 	}
 
 
