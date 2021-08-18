@@ -83,6 +83,20 @@ export class ManageCategotyService {
   }
 
 
+  //<<<<<<<<<<< update three table category start in here
+  public updateParentCategory(parentCategory: Parent_Category) {
+    return this.updateCategory('update/parent-category',parentCategory)
+  }
+  public updateParentChildCategory(parentChildCategory: Parent_Child_Category) {
+    return this.updateCategory('update/parent-child-category',parentChildCategory)
+  }
+  public updateChildCategory(childCategory: Child_Category) {
+    return this.updateCategory('update/parent-child-category',childCategory)
+  }
 
+  private updateCategory(url: string, value: any) {
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/${url}`, value)
+  }
+  //>>>>>>>>>>> update three table category end in here
 
 }

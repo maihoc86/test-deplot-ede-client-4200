@@ -20,6 +20,12 @@ public class CustomerManagerRestController {
 	CustomerService service;
 
 	
+	/**
+	 * 
+	 * @author vinh
+	 * @param userBody
+	 * @return
+	 */
 	@PostMapping("/ede-customer/admin/update-customer")
 	ResponseEntity<User> updateUser(@RequestBody User userBody) {
 		if (null == userBody || null == userBody.getUsername()) {

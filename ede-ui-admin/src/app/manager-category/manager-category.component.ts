@@ -102,7 +102,11 @@ export class ManagerCategoryComponent implements OnInit {
     this.InputVarParent.nativeElement.value = "";
     this.InputVarParentChild.nativeElement.value = "";
     this.InputVarChild.nativeElement.value = "";
+    this.idParentCategory = ''
+    this.idParentChildCategory = ''
+    this.idChildCategory = ''
   }
+
   constructor(
     private manageCategoryService: ManageCategotyService,
     private fb: FormBuilder
@@ -340,6 +344,7 @@ export class ManagerCategoryComponent implements OnInit {
       });
     })
   }
+
   public editP(e: any) {
     const newP: any = {};
     for (const controlName in this.parent.controls) {
@@ -353,6 +358,7 @@ export class ManagerCategoryComponent implements OnInit {
     }else{
       this.parent.controls['is_enable'].setValue('false')
     }
+    this.idParentCategory = e.id
     return newP as Parent_Category;
   }
   public editPC(e: any) {
@@ -368,6 +374,7 @@ export class ManagerCategoryComponent implements OnInit {
     }else{
       this.parent_child_category.controls['is_enable'].setValue('false')
     }
+    this.idParentChildCategory = e.id
     return newP as Parent_Child_Category;
   }
   public editC(e: any) {
@@ -383,6 +390,7 @@ export class ManagerCategoryComponent implements OnInit {
     }else{
       this.child_category.controls['is_enable'].setValue('false')
     }
+    this.idChildCategory = e.id
     return newP as Child_Category;
   }
   public SearchP(tem:string){
@@ -436,9 +444,65 @@ export class ManagerCategoryComponent implements OnInit {
   }
 
 
+  //<<<<<<<<<<<<<<<<<<<<<<<< update start in here: vinh
+  public idParentCategory: string = ''
+  public idParentChildCategory: string = ''
+  public idChildCategory: string = ''
 
+  public updateParentCategory() {
+    this.parent.controls['image_url'].setValue(this.ImageUrlParent)
+    let categoryUpdate: Parent_Category = this.coverFormGroupToObject<Parent_Category>(this.parent)
+    categoryUpdate.id = this.idParentCategory
 
+    this.manageCategoryService.updateParentCategory(categoryUpdate).subscribe(
+      response => {
+        console.log(response)
+        this.loadParentCategory();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+  public updateParentChildCategory() {
+    this.parent_child_category.controls['image_url'].setValue(this.ImageUrlParent_Child)
+    let categoryUpdate: Parent_Child_Category = this.coverFormGroupToObject<Parent_Child_Category>(this.parent_child_category)
+    categoryUpdate.id = this.idParentChildCategory
 
+    this.manageCategoryService.updateParentChildCategory(categoryUpdate).subscribe(
+      response => {
+        console.log(response)
+        this.loadParent_Child_Category();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+  public updateChildCategory() {
+    this.child_category.controls['image_url'].setValue(this.ImageUrlChild)
+    let categoryUpdate: Child_Category = this.coverFormGroupToObject<Child_Category>(this.child_category)
+    categoryUpdate.id = this.idChildCategory
 
+    this.manageCategoryService.updateChildCategory(categoryUpdate).subscribe (
+      response => {
+        console.log(response)
+        this.load_Child_Category();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+  private coverFormGroupToObject<T>(formGroup: FormGroup) {
+    let obj :any = {}
+    for (const controlName in formGroup.controls) {
+      if (controlName) {
+        obj[controlName] = formGroup.controls[controlName].value
+      }
+    }
+    return obj as T
+  }
+  //>>>>>>>>>>>>>>>>>>>>>>>>  update end in here: vinh
 
 }

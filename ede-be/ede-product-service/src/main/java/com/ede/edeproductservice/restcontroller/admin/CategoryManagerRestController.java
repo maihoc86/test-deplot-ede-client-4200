@@ -1,6 +1,6 @@
 package com.ede.edeproductservice.restcontroller.admin;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,7 +56,8 @@ public class CategoryManagerRestController {
 	public List<Product_parent_category> view_parent() {
 		return product_parent_categoryService.findAll();
 	}
-
+	
+	
 	/*************************************************/
 
 	/* Xem và thêm child_parent_category */
@@ -105,8 +106,7 @@ public class CategoryManagerRestController {
 	public List<Product_child_category> view_child() {
 		return product_child_category_service.findAll();
 	}
-	
-	
+
 	/*************************************************/
 	
 	/**
@@ -148,4 +148,50 @@ public class CategoryManagerRestController {
 	public Product_child_category deletechild_category(@PathVariable("id") String id) {
 		return product_child_category_service.deleteChild(id);
 	}
+	
+	
+	//<<<<<<<<<<<<<<<<<<< update category start: vinh
+	/**
+	 * Update parent_category 
+	 * @author vinh
+	 */
+	@PutMapping("update/parent-category")
+	ResponseEntity<Product_parent_category> updateParentCategory(@RequestBody Product_parent_category parentCategory){
+		if (!this.product_parent_categoryService.existsById(parentCategory.getId())) {
+			parentCategory = this.product_parent_categoryService.save(parentCategory);
+			//FIXME Chưa thêm link đối chiếu khi thêm mới category thay vì cập nhật
+			return ResponseEntity.created(URI.create("")).body(parentCategory);
+		}
+		return ResponseEntity.ok(this.product_parent_categoryService.update(parentCategory));
+	}
+
+	/**
+	 * Update parent child category
+	 * @author vinh
+	 */
+	@PutMapping("update/parent-child-category")
+	ResponseEntity<Product_parent_child_category> updateParentChildCategory(@RequestBody Product_parent_child_category parentChildCategory){
+		if (!this.product_child_parent_category_service.existsById(parentChildCategory.getId())) {
+			parentChildCategory = this.product_child_parent_category_service.save(parentChildCategory);
+			//FIXME Chưa thêm link đối chiếu khi thêm mới category thay vì cập nhật
+			return ResponseEntity.created(URI.create("")).body(parentChildCategory);
+		}
+		return ResponseEntity.ok(this.product_child_parent_category_service.update(parentChildCategory));
+	}
+
+	/**
+	 * Update child category 
+	 * @author vinh
+	 */
+	@PutMapping("update/child-category")
+	ResponseEntity<Product_child_category> updateChildCategory(@RequestBody Product_child_category childCategory){
+		if (!this.product_child_category_service.existsById(childCategory.getId())) {
+			childCategory = this.product_child_category_service.save(childCategory);
+			//FIXME Chưa thêm link đối chiếu khi thêm mới category thay vì cập nhật
+			return ResponseEntity.created(URI.create("")).body(childCategory);
+		}
+		return ResponseEntity.ok(this.product_child_category_service.update(childCategory));
+	}
+	//>>>>>>>>>>>>>>>>>>> update category end: vinh
+	
 }

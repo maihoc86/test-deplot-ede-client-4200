@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ede.edeproductservice.entity.Product_child_category;
-import com.ede.edeproductservice.entity.Product_parent_category;
-import com.ede.edeproductservice.entity.Product_parent_child_category;
 
 public interface Product_child_category_service {
 
@@ -21,6 +19,10 @@ public interface Product_child_category_service {
 
 
 	Product_child_category deleteChild(String id);
+
+	Product_child_category update(Product_child_category childCategory);
+
+	boolean existsById(String id);
 
 
 

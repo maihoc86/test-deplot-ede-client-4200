@@ -142,13 +142,13 @@
                         (click)="addNewParentCategory()">
                         Create
                       </button>
-                      <button type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idParentCategory" (click)="updateParentCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
                       <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
                         Delete
                       </button>
-                      <button type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                      <button (click)="idParentCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
                         Reset
                       </button>
                     </div>
@@ -310,13 +310,13 @@
                         class="btn btn-success px-5" (click)="addNewParent_child_Category()">
                         Create
                       </button>
-                      <button type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idParentChildCategory" (click)="updateParentChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
                       <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
                         Delete
                       </button>
-                      <button type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                      <button (click)="idParentChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
                         Reset
                       </button>
                     </div>
@@ -481,13 +481,13 @@
                         class="btn btn-success px-5" (click)="addNew_child_Category()">
                         Create
                       </button>
-                      <button type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idChildCategory" (click)="updateChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
                       <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
                         Delete
                       </button>
-                      <button type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                      <button (click)="idChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
                         Reset
                       </button>
                     </div>
