@@ -56,4 +56,9 @@ public class Product_parent_category_impl implements Product_parent_category_ser
 		return this.dao.existsById(id);
 	}
 
+	@Override
+	public List<Product_parent_category> findByIsdeleteFalse() {
+		return dao.findByIs_deleteFalse();
+	}
+
 }
