@@ -1,7 +1,7 @@
 package com.ede.edecustomerservice.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,7 +25,7 @@ public class Shop implements Serializable {
 	String id;
 	String name;
 	String image;
-	Date create_date;
+	Date create_date = new Date();
 	String address;
 
 	@OneToOne

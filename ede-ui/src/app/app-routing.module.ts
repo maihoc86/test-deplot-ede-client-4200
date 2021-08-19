@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'register', component: RegisterAccountComponent },
   { path: 'account/verify', component: AccountActiveComponent },
-  { path: 'shop/product', component: ProductShopComponent },
+  { path: 'shop/product/manager', component: ProductShopComponent },
 ];
 
 @NgModule({

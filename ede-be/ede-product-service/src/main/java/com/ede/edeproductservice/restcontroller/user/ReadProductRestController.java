@@ -35,6 +35,21 @@ public class ReadProductRestController {
 	public List<Product> getAllProduct() {
 		return service.findAll();
 	}
+	
+//	@Autowired
+//	private EntityManager en;
+	
+//	@GetMapping("/view/get-products/{keysearch}")
+//	public ResponseEntity<Object> getProducts(@PathVariable("keysearch") String keysearch) {
+//		Page<Product> result = this.service.searchByKeysearch(keysearch, PageRequest.of(0, 10));
+//// TODO Đánh dấu ở đây để mai code tiếp, chổ này cần phải nhanh chóng fix
+////		List<Object> result = en.createQuery("SELECT p FROM ProductSearch p ORDER BY function('dbo.string_distance', p.keysearch, '"+keysearch+"') ASC")
+////				.getResultList();
+//		
+//		System.err.println(result + "-----------");
+//		return ResponseEntity.ok(result);
+//	}
+//	
 	@GetMapping("/view/listBrand")
 	public List<Product_brand> getBrands() {
 		return brandService.findAll();
@@ -44,4 +59,5 @@ public class ReadProductRestController {
 	public List<Product_child_category> getCategories() {
 		return category_service.findAll();
 	}
+
 }
