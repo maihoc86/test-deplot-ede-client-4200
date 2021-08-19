@@ -8,8 +8,9 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user.model';
-import { RegisterService } from '../Services/register-service';
-import { ApiAddressService } from '../Services/api-address.service';
+import { RegisterService } from '../Services/register/register-service';
+import { ApiAddressService } from '../Services/api-address/api-address.service';
+import { Genders } from '../models/genders.model';
 
 @Component({
   selector: 'app-register-account',
@@ -24,11 +25,11 @@ export class RegisterAccountComponent implements OnInit {
     ]),
     password: new FormControl('', [
       Validators.required,
-      Validators.pattern('^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,50}$'),
+      Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,50}$'),
     ]),
     first_name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,}[ \\-\\']{0,}){2,50}$"),
+      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"),
     ]),
     address: new FormControl('', [
       Validators.required,
@@ -38,25 +39,23 @@ export class RegisterAccountComponent implements OnInit {
     ]),
     last_name: new FormControl('', [
       Validators.required,
-      Validators.pattern(
-        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){2,50}$"
-      ),
+      Validators.pattern("^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"),
     ]),
     gender: new FormControl('', Validators.required),
     photo: new FormControl(null),
     email: new FormControl('', [Validators.required, Validators.email]),
     is_delete: new FormControl(false),
     is_active: new FormControl(false),
-    role: new FormControl('US'),
     otp: new FormControl(null),
     city: new FormControl(''),
     district: new FormControl(''),
     wards: new FormControl(''),
     phone: new FormControl('', [
       Validators.required,
-      Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'),
+      Validators.pattern('(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b'),
     ]),
     confirmPassword: new FormControl('', Validators.required),
+
   });
   constructor(
     private router: Router,
@@ -112,12 +111,14 @@ export class RegisterAccountComponent implements OnInit {
     const oldAddress = this.register.controls['address'].value;
     const newAddress = (this.register.controls['address'].value + ", " + this.register.controls['wards'].value.name + ', ' + this.register.controls['district'].value.name + ', ' + this.register.controls['city'].value.name);
     this.register.controls['address'].setValue(newAddress);
-    this.registerService.addUser(this.createNewData()).subscribe(
+    this.registerService.registerAccount(this.createNewData()).subscribe(
       (data) => {
+        console.log(data);
+        this.registerService.sendEmail(data.email);
         Swal.fire({
           icon: 'success',
           title: 'Đăng ký thành công!',
-          text: 'Nhấp Ok để hoàn thành!',
+          text: 'Một liên kết đã gửi tới email của bạn, vui lòng xác nhận nó để kích hoạt tài khoản',
           confirmButtonText: `OK`,
         }).then((result) => {
           if (result.isConfirmed) {
@@ -170,7 +171,4 @@ export class RegisterAccountComponent implements OnInit {
     new Genders('K', 'D'),
   ];
 
-}
-class Genders {
-  constructor(public gdID: string, public gdName: string) { }
 }

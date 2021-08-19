@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ede.edecustomerservice.dao.UserDao;
 import com.ede.edecustomerservice.entity.User;
@@ -11,11 +12,12 @@ import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 
 @Service
+@Transactional
 public class CustomerImpl implements CustomerService {
-	
+
 	@Autowired
 	JsonWebTokenService jwtToken;
-	
+
 	@Autowired
 	UserDao dao;
 
@@ -31,7 +33,7 @@ public class CustomerImpl implements CustomerService {
 
 	@Override
 	public boolean resetPasswordToken(User user) {
-		if(!this.jwtToken.checkToken(user.getOtp())) {
+		if (!this.jwtToken.checkToken(user.getOtp())) {
 			return false;
 		}
 		String otp = this.jwtToken.getValue(user.getOtp());
@@ -71,6 +73,7 @@ public class CustomerImpl implements CustomerService {
 		}
 		return this.dao.save(userUpdate);
 	}
+
 	public User findByUsername(String username) {
 		return dao.findByUsername(username);
 	}
@@ -83,6 +86,38 @@ public class CustomerImpl implements CustomerService {
 	@Override
 	public User findByPhone(String phone) {
 		return dao.findByPhone(phone);
+	}
+
+	@Override
+	public List<User> findAll() {
+		return dao.findAll();
+	}
+
+	@Override
+	public User deleteByUsername(String username) {
+		User u = dao.findByUsername(username);
+		u.setIs_delete(true);
+		dao.save(u);
+		return u;
+	}
+
+	@Override
+	public boolean existsById(String id) {
+		return this.dao.existsById(id);
+	}
+
+	@Override
+	public boolean existsUsername(String username) {
+		return null != this.dao.findByUsername(username);
+	}
+
+	@Override
+	public User findById(String id) {
+		return dao.findById(id).get();
+	}
+
+	public List<User> findByUsernameContaining(String username) {
+		return dao.findByUsernameContaining(username);
 	}
 	
 }

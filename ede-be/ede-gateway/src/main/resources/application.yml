@@ -17,6 +17,15 @@ spring:
         uri: lb://ede-system
         predicates:
         - Path=/ede-system/**
+      - id: ede-oauth-service
+        uri: lb://ede-oauth-service
+        predicates:
+        - Path=/ede-oauth-service/**
+      - id: ede-oauth-service
+        uri: lb://ede-file
+        predicates:
+        - Path=/ede-file/**
+       
 eureka:
   client:    register-with-eureka:  true
     fetch-registry: true
