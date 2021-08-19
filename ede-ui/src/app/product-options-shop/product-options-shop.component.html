@@ -1,0 +1,130 @@
+<div class="main-container container">
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i></a></li>
+        <li><a href="#">Sản phẩm</a></li>
+    </ul>
+    <div class="row">
+        <app-aside-shop></app-aside-shop>
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-9">
+            <h2 class="title">Sản phẩm</h2>
+            <form class="form-horizontal" [formGroup]="product">
+                <fieldset>
+                    <legend>Thông tin sản phẩm</legend>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Tên nhãn</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="display_name"
+                                id="input-display-name" placeholder="Tên nhãn" value="" name="product">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-product" class="col-sm-2 control-label">Sản phẩm</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="id_product">
+                                <option *ngFor="let product of listProducts"  value="product">
+                                    {{ product.name }}
+                                <option>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Giá</label>
+                        <div class="col-sm-10">
+                            <input type="text" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="price" id="input-display-name" placeholder="Giá">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Số lượng</label>
+                        <div class="col-sm-10">
+                            <input type="number" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="quantity" id="input-display-name" placeholder="Số lượng">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group required">
+                        <label for="input-product" class="col-sm-2 control-label">Size</label>
+                        <div class="col-sm-10">
+                            <mat-form-field class="example-chip-list" appearance="fill" style="width:100%">
+                                <mat-label>Favorite Fruits</mat-label>
+                                <mat-chip-list #chipList aria-label="Fruit selection">
+                                    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+                                        [removable]="removable" (removed)="remove(fruit)">
+                                        {{fruit}}
+                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl"
+                                        [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        (matChipInputTokenEnd)="add($event)">
+                                </mat-chip-list>
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                    <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                                        {{fruit}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group required">
+                        <label for="input-product" class="col-sm-2 control-label">Size số</label>
+                        <div class="col-sm-10">
+                            <mat-form-field appearance="fill" style="width:100%">
+                                <mat-label>Toppings</mat-label>
+                                <mat-select [formControl]="toppings" multiple>
+                                    <mat-select-trigger>
+                                        {{toppings.value ? toppings.value[0] : ''}}
+                                        <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
+                                            (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' :
+                                            'others'}})
+                                        </span>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group required">
+                        <label for="input-product" class="col-sm-2 control-label">Size chữ</label>
+                        <div class="col-sm-10">
+                            <mat-form-field appearance="fill" style="width:100%">
+                                <mat-label>Toppings</mat-label>
+                                <mat-select [formControl]="toppings" multiple>
+                                    <mat-select-trigger>
+                                        {{toppings.value ? toppings.value[0] : ''}}
+                                        <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
+                                            (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' :
+                                            'others'}})
+                                        </span>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="input-quantity" class="col-sm-2 control-label">Mô
+                            tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
+                                rows="10"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="buttons clearfix">
+                    <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
+                    </div>
+                    <div class="pull-right">
+                        <input type="submit" class="btn btn-success" (click)="registerUser()" value="Thêm">
+                        <input type="submit" class="btn btn-primary" value="Sửa">
+                        <input type="submit" class="btn btn-danger" value="Xóa">
+                        <input type="submit" class="btn btn-secondary" value="Làm mới">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

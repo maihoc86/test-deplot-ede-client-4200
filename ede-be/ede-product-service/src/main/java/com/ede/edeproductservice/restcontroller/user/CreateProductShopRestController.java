@@ -39,7 +39,8 @@ public class CreateProductShopRestController {
 		UUID uuid = UUID.randomUUID();
 		product.setId(uuid.toString());
 		/************************/
-		Shop find = shopService.findById("0fd7abe4-3c7d-4b75-97b8-dcbcb1f30333"); // điền id shop vào ** đây là data mẫu
+		Shop find = shopService.findById("0fd7abe4-3c7d-4b75-97b8-dcbcb1f30333"); 
+		//TODO  điền id shop vào ** đây là data mẫu
 		product.setShop(find);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}

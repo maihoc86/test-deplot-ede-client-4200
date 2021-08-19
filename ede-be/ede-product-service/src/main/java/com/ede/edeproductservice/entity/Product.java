@@ -23,6 +23,7 @@ public class Product {
 	String id;
 	String origin;
 	String description;
+	String name;
 	Boolean enable;
 	Boolean deleted;
 	
