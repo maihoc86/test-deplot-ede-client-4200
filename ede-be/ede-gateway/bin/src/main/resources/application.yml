@@ -1,0 +1,33 @@
+spring:
+  application:    name: ede-api-gateway  cloud:    gateway:      routes:      - id: ede-hystrix-dashboard
+        uri: lb://ede-hystrix-dashboard        predicates:        - Path=/ede-hystrix-dashboard/**
+      - id: ede-cloud-config
+        uri: lb://ede-cloud-config
+        predicates:
+        - Path=/ede-cloud-config/**
+      - id: ede-customer
+        uri: lb://ede-customer
+        predicates:
+        - Path=/ede-customer/**
+      - id: ede-product
+        uri: lb://ede-product
+        predicates:
+        - Path=/ede-product/**
+      - id: ede-system
+        uri: lb://ede-system
+        predicates:
+        - Path=/ede-system/**
+      - id: ede-oauth-service
+        uri: lb://ede-oauth-service
+        predicates:
+        - Path=/ede-oauth-service/**
+       
+eureka:
+  client:    register-with-eureka:  true
+    fetch-registry: true
+    service-url:      defaultZone: http://localhost:8761/eureka/
+  instance:    hostname: localhost
+    
+    
+server:
+  port: 8080  

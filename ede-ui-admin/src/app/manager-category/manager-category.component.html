@@ -1,0 +1,575 @@
+<p>manager-category works!</p>
+<div class="page-wrapper">
+  <div class="page-content">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">Forms</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item">
+              <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Select2</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="ms-auto">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary">Settings</button>
+          <button type="button" class="
+              btn btn-primary
+              split-bg-primary
+              dropdown-toggle dropdown-toggle-split
+            " data-bs-toggle="dropdown">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+            <a class="dropdown-item" href="javascript:;">Action</a>
+            <a class="dropdown-item" href="javascript:;">Another action</a>
+            <a class="dropdown-item" href="javascript:;">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:;">Separated link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols-2">
+      <div class="col-md-12">
+        <h6 class="mb-0 text-uppercase">Form with icons</h6>
+        <hr />
+        <div class="card border-top border-0 border-4 border-danger">
+          <div class="card-body p-5">
+            <div class="card-title d-flex align-items-center">
+              <div><i class="bx bxs-user me-1 font-22 text-danger"></i></div>
+              <h5 class="mb-0 text-danger">Quản lý danh mục</h5>
+            </div>
+            <hr />
+
+            <br><br><br>
+
+            <div class="card-body">
+              <ul class="nav nav-tabs nav-primary mb-0" role="tablist">
+                <li class="nav-item" role="presentation" (click)="loadParentCategory()">
+                  <a class="nav-link active" data-bs-toggle="tab" href="#primaryhome" role="tab" aria-selected="true">
+                    <div class="d-flex align-items-center">
+                      <div class="tab-icon"><i class='bx bx-comment-detail font-18 me-1'></i>
+                      </div>
+                      <div class="tab-title">Category Parent</div>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item" role="presentation" (click)="loadParent_Child_Category()">
+                  <a class="nav-link" data-bs-toggle="tab" href="#primaryprofile" role="tab" aria-selected="false">
+                    <div class="d-flex align-items-center">
+                      <div class="tab-icon"><i class='bx bx-bookmark-alt font-18 me-1'></i>
+                      </div>
+                      <div class="tab-title">Category Parent Child</div>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item" role="presentation" (click)="load_Child_Category()">
+                  <a class="nav-link" data-bs-toggle="tab" href="#primarycontact" role="tab" aria-selected="false">
+                    <div class="d-flex align-items-center">
+                      <div class="tab-icon"><i class='bx bx-star font-18 me-1'></i>
+                      </div>
+                      <div class="tab-title">Category Child</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+
+
+              <!----------------------------------------------------------------Category Parent nè ------------------------------------------------------------------------------->
+
+              <div class="tab-content pt-3">
+                <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
+                  <br><br>
+                  <form class="row g-3" [formGroup]="parent">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-xl-9 mx-auto">
+                          <div class="card" style="height: 300px; border-radius: 3px; border: 2px dashed #A2B4CA;">
+                            <div class="card-body" style="height: 70%;width: auto;">
+                              <img [src]="urlParent" height="100%" width="100%" formControlName="image_url">
+                            </div>
+                            <input type="file" #parentInputImage_Parent (change)="onselectFileParent($event)"
+                              accept=".jpg, .png, image/jpeg, image/png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="col-md-12">
+                        <label for="inputName" class="form-label">Tên loại</label>
+                        <div class="input-group">
+                          <span class="input-group-text bg-transparent"><i class="bx bxs-cart"></i></span>
+                          <input formControlName="name" type="text" class="form-control border-start-0"
+                            placeholder="Tên loại" />
+                        </div>
+                        <div
+                          *ngIf="parent.controls['name'].invalid && (parent.controls['name'].dirty || parent.controls['name'].touched)"
+                          class="alert alert-danger">
+                          <span *ngIf="
+                          parent.controls['name'].errors &&
+                          parent.controls['name'].errors.required">Tên loại là bắt buộc.</span>
+                          <span *ngIf="
+                          parent.controls['name'].errors &&
+                          parent.controls['name'].errors.pattern">Tên loại không đúng định dạng.</span>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label for="inputUsername" class="form-label">Hoạt động</label>
+                          <div class="input-group">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio1" value="true">
+                              <label class="form-check-label" for="inlineRadio1">Kích hoạt</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio2" value="false" (checked)='true'>
+                              <label class="form-check-label" for="inlineRadio2">Không Kích hoạt</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <button type="submit" [disabled]="parent.invalid ? 'disabled': null" class="btn btn-success px-5"
+                        (click)="addNewParentCategory()">
+                        Create
+                      </button>
+                      <button [disabled]="!idParentCategory" (click)="updateParentCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                        Update
+                      </button>
+                      <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
+                        Delete
+                      </button>
+                      <button (click)="idParentCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                        Reset
+                      </button>
+                    </div>
+                  </form><br>
+                  <br><br>
+                  <div class="row">
+                    <div class="col-md-6">DATATABLE EXAMPLE</div>
+                    <div class="col-md-6">
+                      <div class="position-relative">
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                          (keyup)="SearchP(myInput.value)" #myInput> <span
+                          class="position-absolute top-50 product-show translate-middle-y"><i
+                            class="bx bx-search"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-lg-flex align-items-center mb-4 gap-3">
+                        <div class="position-relative">
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table mb-0">
+                          <thead class="table-light">
+                            <tr>
+                              <th>#Name</th>
+                              <th>Image</th>
+                              <th>Is enable</th>
+                              <th>Is Delete</th>
+                              <th>Acctions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let e of items |  paginate: { itemsPerPage: 5, currentPage: p }">
+                              <td *ngIf="e">{{e.name}}</td>
+                              <td *ngIf="e">{{e.image_url}}</td>
+                              <td>
+                                <div *ngIf="e.is_enable"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1' ></i>Hoạt động</div>
+                                <div *ngIf="!e.is_enable"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Không hoạt động</div>
+                              </td>
+
+
+                              <td>
+                                <div *ngIf="e.is_delete"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                                <div *ngIf="!e.is_delete"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                              </td>
+                              <td>
+                                <div class="d-flex order-actions">
+                                  <a href="javascript:;" (click)="editP(e)" class="ms-3 btn-success" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" (click)="DeleteParent_Category(e.id)" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>
+                    <div style="text-align: center;">
+                      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                  </div>
+                </div>
+
+                <!---------------------------------------------------------------- Kết thúc Category Parent ------------------------------------------------------------------------------->
+
+
+
+                <!----------------------------------------------------------------Category Parent Child nè ------------------------------------------------------------------------------->
+
+                <div class="tab-pane fade" id="primaryprofile" role="tabpanel">
+                  <br><br>
+                  <form class="row g-3" [formGroup]="parent_child_category">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-xl-9 mx-auto">
+                          <div class="card" style="height: 300px; border-radius: 3px; border: 2px dashed #A2B4CA;">
+                            <div class="card-body" style="height: 70%;width: auto;">
+
+                              <img [src]="urlParent_child" height="100%" width="100%" formControlName="image_url">
+                            </div>
+                            <input type="file" #parentInputImageParent_Child (change)="onselectFileParent_Child($event)"
+                              accept=".jpg, .png, image/jpeg, image/png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="col-md-12">
+                        <label for="inputUsername" class="form-label">Tên loại</label>
+                        <div class="input-group">
+                          <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+                          <input formControlName="name" type="text" class="form-control border-start-0"
+                            id="inputUsername" placeholder="Tên loại" />
+                        </div>
+                        <div
+                          *ngIf="parent_child_category.controls['name'].invalid && (parent_child_category.controls['name'].dirty || parent_child_category.controls['name'].touched)"
+                          class="alert alert-danger">
+                          <span *ngIf="
+                          parent_child_category.controls['name'].errors &&
+                          parent_child_category.controls['name'].errors.required">Tên loại là bắt buộc.</span>
+                          <span *ngIf="
+                          parent_child_category.controls['name'].errors &&
+                          parent_child_category.controls['name'].errors.pattern">Tên loại không đúng định dạng.</span>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-12">
+                        <div>
+                          <label class="form-label">Category Parent</label>
+                          <select class="form-select" formControlName="parent_category">
+                            <option [ngValue]="null" disabled>
+                            </option>
+                            <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf">
+                              {{ prf.name }}
+                            </option>
+                          </select>
+                        </div>
+                        <div
+                          *ngIf=" parent_child_category.controls['parent_category'].invalid && parent_child_category.controls['parent_category'].touched"
+                          class="alert alert-danger">
+                          <span
+                            *ngIf="parent_child_category.controls['parent_category'].errors && parent_child_category.controls['parent_category'].errors.required">
+                            Category Parent là bắt buộc</span>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label for="inputUsername" class="form-label">Hoạt động</label>
+                          <div class="input-group">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio1" value="true">
+                              <label class="form-check-label" for="inlineRadio1">Kích hoạt</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio2" value="false">
+                              <label class="form-check-label" for="inlineRadio2">Không Kích hoạt</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <button type="submit" [disabled]="parent_child_category.invalid ? 'disabled': null"
+                        class="btn btn-success px-5" (click)="addNewParent_child_Category()">
+                        Create
+                      </button>
+                      <button [disabled]="!idParentChildCategory" (click)="updateParentChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                        Update
+                      </button>
+                      <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
+                        Delete
+                      </button>
+                      <button (click)="idParentChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                        Reset
+                      </button>
+                    </div>
+                  </form>
+                  <br><br><br>
+                  <div class="row">
+                    <div class="col-md-6">DATATABLE EXAMPLE</div>
+                    <div class="col-md-6">
+                      <div class="position-relative">
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                          (keyup)="SearchPC(myInputPC.value)" #myInputPC> <span
+                          class="position-absolute top-50 product-show translate-middle-y"><i
+                            class="bx bx-search"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-lg-flex align-items-center mb-4 gap-3">
+                        <div class="position-relative">
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table mb-0">
+                          <thead class="table-light">
+                            <tr>
+                              <th>#Name</th>
+                              <th>Name Parent</th>
+                              <th>Image</th>
+                              <th>Is enable</th>
+                              <th>Is Delete</th>
+                              <th>Acctions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let e of itemP |  paginate: { itemsPerPage: 5, currentPage: pc }">
+                              <td *ngIf="e">{{e.name}}</td>
+                              <td *ngIf="e">{{e.parent_category.name}}</td>
+                              <td *ngIf="e">{{e.image_url}}</td>
+                              <td>
+                                <div *ngIf="e.is_enable"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Hoạt động</div>
+                                <div *ngIf="!e.is_enable"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Không hoạt động</div>
+                              </td>
+
+
+                              <td>
+                                <div *ngIf="e.is_delete"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                                <div *ngIf="!e.is_delete"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                              </td>
+                              <td>
+                                <div class="d-flex order-actions">
+                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editPC(e)" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteParent_Child_Category(e.id)" style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div style="text-align: center;">
+                      <pagination-controls (pageChange)="pc = $event"></pagination-controls>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!----------------------------------------------------------------Kết thúc Category Parent Child  ------------------------------------------------------------------------------->
+
+
+
+                <!---------------------------------------------------------------- Category Child nè------------------------------------------------------------------------------->
+
+                <div class="tab-pane fade" id="primarycontact" role="tabpanel">
+                  <br><br>
+                  <form class="row g-3" [formGroup]="child_category">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-xl-9 mx-auto">
+                          <div class="card" style="height: 300px; border-radius: 3px; border: 2px dashed #A2B4CA;">
+                            <div class="card-body" style="height: 70%;width: auto;">
+
+                              <img [src]="urlChild" height="100%" width="100%" formControlName="image_url">
+                            </div>
+                            <input type="file" #parentInputImage_Child (change)="onselectFile_Child($event)"
+                              accept=".jpg, .png, image/jpeg, image/png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="col-md-12">
+                        <label for="inputUsername" class="form-label">Tên loại</label>
+                        <div class="input-group">
+                          <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+                          <input formControlName="name" type="text" class="form-control border-start-0"
+                            id="inputUsername" placeholder="Tên loại" />
+                        </div>
+                        <div
+                          *ngIf="child_category.controls['name'].invalid && (child_category.controls['name'].dirty || child_category.controls['name'].touched)"
+                          class="alert alert-danger">
+                          <span *ngIf="
+                          child_category.controls['name'].errors &&
+                          child_category.controls['name'].errors.required">Tên loại là bắt buộc.</span>
+                          <span *ngIf="
+                          child_category.controls['name'].errors &&
+                          child_category.controls['name'].errors.pattern">Tên loại không đúng định dạng.</span>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-12">
+                        <div>
+                          <label class="form-label">Category Parent Child</label>
+                          <select class="form-select" formControlName="child_parentCategory">
+                            <option [ngValue]="null" disabled>
+                            </option>
+                            <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf">
+                              {{ prf.name }}
+                            <option>
+                            </option>
+                          </select>
+                          <div
+                          *ngIf=" child_category.controls['child_parentCategory'].invalid && child_category.controls['child_parentCategory'].touched"
+                          class="alert alert-danger">
+                          <span
+                            *ngIf="child_category.controls['child_parentCategory'].errors && child_category.controls['child_parentCategory'].errors.required">
+                            Category Parent Child là bắt buộc</span>
+                        </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label for="inputUsername" class="form-label">Hoạt động</label>
+                          <div class="input-group">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio1" value="true">
+                              <label class="form-check-label" for="inlineRadio1">Kích hoạt</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="is_enable" name="isenable"
+                                id="inlineRadio2" value="false">
+                              <label class="form-check-label" for="inlineRadio2">Không Kích hoạt</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <button type="submit" [disabled]="child_category.invalid ? 'disabled': null"
+                        class="btn btn-success px-5" (click)="addNew_child_Category()">
+                        Create
+                      </button>
+                      <button [disabled]="!idChildCategory" (click)="updateChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                        Update
+                      </button>
+                      <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
+                        Delete
+                      </button>
+                      <button (click)="idChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                        Reset
+                      </button>
+                    </div>
+                  </form>
+                  <br><br><br>
+                  <div class="row">
+                    <div class="col-md-6">DATATABLE EXAMPLE</div>
+                    <div class="col-md-6">
+                      <div class="position-relative">
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                          (keyup)="SearchC(myInputC.value)" #myInputC> <span
+                          class="position-absolute top-50 product-show translate-middle-y"><i
+                            class="bx bx-search"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-lg-flex align-items-center mb-4 gap-3">
+                        <div class="position-relative">
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table mb-0">
+                          <thead class="table-light">
+                            <tr>
+                              <th>#Name</th>
+                              <th>Name Parent Child</th>
+                              <th>Image</th>
+                              <th>Is enable</th>
+                              <th>Is Delete</th>
+                              <th>Acctions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let e of itemC |  paginate: { itemsPerPage: 5, currentPage: c } ">
+                              <td *ngIf="e">{{e.name}}</td>
+                              <td *ngIf="e">{{e.child_parentCategory.name}}</td>
+                              <td *ngIf="e">{{e.image_url}}</td>
+                              <td>
+                                <div *ngIf="e.is_enable"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Hoạt động</div>
+                                <div *ngIf="!e.is_enable"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>Không hoạt động</div>
+                              </td>
+
+
+                              <td>
+                                <div *ngIf="e.is_delete"
+                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                                <div *ngIf="!e.is_delete"
+                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
+                              </td>
+                              <td>
+                                <div class="d-flex order-actions">
+                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editC(e)" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteChild_Category(e.id)" style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div style="text-align: center;">
+                      <pagination-controls (pageChange)="c = $event"></pagination-controls>
+                    </div>
+                  </div>
+                </div>
+                <!---------------------------------------------------------------- Kết thúc Category Child ------------------------------------------------------------------------------->
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
