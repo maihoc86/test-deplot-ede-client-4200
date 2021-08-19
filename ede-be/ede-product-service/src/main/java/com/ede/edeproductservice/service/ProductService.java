@@ -8,4 +8,6 @@ public interface ProductService {
 
 	List<Product> findAll();
 
+	List<Product> findAllIsdeleteFalse();
+
 }

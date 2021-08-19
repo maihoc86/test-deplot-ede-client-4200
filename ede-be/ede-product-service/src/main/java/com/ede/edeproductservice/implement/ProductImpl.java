@@ -21,4 +21,10 @@ public class ProductImpl implements ProductService {
 		return dao.findAll();
 	}
 
+	@Override
+	public List<Product> findAllIsdeleteFalse() {
+		
+		return dao.findAllByDeleted(false);
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,6 +26,7 @@ public class Product_parent_category {
 	String name;
 	String image_url;
 	Boolean is_enable;
+	
 	Boolean is_delete;
 
 	@JsonIgnore
