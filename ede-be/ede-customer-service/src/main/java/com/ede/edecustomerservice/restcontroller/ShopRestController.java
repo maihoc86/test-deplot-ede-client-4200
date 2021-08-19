@@ -48,5 +48,4 @@ public class ShopRestController {
 	public Shop getInfoShop(@PathVariable String id) {
 		return shopService.findById(id);
 	}
-
 }
