@@ -119,5 +119,11 @@ public class CustomerImpl implements CustomerService {
 	public List<User> findByUsernameContaining(String username) {
 		return dao.findByUsernameContaining(username);
 	}
+
+	@Override
+	public User findByUsername2(String id) {
+		System.err.println("in impl : " +id);
+		return dao.findByUsername2(id);
+	}
 	
 }

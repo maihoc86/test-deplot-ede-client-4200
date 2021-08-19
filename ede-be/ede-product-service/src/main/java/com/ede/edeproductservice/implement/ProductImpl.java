@@ -30,4 +30,10 @@ public class ProductImpl implements ProductService {
 		return dao.findAllByDeleted(false);
 	}
 
+	@Override
+	public Product findById(String id) {
+		
+		return dao.findById(id).get();
+	}
+
 }

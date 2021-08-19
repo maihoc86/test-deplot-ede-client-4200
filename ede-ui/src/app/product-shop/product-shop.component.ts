@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { Product } from '../models/product.model';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -29,6 +30,7 @@ export class ProductShopComponent implements OnInit {
     private route: ActivatedRoute,
     private Addservice: AddProductService,
     private AddresseService: ApiAddressService,
+    private cookieService:CookieService
   ) { }
 
   ngOnInit(): void {
@@ -56,24 +58,45 @@ export class ProductShopComponent implements OnInit {
     this.Addservice.addProductShop(this.createNewData()).subscribe(
       (data) => {
         Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm sản phẩm thành công !',
-          confirmButtonText: `OK`,
+          title: 'Thêm sản phẩm thành công !!',
+          text: "Bạn có muốn đăng bán sản phẩm luôn không!",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đăng bán!'
         }).then((result) => {
           if (result.isConfirmed) {
-            this.router.navigate(['login']);
-          } else {
-            this.router.navigate(['login']);
+            console.log(data)
+            this.Addservice.enableProductShop(data.id).subscribe((data)=>{
+              Swal.fire({
+                title:  'Thông báo!',
+                text: 'Sản phẩm đã được đăng bán',
+                icon: 'success'}
+              ).then((result)=>{
+                console.log(data)
+              })
+            })
+           
           }
         })
       },
       (err) => {
+        console.log(err.error)
+       if(err.status==404){
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: "Chưa đăng nhập",
+        });
+        this.router.navigate(['/login'])
+       }else{
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
           text: err.error.message,
         });
+       }
       }
     );
   }

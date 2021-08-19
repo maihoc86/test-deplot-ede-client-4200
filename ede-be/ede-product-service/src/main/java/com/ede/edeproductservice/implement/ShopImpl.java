@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.ShopDao;
 import com.ede.edeproductservice.entity.Shop;
+import com.ede.edeproductservice.entity.User;
 import com.ede.edeproductservice.service.ShopService;
 
 @Service
@@ -16,6 +17,12 @@ public class ShopImpl implements ShopService {
 	@Override
 	public Shop findById(String string) {
 		return dao.findById(string).get();
+	}
+
+	@Override
+	public Shop findByUser(User us) {
+		
+		return dao.findByUser(us);
 	}
 
 }
