@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -208,6 +209,7 @@ public class CustomerRestController {
 			return ResponseEntity.ok(false);
 		}
 		// send mail
+		// FIXME sửa lại tin nhắn sẽ gửi đến người dùng, tiêu đề email, và đa ngôn ngữ
 		MailEntity mail = new MailEntity();
 		mail.setMailReceiver(email);
 		mail.setSubject("Quên mật khẩu");
@@ -224,7 +226,7 @@ public class CustomerRestController {
 	 * @author vinh
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forgot-password/reset-password")
+	@PatchMapping("/ede-customer/forgot-password/reset-password")
 	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody Map<String, String> requestBody) {
 		User user = new User();
 		user.setEmail(requestBody.get("email"));
@@ -241,7 +243,7 @@ public class CustomerRestController {
 	 * @see #resetPasswordOtp(User)
 	 * @see #resetPasswordToken(User)
 	 */
-	@PostMapping("/ede-customer/forgot-password/reset-password/token")
+	@PatchMapping("/ede-customer/forgot-password/reset-password/token")
 	ResponseEntity<Boolean> resetPasswordToken(@RequestBody Map<String, String> requestBody) {
 		User user = new User();
 		user.setEmail(requestBody.get("email"));

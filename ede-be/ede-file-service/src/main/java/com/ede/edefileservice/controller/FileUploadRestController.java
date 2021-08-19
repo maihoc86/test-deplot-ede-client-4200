@@ -31,7 +31,7 @@ public class FileUploadRestController {
 	ResponseEntity<String> save(@PathVariable("folder") String folder, @RequestPart("file") MultipartFile file) {
 		try {
 			File fileDone = this.fileManagerService.save(folder, file);
-			//TODO Kiểm tra lại đường dẫn khi tạo thành công
+			//XXX Kiểm tra lại đường dẫn khi tạo thành công
 			return ResponseEntity.created(URI.create("/ede-file/get/" + folder + "/" + fileDone.getName())).body(folder + fileDone.getName());
 		} catch (IOException e) {
 			return ResponseEntity.noContent().build();

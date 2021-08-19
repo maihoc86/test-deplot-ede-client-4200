@@ -15,11 +15,11 @@ export class ForgotPasswordService {
   }
 
   async resetPasswordOtp(user: any) {
-    return this.http.post<any>(`${this.url}/reset-password`, user).toPromise()
+    return this.http.patch<any>(`${this.url}/reset-password`, user).toPromise()
   }
 
   async resetPasswordToken(user: any) {
-    return this.http.post<any>(`${this.url}/reset-password/token`, user).toPromise()
+    return this.http.patch<any>(`${this.url}/reset-password/token`, user).toPromise()
   }
 
 }
