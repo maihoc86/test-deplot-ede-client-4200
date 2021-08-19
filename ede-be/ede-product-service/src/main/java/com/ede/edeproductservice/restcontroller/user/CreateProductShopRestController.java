@@ -67,10 +67,14 @@ public class CreateProductShopRestController {
 		product.setId(uuid.toString());
 		product.setEnable(false);
 		/************************/
+
 		Shop sh = shopService.findByUser(us);
 		System.err.println("shop : " +sh);
 		Shop find = shopService.findById("0fd7abe4-3c7d-4b75-97b8-dcbcb1f30333"); // điền id shop vào ** đây là data mẫu
 		product.setShop(sh);
+
+
+
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 	@SuppressWarnings("rawtypes")

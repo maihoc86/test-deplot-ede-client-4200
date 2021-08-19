@@ -29,4 +29,7 @@ export class AddProductService {
   public getCategories() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listCategories');
   }
+  public getAllProduct() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
+  }
 }

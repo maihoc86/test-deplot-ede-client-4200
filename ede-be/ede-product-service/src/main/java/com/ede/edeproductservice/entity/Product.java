@@ -2,6 +2,8 @@ package com.ede.edeproductservice.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,11 +17,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Product {
 	@Id
 	String id;
 	String origin;
 	String description;
+	String name;
 	Boolean enable;
 	Boolean deleted;
 	
