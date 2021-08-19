@@ -17,6 +17,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JsonWebTokenServiceAdapter implements JsonWebTokenService {
 	
+	// XXX Có nên sửa thành UUID ?
 	private final String JWT_SECRET = "Sign_Of_Token-NeUw2Nyc2dN%M?Kzj8jnaDh*q_W%9L";
 	
 	@Override

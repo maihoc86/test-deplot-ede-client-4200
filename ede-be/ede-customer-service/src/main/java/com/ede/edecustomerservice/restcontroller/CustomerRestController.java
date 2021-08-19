@@ -251,8 +251,6 @@ public class CustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-	
-
 	@PostMapping("/ede-customer/delete/users/{username}")
 	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
 		System.err.println("Detele username :" + username);
@@ -264,15 +262,12 @@ public class CustomerRestController {
 		}
 	}
 	
-	
-	
 	/**
 	 * Load data on the table
 	 * 
 	 * @author thanh
 	 * @see
 	 */
-
 	@GetMapping("/ede-customer/admin/users")
 	public List<User> getAccounts() {
 		return service.findAll();
@@ -282,7 +277,6 @@ public class CustomerRestController {
 	 * Create search account admin
 	 * @author Thanh
 	 */
-	
 	@GetMapping("/ede-customer/admin/search/{username}")
 	public List<User> search(@PathVariable("username") String username){
 		System.out.println("username: "+username);
