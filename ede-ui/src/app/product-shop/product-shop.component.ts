@@ -9,6 +9,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { Product } from '../models/product.model';
+import { ApiAddressService } from '../Services/api-address/api-address.service';
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -26,17 +27,21 @@ export class ProductShopComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private Addservice: AddProductService
+    private Addservice: AddProductService,
+    private AddresseService: ApiAddressService,
   ) { }
 
   ngOnInit(): void {
     this.listBrands;
     this.listCategories;
+    this.listCountry;
     this.getBrands();
     this.getCategories();
+    this.getCountry();
   }
   public listCategories: any = [];
   public listBrands: any = [];
+  public listCountry: any = [];
   private createNewData() {
     const newProduct: any = {};
     for (const controlName in this.product.controls) {
@@ -72,7 +77,15 @@ export class ProductShopComponent implements OnInit {
       }
     );
   }
-
+  public getCountry() {
+    this.AddresseService.getCountry().subscribe((data) => {
+      const listCountry = data.map(function (obj: { id: any; name: any; }) {
+        return obj;
+      });
+      this.listCountry = listCountry;
+      console.log(this.listCountry);
+    });
+  }
   public getBrands() {
     this.Addservice.getBrand().subscribe(
       (data) => {
@@ -80,7 +93,6 @@ export class ProductShopComponent implements OnInit {
           return obj;
         });
         this.listBrands = listBrands;
-        console.log(this.listBrands);
       }
     );
   }
@@ -90,7 +102,6 @@ export class ProductShopComponent implements OnInit {
         return obj;
       });
       this.listCategories = listCategories;
-      console.log(this.listCategories);
     });
   }
 }
