@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -253,7 +254,7 @@ public class CustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-	@PostMapping("/ede-customer/delete/users/{username}")
+	@DeleteMapping("/ede-customer/delete/users/{username}")
 	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
 		System.err.println("Detele username :" + username);
 		try {

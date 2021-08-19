@@ -28,4 +28,14 @@ public class ProductImpl implements ProductService {
 		return this.dao.searchBykeysearch(keysearch, pageRequest);
 	}
 
+	@Override
+	public Product save(Product product) {
+		return dao.save(product);
+	}
+
+	@Override
+	public List<Product> findAllIsdeleteFalse() {	
+		return dao.findAllByDeleted(false);
+	}
+
 }

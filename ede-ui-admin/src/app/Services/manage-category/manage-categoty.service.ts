@@ -37,13 +37,13 @@ export class ManageCategotyService {
 
 
   public DeleteParent_Category(id:string){
-    return this.httpClient.get<any>(this.REST_API_SERVER+'/delete/parent_category/'+id,this.httpOptions);
+    return this.httpClient.delete<any>(this.REST_API_SERVER+'/delete/parent_category/'+id,this.httpOptions);
   }
   public DeleteParent_Child_Category(id:string){
-    return this.httpClient.get<any>(this.REST_API_SERVER+'/delete/parent_child_category/'+id,this.httpOptions);
+    return this.httpClient.delete<any>(this.REST_API_SERVER+'/delete/parent_child_category/'+id,this.httpOptions);
   }
   public DeleteChild_Category(id:string){
-    return this.httpClient.get<any>(this.REST_API_SERVER+'/delete/child_category/'+id,this.httpOptions);
+    return this.httpClient.delete<any>(this.REST_API_SERVER+'/delete/child_category/'+id,this.httpOptions);
   }
   public loadParentCategory() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/parent_category', this.httpOptions);

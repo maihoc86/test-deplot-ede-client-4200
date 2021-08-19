@@ -145,7 +145,7 @@
                       <button [disabled]="!idParentCategory" (click)="updateParentCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
-                      <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
+                      <button type="submit" [disabled]="!idParentCategory" (click)="DeleteParent_Category(idParentCategory)" class="btn btn-danger px-5" style="margin-left: 10px">
                         Delete
                       </button>
                       <button (click)="idParentCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
@@ -179,7 +179,7 @@
                               <th>#Name</th>
                               <th>Image</th>
                               <th>Is enable</th>
-                              <th>Is Delete</th>
+                             
                               <th>Acctions</th>
                             </tr>
                           </thead>
@@ -192,23 +192,16 @@
                                   class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1' ></i>Hoạt động</div>
                                 <div *ngIf="!e.is_enable"
-                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                  class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
 
 
-                              <td>
-                                <div *ngIf="e.is_delete"
-                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
-                                <div *ngIf="!e.is_delete"
-                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
-                              </td>
+                            
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" (click)="editP(e)" class="ms-3 btn-success" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" (click)="DeleteParent_Category(e.id)" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" (click)="editP(e)" class="ms-3 btn-success" style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" (click)="DeleteParent_Category(e.id)" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
@@ -313,7 +306,7 @@
                       <button [disabled]="!idParentChildCategory" (click)="updateParentChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
-                      <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
+                      <button type="submit" [disabled]="!idParentChildCategory"   (click)="DeleteParent_Child_Category(idParentChildCategory)" class="btn btn-danger px-5" style="margin-left: 10px">
                         Delete
                       </button>
                       <button (click)="idParentChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
@@ -348,7 +341,6 @@
                               <th>Name Parent</th>
                               <th>Image</th>
                               <th>Is enable</th>
-                              <th>Is Delete</th>
                               <th>Acctions</th>
                             </tr>
                           </thead>
@@ -362,23 +354,16 @@
                                   class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Hoạt động</div>
                                 <div *ngIf="!e.is_enable"
-                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                  class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
 
 
-                              <td>
-                                <div *ngIf="e.is_delete"
-                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
-                                <div *ngIf="!e.is_delete"
-                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
-                              </td>
+                            
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editPC(e)" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteParent_Child_Category(e.id)" style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editPC(e)" style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteParent_Child_Category(e.id)" style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
@@ -481,10 +466,10 @@
                         class="btn btn-success px-5" (click)="addNew_child_Category()">
                         Create
                       </button>
-                      <button [disabled]="!idChildCategory" (click)="updateChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idChildCategory" (click)="updateChildCategory()"  type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
-                      <button type="submit" class="btn btn-danger px-5" style="margin-left: 10px">
+                      <button type="submit" class="btn btn-danger px-5" [disabled]="!idChildCategory" (click)="DeleteChild_Category(idChildCategory)" style="margin-left: 10px">
                         Delete
                       </button>
                       <button (click)="idChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
@@ -519,7 +504,7 @@
                               <th>Name Parent Child</th>
                               <th>Image</th>
                               <th>Is enable</th>
-                              <th>Is Delete</th>
+                            
                               <th>Acctions</th>
                             </tr>
                           </thead>
@@ -533,23 +518,16 @@
                                   class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Hoạt động</div>
                                 <div *ngIf="!e.is_enable"
-                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
+                                  class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
 
 
-                              <td>
-                                <div *ngIf="e.is_delete"
-                                  class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
-                                <div *ngIf="!e.is_delete"
-                                  class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1'></i>{{e.is_delete}}</div>
-                              </td>
+                           
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editC(e)" style="background-color: #29cc39; color: black;"><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteChild_Category(e.id)" style="background-color: #d10b1e; color: black;"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editC(e)" style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteChild_Category(e.id)" style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>

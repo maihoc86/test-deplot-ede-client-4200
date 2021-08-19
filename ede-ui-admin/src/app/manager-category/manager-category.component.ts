@@ -289,6 +289,7 @@ export class ManagerCategoryComponent implements OnInit {
         text: 'Xóa thành công'
       }).then(respone => {
         this.loadParentCategory();
+        this.reset(this.parent);
       })
 
     }, (err) => {
@@ -311,6 +312,7 @@ export class ManagerCategoryComponent implements OnInit {
         text: 'Xóa thành công'
       }).then(respone => {
         this.loadParent_Child_Category();
+        this.reset(this.parent_child_category);
       })
 
     }, (err) => {
@@ -333,6 +335,7 @@ export class ManagerCategoryComponent implements OnInit {
         text: 'Xóa thành công'
       }).then(respone => {
         this.load_Child_Category();
+        this.reset(this.child_category);
       })
 
     }, (err) => {

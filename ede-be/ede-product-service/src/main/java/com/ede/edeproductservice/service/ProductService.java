@@ -13,4 +13,8 @@ public interface ProductService {
 
 	Page<Product> searchByKeysearch(String keysearch, PageRequest pageRequest);
 
+	Product save(Product product);
+
+	List<Product> findAllIsdeleteFalse();
+
 }

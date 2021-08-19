@@ -40,17 +40,17 @@ public class ReadCategoryRestController {
 	 */
 	@GetMapping("/view/parent_category")
 	public List<Product_parent_category> view_parent() {
-		return product_parent_categoryService.findAll();
+		return product_parent_categoryService.findByIsdeleteFalse();
 	}
 
 	@GetMapping("/view/child_parent_category")
 	public List<Product_parent_child_category> view_child_parent() {
-		return product_child_parent_category_service.findAll();
+		return product_child_parent_category_service.findByIsdeleteFalse();
 	}
 
 	@GetMapping("/view/child_category")
 	public List<Product_child_category> view_child() {
-		return product_child_category_service.findAll();
+		return product_child_category_service.findByIsdeleteFalse();
 	}
 
 	/**
