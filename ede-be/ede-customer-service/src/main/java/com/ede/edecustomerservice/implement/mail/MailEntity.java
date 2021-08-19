@@ -13,11 +13,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MailEntity {
 	
-	@Getter
+	@Getter // FIXME sửa nội dung người gửi thành mail dùng chung của team
 	private String replyTo = "vinhlmpc01238@fpt.edu.vn";
 	@Getter
 	private String nameSender = "EC Dark Eye";
-	@Getter
+	@Getter // FIXME sửa nội dung người gửi thành mail dùng chung của team
 	private String mailSender = "noreply.vinh.bot@gmail.com";
 	
 	@Setter
