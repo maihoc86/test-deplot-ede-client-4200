@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,11 +27,13 @@ import com.ede.edecustomerservice.dao.AuthoritiesDao;
 import com.ede.edecustomerservice.dao.RoleDao;
 import com.ede.edecustomerservice.entity.Authorities;
 import com.ede.edecustomerservice.entity.Roles;
+import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
+import com.ede.edecustomerservice.service.ShopService;
 
 @CrossOrigin("*")
 @RestController
@@ -38,6 +41,9 @@ public class CustomerRestController {
 
 	@Autowired
 	CustomerService service;
+	
+	@Autowired
+	ShopService shopservice;
 
 	@Autowired
 	private MailService mailService;
@@ -95,6 +101,15 @@ public class CustomerRestController {
 		} else {
 			Optional<Roles> roles = roleDao.findById("US");
 			this.service.saveUser(user);
+			Shop shop = new Shop();
+			UUID sid = UUID.randomUUID();
+			shop.setId(sid.toString());
+			shop.setAddress(user.getAddress());
+			shop.setCreate_date(new Date());
+			shop.setImage("bia.jpg");
+			shop.setName(user.getUsername());
+			shop.setUser(service.findById(user.getId()));
+			this.shopservice.save(shop);
 			Authorities addAuthorities = new Authorities();
 			addAuthorities.setUser(user);
 			addAuthorities.setRole(roles.get());
