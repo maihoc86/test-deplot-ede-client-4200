@@ -34,6 +34,10 @@ public interface CustomerService {
 	User findById(String id);
 	List<User> findByUsernameContaining(String username);
 
+	User findByUsername2(String id);
+
+
+
 	
 
 
