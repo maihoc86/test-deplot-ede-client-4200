@@ -8,4 +8,7 @@ public interface ProductService {
 
 	List<Product> findAll();
 
+	Product save(Product product);
+
+
 }
