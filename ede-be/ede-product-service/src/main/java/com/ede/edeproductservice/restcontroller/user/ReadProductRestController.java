@@ -12,18 +12,14 @@ import com.ede.edeproductservice.service.ProductService;
 
 @RestController
 @RequestMapping("/ede-product")
-public class ProductRestController {
+public class ReadProductRestController {
 	
 	@Autowired
 	ProductService service;
-	
-//	@PostMapping
-//	public ResponseEntity addProductAndSell() {
-//			
-//	}
 	
 	@GetMapping("/view/getAllProduct")
 	public List<Product> getAllProduct() {
 		return service.findAll();
 	}
+	
 }
