@@ -1,0 +1,101 @@
+<div class="main-container container">
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i></a></li>
+        <li><a href="#">Sản phẩm</a></li>
+    </ul>
+    <div class="row">
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-9">
+            <h2 class="title">Sản phẩm</h2>
+
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Thông tin sản phẩm</legend>
+                    <div class="form-group required">
+                        <label for="input-product" class="col-sm-2 control-label">Xuất sứ</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="input-product" placeholder="Product Name"
+                                value="" name="product">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-model" class="col-sm-2 control-label">Loại</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="input-model" placeholder="Product Code" value=""
+                                name="model">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-quantity" class="col-sm-2 control-label">Nhãn hàng</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="input-quantity" placeholder="Quantity" value="1"
+                                name="quantity">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-quantity" class="col-sm-2 control-label">Mô tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label">Hiển thị</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" value="1" name="opened"> Có
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" checked="checked" value="0" name="opened"> Không
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="buttons clearfix">
+                    <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
+                    </div>
+                    <div class="pull-right">
+                        <input type="submit" class="btn btn-success" value="Thêm">
+                        <input type="submit" class="btn btn-primary" value="Sửa">
+                        <input type="submit" class="btn btn-danger" value="Xóa">
+                        <input type="submit" class="btn btn-secondary" value="Làm mới">
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        <aside class="col-sm-3 hidden-xs" id="column-right">
+            <h2 class="subtitle">Account</h2>
+            <div class="list-group">
+                <ul class="list-item">
+                    <li><a href="login.html">Login</a>
+                    </li>
+                    <li><a href="register.html">Register</a>
+                    </li>
+                    <li><a href="#">Forgotten Password</a>
+                    </li>
+                    <li><a href="#">My Account</a>
+                    </li>
+                    <li><a href="#">Address Books</a>
+                    </li>
+                    <li><a href="wishlist.html">Wish List</a>
+                    </li>
+                    <li><a href="#">Order History</a>
+                    </li>
+                    <li><a href="#">Downloads</a>
+                    </li>
+                    <li><a href="#">Reward Points</a>
+                    </li>
+                    <li><a href="#">Returns</a>
+                    </li>
+                    <li><a href="#">Transactions</a>
+                    </li>
+                    <li><a href="#">Newsletter</a>
+                    </li>
+                    <li><a href="#">Recurring payments</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</div>

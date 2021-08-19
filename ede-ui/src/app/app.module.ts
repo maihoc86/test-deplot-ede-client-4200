@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AccountActiveComponent } from './account-active/account-active.component';
+import { ProductShopComponent } from './product-shop/product-shop.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AccountActiveComponent } from './account-active/account-active.componen
     RegisterAccountComponent,
     ForgotPasswordComponent,
     AccountActiveComponent,
+    ProductShopComponent,
   ],
   imports: [
     BrowserModule,
