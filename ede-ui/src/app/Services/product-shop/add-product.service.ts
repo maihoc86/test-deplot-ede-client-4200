@@ -21,7 +21,7 @@ export class AddProductService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop', data, this.httpOptions);
   }
   public enableProductShop(id: string) {
-    return this.httpClient.put<any>(this.REST_API_SERVER + '/create/product-shop/' + id, this.httpOptions);
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/enable/product-shop/' + id, this.httpOptions);
   }
   public getBrand() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listBrand');

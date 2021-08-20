@@ -19,9 +19,10 @@ import { CookieService } from 'ngx-cookie-service';
 export class ProductShopComponent implements OnInit {
   public product = new FormGroup({
     origin: new FormControl(''),
+    name: new FormControl(''),
     description: new FormControl(''),
     enable: new FormControl('true'),
-    delete: new FormControl('false'),
+    deleted: new FormControl('false'),
     brand: new FormControl('', Validators.required),
     child_category: new FormControl('', Validators.required),
     parent_category: new FormControl('', Validators.required),
@@ -79,27 +80,8 @@ export class ProductShopComponent implements OnInit {
     this.isHiddenChild = false;
     this.getChildCategory(this.product.controls['parent_child_category'].value);
   }
-  // onFileChange(event) {
-  //   if (event.target.files && event.target.files[0]) {
-  //       var filesAmount = event.target.files.length;
-  //       for (let i = 0; i < filesAmount; i++) {
-  //               var reader = new FileReader();
-
-  //               reader.onload = (event:any) => {
-  //                 console.log(event.target.result);
-  //                  this.images.push(event.target.result); 
-
-  //                  this.myForm.patchValue({
-  //                     fileSource: this.images
-  //                  });
-  //               }
-
-  //               reader.readAsDataURL(event.target.files[i]);
-  //       }
-  //   }
-  // }
   public addProduct() {
-    this.product.controls['delete'].setValue('false');
+    this.product.controls['deleted'].setValue('false');
     this.Addservice.addProductShop(this.createNewData()).subscribe(
       (data) => {
         Swal.fire({
@@ -112,7 +94,7 @@ export class ProductShopComponent implements OnInit {
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log(data)
+            // console.log(data)
             this.Addservice.enableProductShop(data.id).subscribe((data) => {
               Swal.fire({
                 title: 'Thông báo!',

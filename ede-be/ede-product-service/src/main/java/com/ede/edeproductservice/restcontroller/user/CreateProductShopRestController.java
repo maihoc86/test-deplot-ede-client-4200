@@ -73,6 +73,7 @@ public class CreateProductShopRestController {
 		Shop sh = shopService.findByUser(us);
 		System.err.println("shop : " + sh);
 		product.setShop(sh);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
@@ -83,8 +84,10 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/create/product-shop/{id}")
+	@PutMapping("/enable/product-shop/{id}")
 	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
+//		System.err.println("id đang kiểm : "+id);
+	System.err.println("id đang kiểm tra nè: "+service.findAll());
 		Product product = service.findById(id);
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
