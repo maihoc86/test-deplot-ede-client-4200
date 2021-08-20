@@ -30,7 +30,7 @@ public class Product_parent_category {
 	Boolean is_delete;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parent_category")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parentcategory")
 	List<Product_parent_child_category> product_parent_child_category;
 
 	@Override
