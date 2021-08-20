@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
+import com.ede.edeproductservice.service.Product_option_image_service;
+import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.Product_parent_category_service;
 import com.ede.edeproductservice.service.ShopService;
 
@@ -39,6 +42,9 @@ public class ReadProductRestController {
 	@Autowired
 	Product_child_parent_category_service child_parent_category_service;
 
+	@Autowired
+	Product_option_image_service productImageService;
+	
 	@Autowired
 	ShopService shopService;
 
@@ -96,5 +102,9 @@ public class ReadProductRestController {
 		System.out.println(findCategory);
 		return child_category_service.findByIdParentChild(id);
 	}
-
+	
+	@GetMapping("/view/list_option_image")
+	public List<Product_option_image> getListOption_images(){
+		return productImageService.findAll();
+	}
 }
