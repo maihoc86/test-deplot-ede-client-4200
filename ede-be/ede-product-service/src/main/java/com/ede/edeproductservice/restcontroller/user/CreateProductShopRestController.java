@@ -26,11 +26,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
+import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.entity.User;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
+import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
 
@@ -49,6 +51,9 @@ public class CreateProductShopRestController {
 
 	@Autowired
 	Product_option_service product_option_service;
+
+	@Autowired
+	Product_option_image_service product_option_image_service;
 
 	@Autowired
 	ShopService shopService;
@@ -80,6 +85,14 @@ public class CreateProductShopRestController {
 	@PostMapping("/create/product-shop/options")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
 		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
+	}
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping("/create/product-shop/options/images")
+	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
+		UUID uuid = UUID.randomUUID();
+		product_option.setId(uuid.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(product_option_image_service.save(product_option));
 	}
 
 	@SuppressWarnings("rawtypes")
