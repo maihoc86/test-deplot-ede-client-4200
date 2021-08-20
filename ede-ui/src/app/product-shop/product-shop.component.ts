@@ -17,6 +17,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./product-shop.component.css']
 })
 export class ProductShopComponent implements OnInit {
+
   public product = new FormGroup({
     origin: new FormControl(''),
     description: new FormControl(''),
@@ -29,6 +30,7 @@ export class ProductShopComponent implements OnInit {
   });
   public product_options = new FormGroup({
     display_name: new FormControl(''),
+    image_url: new FormControl(''),
     price: new FormControl(''),
     size: new FormControl(''),
     quantity: new FormControl('', Validators.required),
@@ -47,6 +49,7 @@ export class ProductShopComponent implements OnInit {
     this.getParentCategory();
     this.getCountry();
   }
+  images: string[] = [];
   public isHiddenChildParent: boolean = true;
   public isHiddenChild: boolean = true;
   public listChildCategory: any = [];
@@ -74,30 +77,37 @@ export class ProductShopComponent implements OnInit {
     this.isHiddenChildParent = false;
     this.getParentChildCategory(this.product.controls['parent_category'].value);
   }
-  // get wards
   showChild() {
     this.isHiddenChild = false;
     this.getChildCategory(this.product.controls['parent_child_category'].value);
   }
-  // onFileChange(event) {
-  //   if (event.target.files && event.target.files[0]) {
-  //       var filesAmount = event.target.files.length;
-  //       for (let i = 0; i < filesAmount; i++) {
-  //               var reader = new FileReader();
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader()
+        reader.onload = (event: any) => {
+          console.log(event.target.result);
+          this.images.push(event.target.result);
+          this.product_options.patchValue({
+            fileSource: this.images
+          });
+        }
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  }
+  deleteImage(event: any, url: any) {
+    var item = url;
+    var length = this.images.length;
+    for (let i = 0; i < length; i++) {
+      if (this.images[i] == item) {
+        this.images.splice(i, 1);
+        console.log(this.images);
+      }
+    }
 
-  //               reader.onload = (event:any) => {
-  //                 console.log(event.target.result);
-  //                  this.images.push(event.target.result); 
-
-  //                  this.myForm.patchValue({
-  //                     fileSource: this.images
-  //                  });
-  //               }
-
-  //               reader.readAsDataURL(event.target.files[i]);
-  //       }
-  //   }
-  // }
+  }
   public addProduct() {
     this.product.controls['delete'].setValue('false');
     this.Addservice.addProductShop(this.createNewData()).subscribe(
@@ -189,4 +199,48 @@ export class ProductShopComponent implements OnInit {
       this.listChildCategory = listCategories;
     });
   }
+  sizeGroups: sizegroup[] = [
+    {
+      name: 'Size số',
+      size: [
+        { value: 'so_31', viewValue: '31' },
+        { value: 'so_32', viewValue: '32' },
+        { value: 'so_33', viewValue: '33' },
+        { value: 'so_34', viewValue: '34' },
+        { value: 'so_35', viewValue: '35' },
+        { value: 'so_36', viewValue: '36' },
+        { value: 'so_37', viewValue: '37' },
+        { value: 'so_38', viewValue: '38' },
+        { value: 'so_39', viewValue: '39' },
+        { value: 'so_40', viewValue: '40' },
+        { value: 'so_41', viewValue: '41' },
+        { value: 'so_42', viewValue: '42' },
+        { value: 'so_43', viewValue: '43' },
+        { value: 'so_44', viewValue: '44' },
+        { value: 'so_45', viewValue: '45' },
+      ]
+    },
+    {
+      name: 'Size chữ',
+      size: [
+        { value: 'chu_s', viewValue: 'S' },
+        { value: 'chu_m', viewValue: 'M' },
+        { value: 'chu_L', viewValue: 'L' },
+        { value: 'chu_XL', viewValue: 'XL' },
+        { value: 'chu_XX:', viewValue: 'XXL' },
+        { value: 'chu_XXXL', viewValue: 'XXXL' },
+      ]
+    }
+  ];
 }
+interface size {
+  value: string;
+  viewValue: string;
+}
+
+interface sizegroup {
+  disabled?: boolean;
+  name: string;
+  size: size[];
+}
+
