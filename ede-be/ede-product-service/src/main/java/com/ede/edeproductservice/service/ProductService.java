@@ -11,7 +11,7 @@ public interface ProductService {
 
 	List<Product> findAll();
 
-	Page<Product> searchByKeysearch(String keysearch, PageRequest pageRequest);
+//	Page<Product> searchByKeysearch(String keysearch, PageRequest pageRequest);
 
 	Product save(Product product);
 

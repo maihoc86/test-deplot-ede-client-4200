@@ -23,10 +23,10 @@ public class ProductImpl implements ProductService {
 		return dao.findAll();
 	}
 
-	@Override
-	public Page<Product> searchByKeysearch(String keysearch, PageRequest pageRequest) {
-		return this.dao.searchBykeysearch(keysearch, pageRequest);
-	}
+//	@Override
+//	public Page<Product> searchByKeysearch(String keysearch, PageRequest pageRequest) {
+//		return this.dao.searchBykeysearch(keysearch, pageRequest);
+//	}
 
 	@Override
 	public Product save(Product product) {

@@ -25,6 +25,13 @@ export class ProductShopComponent implements OnInit {
     brand: new FormControl('', Validators.required),
     child_category: new FormControl('', Validators.required),
   });
+  public product_options = new FormGroup({
+    display_name: new FormControl(''),
+    price: new FormControl(''),
+    size: new FormControl(''),
+    quantity: new FormControl('', Validators.required),
+    id_product: new FormControl('', Validators.required),
+  });
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -53,7 +60,33 @@ export class ProductShopComponent implements OnInit {
     }
     return newProduct as Product;
   }
-  public registerUser() {
+  numberOnly(event: any) {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  // onFileChange(event) {
+  //   if (event.target.files && event.target.files[0]) {
+  //       var filesAmount = event.target.files.length;
+  //       for (let i = 0; i < filesAmount; i++) {
+  //               var reader = new FileReader();
+   
+  //               reader.onload = (event:any) => {
+  //                 console.log(event.target.result);
+  //                  this.images.push(event.target.result); 
+   
+  //                  this.myForm.patchValue({
+  //                     fileSource: this.images
+  //                  });
+  //               }
+  
+  //               reader.readAsDataURL(event.target.files[i]);
+  //       }
+  //   }
+  // }
+  public addProduct() {
     this.product.controls['delete'].setValue('false');
     this.Addservice.addProductShop(this.createNewData()).subscribe(
       (data) => {

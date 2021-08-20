@@ -16,7 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AccountActiveComponent } from './account-active/account-active.component';
 import { ProductShopComponent } from './product-shop/product-shop.component';
-import { ProductOptionsShopComponent } from './product-options-shop/product-options-shop.component';
 import { AsideShopComponent } from './layout/aside-shop/aside-shop.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -32,7 +31,6 @@ import { MatIconModule } from '@angular/material/icon';
     ForgotPasswordComponent,
     AccountActiveComponent,
     ProductShopComponent,
-    ProductOptionsShopComponent,
     AsideShopComponent,
   ],
   imports: [

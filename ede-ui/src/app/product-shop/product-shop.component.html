@@ -57,11 +57,60 @@
                     </div>
                    
                 </fieldset>
+            </form>
+            <form class="form-horizontal" [formGroup]="product_options">
+                <fieldset>
+                    <legend>Thuộc tính sản phẩm</legend>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Tên nhãn</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="display_name"
+                                id="input-display-name" placeholder="Tên nhãn" value="" name="product">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Hình ảnh</label>
+                        <div class="col-sm-10">
+                            <input id="file" type="file" class="form-control" multiple=""
+                                (change)="onFileChange($event)">
+                        </div>
+                        <img *ngFor='let url of images'  [src]="url" height="150" width="200px" style="margin: 3px;">
+                    </div> -->
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Kích cỡ</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                formControlName="size" id="input-display-name" placeholder="Kích cỡ">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Giá</label>
+                        <div class="col-sm-10">
+                            <input type="text" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="price" id="input-display-name" placeholder="Giá">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Số lượng</label>
+                        <div class="col-sm-10">
+                            <input type="number" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="quantity" id="input-display-name" placeholder="Số lượng">
+                        </div>
+                    </div>                   
+                    <div class="form-group">
+                        <label for="input-quantity" class="col-sm-2 control-label">Mô
+                            tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
+                                rows="10"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
                 <div class="buttons clearfix">
                     <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
                     </div>
                     <div class="pull-right">
-                        <input type="submit" class="btn btn-success" (click)="registerUser()" value="Thêm">
+                        <input type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
                         <input type="submit" class="btn btn-primary" value="Sửa">
                         <input type="submit" class="btn btn-danger" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">
