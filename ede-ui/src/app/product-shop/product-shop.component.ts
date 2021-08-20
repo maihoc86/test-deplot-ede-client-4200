@@ -24,6 +24,8 @@ export class ProductShopComponent implements OnInit {
     delete: new FormControl('false'),
     brand: new FormControl('', Validators.required),
     child_category: new FormControl('', Validators.required),
+    parent_category: new FormControl('', Validators.required),
+    parent_child_category: new FormControl('', Validators.required),
   });
   public product_options = new FormGroup({
     display_name: new FormControl(''),
@@ -37,18 +39,19 @@ export class ProductShopComponent implements OnInit {
     private route: ActivatedRoute,
     private Addservice: AddProductService,
     private AddresseService: ApiAddressService,
-    private cookieService:CookieService
+    private cookieService: CookieService
   ) { }
 
   ngOnInit(): void {
-    this.listBrands;
-    this.listCategories;
-    this.listCountry;
     this.getBrands();
-    this.getCategories();
+    this.getParentCategory();
     this.getCountry();
   }
-  public listCategories: any = [];
+  public isHiddenChildParent: boolean = true;
+  public isHiddenChild: boolean = true;
+  public listChildCategory: any = [];
+  public listParent_ChildCategory: any = [];
+  public listParentCategory: any = [];
   public listBrands: any = [];
   public listCountry: any = [];
   private createNewData() {
@@ -67,21 +70,30 @@ export class ProductShopComponent implements OnInit {
     }
     return true;
   }
+  showParent_Child() {
+    this.isHiddenChildParent = false;
+    this.getParentChildCategory(this.product.controls['parent_category'].value);
+  }
+  // get wards
+  showChild() {
+    this.isHiddenChild = false;
+    this.getChildCategory(this.product.controls['parent_child_category'].value);
+  }
   // onFileChange(event) {
   //   if (event.target.files && event.target.files[0]) {
   //       var filesAmount = event.target.files.length;
   //       for (let i = 0; i < filesAmount; i++) {
   //               var reader = new FileReader();
-   
+
   //               reader.onload = (event:any) => {
   //                 console.log(event.target.result);
   //                  this.images.push(event.target.result); 
-   
+
   //                  this.myForm.patchValue({
   //                     fileSource: this.images
   //                  });
   //               }
-  
+
   //               reader.readAsDataURL(event.target.files[i]);
   //       }
   //   }
@@ -101,35 +113,36 @@ export class ProductShopComponent implements OnInit {
         }).then((result) => {
           if (result.isConfirmed) {
             console.log(data)
-            this.Addservice.enableProductShop(data.id).subscribe((data)=>{
+            this.Addservice.enableProductShop(data.id).subscribe((data) => {
               Swal.fire({
-                title:  'Thông báo!',
+                title: 'Thông báo!',
                 text: 'Sản phẩm đã được đăng bán',
-                icon: 'success'}
-              ).then((result)=>{
+                icon: 'success'
+              }
+              ).then((result) => {
                 console.log(data)
               })
             })
-           
+
           }
         })
       },
       (err) => {
         console.log(err.error)
-       if(err.status==404){
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: "Chưa đăng nhập",
-        });
-        this.router.navigate(['/login'])
-       }else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
-       }
+        if (err.status == 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: "Chưa đăng nhập",
+          });
+          this.router.navigate(['/login'])
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: err.error.message,
+          });
+        }
       }
     );
   }
@@ -152,12 +165,28 @@ export class ProductShopComponent implements OnInit {
       }
     );
   }
-  public getCategories() {
-    this.Addservice.getCategories().subscribe((data) => {
+  public getParentChildCategory(id: any) {
+    this.Addservice.getChildParentCategoriesByIdParent(id).subscribe((data) => {
       const listCategories = data.map(function (obj: { id: any; name: any; image_url: any; is_enable: boolean; is_deleted: boolean; child_parentCategory: any; }) {
         return obj;
       });
-      this.listCategories = listCategories;
+      this.listParent_ChildCategory = listCategories;
+    });
+  }
+  public getParentCategory() {
+    this.Addservice.getParentCategories().subscribe((data) => {
+      const listCategories = data.map(function (obj: { id: any; name: any; image_url: any; is_enable: boolean; is_deleted: boolean; child_parentCategory: any; }) {
+        return obj;
+      });
+      this.listParentCategory = listCategories;
+    });
+  }
+  public getChildCategory(id: any) {
+    this.Addservice.getChildCategoriesByChildParent(id).subscribe((data) => {
+      const listCategories = data.map(function (obj: { id: any; name: any; image_url: any; is_enable: boolean; is_deleted: boolean; child_parentCategory: any; }) {
+        return obj;
+      });
+      this.listChildCategory = listCategories;
     });
   }
 }
