@@ -1,11 +1,16 @@
 package com.ede.edeproductservice.restcontroller.user;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-
-import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
@@ -35,6 +32,7 @@ import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
 @RequestMapping("/ede-product")
@@ -62,7 +60,6 @@ public class CreateProductShopRestController {
 	@PostMapping("/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
 
-		
 		System.err.println(req.getHeader("Content-Type"));
 		User us = new User();
 		try {
@@ -70,7 +67,7 @@ public class CreateProductShopRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.out.println("US: "+us);
+		System.out.println("US: " + us);
 
 		UUID uuid = UUID.randomUUID();
 		product.setId(uuid.toString());
@@ -80,11 +77,10 @@ public class CreateProductShopRestController {
 		Shop sh = shopService.findByUser(us);
 		System.err.println("shop : " + sh);
 		product.setShop(sh);
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/{id}")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option,@PathVariable("id") String id_product) {
 		System.err.println("option: "+product_option);
@@ -96,10 +92,21 @@ public class CreateProductShopRestController {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/images")
-	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
-		UUID uuid = UUID.randomUUID();
-		product_option.setId(uuid.toString());
-		return ResponseEntity.status(HttpStatus.OK).body(product_option_image_service.save(product_option));
+	public ResponseEntity addProductOptionImage(@RequestBody List<Product_option_image> product_option) {
+		List<Product_option_image> listTemp = new ArrayList<Product_option_image>();
+		for (Product_option_image item : product_option) {
+			UUID uuid = UUID.randomUUID();
+			item.setId(uuid.toString());
+			Optional<Product_option_image> findImage = product_option_image_service.findById(uuid.toString());
+			if (findImage.isPresent() && findImage != null) {
+				UUID uuid2 = UUID.randomUUID();
+				item.setId(uuid2.toString());
+			} else {
+				item.setId(uuid.toString());
+			}
+			listTemp.add(item);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(product_option_image_service.saveAll(listTemp));
 	}
 
 	@SuppressWarnings("rawtypes")
