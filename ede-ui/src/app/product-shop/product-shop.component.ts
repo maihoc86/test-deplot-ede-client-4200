@@ -20,7 +20,7 @@ import { ProductOptions } from '../models/product-options.model';
 export class ProductShopComponent implements OnInit {
 
   public product = new FormGroup({
-    name: new FormControl(''),
+   
     origin: new FormControl(''),
     name: new FormControl(''),
     description: new FormControl(''),
@@ -32,6 +32,8 @@ export class ProductShopComponent implements OnInit {
     parent_child_category: new FormControl('', Validators.required),
   });
   public product_options = new FormGroup({
+    description: new FormControl(''),
+    file: new FormControl(''),
     display_name: new FormControl(''),
     price: new FormControl(''),
     size: new FormControl(''),
@@ -75,6 +77,7 @@ export class ProductShopComponent implements OnInit {
         newOption[controlName] = this.product_options.controls[controlName].value;
       }
     }
+   
     return newOption as ProductOptions;
   }
   numberOnly(event: any) {
@@ -134,6 +137,7 @@ export class ProductShopComponent implements OnInit {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
+          console.log(data)
           this.product_options.controls['id_product'].setValue(data.id);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(tata =>{
             console.log(tata)
