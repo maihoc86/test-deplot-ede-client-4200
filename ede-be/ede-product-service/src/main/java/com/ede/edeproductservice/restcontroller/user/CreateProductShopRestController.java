@@ -73,6 +73,7 @@ public class CreateProductShopRestController {
 		Shop sh = shopService.findByUser(us);
 		System.err.println("shop : " + sh);
 		product.setShop(sh);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 

@@ -19,10 +19,11 @@ import { CookieService } from 'ngx-cookie-service';
 export class ProductShopComponent implements OnInit {
 
   public product = new FormGroup({
+    name: new FormControl(''),
     origin: new FormControl(''),
     description: new FormControl(''),
     enable: new FormControl('true'),
-    delete: new FormControl('false'),
+    deleted: new FormControl('false'),
     brand: new FormControl('', Validators.required),
     child_category: new FormControl('', Validators.required),
     parent_category: new FormControl('', Validators.required),
