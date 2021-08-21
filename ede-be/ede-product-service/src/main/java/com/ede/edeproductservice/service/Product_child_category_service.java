@@ -24,6 +24,10 @@ public interface Product_child_category_service {
 
 	boolean existsById(String id);
 
+	List<Product_child_category> findByIsdeleteFalse();
+
+	List<Product_child_category> findByIdParentChild(String id);
+
 
 
 }

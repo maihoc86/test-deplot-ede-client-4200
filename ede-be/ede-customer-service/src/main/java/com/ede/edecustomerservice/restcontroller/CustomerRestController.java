@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +27,13 @@ import com.ede.edecustomerservice.dao.AuthoritiesDao;
 import com.ede.edecustomerservice.dao.RoleDao;
 import com.ede.edecustomerservice.entity.Authorities;
 import com.ede.edecustomerservice.entity.Roles;
+import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
+import com.ede.edecustomerservice.service.ShopService;
 
 @CrossOrigin("*")
 @RestController
@@ -37,6 +41,9 @@ public class CustomerRestController {
 
 	@Autowired
 	CustomerService service;
+	
+	@Autowired
+	ShopService shopservice;
 
 	@Autowired
 	private MailService mailService;
@@ -94,6 +101,15 @@ public class CustomerRestController {
 		} else {
 			Optional<Roles> roles = roleDao.findById("US");
 			this.service.saveUser(user);
+			Shop shop = new Shop();
+			UUID sid = UUID.randomUUID();
+			shop.setId(sid.toString());
+			shop.setAddress(user.getAddress());
+			shop.setCreate_date(new Date());
+			shop.setImage("bia.jpg");
+			shop.setName(user.getUsername());
+			shop.setUser(service.findById(user.getId()));
+			this.shopservice.save(shop);
 			Authorities addAuthorities = new Authorities();
 			addAuthorities.setUser(user);
 			addAuthorities.setRole(roles.get());
@@ -253,7 +269,7 @@ public class CustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-	@PostMapping("/ede-customer/delete/users/{username}")
+	@DeleteMapping("/ede-customer/delete/users/{username}")
 	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
 		System.err.println("Detele username :" + username);
 		try {
@@ -292,5 +308,12 @@ public class CustomerRestController {
 		}
 		
 	}
+	@GetMapping("/ede-customer/findbyusername/{username}")
+	public User findbyusername(@PathVariable("username") String username) {
+		String u =	username.substring(1, username.length()-1);
+		System.err.println("in api :" +service.findByUsername(u)+" id la " +username);
+		return service.findByUsername(u);
+	}
+	
 	
 }

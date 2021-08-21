@@ -6,6 +6,7 @@ import { IndexComponent } from './index/index.component';
 import { LoginComponent } from './login/login.component';
 import { ProductShopComponent } from './product-shop/product-shop.component';
 import { RegisterAccountComponent } from './register-account/register-account.component';
+import { ProductAllComponent } from './product-all/product-all.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'register', component: RegisterAccountComponent },
   { path: 'account/verify', component: AccountActiveComponent },
-  { path: 'shop/product', component: ProductShopComponent },
+  { path: 'shop/product/manager', component: ProductShopComponent },
+  { path: 'shop/product/all', component: ProductAllComponent}
 ];
 
 @NgModule({

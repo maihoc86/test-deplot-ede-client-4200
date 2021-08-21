@@ -62,4 +62,15 @@ public class Product_child_category_impl implements Product_child_category_servi
 		return this.dao.existsById(id);
 	}
 
+	@Override
+	public List<Product_child_category> findByIsdeleteFalse() {
+		
+		return dao.findByIsdeleteFalse();
+	}
+
+	@Override
+	public List<Product_child_category> findByIdParentChild(String id) {
+		return dao.findByIdParentChild(id);
+	}
+
 }

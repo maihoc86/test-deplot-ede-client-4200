@@ -32,7 +32,7 @@ public class Product_child_category {
 
 	@ManyToOne
 	@JoinColumn(name = "id_parent")
-	Product_parent_child_category child_parentCategory;
+	Product_parent_child_category parentcategory;
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "child_category")

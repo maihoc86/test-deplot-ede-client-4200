@@ -12,10 +12,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AccountActiveComponent } from './account-active/account-active.component';
 import { ProductShopComponent } from './product-shop/product-shop.component';
-
+import { AsideShopComponent } from './layout/aside-shop/aside-shop.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { ProductAllComponent } from './product-all/product-all.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +32,8 @@ import { ProductShopComponent } from './product-shop/product-shop.component';
     ForgotPasswordComponent,
     AccountActiveComponent,
     ProductShopComponent,
+    AsideShopComponent,
+    ProductAllComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,8 +45,12 @@ import { ProductShopComponent } from './product-shop/product-shop.component';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,42 +1,61 @@
-<div class="main-container container">
-    <ul class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i></a></li>
-        <li><a href="#">Sản phẩm</a></li>
-    </ul>
-    <div class="row">
-        <aside class="col-sm-3 hidden-xs" id="column-left">
-            <h2 class="subtitle">Quản lý sản phẩm</h2>
-            <div class="list-group">
-                <ul class="list-item">
-                    <li><a href="login.html">Tất cả sản phẩm</a>
-                    </li>
-                    <li><a href="register.html">Thêm/sửa/xóa sản phẩm</a>
-                    </li>
-                    <li><a href="register.html">Thuộc tính sản phẩm</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+<div class="row">
+    <div class="col-sm-2">
+        <app-aside-shop></app-aside-shop>
+    </div>
+    <div class="col-sm-10">
         <!--Middle Part Start-->
-        <div id="content" class="col-sm-9">
-            <h2 class="title">Sản phẩm</h2>
+        <div id="content" class="col-sm-9" style="margin-top: 30px;">
             <form class="form-horizontal" [formGroup]="product">
                 <fieldset>
                     <legend>Thông tin sản phẩm</legend>
                     <div class="form-group required">
-                        <label for="input-product" class="col-sm-2 control-label">Xuất sứ</label>
+                        <label for="input-product" class="col-sm-2 control-label">Tên</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" formControlName="origin" id="input-product"
-                                placeholder="Xuất sứ" value="" name="product">
+                            <input type="text" class="form-control" formControlName="name" id="input-product"
+                                placeholder="Tên sản phẩm" value="" name="product">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-model" class="col-sm-2 control-label">Xuất sứ</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="origin">
+                                <option value="" disabled selected>Vui lòng chọn xuất sứ...</option>
+                                <option *ngFor="let prf of listCountry" [ngValue]="prf.name">
+                                    {{ prf.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group required">
                         <label for="input-model" class="col-sm-2 control-label">Loại</label>
                         <div class="col-sm-10">
-                            <select class="form-control" formControlName="child_category">
-                                <option *ngFor="let prf of listCategories" [ngValue]="prf">
+                            <select class="form-control" formControlName="parent_category"
+                                (change)="showParent_Child()">
+                                <option value="" disabled selected>Vui lòng chọn loại...</option>
+                                <option *ngFor="let prf of listParentCategory" [ngValue]="prf.id">
                                     {{ prf.name }}
-                                <option>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required" *ngIf="!isHiddenChildParent">
+                        <label for="input-model" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="parent_child_category" (change)="showChild()">
+                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option *ngFor="let prf of listParent_ChildCategory" [ngValue]="prf.id">
+                                    {{ prf.name == null ? 'Không có' : prf.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required" *ngIf="!isHiddenChild">
+                        <label for="input-model" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="child_category">
+                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option *ngFor="let prf of listChildCategory" [ngValue]="prf">
+                                    {{ prf.name == null ? 'Không có' : prf.name }}
                                 </option>
                             </select>
                         </div>
@@ -47,28 +66,82 @@
                             <select class="form-control" formControlName="brand">
                                 <option *ngFor="let prf of listBrands" [ngValue]="prf">
                                     {{ prf.name }}
-                                <option>
                                 </option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="input-quantity" class="col-sm-2 control-label" >Mô
+                        <label for="input-quantity" class="col-sm-2 control-label">Mô
                             tả</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" formControlName="description" name="" id="" cols="30" rows="10"></textarea>
+                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
+                                rows="10"></textarea>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+            <form class="form-horizontal" [formGroup]="product_options">
+                <fieldset>
+                    <legend>Thuộc tính sản phẩm</legend>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Tên nhãn</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="display_name"
+                                id="input-display-name" placeholder="Tên nhãn" value="" name="product">
+                        </div>
+                    </div>
+                    <div class="form-group required" [formGroup]="product_options_image">
+                        <label for="input-display-name" class="col-sm-2 control-label">Hình ảnh</label>
+                        <div class="col-sm-10">
+                            <input id="file" type="file" class="form-control" multiple=""
+                                (change)="onFileChange($event)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-display-name" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <img *ngFor='let url of images' (dblclick)="deleteImage($event, url)" [src]="url"
+                                height="150" width="170px" style="margin: 3px;">
                         </div>
                     </div>
                     <div class="form-group required">
-                        <label class="col-sm-2 control-label">Hiển thị</label>
+                        <label for="input-display-name" class="col-sm-2 control-label">Kích cỡ</label>
                         <div class="col-sm-10">
-                            <label class="radio-inline" for="opened">
-                                <input type="radio" formControlName="enable" id="opened" value="true" name="opened"> Có
-                            </label>
-                            <label class="radio-inline" for="closed">
-                                <input type="radio" formControlName="enable" id="closed" value="false" name="closed">
-                                Không
-                            </label>
+                            <mat-form-field appearance="fill" style="width:100%">
+                                <mat-label>Size</mat-label>
+                                <mat-select formControlName="size">
+                                    <mat-option>-- None --</mat-option>
+                                    <mat-optgroup *ngFor="let group of sizeGroups" [label]="group.name"
+                                        [disabled]="group.disabled">
+                                        <mat-option *ngFor="let size of group.size" [value]="size.value">
+                                            {{size.viewValue}}
+                                        </mat-option>
+                                    </mat-optgroup>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Giá</label>
+                        <div class="col-sm-10">
+                            <input type="text" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="price" id="input-display-name" placeholder="Giá">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Số lượng</label>
+                        <div class="col-sm-10">
+                            <input type="number" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="quantity" id="input-display-name" placeholder="Số lượng">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-quantity" class="col-sm-2 control-label">Mô
+                            tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
+                                rows="10"></textarea>
                         </div>
                     </div>
                 </fieldset>
@@ -76,7 +149,7 @@
                     <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
                     </div>
                     <div class="pull-right">
-                        <input type="submit" class="btn btn-success" (click)="registerUser()" value="Thêm">
+                        <input type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
                         <input type="submit" class="btn btn-primary" value="Sửa">
                         <input type="submit" class="btn btn-danger" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">
