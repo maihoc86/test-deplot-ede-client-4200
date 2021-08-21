@@ -12,6 +12,7 @@ import { Product } from '../models/product.model';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from '../models/product-options.model';
+import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -20,7 +21,7 @@ import { ProductOptions } from '../models/product-options.model';
 export class ProductShopComponent implements OnInit {
 
   public product = new FormGroup({
-   
+
     origin: new FormControl(''),
     name: new FormControl(''),
     description: new FormControl(''),
@@ -59,6 +60,7 @@ export class ProductShopComponent implements OnInit {
     this.getCountry();
   }
   images: string[] = [];
+  image_option: any;
   public isHiddenChildParent: boolean = true;
   public isHiddenChild: boolean = true;
   public listChildCategory: any = [];
@@ -82,8 +84,16 @@ export class ProductShopComponent implements OnInit {
         newOption[controlName] = this.product_options.controls[controlName].value;
       }
     }
-   
     return newOption as ProductOptions;
+  }
+  private createNewOptionImage() {
+    const newProduct: any = {};
+    for (const controlName in this.product_options_image.controls) {
+      if (controlName) {
+        newProduct[controlName] = this.product_options_image.controls[controlName].value;
+      }
+    }
+    return newProduct as ProductOptionsImage;
   }
   numberOnly(event: any) {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -102,7 +112,7 @@ export class ProductShopComponent implements OnInit {
   }
 
   onFileChange(event: any) {
-
+    this.image_option = '';
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
       for (let i = 0; i < filesAmount; i++) {
@@ -111,12 +121,12 @@ export class ProductShopComponent implements OnInit {
           this.images.push(event.target.result);
         }
         reader.readAsDataURL(event.target.files[i]);
-        const test: string[] = {} as string[];
-        test.push(event.target.files[i].name);
+        console.log(event.target.files[i].name)
+        this.image_option += event.target.files[i].name + ";"
+        console.log(this.image_option)
         this.product_options_image.patchValue({
-          image: test
+          image: this.image_option
         });
-        console.log(this.product_options_image.controls['image'].value);
       }
     }
   }
@@ -145,10 +155,14 @@ export class ProductShopComponent implements OnInit {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
-          console.log(data)
+          console.log(result)
           this.product_options.controls['id_product'].setValue(data.id);
-          this.Addservice.addProductOption(this.createNewOption()).toPromise().then(tata => {
-            console.log(tata)
+          this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
+            this.product_options_image.controls['productoption'].setValue(data);
+            console.log(this.product_options_image.controls['image'].value);
+            this.Addservice.addProductOptionImage(this.createNewOptionImage()).subscribe((data) => {
+              console.log(data)
+            })
           });
           if (result.isConfirmed) {
             // console.log(data)
@@ -158,11 +172,8 @@ export class ProductShopComponent implements OnInit {
                 text: 'Sản phẩm đã được đăng bán',
                 icon: 'success'
               }
-              ).then((result) => {
-                console.log(data)
-              })
+              )
             })
-
           }
         })
       },
@@ -187,11 +198,10 @@ export class ProductShopComponent implements OnInit {
   }
   public getCountry() {
     this.AddresseService.getCountry().subscribe((data) => {
-      const listCountry = data.map(function (obj: { id: any; name: any; }) {
+      const listCountry = data.map(function (obj: { name: any; }) {
         return obj;
       });
       this.listCountry = listCountry;
-      console.log(this.listCountry);
     });
   }
   public getBrands() {

@@ -16,10 +16,14 @@
                         </div>
                     </div>
                     <div class="form-group required">
-                        <label for="input-product" class="col-sm-2 control-label">Xuất sứ</label>
+                        <label for="input-model" class="col-sm-2 control-label">Xuất sứ</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" formControlName="origin" id="input-product"
-                                placeholder="Xuất sứ" value="" name="product">
+                            <select class="form-control" formControlName="origin">
+                                <option value="" disabled selected>Vui lòng chọn xuất sứ...</option>
+                                <option *ngFor="let prf of listCountry" [ngValue]="prf.name">
+                                    {{ prf.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group required">
@@ -97,7 +101,7 @@
                     <div class="form-group">
                         <label for="input-display-name" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
-                            <img *ngFor='let url of images'  (dblclick)="deleteImage($event, url)" [src]="url"
+                            <img *ngFor='let url of images' (dblclick)="deleteImage($event, url)" [src]="url"
                                 height="150" width="170px" style="margin: 3px;">
                         </div>
                     </div>

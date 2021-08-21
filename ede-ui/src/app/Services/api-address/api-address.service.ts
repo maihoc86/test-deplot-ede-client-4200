@@ -17,10 +17,9 @@ export class ApiAddressService {
   constructor(private httpClient: HttpClient) { }
 
   private REST_API_SERVER = 'https://api-location-vn.herokuapp.com/';
-  private Rest_API_COUNTRY = 'https://restcountries.eu/rest/v2/all';
 
   public getCountry() {
-    const url = `${this.Rest_API_COUNTRY}`;
+    const url = `${this.REST_API_SERVER}country/`;
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 
