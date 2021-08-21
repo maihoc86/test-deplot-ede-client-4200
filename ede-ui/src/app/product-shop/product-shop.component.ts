@@ -21,8 +21,13 @@ export class ProductShopComponent implements OnInit {
 
   public product = new FormGroup({
    
-    origin: new FormControl(''),
-    name: new FormControl(''),
+    origin: new FormControl('', [
+      Validators.required,
+    ]),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){5,25}$"),
+    ]),
     description: new FormControl(''),
     enable: new FormControl('true'),
     deleted: new FormControl('false'),
@@ -34,11 +39,14 @@ export class ProductShopComponent implements OnInit {
   public product_options = new FormGroup({
     description: new FormControl(''),
     file: new FormControl(''),
-    display_name: new FormControl(''),
-    price: new FormControl(''),
-    size: new FormControl(''),
-    quantity: new FormControl('', Validators.required),
-    id_product: new FormControl('', Validators.required),
+    display_name: new FormControl('',[ Validators.required,
+      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){5,25}$"),]),
+    price: new FormControl('',[ Validators.required,
+      Validators.pattern("([0-9]{0,9})\\b"),]),
+    size: new FormControl('', Validators.required),
+    quantity: new FormControl('',[ Validators.required,
+      Validators.pattern("([0-9]{0,4})\\b"),]),
+    id_product: new FormControl(''),
   });
 
   public product_options_image = new FormGroup({
