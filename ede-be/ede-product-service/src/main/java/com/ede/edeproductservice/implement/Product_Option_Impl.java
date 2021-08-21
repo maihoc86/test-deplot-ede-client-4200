@@ -17,5 +17,4 @@ public class Product_Option_Impl implements Product_option_service {
 	public Product_option save(Product_option product_option) {
 		return dao.save(product_option);
 	}
-
 }

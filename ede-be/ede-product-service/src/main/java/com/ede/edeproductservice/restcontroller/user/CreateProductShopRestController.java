@@ -26,11 +26,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
+import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.entity.User;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
+import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
 
@@ -51,12 +53,16 @@ public class CreateProductShopRestController {
 	Product_option_service product_option_service;
 
 	@Autowired
+	Product_option_image_service product_option_image_service;
+
+	@Autowired
 	ShopService shopService;
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
 
+		
 		System.err.println(req.getHeader("Content-Type"));
 		User us = new User();
 		try {
@@ -64,6 +70,7 @@ public class CreateProductShopRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
+		System.out.println("US: "+us);
 
 		UUID uuid = UUID.randomUUID();
 		product.setId(uuid.toString());
@@ -80,12 +87,24 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
+		System.err.println("option: "+product_option.getId());
 		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/create/product-shop/{id}")
+	@PostMapping("/create/product-shop/options/images")
+	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
+		UUID uuid = UUID.randomUUID();
+		product_option.setId(uuid.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(product_option_image_service.save(product_option));
+	}
+
+	@SuppressWarnings("rawtypes")
+//	@PutMapping("/create/product-shop/{id}")
+	@PutMapping("/enable/product-shop/{id}")
 	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
+//		System.err.println("id đang kiểm : "+id);
+//	System.err.println("id đang kiểm tra nè: "+service.findAll());
 		Product product = service.findById(id);
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
