@@ -20,6 +20,7 @@ import { AsideShopComponent } from './layout/aside-shop/aside-shop.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
+import { ProductAllComponent } from './product-all/product-all.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
     AccountActiveComponent,
     ProductShopComponent,
     AsideShopComponent,
+    ProductAllComponent,
   ],
   imports: [
     BrowserModule,

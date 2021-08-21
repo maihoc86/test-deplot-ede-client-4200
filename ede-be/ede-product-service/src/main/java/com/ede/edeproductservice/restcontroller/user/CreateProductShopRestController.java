@@ -62,6 +62,7 @@ public class CreateProductShopRestController {
 	@PostMapping("/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
 
+		
 		System.err.println(req.getHeader("Content-Type"));
 		User us = new User();
 		try {
@@ -69,6 +70,7 @@ public class CreateProductShopRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
+		System.out.println("US: "+us);
 
 		UUID uuid = UUID.randomUUID();
 		product.setId(uuid.toString());
@@ -78,12 +80,14 @@ public class CreateProductShopRestController {
 		Shop sh = shopService.findByUser(us);
 		System.err.println("shop : " + sh);
 		product.setShop(sh);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
+		System.err.println("option: "+product_option.getId());
 		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 	}
 
@@ -96,8 +100,11 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/create/product-shop/{id}")
+//	@PutMapping("/create/product-shop/{id}")
+	@PutMapping("/enable/product-shop/{id}")
 	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
+//		System.err.println("id đang kiểm : "+id);
+//	System.err.println("id đang kiểm tra nè: "+service.findAll());
 		Product product = service.findById(id);
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));

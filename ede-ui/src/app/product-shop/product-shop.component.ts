@@ -11,6 +11,7 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
 import { Product } from '../models/product.model';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ProductOptions } from '../models/product-options.model';
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -20,9 +21,10 @@ export class ProductShopComponent implements OnInit {
 
   public product = new FormGroup({
     origin: new FormControl(''),
+    name: new FormControl(''),
     description: new FormControl(''),
     enable: new FormControl('true'),
-    delete: new FormControl('false'),
+    deleted: new FormControl('false'),
     brand: new FormControl('', Validators.required),
     child_category: new FormControl('', Validators.required),
     parent_category: new FormControl('', Validators.required),
@@ -30,7 +32,6 @@ export class ProductShopComponent implements OnInit {
   });
   public product_options = new FormGroup({
     display_name: new FormControl(''),
-    image_url: new FormControl(''),
     price: new FormControl(''),
     size: new FormControl(''),
     quantity: new FormControl('', Validators.required),
@@ -66,6 +67,15 @@ export class ProductShopComponent implements OnInit {
     }
     return newProduct as Product;
   }
+  private createNewOption() {
+    const newOption: any = {};
+    for (const controlName in this.product_options.controls) {
+      if (controlName) {
+        newOption[controlName] = this.product_options.controls[controlName].value;
+      }
+    }
+    return newOption as ProductOptions;
+  }
   numberOnly(event: any) {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -81,6 +91,7 @@ export class ProductShopComponent implements OnInit {
     this.isHiddenChild = false;
     this.getChildCategory(this.product.controls['parent_child_category'].value);
   }
+
   onFileChange(event: any) {
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
@@ -108,8 +119,9 @@ export class ProductShopComponent implements OnInit {
     }
 
   }
+
   public addProduct() {
-    this.product.controls['delete'].setValue('false');
+    this.product.controls['deleted'].setValue('false');
     this.Addservice.addProductShop(this.createNewData()).subscribe(
       (data) => {
         Swal.fire({
@@ -121,8 +133,12 @@ export class ProductShopComponent implements OnInit {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
+          this.product_options.controls['id_product'].setValue(data.id);
+          this.Addservice.addProductOption(this.createNewOption()).toPromise().then(tata =>{
+            console.log(tata)
+          });
           if (result.isConfirmed) {
-            console.log(data)
+            // console.log(data)
             this.Addservice.enableProductShop(data.id).subscribe((data) => {
               Swal.fire({
                 title: 'Thông báo!',
