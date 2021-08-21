@@ -39,13 +39,13 @@ export class ProductShopComponent implements OnInit {
   public product_options = new FormGroup({
     description: new FormControl(''),
     file: new FormControl(''),
-    display_name: new FormControl('',[ Validators.required,
-      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){5,25}$"),]),
-    price: new FormControl('',[ Validators.required,
-      Validators.pattern("([0-9]{0,9})\\b"),]),
-    size: new FormControl('', Validators.required),
-    quantity: new FormControl('',[ Validators.required,
-      Validators.pattern("([0-9]{0,4})\\b"),]),
+    display_name: new FormControl('', [Validators.required,
+    Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){5,25}$"),]),
+    price: new FormControl('', [Validators.required,
+    Validators.pattern("([0-9]{0,9})\\b"),]),
+    size: new FormControl(''),
+    quantity: new FormControl('', [Validators.required,
+    Validators.pattern("([0-9]{0,4})\\b"),]),
     id_product: new FormControl(''),
   });
 
@@ -128,9 +128,7 @@ export class ProductShopComponent implements OnInit {
           this.images.push(event.target.result);
         }
         reader.readAsDataURL(event.target.files[i]);
-        console.log(event.target.files[i].name)
         this.image_option += event.target.files[i].name + ";"
-        console.log(this.image_option)
         this.product_options_image.patchValue({
           image: this.image_option
         });
@@ -138,17 +136,16 @@ export class ProductShopComponent implements OnInit {
     }
   }
   deleteImage(event: any, url: any) {
+    // TODO: delete image from server
+    // console.log(this.product_options_image.controls['image'].value.splice(';',1));
     var item = url;
     var length = this.images.length;
     for (let i = 0; i < length; i++) {
       if (this.images[i] == item) {
         this.images.splice(i, 1);
-        console.log(this.images);
       }
     }
-
   }
-
   public addProduct() {
     this.product.controls['deleted'].setValue('false');
     this.Addservice.addProductShop(this.createNewData()).subscribe(
@@ -162,13 +159,10 @@ export class ProductShopComponent implements OnInit {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
-          console.log(result)
           this.product_options.controls['id_product'].setValue(data.id);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
             this.product_options_image.controls['productoption'].setValue(data);
-            console.log(this.product_options_image.controls['image'].value);
             this.Addservice.addProductOptionImage(this.createNewOptionImage()).subscribe((data) => {
-              console.log(data)
             })
           });
           if (result.isConfirmed) {

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.ede.edeproductservice.ResponseHandler;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
@@ -94,15 +95,25 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/images")
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
-		System.out.println("Đã vào đây");
 		System.out.println(product_option.getImage());
 		String[] words = product_option.getImage().split(";");
-		System.out.println(words.length);
 		for (int i = 0; i < words.length; i++) {
-			System.out.println(words[i]);
+			UUID uuid = UUID.randomUUID();
+			Optional<Product_option_image> findImage = product_option_image_service.findById(uuid.toString());
+			if (findImage.isPresent() && findImage != null) {
+				UUID uuid2 = UUID.randomUUID();
+				product_option.setId(uuid2.toString());
+				product_option.setImage(words[i]);
+				product_option_image_service.save(product_option);
+			} else {
+				product_option.setId(uuid.toString());
+				product_option.setImage(words[i]);
+				product_option_image_service.save(product_option);
+			}
 		}
+		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
 		// TODO
-//		List<Product_option_image> listTemp = new ArrayList<Product_option_image>();
+
 //		for (Product_option_image item : product_option) {
 //			UUID uuid = UUID.randomUUID();
 //			item.setId(uuid.toString());
@@ -115,18 +126,12 @@ public class CreateProductShopRestController {
 //			}
 //			listTemp.add(item);
 //		}
-//		return ResponseEntity.status(HttpStatus.OK).body(product_option_image_service.saveAll(listTemp));
-		UUID uuid = UUID.randomUUID();
-		product_option.setId(uuid.toString());
-		return ResponseEntity.status(HttpStatus.OK).body(product_option_image_service.save(product_option));
+
 	}
 
 	@SuppressWarnings("rawtypes")
-//	@PutMapping("/create/product-shop/{id}")
 	@PutMapping("/enable/product-shop/{id}")
 	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
-//		System.err.println("id đang kiểm : "+id);
-//	System.err.println("id đang kiểm tra nè: "+service.findAll());
 		Product product = service.findById(id);
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));

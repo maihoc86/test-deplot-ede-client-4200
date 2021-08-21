@@ -31,7 +31,7 @@ public class Product_parent_category {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parentcategory")
-	List<Product_parent_child_category> product_parent_child_category;
+	List<Product_parent_child_category> productParentChildCategory;
 
 	@Override
 	public String toString() {
