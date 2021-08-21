@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from 'src/app/models/product-options.model';
+import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +25,10 @@ export class AddProductService {
   public addProductOption(data: ProductOptions) {
     console.log(data)
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options',data, this.httpOptions);
+  }
+  public addProductOptionImage(data: ProductOptionsImage) {
+    console.log(data)
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/images',data, this.httpOptions);
   }
   public enableProductShop(id: string) {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/enable/product-shop/' + id, this.httpOptions);

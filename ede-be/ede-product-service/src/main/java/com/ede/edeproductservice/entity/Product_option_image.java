@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 public class Product_option_image  {
 	@Id
 	String id;
-	String alternative;
 	String image;
 	
 	@ManyToOne

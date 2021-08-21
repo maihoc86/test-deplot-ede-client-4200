@@ -37,6 +37,11 @@ export class ProductShopComponent implements OnInit {
     quantity: new FormControl('', Validators.required),
     id_product: new FormControl('', Validators.required),
   });
+
+  public product_options_image = new FormGroup({
+    productoption: new FormControl(''),
+    image: new FormControl(''),
+  });
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -93,18 +98,21 @@ export class ProductShopComponent implements OnInit {
   }
 
   onFileChange(event: any) {
+
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
       for (let i = 0; i < filesAmount; i++) {
         var reader = new FileReader()
         reader.onload = (event: any) => {
-          console.log(event.target.result);
           this.images.push(event.target.result);
-          this.product_options.patchValue({
-            fileSource: this.images
-          });
         }
         reader.readAsDataURL(event.target.files[i]);
+        const test: string[] = {} as string[];
+        test.push(event.target.files[i].name);
+        this.product_options_image.patchValue({
+          image: test
+        });
+        console.log(this.product_options_image.controls['image'].value);
       }
     }
   }
@@ -134,7 +142,7 @@ export class ProductShopComponent implements OnInit {
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
           this.product_options.controls['id_product'].setValue(data.id);
-          this.Addservice.addProductOption(this.createNewOption()).toPromise().then(tata =>{
+          this.Addservice.addProductOption(this.createNewOption()).toPromise().then(tata => {
             console.log(tata)
           });
           if (result.isConfirmed) {
