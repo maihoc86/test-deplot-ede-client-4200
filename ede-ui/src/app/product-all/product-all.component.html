@@ -1,142 +1,112 @@
+<div class="col-sm-2">
+  <app-aside-shop></app-aside-shop>
+</div>
+<div class="col-sm-10" style="margin-top: 70px;">
+  <div>
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Tất cả</a></li>
+      <li><a data-toggle="tab" href="#menu1">Đang hoạt động</a></li>
+      <li><a data-toggle="tab" href="#menu2">Hết hàng</a></li>
+      <li><a data-toggle="tab" href="#menu3">Đã ẩn</a></li>
+    </ul>
 
-<div class="col-sm-2"><app-aside-shop></app-aside-shop></div>
-<div class="col-sm-10"  style="margin-top: 70px;">
-    <div >
-      <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home">Tất cả</a></li>
-        <li><a data-toggle="tab" href="#menu1">Đang hoạt động</a></li>
-        <li><a data-toggle="tab" href="#menu2">Hết hàng</a></li>
-        <li><a data-toggle="tab" href="#menu3">Đã ẩn</a></li>
-      </ul>
-
-      <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-          <div class="main-container container">
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade in active">
+        <div class="main-container container">
 
 
-            <div class="row">
-              <!--Middle Part Start-->
-              <div id="content" class="col-sm-12">
-                <div class="table-responsive">
+          <div class="row">
+            <!--Middle Part Start-->
+            <div id="content" class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
+                    <div class="search-header-w">
+                      <div class="icon-search hidden-lg hidden-md hidden-sm">
+                        <i class="fa fa-search"></i>
+                      </div>
+
+                      <div id="sosearchpro" class="sosearchpro-wrapper so-search">
+                        <form method="GET" action="index.html">
+                          <div id="search0" class="search input-group form-group">
+                            <div class="
+                            select_category
+                            filter_type
+                            icon-select
+                            hidden-sm hidden-xs
+                          " style="width: 150px;">
+                              <select class="no-border" name="category_id">
+                                <option value="0">Tên sản phẩm</option>
+                                <option value="78">Phân loại hàng</option>
+                                <option value="77">Mã sản phẩm </option>
+                                <option value="82">ThươNg hiệu</option>
+
+                              </select>
+                            </div>
+
+                            <input class="autosearch-input form-control" type="text" value="" size="50"
+                              autocomplete="off" placeholder="Nhập vào..." name="search" />
+                            <!-- <span class="input-group-btn">
+                              <button type="submit" class="button-search btn btn-primary" name="submit_search">
+                                <i class="fa fa-search"></i>
+                              </button>
+                            </span> -->
+                          </div>
+                          <input type="hidden" name="route" value="product/search" />
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" formControlName="name" id="input-product"
+                      placeholder="Tên sản phẩm" value="" name="product">
+                  </div>
+                </div>
+                <div class="buttons clearfix">
+                  <div class="pull-left" style="margin-left: 30px;">
+                    <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                    <input type="submit" class="btn btn-secondary" value="Nhập lại">
+                  </div>
+
+                </div><br>
+                <div class="buttons clearfix">
+                  <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                  </div>
+                  <div class="pull-right">
+                    <input style="margin-right: 20px;" type="submit" class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
+
+                  </div>
+                </div>
+                <br>
+
+              </div>
+
+              <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead>
-                  <tr>
-                    <td ><strong>Tên</strong></td>
-                    <td ><strong>Số lượng</strong></td>
-                    <td ><strong>Giá</strong></td>
-                    <td ><strong>Kích thước</strong></td>
-                    <td ><strong>Thương hiệu</strong></td>
-                    <td ><strong>Trạng thái</strong></td>
-                  </tr>
+                    <tr>
+                      <td><strong>Tên</strong></td>
+                      <td><strong>Số lượng</strong></td>
+                      <td><strong>Giá</strong></td>
+                      <td><strong>Kích thước</strong></td>
+                      <td><strong>Thương hiệu</strong></td>
+                      <td><strong>Trạng thái</strong></td>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  </tr>
+                    <tr>
+                      <td>Product</td>
+                      <td><a href="product.html">Lorem ipsum dolor"</a></td>
+                      <td><a href="product.html">Lorem ipsum dolor</a></td>
+                      <td><a href="product.html">Lorem ipsum dolor</a></td>
+                      <td><a href="product.html">Lorem ipsum dolor</a></td>
+                      <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    </tr>
                   </tbody>
-                 </table>
-                </div>
-              </div>
-              <!--Middle Part End -->
-
-            </div>
-          </div>
-        </div>
-        <div id="menu1" class="tab-pane fade">
-          <div class="row">
-            <!--Middle Part Start-->
-            <div id="content" class="col-sm-12">
-
-              <div class="table-responsive">
-              <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <td ><strong>Tên</strong></td>
-                  <td ><strong>Số lượng</strong></td>
-                  <td ><strong>Giá</strong></td>
-                  <td ><strong>Kích thước</strong></td>
-                  <td ><strong>Thương hiệu</strong></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>Product</td>
-                  <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                </tr>
-                </tbody>
-               </table>
-              </div>
-            </div>
-            <!--Middle Part End -->
-
-          </div>
-        </div>
-        <div id="menu2" class="tab-pane fade">
-          <div class="row">
-            <!--Middle Part Start-->
-            <div id="content" class="col-sm-12">
-
-              <div class="table-responsive">
-              <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <td ><strong>Tên</strong></td>
-                  <td ><strong>Số lượng</strong></td>
-                  <td ><strong>Giá</strong></td>
-                  <td ><strong>Kích thước</strong></td>
-                  <td ><strong>Thương hiệu</strong></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>Product</td>
-                  <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                </tr>
-                </tbody>
-               </table>
-              </div>
-            </div>
-            <!--Middle Part End -->
-
-          </div>
-        </div>
-        <div id="menu3" class="tab-pane fade">
-          <div class="row">
-            <!--Middle Part Start-->
-            <div id="content" class="col-sm-12">
-
-              <div class="table-responsive">
-              <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <td ><strong>Tên</strong></td>
-                  <td ><strong>Số lượng</strong></td>
-                  <td ><strong>Giá</strong></td>
-                  <td ><strong>Kích thước</strong></td>
-                  <td ><strong>Thương hiệu</strong></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>Product</td>
-                  <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                  <td><a href="product.html">Lorem ipsum dolor</a></td>
-                </tr>
-                </tbody>
-               </table>
+                </table>
               </div>
             </div>
             <!--Middle Part End -->
@@ -144,7 +114,293 @@
           </div>
         </div>
       </div>
-    </div>
+      <div id="menu1" class="tab-pane fade">
+        <div class="row">
 
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
+                  <div class="search-header-w">
+                    <div class="icon-search hidden-lg hidden-md hidden-sm">
+                      <i class="fa fa-search"></i>
+                    </div>
+
+                    <div id="sosearchpro" class="sosearchpro-wrapper so-search">
+                      <form method="GET" action="index.html">
+                        <div id="search0" class="search input-group form-group">
+                          <div class="
+                          select_category
+                          filter_type
+                          icon-select
+                          hidden-sm hidden-xs
+                        " style="width: 150px;">
+                            <select class="no-border" name="category_id">
+                              <option value="0">Tên sản phẩm</option>
+                              <option value="78">Phân loại hàng</option>
+                              <option value="77">Mã sản phẩm </option>
+                              <option value="82">ThươNg hiệu</option>
+
+                            </select>
+                          </div>
+
+                          <input class="autosearch-input form-control" type="text" value="" size="50"
+                            autocomplete="off" placeholder="Nhập vào..." name="search" />
+                          <!-- <span class="input-group-btn">
+                            <button type="submit" class="button-search btn btn-primary" name="submit_search">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </span> -->
+                        </div>
+                        <input type="hidden" name="route" value="product/search" />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="name" id="input-product"
+                    placeholder="Tên sản phẩm" value="" name="product">
+                </div>
+              </div>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 30px;">
+                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                  <input type="submit" class="btn btn-secondary" value="Nhập lại">
+                </div>
+
+              </div><br>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                </div>
+                <div class="pull-right">
+
+                </div>
+              </div>
+              <br>
+
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Tên</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Giá</strong></td>
+                    <td><strong>Kích thước</strong></td>
+                    <td><strong>Thương hiệu</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Product</td>
+                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--Middle Part End -->
+
+        </div>
+      </div>
+      <div id="menu2" class="tab-pane fade">
+        <div class="row">
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
+                  <div class="search-header-w">
+                    <div class="icon-search hidden-lg hidden-md hidden-sm">
+                      <i class="fa fa-search"></i>
+                    </div>
+
+                    <div id="sosearchpro" class="sosearchpro-wrapper so-search">
+                      <form method="GET" action="index.html">
+                        <div id="search0" class="search input-group form-group">
+                          <div class="
+                          select_category
+                          filter_type
+                          icon-select
+                          hidden-sm hidden-xs
+                        " style="width: 150px;">
+                            <select class="no-border" name="category_id">
+                              <option value="0">Tên sản phẩm</option>
+                              <option value="78">Phân loại hàng</option>
+                              <option value="77">Mã sản phẩm </option>
+                              <option value="82">ThươNg hiệu</option>
+
+                            </select>
+                          </div>
+
+                          <input class="autosearch-input form-control" type="text" value="" size="50"
+                            autocomplete="off" placeholder="Nhập vào..." name="search" />
+                          <!-- <span class="input-group-btn">
+                            <button type="submit" class="button-search btn btn-primary" name="submit_search">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </span> -->
+                        </div>
+                        <input type="hidden" name="route" value="product/search" />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="name" id="input-product"
+                    placeholder="Tên sản phẩm" value="" name="product">
+                </div>
+              </div>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 30px;">
+                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                  <input type="submit" class="btn btn-secondary" value="Nhập lại">
+                </div>
+
+              </div><br>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                </div>
+                <div class="pull-right">
+
+                </div>
+              </div>
+              <br>
+
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Tên</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Giá</strong></td>
+                    <td><strong>Kích thước</strong></td>
+                    <td><strong>Thương hiệu</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Product</td>
+                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--Middle Part End -->
+
+        </div>
+      </div>
+      <div id="menu3" class="tab-pane fade">
+        <div class="row">
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
+                  <div class="search-header-w">
+                    <div class="icon-search hidden-lg hidden-md hidden-sm">
+                      <i class="fa fa-search"></i>
+                    </div>
+
+                    <div id="sosearchpro" class="sosearchpro-wrapper so-search">
+                      <form method="GET" action="index.html">
+                        <div id="search0" class="search input-group form-group">
+                          <div class="
+                          select_category
+                          filter_type
+                          icon-select
+                          hidden-sm hidden-xs
+                        " style="width: 150px;">
+                            <select class="no-border" name="category_id">
+                              <option value="0">Tên sản phẩm</option>
+                              <option value="78">Phân loại hàng</option>
+                              <option value="77">Mã sản phẩm </option>
+                              <option value="82">ThươNg hiệu</option>
+
+                            </select>
+                          </div>
+
+                          <input class="autosearch-input form-control" type="text" value="" size="50"
+                            autocomplete="off" placeholder="Nhập vào..." name="search" />
+                          <!-- <span class="input-group-btn">
+                            <button type="submit" class="button-search btn btn-primary" name="submit_search">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </span> -->
+                        </div>
+                        <input type="hidden" name="route" value="product/search" />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="name" id="input-product"
+                    placeholder="Tên sản phẩm" value="" name="product">
+                </div>
+              </div>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 30px;">
+                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                  <input type="submit" class="btn btn-secondary" value="Nhập lại">
+                </div>
+
+              </div><br>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                </div>
+                <div class="pull-right">
+
+                </div>
+              </div>
+              <br>
+
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Tên</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Giá</strong></td>
+                    <td><strong>Kích thước</strong></td>
+                    <td><strong>Thương hiệu</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Product</td>
+                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--Middle Part End -->
+
+        </div>
+      </div>
+    </div>
   </div>
 
+</div>

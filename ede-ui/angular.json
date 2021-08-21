@@ -49,7 +49,9 @@
               "src/assets/css/themecss/so-listing-tabs.css",
               "src/assets/css/themecss/so-newletter-popup.css",
               "src/assets/css/theme.css",
-              "src/assets/css/responsive.css"
+              "src/assets/css/responsive.css",
+              "src/assets/css/header/header1.css",
+              "src/assets/css/footer/footer1.css"
             ],
             "scripts": [
               "src/assets/js/jquery-2.2.4.min.js",

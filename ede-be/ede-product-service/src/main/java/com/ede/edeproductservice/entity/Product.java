@@ -48,7 +48,7 @@ public class Product {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
-	@Fetch(value = FetchMode.SUBSELECT)
+//	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option> product_options;
 
 	@Override
