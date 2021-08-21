@@ -23,7 +23,7 @@ export class AddProductService {
   }
   public addProductOption(data: ProductOptions) {
     console.log(data)
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options',data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/'+data.id_product,data, this.httpOptions);
   }
   public enableProductShop(id: string) {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/enable/product-shop/' + id, this.httpOptions);
