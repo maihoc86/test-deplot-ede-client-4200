@@ -13,16 +13,16 @@
                         <div class="col-sm-10">
                             <input type="text" class="form-control" formControlName="name" id="input-product"
                                 placeholder="Tên sản phẩm" value="" name="product">
-                                <div *ngIf="
+                            <div *ngIf="
                                 product.controls['name'].invalid &&
                                 (product.controls['name'].dirty ||
                                 product.controls['name'].touched)
                               " class="alert alert-danger">
-                              <span *ngIf="
+                                <span *ngIf="
                               product.controls['name'].errors &&
                               product.controls['name'].errors.required
                                 ">Tên sản phẩm là bắt buộc.</span>
-                              <span *ngIf="
+                                <span *ngIf="
                               product.controls['name'].errors &&
                               product.controls['name'].errors.pattern
                                 ">Tên sản phẩm không đúng định dạng(ít nhất 6 kí tự).</span>
@@ -55,11 +55,11 @@
                             (product.controls['parent_category'].dirty ||
                             product.controls['parent_category'].touched)
                           " class="alert alert-danger">
-                          <span *ngIf="
+                                <span *ngIf="
                           product.controls['parent_category'].errors &&
                           product.controls['parent_category'].errors.required
                             ">Vui lòng chọn loại...</span>
-                        </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required" *ngIf="!isHiddenChildParent">
@@ -76,11 +76,11 @@
                             (product.controls['parent_child_category'].dirty ||
                             product.controls['parent_child_category'].touched)
                           " class="alert alert-danger">
-                          <span *ngIf="
+                                <span *ngIf="
                           product.controls['parent_child_category'].errors &&
                           product.controls['parent_child_category'].errors.required
                             ">Vui lòng chọn loại...</span>
-                        </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required" *ngIf="!isHiddenChild">
@@ -97,11 +97,11 @@
                             (product.controls['child_category'].dirty ||
                             product.controls['child_category'].touched)
                           " class="alert alert-danger">
-                          <span *ngIf="
+                                <span *ngIf="
                           product.controls['child_category'].errors &&
                           product.controls['child_category'].errors.required
                             ">Vui lòng chọn loại...</span>
-                        </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required">
@@ -129,20 +129,20 @@
                 <fieldset>
                     <legend>Thuộc tính sản phẩm</legend>
                     <div class="form-group required">
-                        <label for="input-display-name" class="col-sm-2 control-label">Tên nhãn</label>
+                        <label for="input-display-name" class="col-sm-2 control-label">Tên nhãn sản phẩm</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" formControlName="display_name"
                                 id="input-display-name" placeholder="Tên nhãn" value="" name="product">
-                                <div *ngIf="
+                            <div *ngIf="
                                 product_options.controls['display_name'].invalid &&
                                 (product_options.controls['display_name'].dirty ||
                                 product_options.controls['display_name'].touched)
                               " class="alert alert-danger">
-                              <span *ngIf="
+                                <span *ngIf="
                               product_options.controls['display_name'].errors &&
                               product_options.controls['display_name'].errors.required
                                 ">Tên nhãn là bắt buộc.</span>
-                              <span *ngIf="
+                                <span *ngIf="
                               product_options.controls['display_name'].errors &&
                               product_options.controls['display_name'].errors.pattern
                                 ">Tên nhãn không đúng định dạng(ít nhất 6 kí tự).</span>
@@ -185,16 +185,16 @@
                         <div class="col-sm-10">
                             <input type="text" (keypress)="numberOnly($event)" class="form-control"
                                 formControlName="price" id="input-display-name" placeholder="Giá">
-                                <div *ngIf="
+                            <div *ngIf="
                                 product_options.controls['price'].invalid &&
                                 (product_options.controls['price'].dirty ||
                                 product_options.controls['price'].touched)
                               " class="alert alert-danger">
-                              <span *ngIf="
+                                <span *ngIf="
                               product_options.controls['price'].errors &&
                               product_options.controls['price'].errors.required
                                 ">Giá là bắt buộc.</span>
-                              <span *ngIf="
+                                <span *ngIf="
                               product_options.controls['price'].errors &&
                               product_options.controls['price'].errors.pattern
                                 ">Giá không đúng định dạng.</span>
@@ -206,16 +206,16 @@
                         <div class="col-sm-10">
                             <input type="number" (keypress)="numberOnly($event)" min="1" class="form-control"
                                 formControlName="quantity" id="input-display-name" placeholder="Số lượng">
-                                <div *ngIf="
+                            <div *ngIf="
                                 product_options.controls['quantity'].invalid &&
                                 (product_options.controls['quantity'].dirty ||
                                 product_options.controls['quantity'].touched)
                               " class="alert alert-danger">
-                              <span *ngIf="
+                                <span *ngIf="
                               product_options.controls['quantity'].errors &&
                               product_options.controls['quantity'].errors.required
                                 ">Số lượng bắt buộc.</span>
-                              <span *ngIf="
+                                <span *ngIf="
                               product_options.controls['quantity'].errors &&
                               product_options.controls['quantity'].errors.pattern
                                 ">Số lượng không được lớn hơn 9999.</span>
@@ -223,7 +223,22 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="input-quantity" class="col-sm-2 control-label">Mô
+                        <label for="input-tag" class="col-sm-2 control-label">Tag#</label>
+                        <mat-form-field class="example-chip-list col-sm-10" appearance="fill">
+                            <mat-chip-list #chipList aria-label="Fruit selection">
+                                <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+                                    (removed)="remove(fruit)">
+                                    {{fruit.name}}
+                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Thêm tag..." [matChipInputFor]="chipList"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                            </mat-chip-list>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-description" class="col-sm-2 control-label">Mô
                             tả</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" formControlName="description" name="" id="" cols="30"
@@ -235,7 +250,8 @@
                     <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
                     </div>
                     <div class="pull-right">
-                        <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)" type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
+                        <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
+                            type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
                         <input type="submit" class="btn btn-primary" value="Sửa">
                         <input type="submit" class="btn btn-danger" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">

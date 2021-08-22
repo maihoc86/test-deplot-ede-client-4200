@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   FormGroup,
   FormControl,
@@ -19,6 +21,29 @@ import { ProductOptionsImage } from 'src/app/models/product-options-image.model'
   styleUrls: ['./product-shop.component.css']
 })
 export class ProductShopComponent implements OnInit {
+  // TODO: Thêm TAG
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  fruits: Fruit[] = [
+    { name: 'Lemon' },
+    { name: 'Lime' },
+    { name: 'Apple' },
+  ];
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push({ name: value });
+    }
+    event.chipInput!.clear();
+  }
+  remove(fruit: Fruit): void {
+    const index = this.fruits.indexOf(fruit);
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
 
   public product = new FormGroup({
     origin: new FormControl('', [
@@ -167,7 +192,7 @@ export class ProductShopComponent implements OnInit {
           this.product_options.controls['id_product'].setValue(data.id);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
             this.product_options_image.controls['productoption'].setValue(data);
-            if(this.imageArray.length > 0){
+            if (this.imageArray.length > 0) {
               this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
               });
             }
@@ -290,4 +315,6 @@ interface sizegroup {
   name: string;
   size: size[];
 }
-
+export interface Fruit {
+  name: string;
+}
