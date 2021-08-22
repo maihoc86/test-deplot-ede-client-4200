@@ -1,7 +1,5 @@
 package com.ede.edeproductservice.restcontroller.user;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.ede.edeproductservice.ResponseHandler;
+
+import com.fasterxml.jackson.databind.JsonNode;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
@@ -33,7 +33,6 @@ import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
-import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
 @RequestMapping("/ede-product")
@@ -82,6 +81,7 @@ public class CreateProductShopRestController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/{id}")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option,
 			@PathVariable("id") String id_product) {
