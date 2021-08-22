@@ -48,11 +48,13 @@ public class Product {
 //	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option> product_options;
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+	List<Product_tag> product_tags;
 
-	
 	@Override
 	public String toString() {
-		return String.format("%s | %s | %s | %s | %s | %s", this.id, this.origin, this.description, this.name, this.enable,
-				this.deleted);
+		return String.format("%s | %s | %s | %s | %s | %s", this.id, this.origin, this.description, this.name,
+				this.enable, this.deleted);
 	}
 }
