@@ -67,6 +67,7 @@ export class ProductShopComponent implements OnInit {
     this.getCountry();
   }
   images: string[] = [];
+  imageArray: string[] = [];
   image_option: any;
   public isHiddenChildParent: boolean = true;
   public isHiddenChild: boolean = true;
@@ -128,21 +129,25 @@ export class ProductShopComponent implements OnInit {
           this.images.push(event.target.result);
         }
         reader.readAsDataURL(event.target.files[i]);
-        this.image_option += event.target.files[i].name + ";"
+        this.imageArray.push(event.target.files[i].name)
         this.product_options_image.patchValue({
-          image: this.image_option
+          image: this.imageArray.toString()
         });
       }
     }
+
   }
   deleteImage(event: any, url: any) {
     // TODO: delete image from server
-    // console.log(this.product_options_image.controls['image'].value.splice(';',1));
     var item = url;
     var length = this.images.length;
     for (let i = 0; i < length; i++) {
       if (this.images[i] == item) {
+        this.imageArray.splice(i, 1);
         this.images.splice(i, 1);
+        this.product_options_image.patchValue({
+          image: this.imageArray.toString()
+        });
       }
     }
   }
@@ -162,8 +167,10 @@ export class ProductShopComponent implements OnInit {
           this.product_options.controls['id_product'].setValue(data.id);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
             this.product_options_image.controls['productoption'].setValue(data);
-            this.Addservice.addProductOptionImage(this.createNewOptionImage()).subscribe((data) => {
-            })
+            if(this.imageArray.length > 0){
+              this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
+              });
+            }
           });
           if (result.isConfirmed) {
             // console.log(data)
