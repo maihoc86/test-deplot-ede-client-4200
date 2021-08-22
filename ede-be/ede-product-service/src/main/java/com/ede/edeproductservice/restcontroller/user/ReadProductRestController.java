@@ -2,7 +2,12 @@ package com.ede.edeproductservice.restcontroller.user;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +19,7 @@ import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
+import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
@@ -52,20 +58,19 @@ public class ReadProductRestController {
 		return service.findAll();
 	}
 
-//	@Autowired
-//	private EntityManager en;
+	@Autowired
+	private EntityManager en;
 
-//	@GetMapping("/view/get-products/{keysearch}")
-//	public ResponseEntity<Object> getProducts(@PathVariable("keysearch") String keysearch) {
+	@GetMapping("/view/get-products/{keysearch}")
+	public ResponseEntity<List<Product>> getProducts(@PathVariable("keysearch") String keysearch) {
 //		Page<Product> result = this.service.searchByKeysearch(keysearch, PageRequest.of(0, 10));
-//// TODO Đánh dấu ở đây để mai code tiếp, chổ này cần phải nhanh chóng fix
-////		List<Object> result = en.createQuery("SELECT p FROM ProductSearch p ORDER BY function('dbo.string_distance', p.keysearch, '"+keysearch+"') ASC")
-////				.getResultList();
+//		List<Product> result = en.createQuery("SELECT p FROM Product p")
+//				.getResultList();
 //		
 //		System.err.println(result + "-----------");
-//		return ResponseEntity.ok(result);
-//	}
-//	
+		return ResponseEntity.ok(this.service.findAll());
+	}
+	
 	@GetMapping("/view/listBrand")
 	public List<Product_brand> getBrands() {
 		return brandService.findAll();
