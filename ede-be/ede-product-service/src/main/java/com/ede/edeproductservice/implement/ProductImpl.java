@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.ProductDao;
@@ -23,8 +23,15 @@ public class ProductImpl implements ProductService {
 		return dao.findAll();
 	}
 
+	/**
+	 * Hàm search bằng từ khóa, hàm sẽ lấy ra product giống với từ khóa nhất (luôn có kết quả trả về)
+	 * @param keysearch Từ khóa muốn search
+	 * @param pageRequest Số lượng product muốn lấy ra
+	 * @author Vinh
+	 */
 	@Override
-	public Page<Product> searchByKeysearch(String keysearch, PageRequest pageRequest) {
+	public Page<Product> searchByKeysearch(String keysearch, Pageable pageRequest) {
+		keysearch = "Tên gì";
 		return this.dao.searchBykeysearch(keysearch, pageRequest);
 	}
 
