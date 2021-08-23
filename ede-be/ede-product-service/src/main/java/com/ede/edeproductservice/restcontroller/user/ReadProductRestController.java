@@ -2,11 +2,7 @@ package com.ede.edeproductservice.restcontroller.user;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +15,9 @@ import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
-import com.ede.edeproductservice.entity.extend.ProductSearch;
+import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.service.ProductService;
+import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
@@ -49,7 +46,10 @@ public class ReadProductRestController {
 
 	@Autowired
 	Product_option_image_service productImageService;
-	
+
+	@Autowired
+	Product_Tag_service product_Tag_service;
+
 	@Autowired
 	ShopService shopService;
 
@@ -57,9 +57,6 @@ public class ReadProductRestController {
 	public List<Product> getAllProduct() {
 		return service.findAll();
 	}
-
-	@Autowired
-	private EntityManager en;
 
 	@GetMapping("/view/get-products/{keysearch}")
 	public ResponseEntity<List<Product>> getProducts(@PathVariable("keysearch") String keysearch) {
@@ -70,7 +67,7 @@ public class ReadProductRestController {
 //		System.err.println(result + "-----------");
 		return ResponseEntity.ok(this.service.findAll());
 	}
-	
+
 	@GetMapping("/view/listBrand")
 	public List<Product_brand> getBrands() {
 		return brandService.findAll();
@@ -106,9 +103,15 @@ public class ReadProductRestController {
 		System.out.println(findCategory);
 		return child_category_service.findByIdParentChild(id);
 	}
-	
+
 	@GetMapping("/view/list_option_image")
-	public List<Product_option_image> getListOption_images(){
+	public List<Product_option_image> getListOption_images() {
 		return productImageService.findAll();
 	}
+
+	@GetMapping("/view/list_product_tag")
+	public List<Product_tag> getListProduct_Tag() {
+		return product_Tag_service.findAll();
+	}
+
 }

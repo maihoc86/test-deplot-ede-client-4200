@@ -25,9 +25,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
+import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.entity.User;
 import com.ede.edeproductservice.service.ProductService;
+import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
@@ -52,6 +54,9 @@ public class CreateProductShopRestController {
 
 	@Autowired
 	Product_option_image_service product_option_image_service;
+
+	@Autowired
+	Product_Tag_service product_Tag_service;
 
 	@Autowired
 	ShopService shopService;
@@ -102,15 +107,38 @@ public class CreateProductShopRestController {
 			if (findImage.isPresent() && findImage != null) {
 				UUID uuid2 = UUID.randomUUID();
 				product_option.setId(uuid2.toString());
-				product_option.setImage(words[i]);
+				String[] fileCat = words[i].split("\\.");
+				product_option.setImage(uuid.toString() + "." + fileCat[1]);
 				product_option_image_service.save(product_option);
 			} else {
 				product_option.setId(uuid.toString());
-				product_option.setImage(words[i]);
+				String[] fileCat = words[i].split("\\.");
+				product_option.setImage(uuid.toString() + "." + fileCat[1]);
 				product_option_image_service.save(product_option);
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping("/create/product-shop/tag")
+	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
+		String[] words = product_tag.getTag().split(",");
+		for (int i = 0; i < words.length; i++) {
+			UUID uuid = UUID.randomUUID();
+			Optional<Product_tag> findTag = product_Tag_service.findById(uuid.toString());
+			if (findTag.isPresent() && findTag != null) {
+				UUID uuid2 = UUID.randomUUID();
+				product_tag.setId(uuid2.toString());
+				product_tag.setTag(words[i]);
+				product_Tag_service.save(product_tag);
+			} else {
+				product_tag.setId(uuid.toString());
+				product_tag.setTag(words[i]);
+				product_Tag_service.save(product_tag);
+			}
+		}
+		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm tag thành công", "", null);
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -222,18 +222,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" [formGroup]="product_tags">
                         <label for="input-tag" class="col-sm-2 control-label">Tag#</label>
                         <mat-form-field class="example-chip-list col-sm-10" appearance="fill">
                             <mat-chip-list #chipList aria-label="Fruit selection">
-                                <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-                                    (removed)="remove(fruit)">
-                                    {{fruit.name}}
+                                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                                    (removed)="removeTag(tag)">
+                                    {{tag.name}}
                                     <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                 </mat-chip>
                                 <input placeholder="Thêm tag..." [matChipInputFor]="chipList"
                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)">
                             </mat-chip-list>
                         </mat-form-field>
                     </div>
