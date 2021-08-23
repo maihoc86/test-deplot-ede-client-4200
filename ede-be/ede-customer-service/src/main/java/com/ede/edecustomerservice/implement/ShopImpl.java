@@ -1,5 +1,7 @@
 package com.ede.edecustomerservice.implement;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +23,8 @@ public class ShopImpl implements ShopService {
 	}
 
 	@Override
-	public Shop findById(String id) {
-		return dao.findById(id).get();
+	public Optional<Shop> findById(String id) {
+		return dao.findById(id);
 	}
 
 }
