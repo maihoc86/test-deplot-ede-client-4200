@@ -95,8 +95,7 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/images")
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
-		System.out.println(product_option.getImage());
-		String[] words = product_option.getImage().split(";");
+		String[] words = product_option.getImage().split(",");
 		for (int i = 0; i < words.length; i++) {
 			UUID uuid = UUID.randomUUID();
 			Optional<Product_option_image> findImage = product_option_image_service.findById(uuid.toString());
@@ -112,21 +111,6 @@ public class CreateProductShopRestController {
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
-		// TODO
-
-//		for (Product_option_image item : product_option) {
-//			UUID uuid = UUID.randomUUID();
-//			item.setId(uuid.toString());
-//			Optional<Product_option_image> findImage = product_option_image_service.findById(uuid.toString());
-//			if (findImage.isPresent() && findImage != null) {
-//				UUID uuid2 = UUID.randomUUID();
-//				item.setId(uuid2.toString());
-//			} else {
-//				item.setId(uuid.toString());
-//			}
-//			listTemp.add(item);
-//		}
-
 	}
 
 	@SuppressWarnings("rawtypes")
