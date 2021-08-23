@@ -34,7 +34,7 @@ export class ProductShopComponent implements OnInit {
     ]),
     name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){5,25}$"),
+      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){2,25}$"),
     ]),
     description: new FormControl(''),
     enable: new FormControl('true'),
@@ -48,7 +48,8 @@ export class ProductShopComponent implements OnInit {
     description: new FormControl(''),
     file: new FormControl(''),
     display_name: new FormControl('', [Validators.required,
-    Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){5,25}$"),]),
+    Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){1,25}$"),
+    ]),
     price: new FormControl('', [Validators.required,
     Validators.pattern("([0-9]{0,9})\\b"),]),
     size: new FormControl(''),
