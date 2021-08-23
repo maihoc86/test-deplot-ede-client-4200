@@ -15,6 +15,7 @@ import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from '../models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
+import { ProductTag } from '../models/product-tag.model';
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -26,25 +27,7 @@ export class ProductShopComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  fruits: Fruit[] = [
-    { name: 'Lemon' },
-    { name: 'Lime' },
-    { name: 'Apple' },
-  ];
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      this.fruits.push({ name: value });
-    }
-    event.chipInput!.clear();
-  }
-  remove(fruit: Fruit): void {
-    const index = this.fruits.indexOf(fruit);
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
-    }
-  }
-
+  tags: Tag[] = [];
   public product = new FormGroup({
     origin: new FormControl('', [
       Validators.required,
@@ -78,6 +61,11 @@ export class ProductShopComponent implements OnInit {
     productoption: new FormControl(''),
     image: new FormControl(''),
   });
+
+  public product_tags = new FormGroup({
+    producttag: new FormControl(''),
+    tag: new FormControl(''),
+  });
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -93,6 +81,7 @@ export class ProductShopComponent implements OnInit {
   }
   images: string[] = [];
   imageArray: string[] = [];
+  tagArray: string[] = [];
   image_option: any;
   public isHiddenChildParent: boolean = true;
   public isHiddenChild: boolean = true;
@@ -101,7 +90,7 @@ export class ProductShopComponent implements OnInit {
   public listParentCategory: any = [];
   public listBrands: any = [];
   public listCountry: any = [];
-  private createNewData() {
+  private createDataProduct() {
     const newProduct: any = {};
     for (const controlName in this.product.controls) {
       if (controlName) {
@@ -127,6 +116,40 @@ export class ProductShopComponent implements OnInit {
       }
     }
     return newProduct as ProductOptionsImage;
+  }
+  private createDataTag() {
+    const newProduct: any = {};
+    for (const controlName in this.product_tags.controls) {
+      if (controlName) {
+        newProduct[controlName] = this.product_tags.controls[controlName].value;
+      }
+    }
+    return newProduct as ProductTag;
+  }
+  addTag(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.tags.push({ name: value });
+      this.tagArray.push(value);
+      this.product_tags.patchValue({
+        tag: this.tagArray.toString()
+      });
+      console.log(this.tagArray);
+    }
+
+    event.chipInput!.clear();
+  }
+  removeTag(tag: Tag): void {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+      console.log(this.tagArray);
+      this.tagArray.splice(index, 1);
+      this.product_tags.patchValue({
+        tag: this.tagArray.toString()
+      });
+      console.log(this.tagArray);
+    }
   }
   numberOnly(event: any) {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -178,7 +201,7 @@ export class ProductShopComponent implements OnInit {
   }
   public addProduct() {
     this.product.controls['deleted'].setValue('false');
-    this.Addservice.addProductShop(this.createNewData()).subscribe(
+    this.Addservice.addProductShop(this.createDataProduct()).subscribe(
       (data) => {
         Swal.fire({
           title: 'Thêm sản phẩm thành công !!',
@@ -190,6 +213,11 @@ export class ProductShopComponent implements OnInit {
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
           this.product_options.controls['id_product'].setValue(data.id);
+          this.product_tags.controls['producttag'].setValue(data);
+          if (this.tags.length > 0) {
+            this.Addservice.addProductTags(this.createDataTag()).toPromise().then(data => {
+            });
+          }
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
             this.product_options_image.controls['productoption'].setValue(data);
             if (this.imageArray.length > 0) {
@@ -315,6 +343,6 @@ interface sizegroup {
   name: string;
   size: size[];
 }
-export interface Fruit {
+export interface Tag {
   name: string;
 }
