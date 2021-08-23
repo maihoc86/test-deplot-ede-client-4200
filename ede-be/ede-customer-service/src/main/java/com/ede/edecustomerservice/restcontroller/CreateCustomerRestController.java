@@ -1,7 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -12,13 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,18 +31,14 @@ import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
 import com.ede.edecustomerservice.service.ShopService;
 
-@CrossOrigin("*")
 @RestController
-public class CustomerRestController {
-
+@RequestMapping("/ede-customer")
+public class CreateCustomerRestController {
 	@Autowired
 	CustomerService service;
-	
-	@Autowired
-	ShopService shopservice;
 
 	@Autowired
-	private MailService mailService;
+	ShopService shopservice;
 
 	@Autowired
 	RoleDao roleDao;
@@ -55,10 +47,13 @@ public class CustomerRestController {
 	AuthoritiesDao authoritiesDao;
 
 	@Autowired
+	HttpServletRequest request;
+
+	@Autowired
 	private JsonWebTokenService jwtService;
 
 	@Autowired
-	HttpServletRequest request;
+	private MailService mailService;
 
 	/**
 	 * Register Account
@@ -67,7 +62,7 @@ public class CustomerRestController {
 	 * @see #register(User)
 	 */
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/ede-customer/register")
+	@PostMapping("/register")
 	public ResponseEntity register(@RequestBody User user) {
 		return checkDataUser(user);
 	}
@@ -79,7 +74,7 @@ public class CustomerRestController {
 	 * @see #addNewUser(User)
 	 */
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/ede-customer/admin/add-new-user")
+	@PostMapping("/admin/add-new-user")
 	public ResponseEntity addNewUser(@RequestBody User user) {
 		return checkDataUser(user);
 	}
@@ -108,7 +103,7 @@ public class CustomerRestController {
 			shop.setCreate_date(new Date());
 			shop.setImage("bia.jpg");
 			shop.setName(user.getUsername());
-			shop.setUser(service.findById(user.getId()));
+			shop.setUser(service.findById(user.getId()).get());
 			this.shopservice.save(shop);
 			Authorities addAuthorities = new Authorities();
 			addAuthorities.setUser(user);
@@ -118,8 +113,23 @@ public class CustomerRestController {
 		}
 	}
 
+	// validate data user
+	public String validateUser(@RequestBody User user) {
+		User findByUsername = service.findByUsername(user.getUsername());
+		User findByEmail = service.findByEmail(user.getEmail());
+		User findByPhone = service.findByPhone(user.getPhone());
+		if (findByUsername != null) {
+			return "username";
+		} else if (findByEmail != null) {
+			return "email";
+		} else if (findByPhone != null) {
+			return "phone";
+		}
+		return null;
+	}
+
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/ede-customer/send-email-verify")
+	@PostMapping("/send-email-verify")
 	public ResponseEntity activeAccountRegister(@RequestBody Map<String, String> request) {
 		String email = request.get("email");
 		System.out.println(email);
@@ -152,7 +162,7 @@ public class CustomerRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/ede-customer/account/verify")
+	@PostMapping("/account/verify")
 	public ResponseEntity checkActiveAccount(@RequestParam String email, @RequestParam String token) {
 		User active = service.findByEmail(email);
 		if (active == null) {
@@ -181,21 +191,6 @@ public class CustomerRestController {
 		}
 	}
 
-	// validate data user
-	public String validateUser(@RequestBody User user) {
-		User findByUsername = service.findByUsername(user.getUsername());
-		User findByEmail = service.findByEmail(user.getEmail());
-		User findByPhone = service.findByPhone(user.getPhone());
-		if (findByUsername != null) {
-			return "username";
-		} else if (findByEmail != null) {
-			return "email";
-		} else if (findByPhone != null) {
-			return "phone";
-		}
-		return null;
-	}
-
 	/**
 	 * Use for user forgot Password <br/>
 	 * Use to send otp to email for user contain url with token and otp
@@ -204,7 +199,7 @@ public class CustomerRestController {
 	 * @param email is address of otp receiver
 	 * @return True if mail added into schedule
 	 */
-	@PostMapping("/ede-customer/forgot-password/get-otp")
+	@PostMapping("/forgot-password/get-otp")
 	ResponseEntity<Boolean> forgotPasswordGetOtp(@RequestBody Map<String, String> requestBody) {
 		// create email
 		String email = requestBody.get("email");
@@ -242,7 +237,7 @@ public class CustomerRestController {
 	 * @author vinh
 	 * @see #resetPasswordToken(User)
 	 */
-	@PatchMapping("/ede-customer/forgot-password/reset-password")
+	@PatchMapping("/forgot-password/reset-password")
 	ResponseEntity<Boolean> resetPasswordOtp(@RequestBody Map<String, String> requestBody) {
 		User user = new User();
 		user.setEmail(requestBody.get("email"));
@@ -259,7 +254,7 @@ public class CustomerRestController {
 	 * @see #resetPasswordOtp(User)
 	 * @see #resetPasswordToken(User)
 	 */
-	@PatchMapping("/ede-customer/forgot-password/reset-password/token")
+	@PatchMapping("/forgot-password/reset-password/token")
 	ResponseEntity<Boolean> resetPasswordToken(@RequestBody Map<String, String> requestBody) {
 		User user = new User();
 		user.setEmail(requestBody.get("email"));
@@ -269,51 +264,4 @@ public class CustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-	@DeleteMapping("/ede-customer/delete/users/{username}")
-	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
-		System.err.println("Detele username :" + username);
-		try {
-			return ResponseEntity.ok(service.deleteByUsername(username));
-		} catch (Exception e) {
-			System.err.println(e);
-			return ResponseEntity.notFound().build();
-		}
-	}
-	
-	/**
-	 * Load data on the table
-	 * 
-	 * @author thanh
-	 * @see
-	 */
-	@GetMapping("/ede-customer/admin/users")
-	public List<User> getAccounts() {
-		return service.findAll();
-	}
-	
-	/**
-	 * Create search account admin
-	 * @author Thanh
-	 */
-	@GetMapping("/ede-customer/admin/search/{username}")
-	public List<User> search(@PathVariable("username") String username){
-		System.out.println("username: "+username);
-		if(username == "") {
-			System.out.println("ahihi lala ");
-			return this.getAccounts();
-			
-		}
-		else {
-			return service.findByUsernameContaining(username);
-		}
-		
-	}
-	@GetMapping("/ede-customer/findbyusername/{username}")
-	public User findbyusername(@PathVariable("username") String username) {
-		String u =	username.substring(1, username.length()-1);
-		System.err.println("in api :" +service.findByUsername(u)+" id la " +username);
-		return service.findByUsername(u);
-	}
-	
-	
 }
