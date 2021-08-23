@@ -1,5 +1,7 @@
 package com.ede.edeproductservice.implement;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +18,20 @@ public class Product_Option_Impl implements Product_option_service {
 	@Override
 	public Product_option save(Product_option product_option) {
 		return dao.save(product_option);
+	}
+
+	@Override
+	public List<Product_option> findAll() {
+		return dao.findAll();
+	}
+
+	@Override
+	public List<Product_option> findByProductEnable(Boolean value) {
+		return dao.findByProductEnable(value);
+	}
+
+	@Override
+	public List<Product_option> findProductQuantity0() {
+		return dao.findProductQuantity0();
 	}
 }

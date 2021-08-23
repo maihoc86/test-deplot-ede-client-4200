@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
@@ -22,6 +23,7 @@ import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
+import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.Product_parent_category_service;
 import com.ede.edeproductservice.service.ShopService;
 
@@ -49,6 +51,9 @@ public class ReadProductRestController {
 
 	@Autowired
 	Product_Tag_service product_Tag_service;
+
+	@Autowired
+	Product_option_service product_option_service;
 
 	@Autowired
 	ShopService shopService;
@@ -114,4 +119,17 @@ public class ReadProductRestController {
 		return product_Tag_service.findAll();
 	}
 
+	// TODO: Filter product by shop
+	@GetMapping("/view/list_product/filter/{value}")
+	public List<Product_option> getListFilter(@PathVariable("value") String valueFilter) {
+		if (valueFilter.equals("enableTrue")) {
+			return product_option_service.findByProductEnable(true);
+		} else if (valueFilter.equals("enableFalse")) {
+			return product_option_service.findByProductEnable(false);
+		} else if(valueFilter.equals("quantity0")){
+			return product_option_service.findProductQuantity0();
+		}else {
+			return product_option_service.findAll();
+		}
+	}
 }
