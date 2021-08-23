@@ -114,6 +114,28 @@
                   </form>
                 </div>
               </li>
+
+              <li class="language">
+                <div class="btn-group languages-block">
+                  <form
+                    action="index.html"
+                    method="post"
+                    enctype="multipart/form-data"
+                    id="bt-language"
+                  >
+                    <a
+                      class="btn btn-link dropdown-toggle"
+                      data-toggle="dropdown"
+                      routerLink="shop/product/all"
+                    >
+
+                      <span class="">Kênh người bán</span>
+
+                    </a>
+
+                  </form>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -670,7 +692,30 @@
           </div>
           <!-- //end Main menu -->
 
+
+<!-- --------------------Tài khoản đã đăng nhập-------------------------------- -->
           <div class="middle-right col-lg-4 col-md-3 col-sm-6 col-xs-8">
+            <li class="currency">
+              <div class="btn-group currencies-block">
+
+                  <a
+                    class="btn btn-link dropdown-toggle"
+                    data-toggle="dropdown"
+                  >
+                    <span style="color: white;"  class="icon icon-credit">Tên người đăng nhập</span>
+                    <span class="fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu btn-xs">
+                    <li><a href="#">&nbsp;Tài khoản của tôi</a></li>
+                    <li><a href="#">&nbsp;Đơn mua </a></li>
+                    <li><a href="#">&nbsp;Đăng xuất </a></li>
+                  </ul>
+
+              </div>
+            </li>
+
+
+  <!---------------------------- Login & Register ----------------------------------------->
             <div class="signin-w hidden-sm hidden-xs">
               <ul class="signin-link blank">
                 <li class="log login">
@@ -678,8 +723,12 @@
                   <a class="link-lg" routerLink="/login">Login </a> or
                   <a  routerLink="/register" >Register</a>
                 </li>
+
+
               </ul>
+
             </div>
+
             <div class="telephone hidden-xs hidden-sm hidden-md">
               <ul class="blank">
                 <li>

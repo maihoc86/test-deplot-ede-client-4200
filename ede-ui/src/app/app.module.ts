@@ -21,6 +21,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductAllComponent } from './product-all/product-all.component';
+import { OrderAllComponent } from './order-all/order-all.component';
+import { ShopInterfaceComponent } from './shop-interface/shop-interface.component';
+import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
+import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +38,10 @@ import { ProductAllComponent } from './product-all/product-all.component';
     ProductShopComponent,
     AsideShopComponent,
     ProductAllComponent,
+    OrderAllComponent,
+    ShopInterfaceComponent,
+    ShowAllProductsShopInterfaceComponent,
+    ShopProfileComponent,
   ],
   imports: [
     BrowserModule,
