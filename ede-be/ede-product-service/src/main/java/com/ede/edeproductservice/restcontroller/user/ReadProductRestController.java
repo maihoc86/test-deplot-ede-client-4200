@@ -141,16 +141,18 @@ public class ReadProductRestController {
 		}
 	}
 
-	
 	// TODO: Filter product shop by customer
 	@PostMapping("/view/customer/shop/list_product/filter")
 	public List<Product_option> getList(@RequestParam Optional<String> location,
 			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
-		if (location.isPresent() && location.get() != null) {
-			return product_option_service.filterProductShopByCustomer(location.get());
+		String valueLocate = location.orElse("");
+		String valueCate = category.orElse("");
+		String valueBrand = brand.orElse("");
+		if (!valueLocate.equals("") && !valueBrand.equals("") && !valueCate.equals("")) {
+			return product_option_service.filterProductShopByCustomerAND(valueLocate, valueCate, valueBrand);
 		} else {
-			return product_option_service.findAll();
-		}
 
+			return product_option_service.filterProductShopByCustomerOR(valueLocate, valueCate, valueBrand);
+		}
 	}
 }
