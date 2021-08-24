@@ -67,6 +67,11 @@ public class ReadProductRestController {
 	public List<Product> getAllProduct() {
 		return service.findAll();
 	}
+	
+	@GetMapping("/view/getAllProductOption")
+	public List<Product_option> getAllProductOption() {
+		return product_option_service.findAll();
+	}
 
 	/**
 	 * Tìm sản phẩm
