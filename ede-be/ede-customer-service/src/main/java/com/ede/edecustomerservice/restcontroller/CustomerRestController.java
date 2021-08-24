@@ -10,6 +10,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.dao.AuthoritiesDao;
@@ -34,6 +38,7 @@ import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
 import com.ede.edecustomerservice.service.ShopService;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @CrossOrigin("*")
 @RestController
@@ -315,5 +320,26 @@ public class CustomerRestController {
 		return service.findByUsername(u);
 	}
 	
-	
+	@GetMapping("/ede-customer/getuserlogin/{token}")
+	public User getUserLogin(@PathVariable("token") String toekn) {
+		try {
+			HttpHeaders header = new HttpHeaders();
+			header.add("Content-Type", "application/json");
+			header.add("Authorization", "Bearer " + toekn);
+
+			RestTemplate restTemplate = new RestTemplate();
+			String url = "http://localhost:8080/ede-oauth-service/api/auth/check/login";
+			HttpEntity<Object> entity = new HttpEntity<Object>(null, header);
+			ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.POST, entity, JsonNode.class);
+			JsonNode jsonNode = respone.getBody();
+
+			System.err.println(jsonNode.get("id"));
+
+			String url2 = "http://localhost:8080/ede-customer/findbyusername/" + jsonNode.get("id");
+			ResponseEntity<User> user = restTemplate.exchange(url2, HttpMethod.GET, entity, User.class);
+			return user.getBody();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

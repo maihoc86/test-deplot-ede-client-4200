@@ -67,11 +67,16 @@ public class CreateProductShopRestController {
 
 		System.err.println(req.getHeader("Content-Type"));
 		User us = new User();
+		
+		
 		try {
 			us = checkLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
+		
+		
+		
 		System.out.println("US: " + us);
 
 		UUID uuid = UUID.randomUUID();
@@ -149,6 +154,8 @@ public class CreateProductShopRestController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
+	
+	
 	public User checkLogin(String headers) {
 		HttpHeaders header = new HttpHeaders();
 		header.add("Content-Type", "application/json");
