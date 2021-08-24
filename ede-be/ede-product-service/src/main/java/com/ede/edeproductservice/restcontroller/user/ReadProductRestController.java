@@ -1,6 +1,7 @@
 package com.ede.edeproductservice.restcontroller.user;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edeproductservice.entity.Product;
@@ -67,6 +70,7 @@ public class ReadProductRestController {
 
 	/**
 	 * Tìm sản phẩm
+	 * 
 	 * @author Vinh
 	 * @param keysearch từ khóa tìm kiếm
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
@@ -130,10 +134,23 @@ public class ReadProductRestController {
 			return product_option_service.findByProductEnable(true);
 		} else if (valueFilter.equals("enableFalse")) {
 			return product_option_service.findByProductEnable(false);
-		} else if(valueFilter.equals("quantity0")){
+		} else if (valueFilter.equals("quantity0")) {
 			return product_option_service.findProductQuantity0();
-		}else {
+		} else {
 			return product_option_service.findAll();
 		}
+	}
+
+	
+	// TODO: Filter product shop by customer
+	@PostMapping("/view/customer/shop/list_product/filter")
+	public List<Product_option> getList(@RequestParam Optional<String> location,
+			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
+		if (location.isPresent() && location.get() != null) {
+			return product_option_service.filterProductShopByCustomer(location.get());
+		} else {
+			return product_option_service.findAll();
+		}
+
 	}
 }

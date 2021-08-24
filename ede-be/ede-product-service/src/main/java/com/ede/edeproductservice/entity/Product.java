@@ -27,8 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product {
-	
+public class Product{
 	@Id
 	String id;
 	String origin;
@@ -50,7 +49,6 @@ public class Product {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
-//	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option> product_options;
 
 	@JsonIgnore
@@ -60,7 +58,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return String.format("%s | %s | %s | %s | %s | %s", this.id, this.origin, this.description, this.name,
-				this.enable, this.deleted);
+		return "";
 	}
+	
 }

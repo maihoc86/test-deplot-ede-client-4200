@@ -16,4 +16,6 @@ public interface Product_option_service {
 
 	List<Product_option> findProductQuantity0();
 
+	List<Product_option> filterProductShopByCustomer(String location);
+
 }
