@@ -5,9 +5,9 @@
   <div>
     <ul class="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Tất cả</a></li>
-      <li><a data-toggle="tab" href="#menu1">Đang được bán</a></li>
-      <li><a data-toggle="tab" href="#menu2">Hết hàng</a></li>
-      <li><a data-toggle="tab" href="#menu3">Đã ẩn</a></li>
+      <li><a data-toggle="tab" href="#menu1" (click)="filterEnableTrue()">Đang được bán</a></li>
+      <li><a data-toggle="tab" href="#menu2" (click)="filterQuantity0()">Hết hàng</a></li>
+      <li><a data-toggle="tab" href="#menu3" (click)="filterEnableFalse()">Đã ẩn</a></li>
     </ul>
 
     <div class="tab-content">
@@ -67,16 +67,19 @@
                 </div>
                 <div class="buttons clearfix">
                   <div class="pull-left" style="margin-left: 30px;">
-                    <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                    <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
+                    &nbsp;
                     <input type="submit" class="btn btn-secondary" value="Nhập lại">
                   </div>
 
                 </div><br>
                 <div class="buttons clearfix">
-                  <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                  <div class="pull-left" style="margin-left: 20px;">
+                    <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
                   </div>
                   <div class="pull-right">
-                    <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager" class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
+                    <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
+                      class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
 
                   </div>
                 </div>
@@ -85,7 +88,7 @@
               </div>
 
               <div class="table-responsive">
-                <table class="table table-bordered table-hover" >
+                <table class="table table-bordered table-hover">
                   <thead>
                     <tr>
                       <td><strong>Tên</strong></td>
@@ -105,7 +108,7 @@
                       <td>{{e.price}}</td>
                       <td>{{e.quantity}}</td>
                       <td>chưa có</td>
-                      <td><a routerLink="/shop/product/manager" >Sửa</a></td>
+                      <td><a routerLink="/shop/product/manager">Sửa</a></td>
                     </tr>
                   </tbody>
                 </table>
@@ -147,8 +150,8 @@
                             </select>
                           </div>
 
-                          <input class="autosearch-input form-control" type="text" value="" size="50"
-                            autocomplete="off" placeholder="Nhập vào..." name="search" />
+                          <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
+                            placeholder="Nhập vào..." name="search" />
                           <!-- <span class="input-group-btn">
                             <button type="submit" class="button-search btn btn-primary" name="submit_search">
                               <i class="fa fa-search"></i>
@@ -170,16 +173,21 @@
               </div>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 30px;">
-                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
+                  &nbsp;
                   <input type="submit" class="btn btn-secondary" value="Nhập lại">
                 </div>
 
               </div><br>
               <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
-                </div>
-                <div class="pull-right">
+                <div class="pull-left" style="margin-left: 20px;">
+                  <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
 
+                </div>
+
+                <div class="pull-right">
+                  <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
+                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
                 </div>
               </div>
               <br>
@@ -190,19 +198,23 @@
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Nhãn hàng</strong></td>
+                    <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Đã bán</strong></td>
+                    <td><strong>Sửa thông tin</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of itemsEnableTrue">
+                    <td>{{e.product.name}}</td>
+                    <td>{{e.product.brand.name}}</td>
+                    <td>{{e.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>chưa có</td>
+                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -242,8 +254,8 @@
                             </select>
                           </div>
 
-                          <input class="autosearch-input form-control" type="text" value="" size="50"
-                            autocomplete="off" placeholder="Nhập vào..." name="search" />
+                          <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
+                            placeholder="Nhập vào..." name="search" />
                           <!-- <span class="input-group-btn">
                             <button type="submit" class="button-search btn btn-primary" name="submit_search">
                               <i class="fa fa-search"></i>
@@ -265,16 +277,19 @@
               </div>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 30px;">
-                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
+                  &nbsp;
                   <input type="submit" class="btn btn-secondary" value="Nhập lại">
                 </div>
 
               </div><br>
               <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                <div class="pull-left" style="margin-left: 20px;">
+                  <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
                 </div>
                 <div class="pull-right">
-
+                  <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
+                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
                 </div>
               </div>
               <br>
@@ -285,19 +300,23 @@
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Nhãn hàng</strong></td>
+                    <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Đã bán</strong></td>
+                    <td><strong>Sửa thông tin</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of itemsQuantity0">
+                    <td>{{e.product.name}}</td>
+                    <td>{{e.product.brand.name}}</td>
+                    <td>{{e.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>chưa có</td>
+                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -337,8 +356,8 @@
                             </select>
                           </div>
 
-                          <input class="autosearch-input form-control" type="text" value="" size="50"
-                            autocomplete="off" placeholder="Nhập vào..." name="search" />
+                          <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
+                            placeholder="Nhập vào..." name="search" />
                           <!-- <span class="input-group-btn">
                             <button type="submit" class="button-search btn btn-primary" name="submit_search">
                               <i class="fa fa-search"></i>
@@ -360,16 +379,19 @@
               </div>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 30px;">
-                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;"> &nbsp;
+                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
+                  &nbsp;
                   <input type="submit" class="btn btn-secondary" value="Nhập lại">
                 </div>
 
               </div><br>
               <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;"><h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                <div class="pull-left" style="margin-left: 20px;">
+                  <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
                 </div>
                 <div class="pull-right">
-
+                  <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
+                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
                 </div>
               </div>
               <br>
@@ -380,19 +402,23 @@
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Nhãn hàng</strong></td>
+                    <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Đã bán</strong></td>
+                    <td><strong>Sửa thông tin</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of itemsEnableFalse">
+                    <td>{{e.product.name}}</td>
+                    <td>{{e.product.brand.name}}</td>
+                    <td>{{e.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>chưa có</td>
+                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>

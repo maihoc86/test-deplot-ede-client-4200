@@ -36,7 +36,11 @@ public class Product_Option_Impl implements Product_option_service {
 	}
 
 	@Override
-	public List<Product_option> filterProductShopByCustomer(String location) {
-		return dao.filterProductShopByCustomer(location);
+	public List<Product_option> filterProductShopByCustomerAND(String location, String category, String brand) {
+		return dao.filterProductShopByCustomerAND(location, category,  brand);
+	}
+	@Override
+	public List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand) {
+		return dao.filterProductShopByCustomerOR(location, category,  brand);
 	}
 }
