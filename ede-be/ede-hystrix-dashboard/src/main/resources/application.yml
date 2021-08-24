@@ -1,0 +1,11 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: ede-hystrix-dashboard
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+

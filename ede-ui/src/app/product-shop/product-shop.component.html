@@ -1,0 +1,263 @@
+<div class="row">
+    <div class="col-sm-2">
+        <app-aside-shop></app-aside-shop>
+    </div>
+    <div class="col-sm-10">
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-9" style="margin-top: 30px;">
+            <form class="form-horizontal" [formGroup]="product">
+                <fieldset>
+                    <legend>Thông tin sản phẩm</legend>
+                    <div class="form-group required">
+                        <label for="input-product" class="col-sm-2 control-label">Tên</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="name" id="input-product"
+                                placeholder="Tên sản phẩm" value="" name="product">
+                            <div *ngIf="
+                                product.controls['name'].invalid &&
+                                (product.controls['name'].dirty ||
+                                product.controls['name'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                              product.controls['name'].errors &&
+                              product.controls['name'].errors.required
+                                ">Tên sản phẩm là bắt buộc.</span>
+                                <span *ngIf="
+                              product.controls['name'].errors &&
+                              product.controls['name'].errors.pattern
+                                ">Tên sản phẩm không đúng định dạng(ít nhất 6 kí tự).</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-model" class="col-sm-2 control-label">Xuất sứ</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="origin">
+                                <option value="" disabled selected>Vui lòng chọn xuất sứ...</option>
+                                <option *ngFor="let prf of listCountry" [ngValue]="prf.name">
+                                    {{ prf.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-model" class="col-sm-2 control-label">Loại</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="parent_category"
+                                (change)="showParent_Child()">
+                                <option value="" disabled selected>Vui lòng chọn loại...</option>
+                                <option *ngFor="let prf of listParentCategory" [ngValue]="prf.id">
+                                    {{ prf.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                            product.controls['parent_category'].invalid &&
+                            (product.controls['parent_category'].dirty ||
+                            product.controls['parent_category'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['parent_category'].errors &&
+                          product.controls['parent_category'].errors.required
+                            ">Vui lòng chọn loại...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required" *ngIf="!isHiddenChildParent">
+                        <label for="input-model" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="parent_child_category" (change)="showChild()">
+                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option *ngFor="let prf of listParent_ChildCategory" [ngValue]="prf.id">
+                                    {{ prf.name == null ? 'Không có' : prf.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                            product.controls['parent_child_category'].invalid &&
+                            (product.controls['parent_child_category'].dirty ||
+                            product.controls['parent_child_category'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['parent_child_category'].errors &&
+                          product.controls['parent_child_category'].errors.required
+                            ">Vui lòng chọn loại...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required" *ngIf="!isHiddenChild">
+                        <label for="input-model" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="child_category">
+                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option *ngFor="let prf of listChildCategory" [ngValue]="prf">
+                                    {{ prf.name == null ? 'Không có' : prf.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                            product.controls['child_category'].invalid &&
+                            (product.controls['child_category'].dirty ||
+                            product.controls['child_category'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['child_category'].errors &&
+                          product.controls['child_category'].errors.required
+                            ">Vui lòng chọn loại...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-quantity" class="col-sm-2 control-label">Nhãn hàng</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="brand">
+                                <option *ngFor="let prf of listBrands" [ngValue]="prf">
+                                    {{ prf.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-quantity" class="col-sm-2 control-label">Mô
+                            tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
+                                rows="10"></textarea>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+            <form class="form-horizontal" [formGroup]="product_options">
+                <fieldset>
+                    <legend>Thuộc tính sản phẩm</legend>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Tên nhãn sản phẩm</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="display_name"
+                                id="input-display-name" placeholder="Tên nhãn" value="" name="product">
+                            <div *ngIf="
+                                product_options.controls['display_name'].invalid &&
+                                (product_options.controls['display_name'].dirty ||
+                                product_options.controls['display_name'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                              product_options.controls['display_name'].errors &&
+                              product_options.controls['display_name'].errors.required
+                                ">Tên nhãn là bắt buộc.</span>
+                                <span *ngIf="
+                              product_options.controls['display_name'].errors &&
+                              product_options.controls['display_name'].errors.pattern
+                                ">Tên nhãn không đúng định dạng(ít nhất 6 kí tự).</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required" [formGroup]="product_options_image">
+                        <label for="input-display-name" class="col-sm-2 control-label">Hình ảnh</label>
+                        <div class="col-sm-10">
+                            <input id="file" type="file" class="form-control" multiple=""
+                                (change)="onFileChange($event)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-display-name" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <img *ngFor='let url of images' (dblclick)="deleteImage($event, url)" [src]="url"
+                                height="150" width="170px" style="margin: 3px;">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Kích cỡ</label>
+                        <div class="col-sm-10">
+                            <mat-form-field appearance="fill" style="width:100%">
+                                <mat-label>Size</mat-label>
+                                <mat-select formControlName="size">
+                                    <mat-option>-- None --</mat-option>
+                                    <mat-optgroup *ngFor="let group of sizeGroups" [label]="group.name"
+                                        [disabled]="group.disabled">
+                                        <mat-option *ngFor="let size of group.size" [value]="size.value">
+                                            {{size.viewValue}}
+                                        </mat-option>
+                                    </mat-optgroup>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Giá</label>
+                        <div class="col-sm-10">
+                            <input type="text" (keypress)="numberOnly($event)" class="form-control"
+                                formControlName="price" id="input-display-name" placeholder="Giá">
+                            <div *ngIf="
+                                product_options.controls['price'].invalid &&
+                                (product_options.controls['price'].dirty ||
+                                product_options.controls['price'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                              product_options.controls['price'].errors &&
+                              product_options.controls['price'].errors.required
+                                ">Giá là bắt buộc.</span>
+                                <span *ngIf="
+                              product_options.controls['price'].errors &&
+                              product_options.controls['price'].errors.pattern
+                                ">Giá không đúng định dạng.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-display-name" class="col-sm-2 control-label">Số lượng</label>
+                        <div class="col-sm-10">
+                            <input type="number" (keypress)="numberOnly($event)" min="1" class="form-control"
+                                formControlName="quantity" id="input-display-name" placeholder="Số lượng">
+                            <div *ngIf="
+                                product_options.controls['quantity'].invalid &&
+                                (product_options.controls['quantity'].dirty ||
+                                product_options.controls['quantity'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                              product_options.controls['quantity'].errors &&
+                              product_options.controls['quantity'].errors.required
+                                ">Số lượng bắt buộc.</span>
+                                <span *ngIf="
+                              product_options.controls['quantity'].errors &&
+                              product_options.controls['quantity'].errors.pattern
+                                ">Số lượng không được lớn hơn 9999.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-tag" class="col-sm-2 control-label">Tag#</label>
+                        <mat-form-field class="example-chip-list col-sm-10" appearance="fill">
+                            <mat-chip-list #chipList aria-label="Fruit selection">
+                                <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+                                    (removed)="remove(fruit)">
+                                    {{fruit.name}}
+                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Thêm tag..." [matChipInputFor]="chipList"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                            </mat-chip-list>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-description" class="col-sm-2 control-label">Mô
+                            tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
+                                rows="10"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="buttons clearfix">
+                    <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
+                    </div>
+                    <div class="pull-right">
+                        <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
+                            type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
+                        <input type="submit" class="btn btn-primary" value="Sửa">
+                        <input type="submit" class="btn btn-danger" value="Xóa">
+                        <input type="submit" class="btn btn-secondary" value="Làm mới">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
