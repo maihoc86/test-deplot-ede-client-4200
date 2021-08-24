@@ -17,14 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductSearch extends Product{
-	
-	//--------------------------------------
-	
+
 	private String keysearch;
-	
-	public String getKeysearch() {
-		keysearch = this.getChild_category().getName();
-		return keysearch;
-	}
 	
 }
