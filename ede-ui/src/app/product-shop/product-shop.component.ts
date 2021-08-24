@@ -32,6 +32,9 @@ export class ProductShopComponent implements OnInit {
     origin: new FormControl('', [
       Validators.required,
     ]),
+    location: new FormControl('', [
+      Validators.required,
+    ]),
     name: new FormControl('', [
       Validators.required,
       Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,25}[ \\-\\']{0,}){2,25}$"),
@@ -79,6 +82,7 @@ export class ProductShopComponent implements OnInit {
     this.getBrands();
     this.getParentCategory();
     this.getCountry();
+    this.getCities();
   }
   images: string[] = [];
   imageArray: string[] = [];
@@ -91,6 +95,7 @@ export class ProductShopComponent implements OnInit {
   public listParentCategory: any = [];
   public listBrands: any = [];
   public listCountry: any = [];
+  public listCities: any = [];
   private createDataProduct() {
     const newProduct: any = {};
     for (const controlName in this.product.controls) {
@@ -257,6 +262,14 @@ export class ProductShopComponent implements OnInit {
         }
       }
     );
+  }
+  public getCities() {
+    this.AddresseService.getApiCity().subscribe((data) => {
+      const listCities = data.map(function (obj: { name: any; }) {
+        return obj;
+      });
+      this.listCities = listCities;
+    });
   }
   public getCountry() {
     this.AddresseService.getCountry().subscribe((data) => {

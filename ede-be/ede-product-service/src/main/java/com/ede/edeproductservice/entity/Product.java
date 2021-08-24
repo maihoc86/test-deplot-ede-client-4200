@@ -36,6 +36,7 @@ public class Product {
 	String name;
 	Boolean enable;
 	Boolean deleted;
+	String location;
 
 	@ManyToOne
 	@JoinColumn(name = "id_shop")
