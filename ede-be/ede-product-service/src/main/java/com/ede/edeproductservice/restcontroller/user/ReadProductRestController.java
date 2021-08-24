@@ -3,6 +3,8 @@ package com.ede.edeproductservice.restcontroller.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,14 +65,16 @@ public class ReadProductRestController {
 		return service.findAll();
 	}
 
+	/**
+	 * Tìm sản phẩm
+	 * @author Vinh
+	 * @param keysearch từ khóa tìm kiếm
+	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
+	 */
 	@GetMapping("/view/get-products/{keysearch}")
-	public ResponseEntity<List<Product>> getProducts(@PathVariable("keysearch") String keysearch) {
-//		Page<Product> result = this.service.searchByKeysearch(keysearch, PageRequest.of(0, 10));
-//		List<Product> result = en.createQuery("SELECT p FROM Product p")
-//				.getResultList();
-//		
-//		System.err.println(result + "-----------");
-		return ResponseEntity.ok(this.service.findAll());
+	public ResponseEntity<Page<Product>> getProducts(@PathVariable("keysearch") String keysearch) {
+		Page<Product> result = this.service.searchByKeysearch(keysearch, PageRequest.of(0, 1));
+		return ResponseEntity.ok(result);
 	}
 
 	@GetMapping("/view/listBrand")
