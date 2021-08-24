@@ -34,4 +34,9 @@ public class Product_Option_Impl implements Product_option_service {
 	public List<Product_option> findProductQuantity0() {
 		return dao.findProductQuantity0();
 	}
+
+	@Override
+	public List<Product_option> filterProductShopByCustomer(String location) {
+		return dao.filterProductShopByCustomer(location);
+	}
 }
