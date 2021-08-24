@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,8 +29,8 @@ public class Product_parent_category {
 	Boolean is_delete;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parent_category")
-	List<Product_parent_child_category> product_parent_child_category;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parentcategory")
+	List<Product_parent_child_category> productParentChildCategory;
 
 	@Override
 	public String toString() {

@@ -39,8 +39,7 @@ public class ProductImpl implements ProductService {
 	}
 
 	@Override
-	public Product findById(String id) {
-		
+	public Product findById(String id) {	
 		return dao.findById(id).get();
 	}
 

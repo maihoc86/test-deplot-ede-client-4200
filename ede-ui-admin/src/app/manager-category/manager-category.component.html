@@ -263,7 +263,7 @@
                       <div class="col-12">
                         <div>
                           <label class="form-label">Category Parent</label>
-                          <select class="form-select" formControlName="parent_category">
+                          <select class="form-select" formControlName="parentcategory">
                             <option [ngValue]="null" disabled>
                             </option>
                             <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf">
@@ -272,10 +272,10 @@
                           </select>
                         </div>
                         <div
-                          *ngIf=" parent_child_category.controls['parent_category'].invalid && parent_child_category.controls['parent_category'].touched"
+                          *ngIf=" parent_child_category.controls['parentcategory'].invalid && parent_child_category.controls['parentcategory'].touched"
                           class="alert alert-danger">
                           <span
-                            *ngIf="parent_child_category.controls['parent_category'].errors && parent_child_category.controls['parent_category'].errors.required">
+                            *ngIf="parent_child_category.controls['parentcategory'].errors && parent_child_category.controls['parentcategory'].errors.required">
                             Category Parent là bắt buộc</span>
                         </div>
                       </div>
@@ -347,7 +347,7 @@
                           <tbody>
                             <tr *ngFor="let e of itemP |  paginate: { itemsPerPage: 5, currentPage: pc }">
                               <td *ngIf="e">{{e.name}}</td>
-                              <td *ngIf="e">{{e.parent_category.name}}</td>
+                              <td *ngIf="e">{{e.parentcategory.name}}</td>
                               <td *ngIf="e">{{e.image_url}}</td>
                               <td>
                                 <div *ngIf="e.is_enable"
@@ -425,19 +425,18 @@
                       <div class="col-12">
                         <div>
                           <label class="form-label">Category Parent Child</label>
-                          <select class="form-select" formControlName="child_parentCategory">
+                          <select class="form-select" formControlName="parentcategory">
                             <option [ngValue]="null" disabled>
                             </option>
                             <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf">
-                              {{ prf.name }}
-                            <option>
+                              {{ prf ? prf.name : 'Không có' }}
                             </option>
                           </select>
                           <div
-                          *ngIf=" child_category.controls['child_parentCategory'].invalid && child_category.controls['child_parentCategory'].touched"
+                          *ngIf=" child_category.controls['parentcategory'].invalid && child_category.controls['parentcategory'].touched"
                           class="alert alert-danger">
                           <span
-                            *ngIf="child_category.controls['child_parentCategory'].errors && child_category.controls['child_parentCategory'].errors.required">
+                            *ngIf="child_category.controls['parentcategory'].errors && child_category.controls['parentcategory'].errors.required">
                             Category Parent Child là bắt buộc</span>
                         </div>
                         </div>
@@ -511,7 +510,7 @@
                           <tbody>
                             <tr *ngFor="let e of itemC |  paginate: { itemsPerPage: 5, currentPage: c } ">
                               <td *ngIf="e">{{e.name}}</td>
-                              <td *ngIf="e">{{e.child_parentCategory.name}}</td>
+                              <td *ngIf="e">{{e.parentcategory.name}}</td>
                               <td *ngIf="e">{{e.image_url}}</td>
                               <td>
                                 <div *ngIf="e.is_enable"

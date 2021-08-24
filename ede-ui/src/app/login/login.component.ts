@@ -45,8 +45,7 @@ export class LoginComponent implements OnInit {
           confirmButtonText: `OK`,
         }).then((result) => {
           this.cookieService.set('auth',data.token);
-
-          this.router.navigate(['']);
+          document.location.href='';
         })
     },
     (err) => {

@@ -11,4 +11,5 @@ public interface Product_parent_category_Dao extends JpaRepository<Product_paren
 	List<Product_parent_category> findByNameContaining(String name);
 	@Query("Select o from Product_parent_category o where o.is_delete = false")
 	List<Product_parent_category> findByIs_deleteFalse();
+	
 }

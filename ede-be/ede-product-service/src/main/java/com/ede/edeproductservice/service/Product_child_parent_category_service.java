@@ -25,4 +25,6 @@ public interface Product_child_parent_category_service {
 
 	List<Product_parent_child_category> findByIsdeleteFalse();
 
+	List<Product_parent_child_category> findByIdParent(String id);
+
 }

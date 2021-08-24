@@ -59,10 +59,8 @@ export class ManagerCategoryComponent implements OnInit {
       }
     }
   }
-
   public listParentFilterOption: any = [];
   public listParent_Child_FilterOption: any = [];
-
   public parent = new FormGroup({
     name: new FormControl('', [
       Validators.required,
@@ -78,7 +76,7 @@ export class ManagerCategoryComponent implements OnInit {
       Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"),
     ]),
     image_url: new FormControl(''),
-    parent_category: new FormControl('', Validators.required),
+    parentcategory: new FormControl('', Validators.required),
     is_delete: new FormControl(false),
     is_enable: new FormControl('true'),
   });
@@ -88,7 +86,7 @@ export class ManagerCategoryComponent implements OnInit {
       Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"),
     ]),
     image_url: new FormControl(''),
-    child_parentCategory: new FormControl('', Validators.required),
+    parentcategory: new FormControl('', Validators.required),
     is_delete: new FormControl(false),
     is_enable: new FormControl('true'),
   });
@@ -116,6 +114,8 @@ export class ManagerCategoryComponent implements OnInit {
     this.listParentFilterOption;
     this.listParent_Child_FilterOption;
     this.loadParentCategory();
+    this.loadParent_Child_Category();
+    this.load_Child_Category();
   }
   private createNewData(formGroup: FormGroup, url: string) {
     const stringReturn: any = {}

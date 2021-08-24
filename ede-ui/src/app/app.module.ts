@@ -16,11 +16,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AccountActiveComponent } from './account-active/account-active.component';
 import { ProductShopComponent } from './product-shop/product-shop.component';
-import { ProductOptionsShopComponent } from './product-options-shop/product-options-shop.component';
 import { AsideShopComponent } from './layout/aside-shop/aside-shop.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
+import { ProductAllComponent } from './product-all/product-all.component';
+import { OrderAllComponent } from './order-all/order-all.component';
+import { ShopInterfaceComponent } from './shop-interface/shop-interface.component';
+import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
+import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,8 +36,12 @@ import { MatIconModule } from '@angular/material/icon';
     ForgotPasswordComponent,
     AccountActiveComponent,
     ProductShopComponent,
-    ProductOptionsShopComponent,
     AsideShopComponent,
+    ProductAllComponent,
+    OrderAllComponent,
+    ShopInterfaceComponent,
+    ShowAllProductsShopInterfaceComponent,
+    ShopProfileComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 export interface Parent_Child_Category {
   id: string;
-  parent_category: string;
+  parentcategory: string;
   name: string;
   image_url?: string;
   is_enable: boolean;

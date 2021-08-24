@@ -17,10 +17,6 @@ public interface ProductService {
 
 	List<Product> findAllIsdeleteFalse();
 
-
-
 	Product findById(String id);
-
-
 
 }
