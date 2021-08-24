@@ -273,53 +273,18 @@ public class CreateCustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-	@DeleteMapping("/ede-customer/delete/users/{username}")
-	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
-		System.err.println("Detele username :" + username);
-		try {
-			return ResponseEntity.ok(service.deleteByUsername(username));
-		} catch (Exception e) {
-			System.err.println(e);
-			return ResponseEntity.notFound().build();
-		}
-	}
+
 	
-	/**
-	 * Load data on the table
-	 * 
-	 * @author thanh
-	 * @see
-	 */
-	@GetMapping("/ede-customer/admin/users")
-	public List<User> getAccounts() {
-		return service.findAll();
-	}
+
 	
 	/**
 	 * Create search account admin
 	 * @author Thanh
 	 */
-	@GetMapping("/ede-customer/admin/search/{username}")
-	public List<User> search(@PathVariable("username") String username){
-		System.out.println("username: "+username);
-		if(username == "") {
-			System.out.println("ahihi lala ");
-			return this.getAccounts();
-			
-		}
-		else {
-			return service.findByUsernameContaining(username);
-		}
-		
-	}
-	@GetMapping("/ede-customer/findbyusername/{username}")
-	public User findbyusername(@PathVariable("username") String username) {
-		String u =	username.substring(1, username.length()-1);
-		System.err.println("in api :" +service.findByUsername(u)+" id la " +username);
-		return service.findByUsername(u);
-	}
 	
-	@GetMapping("/ede-customer/getuserlogin/{token}")
+
+	
+	@GetMapping("/getuserlogin/{token}")
 	public User getUserLogin(@PathVariable("token") String toekn) {
 		try {
 			HttpHeaders header = new HttpHeaders();
