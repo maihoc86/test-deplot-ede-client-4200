@@ -28,6 +28,7 @@ import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.entity.User;
+import com.ede.edeproductservice.service.Auth_Service;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
@@ -39,7 +40,9 @@ import com.ede.edeproductservice.service.ShopService;
 @RestController
 @RequestMapping("/ede-product")
 public class CreateProductShopRestController {
-
+	@Autowired
+	Auth_Service auth_service;
+	
 	@Autowired
 	ProductService service;
 
@@ -70,7 +73,7 @@ public class CreateProductShopRestController {
 		
 		
 		try {
-			us = checkLogin(req.getHeader("Authorization"));
+			us = auth_service.getUserLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
@@ -156,21 +159,5 @@ public class CreateProductShopRestController {
 
 	
 	
-	public User checkLogin(String headers) {
-		HttpHeaders header = new HttpHeaders();
-		header.add("Content-Type", "application/json");
-		header.add("Authorization", "Bearer " + headers);
-
-		RestTemplate restTemplate = new RestTemplate();
-		String url = "http://localhost:8080/ede-oauth-service/api/auth/check/login";
-		HttpEntity<Object> entity = new HttpEntity<Object>(null, header);
-		ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.POST, entity, JsonNode.class);
-		JsonNode jsonNode = respone.getBody();
-
-		System.err.println(jsonNode.get("id"));
-
-		String url2 = "http://localhost:8080/ede-customer/findbyusername/" + jsonNode.get("id");
-		ResponseEntity<User> user = restTemplate.exchange(url2, HttpMethod.GET, entity, User.class);
-		return user.getBody();
-	}
+	
 }
