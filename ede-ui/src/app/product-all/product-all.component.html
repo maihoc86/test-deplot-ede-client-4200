@@ -5,7 +5,7 @@
   <div>
     <ul class="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Tất cả</a></li>
-      <li><a data-toggle="tab" href="#menu1">Đang được bán</a></li>
+      <li><a data-toggle="tab" href="#menu1">Đang hoạt động</a></li>
       <li><a data-toggle="tab" href="#menu2">Hết hàng</a></li>
       <li><a data-toggle="tab" href="#menu3">Đã ẩn</a></li>
     </ul>
@@ -98,7 +98,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let e of items">
+                    <tr *ngFor="let e of items | paginate: { itemsPerPage: 1, currentPage: p }">
                       <td>{{e.product.name}}</td>
                       <td>{{e.product.brand.name}}</td>
                       <td>{{e.display_name}}</td>
@@ -109,7 +109,9 @@
                     </tr>
                   </tbody>
                 </table>
+           <pagination-controls (pageChange)="p = $event"></pagination-controls>
               </div>
+
             </div>
             <!--Middle Part End -->
 
@@ -186,23 +188,27 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" >
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Nhãn hàng</strong></td>
+                    <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Đã bán</strong></td>
+                    <td><strong>Sửa thông tin</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of items">
+                    <td>{{e.product.name}}</td>
+                    <td>{{e.product.brand.name}}</td>
+                    <td>{{e.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>chưa có</td>
+                    <td><a routerLink="/shop/product/manager" >Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -281,23 +287,27 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" >
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Nhãn hàng</strong></td>
+                    <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Đã bán</strong></td>
+                    <td><strong>Sửa thông tin</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of items">
+                    <td>{{e.product.name}}</td>
+                    <td>{{e.product.brand.name}}</td>
+                    <td>{{e.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>chưa có</td>
+                    <td><a routerLink="/shop/product/manager" >Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -376,23 +386,27 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" >
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Nhãn hàng</strong></td>
+                    <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Đã bán</strong></td>
+                    <td><strong>Sửa thông tin</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of items">
+                    <td>{{e.product.name}}</td>
+                    <td>{{e.product.brand.name}}</td>
+                    <td>{{e.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>chưa có</td>
+                    <td><a routerLink="/shop/product/manager" >Sửa</a></td>
                   </tr>
                 </tbody>
               </table>

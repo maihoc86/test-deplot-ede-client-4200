@@ -25,6 +25,7 @@ import { OrderAllComponent } from './order-all/order-all.component';
 import { ShopInterfaceComponent } from './shop-interface/shop-interface.component';
 import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
+import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,8 @@ import { ShopProfileComponent } from './shop-profile/shop-profile.component';
     MatSelectModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent],

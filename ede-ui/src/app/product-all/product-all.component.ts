@@ -39,6 +39,7 @@ export class ProductAllComponent implements OnInit {
   //   )
 
   // }
+  public p: number = 1;
   public items: any = [];
   public loadProductAll(){
     this.productService.getAllProductOption().subscribe((data)=>{
@@ -52,6 +53,7 @@ export class ProductAllComponent implements OnInit {
       }){
         return obj;
       });
+      console.log(item)
       this.items = item;
     });
   }
