@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.ede.edeproductservice.ResponseHandler;
-
-
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Product_option;
@@ -79,7 +75,6 @@ public class CreateProductShopRestController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		System.out.println("US: " + us);
 
 		UUID uuid = UUID.randomUUID();
 		product.setId(uuid.toString());
@@ -161,8 +156,4 @@ public class CreateProductShopRestController {
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
-
-	
-	
-	
 }

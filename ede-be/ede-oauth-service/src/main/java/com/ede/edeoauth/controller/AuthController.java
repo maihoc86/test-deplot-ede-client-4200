@@ -49,21 +49,23 @@ public class AuthController {
 
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-		return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername(), "Bearer ", 200, userDetails.getAuthorities()));
+		return ResponseEntity
+				.ok(new JwtResponse(jwt, userDetails.getUsername(), "Bearer ", 200, userDetails.getAuthorities()));
 	}
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/check/login")
-	public ResponseEntity<?> checkLogin(HttpServletRequest req) {
+	public ResponseEntity checkLogin(HttpServletRequest req) {
 		System.err.println("Check login...");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		/// new token
 		try {
 			String jwt = createNewToken(req.getRemoteUser());
-			return ResponseEntity.ok(new JwtResponse(jwt,req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
+			return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-	
+
 	}
 
 	@RequestMapping("/check/admin")
@@ -75,9 +77,9 @@ public class AuthController {
 		if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
 			String jwt = createNewToken(req.getRemoteUser());
 
-			return ResponseEntity.ok(new JwtResponse(jwt,req.getRemoteUser() ,"Bearer ", 200, auth.getAuthorities()));
+			return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
 		} else {
-			return ResponseEntity.ok(new JwtResponse("", req.getRemoteUser(),"Bearer ", 403, auth.getAuthorities()));
+			return ResponseEntity.ok(new JwtResponse("", req.getRemoteUser(), "Bearer ", 403, auth.getAuthorities()));
 		}
 
 	}
