@@ -60,4 +60,11 @@ export class AddProductService {
   public getChildCategoriesByChildParent(idChildParent: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category/' + idChildParent);
   }
+
+  public countProductOrder(id: any) {
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+id)
+    return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
+  }
+
+
 }

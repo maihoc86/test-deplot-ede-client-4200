@@ -62,6 +62,7 @@ public class ReadProductRestController {
 
 	@Autowired
 	ShopService shopService;
+	
 
 	@GetMapping("/view/getAllProduct")
 	public List<Product> getAllProduct() {
@@ -132,30 +133,17 @@ public class ReadProductRestController {
 		return product_Tag_service.findAll();
 	}
 
-	// TODO: Filter product by shop
-	@GetMapping("/view/list_product/filter/{value}")
-	public List<Product_option> getListFilter(@PathVariable("value") String valueFilter) {
-		if (valueFilter.equals("enableTrue")) {
-			return product_option_service.findByProductEnable(true);
-		} else if (valueFilter.equals("enableFalse")) {
-			return product_option_service.findByProductEnable(false);
-		} else if (valueFilter.equals("quantity0")) {
-			return product_option_service.findProductQuantity0();
-		} else {
-			return product_option_service.findAll();
-		}
-	}
-
-	
 	// TODO: Filter product shop by customer
 	@PostMapping("/view/customer/shop/list_product/filter")
 	public List<Product_option> getList(@RequestParam Optional<String> location,
 			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
-		if (location.isPresent() && location.get() != null) {
-			return product_option_service.filterProductShopByCustomer(location.get());
+		String valueLocate = location.orElse("");
+		String valueCate = category.orElse("");
+		String valueBrand = brand.orElse("");
+		if (!valueLocate.equals("") && !valueBrand.equals("") && !valueCate.equals("")) {
+			return product_option_service.filterProductShopByCustomerAND(valueLocate, valueCate, valueBrand);
 		} else {
-			return product_option_service.findAll();
+			return product_option_service.filterProductShopByCustomerOR(valueLocate, valueCate, valueBrand);
 		}
-
 	}
 }
