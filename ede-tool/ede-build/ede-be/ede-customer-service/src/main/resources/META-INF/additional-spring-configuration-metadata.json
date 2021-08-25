@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "spring.jpa.hibernate.dialect",
+  "type": "java.lang.String",
+  "description": "Using to conneting SQL Server"
+}]}
