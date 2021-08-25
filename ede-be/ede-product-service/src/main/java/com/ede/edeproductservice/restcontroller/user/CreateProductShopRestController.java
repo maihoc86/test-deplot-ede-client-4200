@@ -21,6 +21,7 @@ import com.ede.edeproductservice.ResponseHandler;
 
 
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_tag;
@@ -31,6 +32,7 @@ import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
+import com.ede.edeproductservice.service.Product_discount_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
@@ -59,6 +61,9 @@ public class CreateProductShopRestController {
 	@Autowired
 	Product_Tag_service product_Tag_service;
 
+	@Autowired
+	Product_discount_service product_discount_service;
+	
 	@Autowired
 	ShopService shopService;
 
@@ -120,6 +125,12 @@ public class CreateProductShopRestController {
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@PostMapping("/create/product-shop/discount")
+	public ResponseEntity addProductDiscount(@RequestBody Product_discount product_discount) {
+		return ResponseEntity.status(HttpStatus.OK).body(product_discount_service.save(product_discount));
 	}
 
 	@SuppressWarnings("rawtypes")
