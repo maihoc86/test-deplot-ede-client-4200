@@ -1,6 +1,7 @@
 package com.ede.edeproductservice.restcontroller.user;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edeproductservice.entity.Product;
@@ -60,13 +63,45 @@ public class ReadProductRestController {
 	@Autowired
 	ShopService shopService;
 
+
+	@GetMapping("/view/getproductbyid/{id}")
+	public Product getProductByID(@PathVariable("id") String id) {
+		return service.findById(id);
+	}
+
+	@GetMapping("/view/getproductoption/{id}")
+	public Product_option getProductOptionByIDProduct(@PathVariable("id") String id) {
+		return product_option_service.findByIdbyProduct(id);
+	}
+	
 	@GetMapping("/view/getAllProduct")
 	public List<Product> getAllProduct() {
 		return service.findAll();
 	}
-
+	
+	@GetMapping("/view/getAllProductOption")
+	public List<Product_option> getAllProductOption() {
+		return product_option_service.findAll();
+	}
+	@GetMapping("/view/getcatrgory/{id}")
+	public Product_child_category getProduct_child_category(@PathVariable("id")String id) {
+		return service.findCategorybyIDProduct(id);
+	}
+	@GetMapping("/view/getparentchildcatrgory/{id}")
+	public Product_parent_child_category getProduct_parent_child_category(@PathVariable("id")String id) {
+		return child_category_service.findParent(id);
+	}
+	@GetMapping("/view/getparentcatrgory/{id}")
+	public Product_parent_category getProduct_parent_category(@PathVariable("id")String id) {
+		return child_parent_category_service.findParent(id);
+	}
+	@GetMapping("/view/gettag/{id}")
+	public Product_tag getTag(@PathVariable("id")String id) {
+		return service.findTagByidProduct(id);
+	}
 	/**
 	 * Tìm sản phẩm
+	 * 
 	 * @author Vinh
 	 * @param keysearch từ khóa tìm kiếm
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
@@ -123,17 +158,17 @@ public class ReadProductRestController {
 		return product_Tag_service.findAll();
 	}
 
-	// TODO: Filter product by shop
-	@GetMapping("/view/list_product/filter/{value}")
-	public List<Product_option> getListFilter(@PathVariable("value") String valueFilter) {
-		if (valueFilter.equals("enableTrue")) {
-			return product_option_service.findByProductEnable(true);
-		} else if (valueFilter.equals("enableFalse")) {
-			return product_option_service.findByProductEnable(false);
-		} else if(valueFilter.equals("quantity0")){
-			return product_option_service.findProductQuantity0();
-		}else {
-			return product_option_service.findAll();
+	// TODO: Filter product shop by customer
+	@PostMapping("/view/customer/shop/list_product/filter")
+	public List<Product_option> getList(@RequestParam Optional<String> location,
+			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
+		String valueLocate = location.orElse("");
+		String valueCate = category.orElse("");
+		String valueBrand = brand.orElse("");
+		if (!valueLocate.equals("") && !valueBrand.equals("") && !valueCate.equals("")) {
+			return product_option_service.filterProductShopByCustomerAND(valueLocate, valueCate, valueBrand);
+		} else {
+			return product_option_service.filterProductShopByCustomerOR(valueLocate, valueCate, valueBrand);
 		}
 	}
 }

@@ -50,11 +50,32 @@ export class AddProductService {
   public getAllProduct() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
   }
+  public getAllProductOption() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption');
+  }
 
   public getChildParentCategoriesByIdParent(idParent: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_child_category/' + idParent);
   }
   public getChildCategoriesByChildParent(idChildParent: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category/' + idChildParent);
+  }
+  public getProductByid(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductbyid/' + id);
+  }
+  public getProductOptionByid(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoption/' + id);
+  }
+  public getCategoryByidProduct(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getcatrgory/' + id);
+  }
+  public getParent_Child_CategoryByid(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getparentchildcatrgory/' + id);
+  }
+  public getParent_CategoryByid(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getparentcatrgory/' + id);
+  }
+  public getTagbyProductid(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/gettag/' + id);
   }
 }

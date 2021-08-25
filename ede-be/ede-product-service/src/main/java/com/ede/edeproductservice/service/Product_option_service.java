@@ -1,7 +1,4 @@
 package com.ede.edeproductservice.service;
-
-
-
 import java.util.List;
 
 import com.ede.edeproductservice.entity.Product_option;
@@ -16,4 +13,10 @@ public interface Product_option_service {
 
 	List<Product_option> findProductQuantity0();
 
+	List<Product_option> filterProductShopByCustomerAND(String location, String category, String brand);
+	List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand);
+
+	Product_option findById(String id);
+
+	Product_option findByIdbyProduct(String id);
 }

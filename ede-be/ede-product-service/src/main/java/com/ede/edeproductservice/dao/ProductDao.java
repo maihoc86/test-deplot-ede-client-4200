@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_tag;
 
 public interface ProductDao extends JpaRepository<Product, String> {
 	
@@ -16,5 +18,9 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	Page<Product> searchBykeysearch(@Param("keysearch") String keysearch, Pageable page);
 	
 	List<Product> findAllByDeleted(boolean isdelete);
+	@Query("select o.child_category from Product o where o.id=?1 ")
+	Product_child_category findCategorybyIDProduct(String id);
+	@Query("select o.product_tags from Product o where o.id=?1")
+	Product_tag findTagByidProduct(String id);
 
 }

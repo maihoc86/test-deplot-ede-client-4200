@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
       console.log(data)
       this.login=true;
       this.u=data;
+      
     }).catch(err=>{
       console.log(err)
       this.login=false;
