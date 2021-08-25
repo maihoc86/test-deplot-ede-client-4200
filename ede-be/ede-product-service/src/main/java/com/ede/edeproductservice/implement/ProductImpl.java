@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.ProductDao;
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.service.ProductService;
 
 
@@ -48,6 +50,18 @@ public class ProductImpl implements ProductService {
 	@Override
 	public Product findById(String id) {	
 		return dao.findById(id).get();
+	}
+
+	@Override
+	public Product_child_category findCategorybyIDProduct(String id) {
+		
+		return dao.findCategorybyIDProduct(id);
+	}
+
+	@Override
+	public Product_tag findTagByidProduct(String id) {
+		
+		return dao.findTagByidProduct(id);
 	}
 
 }

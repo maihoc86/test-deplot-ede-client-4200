@@ -16,7 +16,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from '../models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 import { ProductTag } from '../models/product-tag.model';
+
 import * as moment from 'moment';
+
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -91,6 +93,64 @@ export class ProductShopComponent implements OnInit {
     this.getParentCategory();
     this.getCountry();
     this.getCities();
+   if(this.loadProdutedit()){
+     this.Addservice.getProductByid(this.loadProdutedit()).subscribe(data=>{
+       for (const controlName in this.product.controls) {
+        for(const node in data){
+          if(controlName && controlName==node){
+            this.product.controls[controlName].setValue(data[node]);
+          }
+        
+        }
+        
+      }
+      if(data['brand']){
+        console.log(data['brand'])
+         this.product.controls['brand'].setValue(data['brand'].name);
+       }
+       this.Addservice.getProductOptionByid(this.loadProdutedit()).subscribe(data=>{
+        console.log(data)
+        for (const controlName in this.product_options.controls) {
+          for(const node in data){
+            if(controlName && controlName==node){
+              this.product_options.controls[controlName].setValue(data[node]);
+            }
+          }
+        }
+       })
+       this.Addservice.getCategoryByidProduct(this.loadProdutedit()).subscribe(child=>{
+         console.log("cateproduct : " +child)
+         this.Addservice.getParent_Child_CategoryByid(child.id).subscribe(parent_child=>{
+           console.log("parent_child : " + parent_child)
+           this.Addservice.getParent_CategoryByid(parent_child.id).subscribe(parent=>{
+             console.log("paent :" +parent.name)
+            this.product.controls['parent_category'].setValue(parent.id);
+            this.product.controls['parent_child_category'].setValue(parent_child.id);
+            this.product.controls['child_category'].setValue(child.id);        
+            this.showParent_Child();
+            this.showChild();
+           })
+         })
+       })
+       this.Addservice.getTagbyProductid(this.loadProdutedit()).subscribe(tags=>{
+        this.tags.push({ name: tags['tag'] });
+            this.tagArray.push(tags['tag']);
+            this.product_tags.patchValue({
+              tag: this.tagArray.toString()
+            });
+            console.log(this.tagArray);
+       })
+     },err=>{
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: "Không tìm thấy sản phẩm",
+      }).then(data=>{
+       this.router.navigateByUrl("/shop/product/manager");
+      });   
+     }
+     );
+   }
   }
   minDate = moment(new Date()).format('YYYY-MM-DD');
   images: string[] = [];
@@ -364,6 +424,13 @@ export class ProductShopComponent implements OnInit {
       ]
     }
   ];
+
+  public loadProdutedit(){
+    var id='';
+    this.route.params.subscribe(params => { console.log(params['id']) ,id= params['id'];}); 
+    return id;
+  }
+ 
 }
 interface size {
   value: string;
