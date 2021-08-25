@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -21,13 +22,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("serial")
 @Data
 @Entity
 @Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product{
+public class Product implements Serializable {
 	@Id
 	String id;
 	String origin;
@@ -52,6 +54,11 @@ public class Product{
 	List<Product_option> product_options;
 
 	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productdiscount")
+	@Fetch(value = FetchMode.SUBSELECT)
+	List<Product_discount> product_discount;
+
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "producttag")
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_tag> product_tags;
@@ -60,5 +67,5 @@ public class Product{
 	public String toString() {
 		return "";
 	}
-	
+
 }

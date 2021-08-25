@@ -16,6 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from '../models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 import { ProductTag } from '../models/product-tag.model';
+import * as moment from 'moment';
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -66,6 +67,13 @@ export class ProductShopComponent implements OnInit {
     image: new FormControl(''),
   });
 
+  public product_discount = new FormGroup({
+    productdiscount: new FormControl(''),
+    discount: new FormControl(''),
+    startdate: new FormControl(''),
+    enddate: new FormControl(''),
+  });
+
   public product_tags = new FormGroup({
     producttag: new FormControl(''),
     tag: new FormControl(''),
@@ -84,12 +92,15 @@ export class ProductShopComponent implements OnInit {
     this.getCountry();
     this.getCities();
   }
+  minDate = moment(new Date()).format('YYYY-MM-DD');
   images: string[] = [];
   imageArray: string[] = [];
   tagArray: string[] = [];
   image_option: any;
+  public isHiddenEndDate: boolean = true;
   public isHiddenChildParent: boolean = true;
   public isHiddenChild: boolean = true;
+  public isHiddenDiscount: boolean = true;
   public listChildCategory: any = [];
   public listParent_ChildCategory: any = [];
   public listParentCategory: any = [];
@@ -171,6 +182,13 @@ export class ProductShopComponent implements OnInit {
   showChild() {
     this.isHiddenChild = false;
     this.getChildCategory(this.product.controls['parent_child_category'].value);
+  }
+  showDiscount() {
+    this.isHiddenDiscount = false;
+  }
+  changeDate(event: any) {
+    console.log(event);
+    this.isHiddenEndDate = false;
   }
 
   onFileChange(event: any) {
