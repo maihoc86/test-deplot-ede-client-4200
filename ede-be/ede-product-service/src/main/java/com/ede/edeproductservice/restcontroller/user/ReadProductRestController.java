@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
@@ -27,6 +28,7 @@ import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
+import com.ede.edeproductservice.service.Product_discount_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.Product_parent_category_service;
@@ -61,9 +63,23 @@ public class ReadProductRestController {
 	Product_option_service product_option_service;
 
 	@Autowired
+	Product_discount_service product_discount_service;
+	
+	@Autowired
 	ShopService shopService;
 	
 
+
+	@GetMapping("/view/getproductbyid/{id}")
+	public Product getProductByID(@PathVariable("id") String id) {
+		return service.findById(id);
+	}
+
+	@GetMapping("/view/getproductoption/{id}")
+	public Product_option getProductOptionByIDProduct(@PathVariable("id") String id) {
+		return product_option_service.findByIdbyProduct(id);
+	}
+	
 	@GetMapping("/view/getAllProduct")
 	public List<Product> getAllProduct() {
 		return service.findAll();
@@ -73,7 +89,22 @@ public class ReadProductRestController {
 	public List<Product_option> getAllProductOption() {
 		return product_option_service.findAll();
 	}
-
+	@GetMapping("/view/getcatrgory/{id}")
+	public Product_child_category getProduct_child_category(@PathVariable("id")String id) {
+		return service.findCategorybyIDProduct(id);
+	}
+	@GetMapping("/view/getparentchildcatrgory/{id}")
+	public Product_parent_child_category getProduct_parent_child_category(@PathVariable("id")String id) {
+		return child_category_service.findParent(id);
+	}
+	@GetMapping("/view/getparentcatrgory/{id}")
+	public Product_parent_category getProduct_parent_category(@PathVariable("id")String id) {
+		return child_parent_category_service.findParent(id);
+	}
+	@GetMapping("/view/gettag/{id}")
+	public Product_tag getTag(@PathVariable("id")String id) {
+		return service.findTagByidProduct(id);
+	}
 	/**
 	 * Tìm sản phẩm
 	 * 
@@ -131,6 +162,11 @@ public class ReadProductRestController {
 	@GetMapping("/view/list_product_tag")
 	public List<Product_tag> getListProduct_Tag() {
 		return product_Tag_service.findAll();
+	}
+	
+	@GetMapping("/view/list_product_discount")
+	public List<Product_discount> getListProduct_discount() {
+		return product_discount_service.findAll();
 	}
 
 	// TODO: Filter product shop by customer

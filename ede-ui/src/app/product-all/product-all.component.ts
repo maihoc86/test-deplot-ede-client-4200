@@ -83,9 +83,7 @@ export class ProductAllComponent implements OnInit {
   public countOrder: any = "";
   public countProductOder(id:string){
     this.productService.countProductOrder(id).subscribe((data) =>{
-
-
-      this.countOrder = data;
+    this.countOrder = data;
       console.log("helloooooooooooooooooooooooooo: "+data);
     })
 

@@ -108,7 +108,7 @@
                       <td>{{e.price}}</td>
                       <td>{{e.quantity}}</td>
                       <td>chưa có</td>
-                      <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                      <td><a (click)="editProduct(e.product.id)">Sửa</a></td>
                     </tr>
                   </tbody>
                 </table>
