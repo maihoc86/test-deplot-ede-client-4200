@@ -63,6 +63,17 @@ public class ReadProductRestController {
 	@Autowired
 	ShopService shopService;
 
+
+	@GetMapping("/view/getproductbyid/{id}")
+	public Product getProductByID(@PathVariable("id") String id) {
+		return service.findById(id);
+	}
+
+	@GetMapping("/view/getproductoption/{id}")
+	public Product_option getProductOptionByIDProduct(@PathVariable("id") String id) {
+		return product_option_service.findByIdbyProduct(id);
+	}
+	
 	@GetMapping("/view/getAllProduct")
 	public List<Product> getAllProduct() {
 		return service.findAll();
@@ -72,7 +83,22 @@ public class ReadProductRestController {
 	public List<Product_option> getAllProductOption() {
 		return product_option_service.findAll();
 	}
-
+	@GetMapping("/view/getcatrgory/{id}")
+	public Product_child_category getProduct_child_category(@PathVariable("id")String id) {
+		return service.findCategorybyIDProduct(id);
+	}
+	@GetMapping("/view/getparentchildcatrgory/{id}")
+	public Product_parent_child_category getProduct_parent_child_category(@PathVariable("id")String id) {
+		return child_category_service.findParent(id);
+	}
+	@GetMapping("/view/getparentcatrgory/{id}")
+	public Product_parent_category getProduct_parent_category(@PathVariable("id")String id) {
+		return child_parent_category_service.findParent(id);
+	}
+	@GetMapping("/view/gettag/{id}")
+	public Product_tag getTag(@PathVariable("id")String id) {
+		return service.findTagByidProduct(id);
+	}
 	/**
 	 * Tìm sản phẩm
 	 * 

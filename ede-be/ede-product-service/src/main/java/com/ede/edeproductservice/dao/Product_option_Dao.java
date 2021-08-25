@@ -21,4 +21,7 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	
 	@Query("SELECT o FROM Product_option o where o.product.location =:location or o.product.child_category.name =:category or o.product.brand.name =:brand")
 	List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand);
+	
+	@Query("select o from Product_option o where o.product.id = ?1")
+	Product_option findByIdbyProduct(String id);
 }
