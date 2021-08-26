@@ -57,11 +57,4 @@ public class ProductImpl implements ProductService {
 		
 		return dao.findCategorybyIDProduct(id);
 	}
-
-	@Override
-	public Product_tag findTagByidProduct(String id) {
-		
-		return dao.findTagByidProduct(id);
-	}
-
 }

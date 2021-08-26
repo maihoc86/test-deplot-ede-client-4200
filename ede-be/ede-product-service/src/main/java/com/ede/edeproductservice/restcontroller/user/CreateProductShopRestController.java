@@ -66,7 +66,7 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
-
+		System.out.println(product.getBrand().getName());
 		System.err.println(req.getHeader("Content-Type"));
 		User us = new User();
 		try {
