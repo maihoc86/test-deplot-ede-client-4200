@@ -12,4 +12,8 @@ export class HeaderService {
   public getUserByToken(token:String){
     return this.http.get<User>(`${this.url}/`+token)
   }
+  private url2 = 'http://localhost:8080/ede-customer/shop/info';
+  public getShopByToken(token:String){
+    return this.http.get<any>(`${this.url2}/`+token+'/view')
+  }
 }
