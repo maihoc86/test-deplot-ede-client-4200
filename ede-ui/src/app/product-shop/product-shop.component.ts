@@ -31,6 +31,22 @@ export class ProductShopComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: Tag[] = [];
+  test: any;
+  minDate = moment(new Date()).format('YYYY-MM-DD');
+  images: string[] = [];
+  imageArray: string[] = [];
+  tagArray: string[] = [];
+  image_option: any;
+  public isHiddenEndDate: boolean = true;
+  public isHiddenChildParent: boolean = true;
+  public isHiddenChild: boolean = true;
+  public isHiddenDiscount: boolean = true;
+  public listChildCategory: any = [];
+  public listParent_ChildCategory: any = [];
+  public listParentCategory: any = [];
+  public listBrands: any = [];
+  public listCountry: any = [];
+  public listCities: any = [];
   public product = new FormGroup({
     origin: new FormControl('', [
       Validators.required,
@@ -93,80 +109,8 @@ export class ProductShopComponent implements OnInit {
     this.getParentCategory();
     this.getCountry();
     this.getCities();
-   if(this.loadProdutedit()){
-     this.Addservice.getProductByid(this.loadProdutedit()).subscribe(data=>{
-       for (const controlName in this.product.controls) {
-        for(const node in data){
-          if(controlName && controlName==node){
-            this.product.controls[controlName].setValue(data[node]);
-          }
-        
-        }
-        
-      }
-      if(data['brand']){
-        console.log(data['brand'])
-         this.product.controls['brand'].setValue(data['brand'].name);
-       }
-       this.Addservice.getProductOptionByid(this.loadProdutedit()).subscribe(data=>{
-        console.log(data)
-        for (const controlName in this.product_options.controls) {
-          for(const node in data){
-            if(controlName && controlName==node){
-              this.product_options.controls[controlName].setValue(data[node]);
-            }
-          }
-        }
-       })
-       this.Addservice.getCategoryByidProduct(this.loadProdutedit()).subscribe(child=>{
-         console.log("cateproduct : " +child)
-         this.Addservice.getParent_Child_CategoryByid(child.id).subscribe(parent_child=>{
-           console.log("parent_child : " + parent_child)
-           this.Addservice.getParent_CategoryByid(parent_child.id).subscribe(parent=>{
-             console.log("paent :" +parent.name)
-            this.product.controls['parent_category'].setValue(parent.id);
-            this.product.controls['parent_child_category'].setValue(parent_child.id);
-            this.product.controls['child_category'].setValue(child.id);        
-            this.showParent_Child();
-            this.showChild();
-           })
-         })
-       })
-       this.Addservice.getTagbyProductid(this.loadProdutedit()).subscribe(tags=>{
-        this.tags.push({ name: tags['tag'] });
-            this.tagArray.push(tags['tag']);
-            this.product_tags.patchValue({
-              tag: this.tagArray.toString()
-            });
-            console.log(this.tagArray);
-       })
-     },err=>{
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: "Không tìm thấy sản phẩm",
-      }).then(data=>{
-       this.router.navigateByUrl("/shop/product/manager");
-      });   
-     }
-     );
-   }
+    this.getProductById();
   }
-  minDate = moment(new Date()).format('YYYY-MM-DD');
-  images: string[] = [];
-  imageArray: string[] = [];
-  tagArray: string[] = [];
-  image_option: any;
-  public isHiddenEndDate: boolean = true;
-  public isHiddenChildParent: boolean = true;
-  public isHiddenChild: boolean = true;
-  public isHiddenDiscount: boolean = true;
-  public listChildCategory: any = [];
-  public listParent_ChildCategory: any = [];
-  public listParentCategory: any = [];
-  public listBrands: any = [];
-  public listCountry: any = [];
-  public listCities: any = [];
   private createDataProduct() {
     const newProduct: any = {};
     for (const controlName in this.product.controls) {
@@ -388,6 +332,7 @@ export class ProductShopComponent implements OnInit {
       const listCategories = data.map(function (obj: { id: any; name: any; image_url: any; is_enable: boolean; is_deleted: boolean; child_parentCategory: any; }) {
         return obj;
       });
+
       this.listChildCategory = listCategories;
     });
   }
@@ -425,13 +370,82 @@ export class ProductShopComponent implements OnInit {
     }
   ];
 
-  public loadProdutedit(){
-    var id='';
-    this.route.params.subscribe(params => { console.log(params['id']) ,id= params['id'];}); 
+  public loadProdutedit() {
+    var id = '';
+    this.route.params.subscribe(params => { console.log(params['id']), id = params['id']; });
     return id;
   }
- 
+  public getProductById() {
+    if (this.loadProdutedit()) {
+      this.Addservice.getProductByid(this.loadProdutedit()).subscribe(data => {
+        for (const controlName in this.product.controls) {
+          for (const node in data) {
+            if (controlName && controlName == node) {
+              this.product.controls[controlName].setValue(data[node]);
+            }
+          }
+        }
+        if (data['brand']) {
+          this.product.controls['brand'].setValue(data['brand']);
+        }
+        this.Addservice.getProductOptionByid(this.loadProdutedit()).subscribe(data => {
+          for (const controlName in this.product_options.controls) {
+            for (const node in data) {
+              if (controlName && controlName == node) {
+                this.product_options.controls[controlName].setValue(data[node]);
+              }
+            }
+          }
+        })
+        this.Addservice.getCategoryByidProduct(this.loadProdutedit()).subscribe(child => {
+          this.Addservice.getParent_Child_CategoryByid(child.id).subscribe(parent_child => {
+            this.Addservice.getParent_CategoryByid(parent_child.id).subscribe(parent => {
+              this.product.controls['parent_category'].setValue(parent.id);
+              this.product.controls['parent_child_category'].setValue(parent_child.id);
+              this.product.controls['child_category'].setValue(child);
+              this.showParent_Child();
+              this.showChild();
+            })
+          })
+        })
+        this.Addservice.getTagbyProductid(this.loadProdutedit()).subscribe(tags => {
+          tags.forEach((element: any) => {
+            this.tags.push({ name: element.tag.trim() });
+            this.tagArray.push(element.tag.trim());
+            this.product_tags.patchValue({
+              tag: this.tagArray.toString()
+            });
+          });
+          console.log(this.tags);
+          console.log(this.tagArray);
+          // console.log(this.tagArray);
+          // const value = (tags.value || '').trim();
+          // if (value) {
+          //   this.tags.push({ name: value });
+          //   this.tagArray.push(value);
+          //   this.product_tags.patchValue({
+          //     tag: this.tagArray.toString()
+          //   });
+          //   console.log(this.tagArray);
+          // }
+        })
+      }, err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: "Không tìm thấy sản phẩm",
+        }).then(data => {
+          this.router.navigateByUrl("/shop/product/manager");
+        });
+      }
+      );
+    }
+  }
+  public objectComparisonFunction = function (option: { id: any; }, value: { id: any; }): boolean {
+    return option.id === value.id;
+  }
 }
+
 interface size {
   value: string;
   viewValue: string;

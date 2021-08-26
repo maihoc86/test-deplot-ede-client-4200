@@ -32,4 +32,9 @@ public class Product_tag_impl implements Product_Tag_service {
 		return dao.findById(string);
 	}
 
+	@Override
+	public List<Product_tag> findTagByidProduct(String id) {
+		return dao.findTagByidProduct(id);
+	}
+
 }

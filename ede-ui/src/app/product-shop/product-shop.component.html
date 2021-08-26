@@ -97,9 +97,9 @@
                     <div class="form-group required" *ngIf="!isHiddenChild">
                         <label for="input-model" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
-                            <select class="form-control" formControlName="child_category">
+                            <select class="form-control" formControlName="child_category"  [compareWith]="objectComparisonFunction">
                                 <option value="" disabled selected>Vui lòng chọn phụ...</option>
-                                <option *ngFor="let prf of listChildCategory" [ngValue]="prf.id">
+                                <option *ngFor="let prf of listChildCategory" [ngValue]="prf">
                                     {{ prf.name == null ? 'Không có' : prf.name }}
                                 </option>
                             </select>
@@ -118,9 +118,9 @@
                     <div class="form-group required">
                         <label for="input-quantity" class="col-sm-2 control-label">Nhãn hàng</label>
                         <div class="col-sm-10">
-                            <select class="form-control" formControlName="brand">
+                            <select class="form-control" formControlName="brand" [compareWith]="objectComparisonFunction">
                                 <option value="" disabled selected>Vui lòng chọn nhãn hàng...</option>
-                                <option *ngFor="let prf of listBrands" [ngValue]="prf.name">
+                                <option *ngFor="let prf of listBrands" [ngValue]="prf">
                                     {{ prf.name }}
                                 </option>
                             </select>
