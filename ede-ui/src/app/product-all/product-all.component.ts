@@ -3,6 +3,7 @@ import { ProductOptions } from '../models/product-options.model';
 import { Product } from '../models/product.model';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-product-all',
   templateUrl: './product-all.component.html',
@@ -62,7 +63,7 @@ export class ProductAllComponent implements OnInit {
   public itemsQuantity0: any = [];
   public loadProductAll() {
     this.productService.getAllProductOption().subscribe((data) => {
-      const item = data.map(function (obj: {
+    const item = data.map(function (obj: {
         id: any;
         id_product: any;
         display_name: any;
@@ -77,6 +78,24 @@ export class ProductAllComponent implements OnInit {
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
+
+    },
+    (err) => {
+      console.log(err.error)
+      if (err.status == 404) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: "Chưa đăng nhập",
+        });
+        this.router.navigate(['/login'])
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+        });
+      }
     });
   }
 

@@ -101,7 +101,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let e of items | paginate: { itemsPerPage: 1, currentPage: p }">
+                    <tr *ngFor="let e of items | paginate: { itemsPerPage: 3, currentPage: p }">
                       <td>{{e.product.name}}</td>
                       <td>{{e.product.brand.name}}</td>
                       <td>{{e.display_name}}</td>

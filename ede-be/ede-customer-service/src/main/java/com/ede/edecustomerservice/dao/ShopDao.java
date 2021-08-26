@@ -9,4 +9,6 @@ public interface ShopDao extends JpaRepository<Shop, String>{
 
 	Shop findByUser(User us);
 
+
+
 }
