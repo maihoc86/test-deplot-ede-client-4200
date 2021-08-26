@@ -68,6 +68,7 @@ public class ReadProductRestController {
 	@Autowired
 	ShopService shopService;
 	
+	
 
 
 	@GetMapping("/view/getproductbyid/{id}")

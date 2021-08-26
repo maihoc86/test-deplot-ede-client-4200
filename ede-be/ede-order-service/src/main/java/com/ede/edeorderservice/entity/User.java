@@ -49,9 +49,8 @@ public class User implements Serializable {
 
 	
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "id_user")
-	Order_Detail order_detail;
-	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	List<Order> order;
 	
 	@Override
 	public String toString() {

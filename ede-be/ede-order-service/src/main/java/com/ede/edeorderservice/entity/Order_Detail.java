@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,18 +26,19 @@ public class Order_Detail {
 
 	@Id
 	String id;
-	String id_product_option;
-	String id_user;
 	double price;
 	int quantity;
 	
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "id_product_option")
-	Product_option product_option;
 	
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
-	User user;
+	@ManyToOne
+	@JoinColumn(name="id_product_option")
+	Product_option productOption;
+
+	@ManyToOne
+	@JoinColumn(name="id_order")
+	Order order;
+	
+	
 
 	@Override
 	public String toString() {

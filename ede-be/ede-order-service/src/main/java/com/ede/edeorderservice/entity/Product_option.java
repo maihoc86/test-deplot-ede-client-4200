@@ -40,11 +40,11 @@ public class Product_option implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productoption")
 //	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option_image> product_option_images;
+
 	
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "id_product_option")
-	Order_Detail order_detail;
-	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productOption")
+	List<Order_Detail> orderdetail;
 	
 	@Override
 	public String toString() {

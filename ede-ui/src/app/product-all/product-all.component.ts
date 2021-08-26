@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductOptions } from '../models/product-options.model';
 import { Product } from '../models/product.model';
 import { AddProductService } from '../Services/product-shop/add-product.service';
-
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-product-all',
   templateUrl: './product-all.component.html',
@@ -10,7 +10,7 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
 })
 export class ProductAllComponent implements OnInit {
 
-  constructor(private productService: AddProductService) { }
+  constructor(private productService: AddProductService, private router:Router) { }
 
   ngOnInit(): void {
     this.loadProductAll();
@@ -78,6 +78,12 @@ export class ProductAllComponent implements OnInit {
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
     });
+  }
+
+
+  public editProduct(id:string){
+    //routerLink="[`/shop/product/manager`,e.product.id,'id']"
+    this.router.navigate(['shop/product/manager', id]);
   }
 
   public countOrder: any = "";
