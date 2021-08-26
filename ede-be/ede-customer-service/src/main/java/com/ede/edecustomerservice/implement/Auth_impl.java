@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.implement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -7,12 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ede.edecustomerservice.dao.ShopDao;
+import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.fasterxml.jackson.databind.JsonNode;
 @Service
 public class Auth_impl implements Auth_Service {
 
+	@Autowired
+	ShopDao shopdao;
+	
 	@Override
 	public User getUserLogin(String headers) {
 		HttpHeaders header = new HttpHeaders();
@@ -29,5 +35,11 @@ public class Auth_impl implements Auth_Service {
 		ResponseEntity<User> user = restTemplate.exchange(url2, HttpMethod.GET, entity, User.class);
 		return user.getBody();
 	}
+
+	@Override
+	public Shop getShopLogin(String header) {
+		return shopdao.findByUser(getUserLogin(header));
+	}
+	
 
 }
