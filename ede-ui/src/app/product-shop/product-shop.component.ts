@@ -18,6 +18,7 @@ import { ProductOptionsImage } from 'src/app/models/product-options-image.model'
 import { ProductTag } from '../models/product-tag.model';
 
 import * as moment from 'moment';
+import { ProductDiscount } from '../models/product-discount.model';
 
 @Component({
   selector: 'app-product-shop',
@@ -87,9 +88,9 @@ export class ProductShopComponent implements OnInit {
 
   public product_discount = new FormGroup({
     productdiscount: new FormControl(''),
-    discount: new FormControl(''),
-    startdate: new FormControl(''),
-    enddate: new FormControl(''),
+    discount: new FormControl('', Validators.required),
+    startdate: new FormControl('', Validators.required),
+    enddate: new FormControl('', Validators.required),
   });
 
   public product_tags = new FormGroup({
@@ -146,6 +147,16 @@ export class ProductShopComponent implements OnInit {
       }
     }
     return newProduct as ProductTag;
+  }
+
+  private createNewDataDiscount() {
+    const newProduct: any = {};
+    for (const controlName in this.product_discount.controls) {
+      if (controlName) {
+        newProduct[controlName] = this.product_discount.controls[controlName].value;
+      }
+    }
+    return newProduct as ProductDiscount;
   }
   addTag(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -241,11 +252,12 @@ export class ProductShopComponent implements OnInit {
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
           this.product_options.controls['id_product'].setValue(data.id);
-          this.product_tags.controls['producttag'].setValue(data);
-          if (this.tags.length > 0) {
-            this.Addservice.addProductTags(this.createDataTag()).toPromise().then(data => {
-            });
-          }
+          this.product_discount.controls['productdiscount'].setValue(data);
+          this.Addservice.addProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
+            console.log(data);
+          }), ((error: any) => {
+            console.log(error);
+          })
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
             this.product_options_image.controls['productoption'].setValue(data);
             if (this.imageArray.length > 0) {
@@ -418,16 +430,6 @@ export class ProductShopComponent implements OnInit {
           });
           console.log(this.tags);
           console.log(this.tagArray);
-          // console.log(this.tagArray);
-          // const value = (tags.value || '').trim();
-          // if (value) {
-          //   this.tags.push({ name: value });
-          //   this.tagArray.push(value);
-          //   this.product_tags.patchValue({
-          //     tag: this.tagArray.toString()
-          //   });
-          //   console.log(this.tagArray);
-          // }
         })
       }, err => {
         Swal.fire({

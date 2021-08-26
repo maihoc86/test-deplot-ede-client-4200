@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from 'src/app/models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 import { ProductTag } from '../../models/product-tag.model';
+import { ProductDiscount } from 'src/app/models/product-discount.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +23,9 @@ export class AddProductService {
 
   public addProductShop(data: Product) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop', data, this.httpOptions);
+  }
+  public addProductDiscount(data: ProductDiscount) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/discount',data, this.httpOptions);
   }
   public addProductOption(data: ProductOptions) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/'+data.id_product,data, this.httpOptions);

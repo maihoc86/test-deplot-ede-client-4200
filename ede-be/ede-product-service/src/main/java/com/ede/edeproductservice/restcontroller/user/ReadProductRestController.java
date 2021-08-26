@@ -88,6 +88,10 @@ public class ReadProductRestController {
 	public List<Product_option> getAllProductOption() {
 		return product_option_service.findAll();
 	}
+	@GetMapping("/view/getAllproductDiscount")
+	public List<Product_discount> getAllProductDiscount() {
+		return product_discount_service.findAll();
+	}
 	@GetMapping("/view/getcatrgory/{id}")
 	public Product_child_category getProduct_child_category(@PathVariable("id")String id) {
 		return service.findCategorybyIDProduct(id);

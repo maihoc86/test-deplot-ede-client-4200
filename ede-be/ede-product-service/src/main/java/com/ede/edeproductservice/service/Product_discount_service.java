@@ -10,4 +10,6 @@ public interface Product_discount_service {
 
 	List<Product_discount> findAll();
 
+	List<Product_discount> findByIdProduct(String id);
+
 }
