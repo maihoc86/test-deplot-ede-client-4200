@@ -29,8 +29,9 @@ public class ReadShopRestController {
 		return shopService.findById(id).get();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/info/{id}/view")
-	public ResponseEntity<?> getInfoShopbyIduser(@PathVariable("id")String id) {
+	public ResponseEntity getInfoShopbyIduser(@PathVariable("id")String id) {
 		Shop shop = new Shop();
 		try {
 			 shop = authService.getShopLogin(id);
