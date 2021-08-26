@@ -55,7 +55,7 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
   }
   public getAllProductOption() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption');
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption' , this.httpOptions);
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {
@@ -64,6 +64,15 @@ export class AddProductService {
   public getChildCategoriesByChildParent(idChildParent: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category/' + idChildParent);
   }
+
+
+  public countProductOrder(id: any) {
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+id)
+    return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
+  }
+
+
+
   public getProductByid(id: string) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductbyid/' + id);
   }
@@ -82,4 +91,5 @@ export class AddProductService {
   public getTagbyProductid(id: string) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/gettag/' + id);
   }
+
 }

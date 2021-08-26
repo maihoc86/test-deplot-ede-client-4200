@@ -3,6 +3,8 @@ package com.ede.edeproductservice.restcontroller.user;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,8 @@ import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 import com.ede.edeproductservice.entity.Product_tag;
+import com.ede.edeproductservice.entity.Shop;
+import com.ede.edeproductservice.service.Auth_Service;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
@@ -67,6 +71,12 @@ public class ReadProductRestController {
 	
 	@Autowired
 	ShopService shopService;
+	
+	@Autowired
+	Auth_Service auservice;
+	
+	@Autowired
+	HttpServletRequest req;
 
 
 	@GetMapping("/view/getproductbyid/{id}")
@@ -84,9 +94,20 @@ public class ReadProductRestController {
 		return service.findAll();
 	}
 	
+	
+	
 	@GetMapping("/view/getAllProductOption")
-	public List<Product_option> getAllProductOption() {
-		return product_option_service.findAll();
+	public ResponseEntity<?> getAllProductOption() {
+		Shop shop = new Shop();
+		try {
+			 shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+		return ResponseEntity.notFound().build();
+		}
+		List<Product_option>listProduct = product_option_service.finByShop(shop);
+		System.err.println("listProduct: "+listProduct.size());
+		return ResponseEntity.ok(listProduct);
+		
 	}
 	@GetMapping("/view/getAllproductDiscount")
 	public List<Product_discount> getAllProductDiscount() {
