@@ -101,8 +101,8 @@ public class ReadProductRestController {
 		return child_parent_category_service.findParent(id);
 	}
 	@GetMapping("/view/gettag/{id}")
-	public Product_tag getTag(@PathVariable("id")String id) {
-		return service.findTagByidProduct(id);
+	public List<Product_tag>etTag(@PathVariable("id")String id) {
+		return product_Tag_service.findTagByidProduct(id);
 	}
 	/**
 	 * Tìm sản phẩm
