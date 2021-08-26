@@ -25,16 +25,31 @@ export class AddProductService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop', data, this.httpOptions);
   }
   public addProductDiscount(data: ProductDiscount) {
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/discount',data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/discount', data, this.httpOptions);
   }
   public addProductOption(data: ProductOptions) {
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/'+data.id_product,data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/' + data.id_product, data, this.httpOptions);
   }
   public addProductOptionImage(data: ProductOptionsImage) {
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/images',data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/images', data, this.httpOptions);
   }
   public addProductTags(data: ProductTag) {
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/tag',data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/tag', data, this.httpOptions);
+  }
+  public updateProduct(data: Product) {
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/update/product-shop/', data, this.httpOptions);
+  }
+  public updateProductDiscount(data: ProductDiscount) {
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/update/product-shop/discount', data, this.httpOptions);
+  }
+  public updateProductOption(data: ProductOptions) {
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/update/product-shop/options/', data, this.httpOptions);
+  }
+  public updateProductOptionImage(data: ProductOptionsImage) {
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/update/product-shop/options/images', data, this.httpOptions);
+  }
+  public updateProductTag(data: ProductTag) {
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/update/product-shop/tag', data, this.httpOptions);
   }
   public enableProductShop(id: string) {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/enable/product-shop/' + id, this.httpOptions);
@@ -55,7 +70,7 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
   }
   public getAllProductOption() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption' , this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption', this.httpOptions);
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {
@@ -64,15 +79,6 @@ export class AddProductService {
   public getChildCategoriesByChildParent(idChildParent: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category/' + idChildParent);
   }
-
-
-  public countProductOrder(id: any) {
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+id)
-    return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
-  }
-
-
-
   public getProductByid(id: string) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductbyid/' + id);
   }
@@ -92,4 +98,7 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/gettag/' + id);
   }
 
+  public countProductOrder(id: any) {
+    return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
+  }
 }

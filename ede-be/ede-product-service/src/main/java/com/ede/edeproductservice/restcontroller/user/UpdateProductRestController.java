@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edeproductservice.ResponseHandler;
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_tag;
@@ -17,6 +18,7 @@ import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
+import com.ede.edeproductservice.service.Product_discount_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 
@@ -37,7 +39,10 @@ public class UpdateProductRestController {
 
 	@Autowired
 	Product_option_image_service product_option_image_service;
-
+	
+	@Autowired
+	Product_discount_service product_discount_service;
+	
 	@Autowired
 	Product_Tag_service product_Tag_service;
 
@@ -46,7 +51,14 @@ public class UpdateProductRestController {
 	public ResponseEntity updateProductOptions(@RequestBody Product product) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@PutMapping("/update/product-shop/discount")
+	public ResponseEntity updateProductDiscount(@RequestBody Product_discount discount) {
+		return ResponseEntity.status(HttpStatus.OK).body(product_discount_service.save(discount));
+	}
 
+	
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/update/product-shop/options/")
 	public ResponseEntity updateProductOptions(@RequestBody Product_option product_option) {

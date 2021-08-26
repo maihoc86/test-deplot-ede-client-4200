@@ -251,16 +251,29 @@
                         <label for="input-display-name" class="col-sm-2 control-label">Giảm giá từ</label>
                         <div class="col-sm-10">
                             <input type="date" class="form-control" formControlName="startdate" id="input-display-name"
-                                [min]="minDate" (change)="changeDate($event)" required>
+                                [min]="minDate" [max]="maxDate" (change)="changeDate($event)" required>
+                            {{this.product_discount.value.startdate > maxDate || this.product_discount.value.startdate >
+                            this.product_discount.value.enddate ?
+                            product_discount.controls['startdate'].setValue(minDate) : ''}}
+                            <div *ngIf="
+                                product_discount.controls['enddate'].invalid &&
+                                (product_discount.controls['enddate'].dirty ||
+                                product_discount.controls['enddate'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                                    product_discount.controls['enddate'].errors &&
+                                    product_discount.controls['enddate'].errors.required
+                                ">Ngày bắt đầu là bắt buộc.</span>
+                            </div>
                         </div>
                     </div>
-
                     <div class="form-group required" [formGroup]="product_discount" *ngIf="!isHiddenEndDate">
                         <label for="input-display-name" class="col-sm-2 control-label">Đến ngày</label>
                         <div class="col-sm-10">
-                            <input type="date" [min]="product_discount.controls['startdate'].value"
-                            max="{{ '2022-01-01' | date:'yyyy-MM-dd'}}" class="form-control" formControlName="enddate"
-                                id="input-display-name" required>
+                            <input type="date" [min]="product_discount.controls['startdate'].value" [max]="maxDate"
+                                class="form-control" formControlName="enddate" id="input-display-name" required>
+                            {{this.product_discount.value.enddate > maxDate ?
+                            product_discount.controls['enddate'].setValue(minDate) : ''}}
                             <div *ngIf="
                                 product_discount.controls['enddate'].invalid &&
                                 (product_discount.controls['enddate'].dirty ||
@@ -270,14 +283,6 @@
                                     product_discount.controls['enddate'].errors &&
                                     product_discount.controls['enddate'].errors.required
                                 ">Ngày kết thúc là bắt buộc.</span>
-                                <span *ngIf="
-                                    product_discount.controls['enddate'].errors &&
-                                    product_discount.controls['enddate'].errors.max
-                                ">Ngày kết thúc phải bé hơn 01/01/2023</span>
-                                <span *ngIf="
-                                    product_discount.controls['enddate'].errors &&
-                                    product_discount.controls['enddate'].errors.min
-                                ">Ngày kết thúc phải lớn hơn ngày bắt đầu</span>
                             </div>
                         </div>
                     </div>
@@ -332,7 +337,7 @@
                     <div class="pull-right">
                         <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
                             type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
-                        <input type="submit" class="btn btn-primary" value="Sửa">
+                        <input type="submit" class="btn btn-primary" (click)="updateProduct()" value="Sửa">
                         <input type="submit" class="btn btn-danger" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">
                     </div>

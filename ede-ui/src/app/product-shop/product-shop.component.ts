@@ -34,6 +34,7 @@ export class ProductShopComponent implements OnInit {
   tags: Tag[] = [];
   test: any;
   minDate = moment(new Date()).format('YYYY-MM-DD');
+  maxDate = moment(new Date(2023, 1, 1)).format('YYYY-MM-DD');
   images: string[] = [];
   imageArray: string[] = [];
   tagArray: string[] = [];
@@ -49,6 +50,7 @@ export class ProductShopComponent implements OnInit {
   public listCountry: any = [];
   public listCities: any = [];
   public product = new FormGroup({
+    id: new FormControl('',),
     origin: new FormControl('', [
       Validators.required,
     ]),
@@ -113,7 +115,7 @@ export class ProductShopComponent implements OnInit {
     this.getProductById();
   }
   private createDataProduct() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product.controls) {
       if (controlName) {
         newProduct[controlName] = this.product.controls[controlName].value;
@@ -122,7 +124,7 @@ export class ProductShopComponent implements OnInit {
     return newProduct as Product;
   }
   private createNewOption() {
-    const newOption: any = {};
+    const newOption: any = { };
     for (const controlName in this.product_options.controls) {
       if (controlName) {
         newOption[controlName] = this.product_options.controls[controlName].value;
@@ -131,7 +133,7 @@ export class ProductShopComponent implements OnInit {
     return newOption as ProductOptions;
   }
   private createNewOptionImage() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product_options_image.controls) {
       if (controlName) {
         newProduct[controlName] = this.product_options_image.controls[controlName].value;
@@ -140,7 +142,7 @@ export class ProductShopComponent implements OnInit {
     return newProduct as ProductOptionsImage;
   }
   private createDataTag() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product_tags.controls) {
       if (controlName) {
         newProduct[controlName] = this.product_tags.controls[controlName].value;
@@ -150,7 +152,7 @@ export class ProductShopComponent implements OnInit {
   }
 
   private createNewDataDiscount() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product_discount.controls) {
       if (controlName) {
         newProduct[controlName] = this.product_discount.controls[controlName].value;
@@ -237,6 +239,25 @@ export class ProductShopComponent implements OnInit {
         });
       }
     }
+  }
+  public updateProduct() {
+    this.product.controls['deleted'].setValue('false');
+    this.Addservice.updateProduct(this.createDataProduct()).subscribe(
+      (data) => {
+        this.product_options.controls['id_product'].setValue(data.id);
+        this.product_discount.controls['productdiscount'].setValue(data);
+        this.Addservice.updateProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
+        }), ((error: any) => {
+        })
+        this.Addservice.updateProductOption(this.createNewOption()).subscribe(
+          (data) => {
+            this.product_options_image.controls['productoption'].setValue(data);
+            if (this.imageArray.length > 0) {
+              this.Addservice.updateProductOptionImage(this.createNewOptionImage()).toPromise();
+            }
+          }), ((error: any) => {
+          })
+      })
   }
   public addProduct() {
     this.product.controls['deleted'].setValue('false');
