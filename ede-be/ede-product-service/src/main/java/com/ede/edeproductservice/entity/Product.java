@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.entity;
 
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,11 +21,11 @@ import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product")
-@AllArgsConstructor
-@NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Product implements Serializable {
 	@Id
 	String id;
@@ -61,5 +62,5 @@ public class Product implements Serializable {
 	public String toString() {
 		return "";
 	}
-
+	
 }
