@@ -105,7 +105,6 @@ public class ReadProductRestController {
 		return ResponseEntity.notFound().build();
 		}
 		List<Product_option>listProduct = product_option_service.finByShop(shop);
-		System.err.println("listProduct: "+listProduct.size());
 		return ResponseEntity.ok(listProduct);
 		
 	}

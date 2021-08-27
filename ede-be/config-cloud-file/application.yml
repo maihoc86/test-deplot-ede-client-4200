@@ -7,13 +7,28 @@ eureka:
    instance:
       hostname: localhost
       
-microservice:
-   payment-service:
-      endpoints:
-         endpoint:
-            uri: http://PAYMENT-SERVICE/payment/doPayment
-   order-service:
-      endpoints:
-         endpoint:
-            uri: http://ORDER-SERVICE/order/bookOrder
-
+spring:
+  application:
+    name: ede-product
+  datasource:
+    url: jdbc:sqlserver://localhost;database=EDE
+    username: sa
+    password: 123
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: maihoc12344@gmail.com
+    password: maihoc63asd
+    properties:
+      mail:
+        smpt:
+          auth: true
+        smtp:
+          starttls:
+            enable: true
