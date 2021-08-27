@@ -35,4 +35,14 @@ public class Product_option_image_impl implements Product_option_image_service {
 		return dao.findById(string);
 	}
 
+	@Override
+	public List<Product_option_image> findImageByIdOption(String id) {
+		return dao.findImageByIdOption(id);
+	}
+
+	@Override
+	public void deleteAllImage(String id) {
+		dao.deleteAllImageByOptionId(id);
+	}
+
 }

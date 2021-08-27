@@ -109,6 +109,10 @@ public class ReadProductRestController {
 		return ResponseEntity.ok(listProduct);
 		
 	}
+	@GetMapping("/view/getproductoptionimage/{id}")
+	public List<Product_option_image> getImage(@PathVariable("id")String id) {
+		return productImageService.findImageByIdOption(id);
+	}
 	@GetMapping("/view/getAllproductDiscount")
 	public List<Product_discount> getAllProductDiscount() {
 		return product_discount_service.findAll();
