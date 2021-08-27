@@ -31,7 +31,6 @@ public class ProductImpl implements ProductService {
 	 */
 	@Override
 	public Page<Product> searchByKeysearch(String keysearch, Pageable pageRequest) {
-		keysearch = "Tên gì";
 		return this.dao.searchBykeysearch(keysearch, pageRequest);
 	}
 
