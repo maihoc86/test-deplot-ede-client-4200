@@ -89,12 +89,9 @@ public class CreateProductShopRestController {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/{id}")
-	public ResponseEntity addProductOptions(@RequestBody Product_option product_option,
-			@PathVariable("id") String id_product) {
-		System.err.println("option: " + product_option);
+	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
 		UUID uuid = UUID.randomUUID();
 		product_option.setId(uuid.toString());
-		product_option.setProduct(service.findById(id_product));
 		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 	}
 
@@ -120,7 +117,6 @@ public class CreateProductShopRestController {
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
 	}
-
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/discount")
 	public ResponseEntity addProductDiscount(@RequestBody Product_discount product_discount) {

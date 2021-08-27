@@ -37,8 +37,7 @@ public class ProductSearch {
 	String idProduct;
 	
 	private String keysearch;
-	
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	@Column(table = "product")
 	String origin;
 	@Column(table = "product")
@@ -71,6 +70,5 @@ public class ProductSearch {
 	@JsonIgnore
 	@OneToMany(mappedBy = "producttag")
 	List<Product_tag> producTags;
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 }
