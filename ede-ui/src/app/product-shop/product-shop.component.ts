@@ -16,6 +16,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from '../models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 import { ProductTag } from '../models/product-tag.model';
+import { HeaderService } from '../Services/header/header.service';
+import * as moment from 'moment';
+import { ProductDiscount } from '../models/product-discount.model';
 
 @Component({
   selector: 'app-product-shop',
@@ -29,7 +32,25 @@ export class ProductShopComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: Tag[] = [];
+  test: any;
+  minDate = moment(new Date()).format('YYYY-MM-DD');
+  maxDate = moment(new Date(2023, 1, 1)).format('YYYY-MM-DD');
+  images: string[] = [];
+  imageArray: string[] = [];
+  tagArray: string[] = [];
+  image_option: any;
+  public isHiddenEndDate: boolean = true;
+  public isHiddenChildParent: boolean = true;
+  public isHiddenChild: boolean = true;
+  public isHiddenDiscount: boolean = true;
+  public listChildCategory: any = [];
+  public listParent_ChildCategory: any = [];
+  public listParentCategory: any = [];
+  public listBrands: any = [];
+  public listCountry: any = [];
+  public listCities: any = [];
   public product = new FormGroup({
+    id: new FormControl('',),
     origin: new FormControl('', [
       Validators.required,
     ]),
@@ -67,6 +88,13 @@ export class ProductShopComponent implements OnInit {
     image: new FormControl(''),
   });
 
+  public product_discount = new FormGroup({
+    productdiscount: new FormControl(''),
+    discount: new FormControl('', Validators.required),
+    startdate: new FormControl('', Validators.required),
+    enddate: new FormControl('', Validators.required),
+  });
+
   public product_tags = new FormGroup({
     producttag: new FormControl(''),
     tag: new FormControl(''),
@@ -76,7 +104,8 @@ export class ProductShopComponent implements OnInit {
     private route: ActivatedRoute,
     private Addservice: AddProductService,
     private AddresseService: ApiAddressService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private headerService:HeaderService
   ) { }
 
   ngOnInit(): void {
@@ -84,79 +113,10 @@ export class ProductShopComponent implements OnInit {
     this.getParentCategory();
     this.getCountry();
     this.getCities();
-   if(this.loadProdutedit()){
-     this.Addservice.getProductByid(this.loadProdutedit()).subscribe(data=>{
-       for (const controlName in this.product.controls) {
-        for(const node in data){
-          if(controlName && controlName==node){
-            this.product.controls[controlName].setValue(data[node]);
-          }
-        
-        }
-        
-      }
-      if(data['brand']){
-        console.log(data['brand'])
-         this.product.controls['brand'].setValue(data['brand'].name);
-       }
-       this.Addservice.getProductOptionByid(this.loadProdutedit()).subscribe(data=>{
-        console.log(data)
-        for (const controlName in this.product_options.controls) {
-          for(const node in data){
-            if(controlName && controlName==node){
-              this.product_options.controls[controlName].setValue(data[node]);
-            }
-          }
-        }
-       })
-       this.Addservice.getCategoryByidProduct(this.loadProdutedit()).subscribe(child=>{
-         console.log("cateproduct : " +child)
-         this.Addservice.getParent_Child_CategoryByid(child.id).subscribe(parent_child=>{
-           console.log("parent_child : " + parent_child)
-           this.Addservice.getParent_CategoryByid(parent_child.id).subscribe(parent=>{
-             console.log("paent :" +parent.name)
-            this.product.controls['parent_category'].setValue(parent.id);
-            this.product.controls['parent_child_category'].setValue(parent_child.id);
-            this.product.controls['child_category'].setValue(child.id);        
-            this.showParent_Child();
-            this.showChild();
-           })
-         })
-       })
-       this.Addservice.getTagbyProductid(this.loadProdutedit()).subscribe(tags=>{
-        this.tags.push({ name: tags['tag'] });
-            this.tagArray.push(tags['tag']);
-            this.product_tags.patchValue({
-              tag: this.tagArray.toString()
-            });
-            console.log(this.tagArray);
-       })
-     },err=>{
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: "Không tìm thấy sản phẩm",
-      }).then(data=>{
-       this.router.navigateByUrl("/shop/product/manager");
-      });   
-     }
-     );
-   }
+    this.getProductById();
   }
-  images: string[] = [];
-  imageArray: string[] = [];
-  tagArray: string[] = [];
-  image_option: any;
-  public isHiddenChildParent: boolean = true;
-  public isHiddenChild: boolean = true;
-  public listChildCategory: any = [];
-  public listParent_ChildCategory: any = [];
-  public listParentCategory: any = [];
-  public listBrands: any = [];
-  public listCountry: any = [];
-  public listCities: any = [];
   private createDataProduct() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product.controls) {
       if (controlName) {
         newProduct[controlName] = this.product.controls[controlName].value;
@@ -165,7 +125,7 @@ export class ProductShopComponent implements OnInit {
     return newProduct as Product;
   }
   private createNewOption() {
-    const newOption: any = {};
+    const newOption: any = { };
     for (const controlName in this.product_options.controls) {
       if (controlName) {
         newOption[controlName] = this.product_options.controls[controlName].value;
@@ -174,7 +134,7 @@ export class ProductShopComponent implements OnInit {
     return newOption as ProductOptions;
   }
   private createNewOptionImage() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product_options_image.controls) {
       if (controlName) {
         newProduct[controlName] = this.product_options_image.controls[controlName].value;
@@ -183,13 +143,23 @@ export class ProductShopComponent implements OnInit {
     return newProduct as ProductOptionsImage;
   }
   private createDataTag() {
-    const newProduct: any = {};
+    const newProduct: any = { };
     for (const controlName in this.product_tags.controls) {
       if (controlName) {
         newProduct[controlName] = this.product_tags.controls[controlName].value;
       }
     }
     return newProduct as ProductTag;
+  }
+
+  private createNewDataDiscount() {
+    const newProduct: any = { };
+    for (const controlName in this.product_discount.controls) {
+      if (controlName) {
+        newProduct[controlName] = this.product_discount.controls[controlName].value;
+      }
+    }
+    return newProduct as ProductDiscount;
   }
   addTag(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -231,6 +201,13 @@ export class ProductShopComponent implements OnInit {
     this.isHiddenChild = false;
     this.getChildCategory(this.product.controls['parent_child_category'].value);
   }
+  showDiscount() {
+    this.isHiddenDiscount = false;
+  }
+  changeDate(event: any) {
+    console.log(event);
+    this.isHiddenEndDate = false;
+  }
 
   onFileChange(event: any) {
     this.image_option = '';
@@ -264,6 +241,25 @@ export class ProductShopComponent implements OnInit {
       }
     }
   }
+  public updateProduct() {
+    this.product.controls['deleted'].setValue('false');
+    this.Addservice.updateProduct(this.createDataProduct()).subscribe(
+      (data) => {
+        this.product_options.controls['id_product'].setValue(data.id);
+        this.product_discount.controls['productdiscount'].setValue(data);
+        this.Addservice.updateProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
+        }), ((error: any) => {
+        })
+        this.Addservice.updateProductOption(this.createNewOption()).subscribe(
+          (data) => {
+            this.product_options_image.controls['productoption'].setValue(data);
+            if (this.imageArray.length > 0) {
+              this.Addservice.updateProductOptionImage(this.createNewOptionImage()).toPromise();
+            }
+          }), ((error: any) => {
+          })
+      })
+  }
   public addProduct() {
     this.product.controls['deleted'].setValue('false');
     this.Addservice.addProductShop(this.createDataProduct()).subscribe(
@@ -278,11 +274,12 @@ export class ProductShopComponent implements OnInit {
           confirmButtonText: 'Đăng bán!'
         }).then((result) => {
           this.product_options.controls['id_product'].setValue(data.id);
-          this.product_tags.controls['producttag'].setValue(data);
-          if (this.tags.length > 0) {
-            this.Addservice.addProductTags(this.createDataTag()).toPromise().then(data => {
-            });
-          }
+          this.product_discount.controls['productdiscount'].setValue(data);
+          this.Addservice.addProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
+            console.log(data);
+          }), ((error: any) => {
+            console.log(error);
+          })
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
             this.product_options_image.controls['productoption'].setValue(data);
             if (this.imageArray.length > 0) {
@@ -369,6 +366,7 @@ export class ProductShopComponent implements OnInit {
       const listCategories = data.map(function (obj: { id: any; name: any; image_url: any; is_enable: boolean; is_deleted: boolean; child_parentCategory: any; }) {
         return obj;
       });
+
       this.listChildCategory = listCategories;
     });
   }
@@ -406,13 +404,110 @@ export class ProductShopComponent implements OnInit {
     }
   ];
 
-  public loadProdutedit(){
-    var id='';
-    this.route.params.subscribe(params => { console.log(params['id']) ,id= params['id'];}); 
+  public loadProdutedit() {
+    var id = '';
+    this.route.params.subscribe(params => { console.log(params['id']), id = params['id']; });
     return id;
   }
- 
+  public getProductById() {
+    if (this.loadProdutedit()) {
+      this.Addservice.getProductByid(this.loadProdutedit()).subscribe(data => {
+        console.log(data.shop.id)
+      this.headerService.getShopByToken(this.cookieService.get("auth")).subscribe(shop=>{
+        console.log("shop login : "+shop.id)
+        if(data.shop.id!=shop.id){
+          this.router.navigate(['/shop/product/manager'])
+        }
+      })
+        for (const controlName in this.product.controls) {
+          for (const node in data) {
+           
+            if (controlName && controlName == node) {
+              this.product.controls[controlName].setValue(data[node]);
+            }
+          }
+        }
+        if (data['brand']) {
+          this.product.controls['brand'].setValue(data['brand']);
+        }
+        this.Addservice.getProductOptionByid(this.loadProdutedit()).subscribe(data => {
+          for (const controlName in this.product_options.controls) {
+            for (const node in data) {
+              if (controlName && controlName == node) {
+                this.product_options.controls[controlName].setValue(data[node]);
+              }
+            }
+          }
+        })
+        this.Addservice.getCategoryByidProduct(this.loadProdutedit()).subscribe(child => {
+          this.Addservice.getParent_Child_CategoryByid(child.id).subscribe(parent_child => {
+            this.Addservice.getParent_CategoryByid(parent_child.id).subscribe(parent => {
+              this.product.controls['parent_category'].setValue(parent.id);
+              this.product.controls['parent_child_category'].setValue(parent_child.id);
+              this.product.controls['child_category'].setValue(child);
+              this.showParent_Child();
+              this.showChild();
+            })
+          })
+        })
+        this.Addservice.getTagbyProductid(this.loadProdutedit()).subscribe(tags => {
+          tags.forEach((element: any) => {
+            this.tags.push({ name: element.tag.trim() });
+            this.tagArray.push(element.tag.trim());
+            this.product_tags.patchValue({
+              tag: this.tagArray.toString()
+            });
+          });
+          console.log(this.tags);
+          console.log(this.tagArray);
+        })
+      }, err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: "Không tìm thấy sản phẩm",
+        }).then(data => {
+          this.router.navigateByUrl("/shop/product/manager");
+        });
+      }
+      );
+    }
+  }
+  public deleteProduct(id:string){
+    Swal.fire({
+      icon:'question',
+      title:'Option',
+      text:'Bạn có chắc muốn xóa option này không ?',
+      confirmButtonText: 'Xóa',
+      cancelButtonText:'Hủy',
+      showCancelButton:true
+    }).then(resuft=>{
+      if(resuft.isConfirmed){
+        this.Addservice.deleteProductByid(id).subscribe(data=>{
+          Swal.fire({
+            icon:'success',
+            title:'success',
+            text:'Đã xóa sản phẩm'
+          })
+          this.router.navigate(['/shop/product/manager'])
+        },err=>{
+          Swal.fire({
+            icon:'error',
+            title:'Error',
+            text:err
+          })
+        })
+      }
+    }
+
+    )
+  }
+  public objectComparisonFunction = function (option: { id: any; }, value: { id: any; }): boolean {
+    return option.id === value.id;
+  }
+  
 }
+
 interface size {
   value: string;
   viewValue: string;

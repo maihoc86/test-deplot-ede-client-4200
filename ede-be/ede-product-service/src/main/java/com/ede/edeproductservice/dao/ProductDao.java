@@ -20,7 +20,5 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	List<Product> findAllByDeleted(boolean isdelete);
 	@Query("select o.child_category from Product o where o.id=?1 ")
 	Product_child_category findCategorybyIDProduct(String id);
-	@Query("select o.product_tags from Product o where o.id=?1")
-	Product_tag findTagByidProduct(String id);
 
 }
