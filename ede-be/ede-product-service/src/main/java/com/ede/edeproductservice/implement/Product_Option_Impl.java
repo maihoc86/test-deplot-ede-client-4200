@@ -3,6 +3,8 @@ package com.ede.edeproductservice.implement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_option_Dao;
@@ -60,5 +62,11 @@ public class Product_Option_Impl implements Product_option_service {
 	public List<Product_option> finByShop(Shop shop) {
 		// TODO Auto-generated method stub
 		return dao.finByShop(shop);
+	}
+
+	@Override
+	public Page<Product_option> finAllByShop(Shop shop ,PageRequest of) {
+		// TODO Auto-generated method stub
+		return dao.finAllByShop( shop,of);
 	}
 }

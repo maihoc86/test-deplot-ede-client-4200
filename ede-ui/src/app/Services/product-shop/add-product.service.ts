@@ -69,8 +69,8 @@ export class AddProductService {
   public getAllProduct() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
   }
-  public getAllProductOption() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption', this.httpOptions);
+  public getAllProductOption(page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/' +page, this.httpOptions);
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {

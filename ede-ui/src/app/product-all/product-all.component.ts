@@ -4,6 +4,7 @@ import { Product } from '../models/product.model';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-product-all',
   templateUrl: './product-all.component.html',
@@ -14,7 +15,7 @@ export class ProductAllComponent implements OnInit {
   constructor(private productService: AddProductService, private router:Router) { }
 
   ngOnInit(): void {
-    this.loadProductAll();
+    this.loadProductAll(0);
   }
   filterEnableFalse() {
     this.itemsEnableFalse = this.itemsEnableFalse.filter(function (obj: {
@@ -55,26 +56,40 @@ export class ProductAllComponent implements OnInit {
     });
   }
 
+
+
+  public arrays: Array<number> =[] ;
+  public page: any =[];
   public listProductOption: any = {};
   public p: number = 1;
   public items: any = [];
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
-  public loadProductAll() {
-    this.productService.getAllProductOption().subscribe((data) => {
-    const item = data.map(function (obj: {
+  public loadProductAll(page: any) {
+    this.productService.getAllProductOption(page).subscribe((data) => {
+      console.log(data)
+    const item = data.content.map(function (obj: {
         id: any;
         id_product: any;
         display_name: any;
         price: any;
         size: any;
         quantity: any;
-      }) {
+      }
+      ) {
         return obj;
-      });
+      }
+      );
+
       console.log(item)
       this.items = item;
+      this.page = data;
+      for(let i = 0; i< this.page.totalPages; i++){
+          this.arrays.push(i);
+          console.log("page nè Thanh: "+this.arrays);
+      }
+
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
@@ -98,6 +113,9 @@ export class ProductAllComponent implements OnInit {
       }
     });
   }
+
+
+
 
 
   public editProduct(id:string){
