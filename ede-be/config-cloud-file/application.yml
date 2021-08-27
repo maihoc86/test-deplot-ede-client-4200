@@ -8,8 +8,6 @@ eureka:
       hostname: localhost
       
 spring:
-  application:
-    name: ede-product
   datasource:
     url: jdbc:sqlserver://localhost;database=EDE
     username: sa
