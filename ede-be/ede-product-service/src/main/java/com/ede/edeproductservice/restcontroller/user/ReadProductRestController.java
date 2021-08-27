@@ -144,7 +144,7 @@ public class ReadProductRestController {
 		Page<Product> result;
 		int npage = page.orElse(1) - 1; //cover page to index page
 		if (npage < 0) npage = 0;
-		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 1));
+		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
 	}
 

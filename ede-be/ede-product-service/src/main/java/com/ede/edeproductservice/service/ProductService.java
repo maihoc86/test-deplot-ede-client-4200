@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_child_category;
-import com.ede.edeproductservice.entity.Product_tag;
 
 public interface ProductService {
 

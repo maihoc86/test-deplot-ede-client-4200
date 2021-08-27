@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.ede.edeproductservice.dao.ProductDao;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_child_category;
-import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.service.ProductService;
 
 
