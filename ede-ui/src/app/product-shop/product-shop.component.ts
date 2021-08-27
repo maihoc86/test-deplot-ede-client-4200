@@ -193,6 +193,7 @@ export class ProductShopComponent implements OnInit {
     return true;
   }
   showParent_Child() {
+    this.isHiddenChild = true;
     this.isHiddenChildParent = false;
     this.getParentChildCategory(this.product.controls['parent_category'].value);
   }
