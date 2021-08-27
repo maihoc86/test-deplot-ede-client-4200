@@ -5,4 +5,5 @@ export interface ProductOptions {
     price: number;
     size: String;
     quantity: number;
+    is_deleted: boolean;
 }

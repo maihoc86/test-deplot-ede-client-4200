@@ -86,6 +86,9 @@ export class AddProductService {
   public getProductOptionByid(id: string) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoption/' + id);
   }
+  public getProductOptionImageByIdOption(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoptionimage/' + id);
+  }
   public getCategoryByidProduct(id: string) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getcatrgory/' + id);
   }
