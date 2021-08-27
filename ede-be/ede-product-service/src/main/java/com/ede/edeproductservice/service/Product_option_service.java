@@ -22,4 +22,6 @@ public interface Product_option_service {
 	Product_option findByIdbyProduct(String id);
 
 	List<Product_option> finByShop(Shop shop);
+
+	Product_option deleteProductByID(String id);
 }

@@ -23,11 +23,6 @@ public class ReadShopRestController {
 	@Autowired
 	CustomerService customerService;
 
-	// Lấy thông tin của Shop
-	@GetMapping("/info/view/{id}")
-	public Shop getInfoShop(@PathVariable String id) {
-		return shopService.findById(id).get();
-	}
 	
 	@GetMapping("/info/{id}/view")
 	public ResponseEntity<?> getInfoShopbyIduser(@PathVariable("id")String id) {

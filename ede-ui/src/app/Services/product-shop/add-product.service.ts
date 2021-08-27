@@ -101,4 +101,7 @@ export class AddProductService {
   public countProductOrder(id: any) {
     return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
   }
+  public deleteProductByid(id: any) {
+    return this.httpClient.delete<any>(`${this.REST_API_SERVER}/product/delete/` + id);
+  }
 }

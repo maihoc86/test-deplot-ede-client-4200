@@ -23,7 +23,7 @@ public class JwtUtils {
 	@Value("${security.jwt.secret:JwtSecretKey}")
 	private String jwtSecret;
 
-	@Value("${security.jwt.expiration:#{1000*60*30}}")
+	@Value("${security.jwt.expiration:#{1000*60*3000}}")
 	private int jwtExpirationMs;
 
 	public String generateJwtToken(Authentication authentication) {

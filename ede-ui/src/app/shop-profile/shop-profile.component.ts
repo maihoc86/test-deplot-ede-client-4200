@@ -45,7 +45,6 @@ export class ShopProfileComponent implements OnInit {
           }
         }
       }
-
     },err=>{
       Swal.fire({
         icon:'error',
