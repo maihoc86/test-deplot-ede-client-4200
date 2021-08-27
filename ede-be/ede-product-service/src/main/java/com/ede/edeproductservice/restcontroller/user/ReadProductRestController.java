@@ -26,6 +26,7 @@ import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
+import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.Auth_Service;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_Tag_service;
@@ -136,11 +137,11 @@ public class ReadProductRestController {
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
 	@GetMapping("/view/get-products")
-	public ResponseEntity<Page<Product>> getProducts(
+	public ResponseEntity<Page<ProductSearch>> getProducts(
 			@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page
 	) {
-		Page<Product> result;
+		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; //cover page to index page
 		if (npage < 0) npage = 0;
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
