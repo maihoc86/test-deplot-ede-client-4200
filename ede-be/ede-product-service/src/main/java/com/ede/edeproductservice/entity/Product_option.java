@@ -30,7 +30,7 @@ public class Product_option implements Serializable {
 	Double price;
 	String size;
 	Integer quantity;
-
+	Boolean is_delete;
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product product;

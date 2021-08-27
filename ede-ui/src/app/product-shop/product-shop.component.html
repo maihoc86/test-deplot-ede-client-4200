@@ -38,6 +38,16 @@
                                     {{ prf.name }}
                                 </option>
                             </select>
+                            <div *ngIf="
+                            product.controls['origin'].invalid &&
+                            (product.controls['origin'].dirty ||
+                            product.controls['origin'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['origin'].errors &&
+                          product.controls['origin'].errors.required
+                            ">Vui lòng chọn xuất sứ...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required">
@@ -49,6 +59,16 @@
                                     {{ prf.name }}
                                 </option>
                             </select>
+                            <div *ngIf="
+                            product.controls['location'].invalid &&
+                            (product.controls['location'].dirty ||
+                            product.controls['location'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['location'].errors &&
+                          product.controls['location'].errors.required
+                            ">Vui lòng chọn nơi bán...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required">
@@ -77,7 +97,7 @@
                         <label for="input-model" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <select class="form-control" formControlName="parent_child_category" (change)="showChild()">
-                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option value="" disabled selected>Vui lòng chọn loại phụ...</option>
                                 <option *ngFor="let prf of listParent_ChildCategory" [ngValue]="prf.id">
                                     {{ prf.name == null ? 'Không có' : prf.name }}
                                 </option>
@@ -99,7 +119,7 @@
                         <div class="col-sm-10">
                             <select class="form-control" formControlName="child_category"
                                 [compareWith]="objectComparisonFunction">
-                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option value="" disabled selected>Vui lòng chọn loại phụ...</option>
                                 <option *ngFor="let prf of listChildCategory" [ngValue]="prf">
                                     {{ prf.name == null ? 'Không có' : prf.name }}
                                 </option>
@@ -126,6 +146,16 @@
                                     {{ prf.name }}
                                 </option>
                             </select>
+                            <div *ngIf="
+                            product.controls['brand'].invalid &&
+                            (product.controls['brand'].dirty ||
+                            product.controls['brand'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['brand'].errors &&
+                          product.controls['brand'].errors.required
+                            ">Vui lòng chọn nhãn hàng...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -337,8 +367,8 @@
                     <div class="pull-right">
                         <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
                             type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
-                        <input type="submit" class="btn btn-primary" (click)="updateProduct()" value="Sửa">
-                        <input type="submit" class="btn btn-danger" value="Xóa">
+                        <input type="submit" class="btn btn-primary" (click)="updateProduct()" *ngIf="loadProdutedit()"  value="Sửa">
+                        <input type="submit" class="btn btn-danger"  (click)="deleteProduct(loadProdutedit())" *ngIf="loadProdutedit()" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">
                     </div>
                 </div>

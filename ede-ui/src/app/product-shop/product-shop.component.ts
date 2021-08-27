@@ -16,7 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProductOptions } from '../models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 import { ProductTag } from '../models/product-tag.model';
-
+import { HeaderService } from '../Services/header/header.service';
 import * as moment from 'moment';
 import { ProductDiscount } from '../models/product-discount.model';
 
@@ -50,7 +50,7 @@ export class ProductShopComponent implements OnInit {
   public listCountry: any = [];
   public listCities: any = [];
   public product = new FormGroup({
-    id: new FormControl('',),
+    id: new FormControl(''),
     origin: new FormControl('', [
       Validators.required,
     ]),
@@ -104,7 +104,8 @@ export class ProductShopComponent implements OnInit {
     private route: ActivatedRoute,
     private Addservice: AddProductService,
     private AddresseService: ApiAddressService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private headerService:HeaderService
   ) { }
 
   ngOnInit(): void {
@@ -193,6 +194,7 @@ export class ProductShopComponent implements OnInit {
     return true;
   }
   showParent_Child() {
+    this.isHiddenChild = true;
     this.isHiddenChildParent = false;
     this.getParentChildCategory(this.product.controls['parent_category'].value);
   }
@@ -242,8 +244,10 @@ export class ProductShopComponent implements OnInit {
   }
   public updateProduct() {
     this.product.controls['deleted'].setValue('false');
+    console.log(this.product.controls['id'].value);
     this.Addservice.updateProduct(this.createDataProduct()).subscribe(
       (data) => {
+        console.log(data);
         this.product_options.controls['id_product'].setValue(data.id);
         this.product_discount.controls['productdiscount'].setValue(data);
         this.Addservice.updateProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
@@ -411,8 +415,16 @@ export class ProductShopComponent implements OnInit {
   public getProductById() {
     if (this.loadProdutedit()) {
       this.Addservice.getProductByid(this.loadProdutedit()).subscribe(data => {
+        console.log(data.shop.id)
+      this.headerService.getShopByToken(this.cookieService.get("auth")).subscribe(shop=>{
+        console.log("shop login : "+shop.id)
+        if(data.shop.id!=shop.id){
+          this.router.navigate(['/shop/product/manager'])
+        }
+      })
         for (const controlName in this.product.controls) {
           for (const node in data) {
+           
             if (controlName && controlName == node) {
               this.product.controls[controlName].setValue(data[node]);
             }
@@ -464,9 +476,39 @@ export class ProductShopComponent implements OnInit {
       );
     }
   }
+  public deleteProduct(id:string){
+    Swal.fire({
+      icon:'question',
+      title:'Option',
+      text:'Bạn có chắc muốn xóa option này không ?',
+      confirmButtonText: 'Xóa',
+      cancelButtonText:'Hủy',
+      showCancelButton:true
+    }).then(resuft=>{
+      if(resuft.isConfirmed){
+        this.Addservice.deleteProductByid(id).subscribe(data=>{
+          Swal.fire({
+            icon:'success',
+            title:'success',
+            text:'Đã xóa sản phẩm'
+          })
+          this.router.navigate(['/shop/product/manager'])
+        },err=>{
+          Swal.fire({
+            icon:'error',
+            title:'Error',
+            text:err
+          })
+        })
+      }
+    }
+
+    )
+  }
   public objectComparisonFunction = function (option: { id: any; }, value: { id: any; }): boolean {
     return option.id === value.id;
   }
+  
 }
 
 interface size {

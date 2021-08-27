@@ -70,7 +70,8 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
   }
   public getAllProductOption(page: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/' +page, this.httpOptions);
+    console.log("hihi: "+page)
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/'+page, this.httpOptions);
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {
@@ -100,5 +101,8 @@ export class AddProductService {
 
   public countProductOrder(id: any) {
     return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
+  }
+  public deleteProductByid(id: any) {
+    return this.httpClient.delete<any>(`${this.REST_API_SERVER}/product/delete/` + id);
   }
 }

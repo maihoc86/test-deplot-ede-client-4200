@@ -115,20 +115,24 @@
                 </table>
                 <nav aria-label="Page navigation">
                   <ul class="pagination">
-                    <li>
-                      <a href="#" aria-label="Previous">
+                    <li *ngIf="!page.first">
+                      <a  (click)="ToPagePrev()" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <li *ngFor=" let p of arrays; let index = index">
-                      <a href="#">{{p+''}}</a>
+                     <li *ngFor=" let p of arrays; let index = index">
+                      <a (click)="routerToPage(p.id)">{{p.id}}</a>
+
                     </li>
-                    <li>
-                      <a href="#" aria-label="Next">
+                    <li *ngIf="!page.last">
+                      <a  (click)="ToPageNext()" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                       </a>
                     </li>
                   </ul>
+                  <!-- <li *ngFor=" let p of arrays; let index = index">
+                    <a href="#">{{p+''}}</a>
+                  </li> -->
                 </nav>
                 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
               </div>

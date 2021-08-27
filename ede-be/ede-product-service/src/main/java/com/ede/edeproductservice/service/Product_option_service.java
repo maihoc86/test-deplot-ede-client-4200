@@ -27,4 +27,5 @@ public interface Product_option_service {
 	List<Product_option> finByShop(Shop shop);
 
 	Page<Product_option> finAllByShop(Shop shop,PageRequest of);
+	Product_option deleteProductByID(String id);
 }

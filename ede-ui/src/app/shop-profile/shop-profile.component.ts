@@ -89,7 +89,8 @@ export class ShopProfileComponent implements OnInit {
           }
         }
       }
-    }, err => {
+    },err=>{
+
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',

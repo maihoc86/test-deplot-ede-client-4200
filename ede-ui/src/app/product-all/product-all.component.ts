@@ -12,10 +12,10 @@ import Swal from 'sweetalert2';
 })
 export class ProductAllComponent implements OnInit {
 
-  constructor(private productService: AddProductService, private router:Router) { }
+  constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadProductAll(0);
+    this.ToPage();
   }
   filterEnableFalse() {
     this.itemsEnableFalse = this.itemsEnableFalse.filter(function (obj: {
@@ -58,8 +58,9 @@ export class ProductAllComponent implements OnInit {
 
 
 
-  public arrays: Array<number> =[] ;
-  public page: any =[];
+  public pageOfItems: Array<any> = [];
+  public arrays: any = [];
+  public page: any = [];
   public listProductOption: any = {};
   public p: number = 1;
   public items: any = [];
@@ -69,7 +70,7 @@ export class ProductAllComponent implements OnInit {
   public loadProductAll(page: any) {
     this.productService.getAllProductOption(page).subscribe((data) => {
       console.log(data)
-    const item = data.content.map(function (obj: {
+      const item = data.content.map(function (obj: {
         id: any;
         id_product: any;
         display_name: any;
@@ -85,49 +86,76 @@ export class ProductAllComponent implements OnInit {
       console.log(item)
       this.items = item;
       this.page = data;
-      for(let i = 0; i< this.page.totalPages; i++){
-          this.arrays.push(i);
-          console.log("page nè Thanh: "+this.arrays);
-      }
-
+      this.arrays = [];
+      // for (let i = 0; i < this.page.totalPages; i++) {
+      //   this.arrays.push(i);
+      //   console.log("page nè Thanh: " + this.arrays);
+      // }
+      this.arrays = Array(this.page.totalPages).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}`}));
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
 
     },
-    (err) => {
-      console.log(err.error)
-      if (err.status == 404) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: "Chưa đăng nhập",
-        });
-        this.router.navigate(['/login'])
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
-      }
-    });
+      (err) => {
+        console.log(err.error)
+        if (err.status == 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: "Chưa đăng nhập",
+          });
+          this.router.navigate(['/login'])
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: err.error.message,
+          });
+        }
+      });
+  }
+
+  public ToPage() {
+    var page = '';
+    this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
+    this.loadProductAll(page);
+  }
+
+  public ToPageNext() {
+    var page: number = 0;
+    this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
+    page++;
+    this.router.navigate(["/shop/product/all/" + page]);
+    this.loadProductAll(page);
+  }
+
+  public ToPagePrev() {
+    var page: number = 0;
+    this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
+    page--;
+    this.router.navigate(["/shop/product/all/" + page]);
+    this.loadProductAll(page);
+  }
+
+  public routerToPage(number: any) {
+    this.router.navigate(["/shop/product/all/" + number]);
+    this.ToPage();
   }
 
 
 
 
-
-  public editProduct(id:string){
+  public editProduct(id: string) {
     //routerLink="[`/shop/product/manager`,e.product.id,'id']"
     this.router.navigate(['shop/product/manager', id]);
   }
 
   public countOrder: any = "";
-  public countProductOder(id:string){
-    this.productService.countProductOrder(id).subscribe((data) =>{
-    this.countOrder = data;
-      console.log("helloooooooooooooooooooooooooo: "+data);
+  public countProductOder(id: string) {
+    this.productService.countProductOrder(id).subscribe((data) => {
+      this.countOrder = data;
+      console.log("helloooooooooooooooooooooooooo: " + data);
     })
 
   }

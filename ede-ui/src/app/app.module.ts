@@ -60,7 +60,8 @@ import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
     MatAutocompleteModule,
     MatIconModule,
     MatDatepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent],

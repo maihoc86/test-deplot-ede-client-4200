@@ -69,4 +69,9 @@ public class Product_Option_Impl implements Product_option_service {
 		// TODO Auto-generated method stub
 		return dao.finAllByShop( shop,of);
 	}
+	public Product_option deleteProductByID(String id) {
+		Product_option product = dao.findByIdbyProduct(id);
+		product.setIs_delete(true);
+		return dao.save(product);
+	}
 }
