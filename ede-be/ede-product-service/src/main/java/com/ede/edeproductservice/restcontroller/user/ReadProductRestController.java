@@ -136,9 +136,15 @@ public class ReadProductRestController {
 	 * @param keysearch từ khóa tìm kiếm
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
-	@GetMapping("/view/get-products/{keysearch}")
-	public ResponseEntity<Page<Product>> getProducts(@PathVariable("keysearch") String keysearch) {
-		Page<Product> result = this.service.searchByKeysearch(keysearch, PageRequest.of(0, 1));
+	@GetMapping("/view/get-products")
+	public ResponseEntity<Page<Product>> getProducts(
+			@RequestParam(value = "search", required = false) Optional<String> keysearch,
+			@RequestParam(value = "page", required = false) Optional<Integer> page
+	) {
+		Page<Product> result;
+		int npage = page.orElse(1) - 1; //cover page to index page
+		if (npage < 0) npage = 0;
+		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
 	}
 

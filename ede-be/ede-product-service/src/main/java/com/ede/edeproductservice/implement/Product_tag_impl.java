@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_tag_Dao;
-import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.service.Product_Tag_service;
 
