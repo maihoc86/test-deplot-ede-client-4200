@@ -50,7 +50,7 @@ export class ProductShopComponent implements OnInit {
   public listCountry: any = [];
   public listCities: any = [];
   public product = new FormGroup({
-    id: new FormControl('',),
+    id: new FormControl(''),
     origin: new FormControl('', [
       Validators.required,
     ]),
@@ -194,6 +194,7 @@ export class ProductShopComponent implements OnInit {
     return true;
   }
   showParent_Child() {
+    this.isHiddenChild = true;
     this.isHiddenChildParent = false;
     this.getParentChildCategory(this.product.controls['parent_category'].value);
   }
@@ -243,8 +244,10 @@ export class ProductShopComponent implements OnInit {
   }
   public updateProduct() {
     this.product.controls['deleted'].setValue('false');
+    console.log(this.product.controls['id'].value);
     this.Addservice.updateProduct(this.createDataProduct()).subscribe(
       (data) => {
+        console.log(data);
         this.product_options.controls['id_product'].setValue(data.id);
         this.product_discount.controls['productdiscount'].setValue(data);
         this.Addservice.updateProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
