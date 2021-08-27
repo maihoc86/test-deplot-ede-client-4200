@@ -23,7 +23,8 @@ const routes: Routes = [
   { path: 'shop/order/all', component:OrderAllComponent},
   { path: 'shop/interface', component: ShopInterfaceComponent},
   { path: 'shop/showall/interface', component: ShowAllProductsShopInterfaceComponent},
-  { path: 'shop/profile', component: ShopProfileComponent}
+  { path: 'shop/profile', component: ShopProfileComponent},
+  { path: 'shop/product/manager/:id', component:ProductShopComponent, pathMatch: 'full'}
 ];
 
 @NgModule({

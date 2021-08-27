@@ -2,6 +2,7 @@ package com.ede.edeproductservice.service;
 import java.util.List;
 
 import com.ede.edeproductservice.entity.Product_option;
+import com.ede.edeproductservice.entity.Shop;
 
 public interface Product_option_service {
 
@@ -15,4 +16,10 @@ public interface Product_option_service {
 
 	List<Product_option> filterProductShopByCustomerAND(String location, String category, String brand);
 	List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand);
+
+	Product_option findById(String id);
+
+	Product_option findByIdbyProduct(String id);
+
+	List<Product_option> finByShop(Shop shop);
 }

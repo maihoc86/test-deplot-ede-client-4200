@@ -101,18 +101,20 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let e of items">
+                    <tr *ngFor="let e of items | paginate: { itemsPerPage: 3, currentPage: p }">
                       <td>{{e.product.name}}</td>
                       <td>{{e.product.brand.name}}</td>
                       <td>{{e.display_name}}</td>
                       <td>{{e.price}}</td>
                       <td>{{e.quantity}}</td>
                       <td>chưa có</td>
-                      <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                      <td><a (click)="editProduct(e.product.id)">Sửa</a></td>
                     </tr>
                   </tbody>
                 </table>
+           <pagination-controls (pageChange)="p = $event"></pagination-controls>
               </div>
+
             </div>
             <!--Middle Part End -->
 
@@ -194,7 +196,7 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" >
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
@@ -207,6 +209,7 @@
                   </tr>
                 </thead>
                 <tbody>
+
                   <tr *ngFor="let e of itemsEnableTrue">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
@@ -296,7 +299,7 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" >
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
@@ -398,7 +401,7 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" >
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
@@ -417,7 +420,7 @@
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
-                    <td>chưa có</td>
+                    <td>{{countOrder}}</td>
                     <td><a routerLink="/shop/product/manager">Sửa</a></td>
                   </tr>
                 </tbody>

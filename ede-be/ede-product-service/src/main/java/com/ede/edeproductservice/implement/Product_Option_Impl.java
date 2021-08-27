@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_option_Dao;
 import com.ede.edeproductservice.entity.Product_option;
+import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.service.Product_option_service;
 
 @Service
@@ -42,5 +43,22 @@ public class Product_Option_Impl implements Product_option_service {
 	@Override
 	public List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand) {
 		return dao.filterProductShopByCustomerOR(location, category,  brand);
+	}
+
+	@Override
+	public Product_option findById(String id) {
+		return dao.findById(id).get();
+	}
+
+	@Override
+	public Product_option findByIdbyProduct(String id) {
+		
+		return dao.findByIdbyProduct(id);
+	}
+
+	@Override
+	public List<Product_option> finByShop(Shop shop) {
+		// TODO Auto-generated method stub
+		return dao.finByShop(shop);
 	}
 }

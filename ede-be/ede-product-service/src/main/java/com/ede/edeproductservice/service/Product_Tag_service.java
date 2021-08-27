@@ -12,5 +12,7 @@ public interface Product_Tag_service {
 	List<Product_tag> findAll();
 
 	Optional<Product_tag> findById(String string);
+	
+	List<Product_tag> findTagByidProduct(String id);
 
 }
