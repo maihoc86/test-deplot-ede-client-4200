@@ -14,7 +14,7 @@ import com.ede.edeproductservice.entity.extend.ProductSearch;
 
 public interface ProductDao extends JpaRepository<Product, String> {
 	
-	@Query("SELECT p FROM ProductSearch p ORDER BY dbo.fn_matcher_string(p.keysearch, :keysearch) DESC" )
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true AND p.deleted = false ORDER BY dbo.fn_matcher_string(p.keysearch, :keysearch) DESC" )
 	Page<ProductSearch> searchBykeysearch(@Param("keysearch") String keysearch, Pageable page);
 	
 	List<Product> findAllByDeleted(boolean isdelete);

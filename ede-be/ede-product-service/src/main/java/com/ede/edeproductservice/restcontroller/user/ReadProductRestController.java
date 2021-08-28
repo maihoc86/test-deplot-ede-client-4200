@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -129,6 +130,7 @@ public class ReadProductRestController {
 	public List<Product_tag>etTag(@PathVariable("id")String id) {
 		return product_Tag_service.findTagByidProduct(id);
 	}
+	
 	/**
 	 * Tìm sản phẩm
 	 * 
@@ -136,8 +138,9 @@ public class ReadProductRestController {
 	 * @param keysearch từ khóa tìm kiếm
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
+	@CrossOrigin(allowedHeaders = "*")
 	@GetMapping("/view/get-products")
-	public ResponseEntity<Page<ProductSearch>> getProducts(
+	public ResponseEntity<?> getProducts(
 			@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page
 	) {
