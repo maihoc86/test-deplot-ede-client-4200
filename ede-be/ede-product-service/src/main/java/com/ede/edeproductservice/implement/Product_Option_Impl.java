@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_option_Dao;
+import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.service.Product_option_service;
@@ -60,7 +62,6 @@ public class Product_Option_Impl implements Product_option_service {
 
 	@Override
 	public List<Product_option> finByShop(Shop shop) {
-		// TODO Auto-generated method stub
 		return dao.finByShop(shop);
 	}
 
@@ -70,10 +71,25 @@ public class Product_Option_Impl implements Product_option_service {
 		return dao.finAllByShop( shop,of);
 	}
 	public Product_option deleteProductByID(String id) {
-		Product_option product = dao.findByIdbyProduct(id);
+		Product_option product = dao.findById(id).get();
 		product.setIs_delete(true);
 		return dao.save(product);
 	}
 
+	@Override
+	public Product findProductById(String id) {
+		
+		return dao.findProductById(id);
+	}
 
+	@Override
+	public Product_child_category findChildCategoryById(String id) {
+		
+		return dao.findChildCategoryById(id);
+	}
+
+	@Override
+	public int countItemByProductID(String id) {
+		return dao.countItemByProductID(id);
+	}
 }

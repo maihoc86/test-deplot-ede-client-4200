@@ -36,4 +36,9 @@ public class Product_tag_impl implements Product_Tag_service {
 		return dao.findTagByidProduct(id);
 	}
 
+	@Override
+	public void deleteAllTagByIdProduct(String id) {
+		dao.deleteAllTagByIdProduct(id);
+	}
+
 }

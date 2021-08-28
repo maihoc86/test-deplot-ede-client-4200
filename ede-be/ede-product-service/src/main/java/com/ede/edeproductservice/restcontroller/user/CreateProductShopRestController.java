@@ -63,11 +63,13 @@ public class CreateProductShopRestController {
 	@Autowired
 	ShopService shopService;
 
+	public String generateUUID() {
+		return UUID.randomUUID().toString();
+	}
+
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
-		System.out.println(product.getBrand().getName());
-		System.err.println(req.getHeader("Content-Type"));
 		User us = new User();
 		try {
 			us = auth_service.getUserLogin(req.getHeader("Authorization"));
@@ -75,24 +77,28 @@ public class CreateProductShopRestController {
 			return ResponseEntity.notFound().build();
 		}
 
-		UUID uuid = UUID.randomUUID();
-		product.setId(uuid.toString());
+		product.setId(generateUUID().toString());
 		product.setEnable(false);
 		/************************/
 
 		Shop sh = shopService.findByUser(us);
-		System.err.println("shop : " + sh);
 		product.setShop(sh);
 
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/create/product-shop/options/{id}")
+	@PostMapping("/create/product-shop/options/")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
-		UUID uuid = UUID.randomUUID();
-		product_option.setId(uuid.toString());
-		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
+
+		if (product_option_service.countItemByProductID(product_option.getProduct().getId()) == 10) {
+			System.out.println(product_option_service.countItemByProductID(product_option.getProduct().getId()));
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+					"Bạn đã có 10 thuộc tính sản phẩm, vui lòng xóa bớt !", "", null);
+		} else {
+			product_option.setId(generateUUID().toString());
+			return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -100,29 +106,27 @@ public class CreateProductShopRestController {
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
 		String[] words = product_option.getImage().split(",");
 		for (int i = 0; i < words.length; i++) {
-			UUID uuid = UUID.randomUUID();
-			Optional<Product_option_image> findImage = product_option_image_service.findById(uuid.toString());
+			Optional<Product_option_image> findImage = product_option_image_service.findById(generateUUID().toString());
 			if (findImage.isPresent() && findImage != null) {
-				UUID uuid2 = UUID.randomUUID();
-				product_option.setId(uuid2.toString());
+				product_option.setId(generateUUID().toString());
 				String[] fileCat = words[i].split("\\.");
-				product_option.setImage(uuid.toString() + "." + fileCat[1]);
+				product_option.setImage(generateUUID().toString() + "." + fileCat[1]);
 				product_option_image_service.save(product_option);
 			} else {
-				product_option.setId(uuid.toString());
+				product_option.setId(generateUUID().toString());
 				String[] fileCat = words[i].split("\\.");
-				product_option.setImage(uuid.toString() + "." + fileCat[1]);
+				product_option.setImage(generateUUID().toString() + "." + fileCat[1]);
 				product_option_image_service.save(product_option);
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
 	}
+
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/discount")
 	public ResponseEntity addProductDiscount(@RequestBody Product_discount product_discount) {
 		try {
-			UUID uuid = UUID.randomUUID();
-			product_discount.setId(uuid.toString());
+			product_discount.setId(generateUUID().toString());
 			product_discount.setStatus(true);
 			return ResponseEntity.status(HttpStatus.OK).body(product_discount_service.save(product_discount));
 		} catch (Exception e) {
@@ -135,17 +139,16 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/tag")
 	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
+		System.err.println(product_tag);
 		String[] words = product_tag.getTag().split(",");
 		for (int i = 0; i < words.length; i++) {
-			UUID uuid = UUID.randomUUID();
-			Optional<Product_tag> findTag = product_Tag_service.findById(uuid.toString());
+			Optional<Product_tag> findTag = product_Tag_service.findById(generateUUID().toString());
 			if (findTag.isPresent() && findTag != null) {
-				UUID uuid2 = UUID.randomUUID();
-				product_tag.setId(uuid2.toString());
+				product_tag.setId(generateUUID().toString());
 				product_tag.setTag(words[i]);
 				product_Tag_service.save(product_tag);
 			} else {
-				product_tag.setId(uuid.toString());
+				product_tag.setId(generateUUID().toString());
 				product_tag.setTag(words[i]);
 				product_Tag_service.save(product_tag);
 			}

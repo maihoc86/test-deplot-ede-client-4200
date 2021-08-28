@@ -28,7 +28,7 @@ export class AddProductService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/discount', data, this.httpOptions);
   }
   public addProductOption(data: ProductOptions) {
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/' + data.id_product, data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/', data, this.httpOptions);
   }
   public addProductOptionImage(data: ProductOptionsImage) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/images', data, this.httpOptions);
@@ -55,19 +55,19 @@ export class AddProductService {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/enable/product-shop/' + id, this.httpOptions);
   }
   public getBrand() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listBrand');
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listBrand', this.httpOptions);
   }
   public getParentCategories() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_category');
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_category', this.httpOptions);
   }
   public getParentChildCategories() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_child_category');
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_child_category', this.httpOptions);
   }
   public getChildCategories() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category');
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category', this.httpOptions);
   }
   public getAllProduct() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct');
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct',this.httpOptions);
   }
   public getAllProductOption(page: any) {
     console.log("hihi: "+page)
@@ -75,37 +75,37 @@ export class AddProductService {
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_child_category/' + idParent);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_parent_child_category/' + idParent, this.httpOptions);
   }
   public getChildCategoriesByChildParent(idChildParent: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category/' + idChildParent);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category/' + idChildParent, this.httpOptions);
   }
   public getProductByid(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductbyid/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductbyid/' + id, this.httpOptions);
   }
   public getProductOptionByid(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoption/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoption/' + id, this.httpOptions);
   }
   public getProductOptionImageByIdOption(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoptionimage/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getproductoptionimage/' + id, this.httpOptions);
   }
   public getCategoryByidProduct(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getcatrgory/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getcatrgory/' + id, this.httpOptions);
   }
   public getParent_Child_CategoryByid(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getparentchildcatrgory/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getparentchildcatrgory/' + id, this.httpOptions);
   }
   public getParent_CategoryByid(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getparentcatrgory/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getparentcatrgory/' + id, this.httpOptions);
   }
   public getTagbyProductid(id: string) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/gettag/' + id);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/gettag/' + id, this.httpOptions);
   }
 
   public countProductOrder(id: any) {
-    return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id);
+    return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id, this.httpOptions);
   }
   public deleteProductByid(id: any) {
-    return this.httpClient.delete<any>(`${this.REST_API_SERVER}/product/delete/` + id);
+    return this.httpClient.delete<any>(`${this.REST_API_SERVER}/product/delete/` + id, this.httpOptions);
   }
 }

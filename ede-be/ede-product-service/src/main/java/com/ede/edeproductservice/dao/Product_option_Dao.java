@@ -7,6 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
 
@@ -35,4 +37,11 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	Page<Product_option> finAllByShop(Shop shop ,PageRequest of );
 
 
+	@Query("select o.product from Product_option o where o.id = ?1")
+	Product findProductById(String id);
+	@Query("select o.product.child_category from Product_option o where o.id = ?1")
+	Product_child_category findChildCategoryById(String id);
+
+	@Query("SELECT count(o) FROM Product_option o where o.product.id = ?1 ")
+	int countItemByProductID(String id);
 }
