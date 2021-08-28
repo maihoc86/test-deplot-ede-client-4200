@@ -6,3 +6,30 @@ eureka:
          defaultZone: http://localhost:8761/eureka
    instance:
       hostname: localhost
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost;database=EDE
+    username: sa
+    password: 123
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: maihoc12344@gmail.com
+    password: maihoc63asd
+    properties:
+      mail:
+        smpt:
+          auth: true
+        smtp:
+          starttls:
+            enable: true
+  cloud:
+      config:
+         uri:
+            - http://localhost:8888
