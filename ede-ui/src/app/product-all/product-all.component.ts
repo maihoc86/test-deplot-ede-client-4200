@@ -16,6 +16,7 @@ export class ProductAllComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductAll(1);
+    console.log(this.filterEnableTrue());
   }
   filterEnableFalse() {
     this.itemsEnableFalse = this.itemsEnableFalse.filter(function (obj: {
@@ -41,7 +42,6 @@ export class ProductAllComponent implements OnInit {
     }) {
       return obj.product.enable == true;
     });
-    console.log(this.items)
   }
   filterQuantity0() {
     this.itemsQuantity0 = this.itemsQuantity0.filter(function (obj: {
@@ -56,19 +56,16 @@ export class ProductAllComponent implements OnInit {
     });
   }
 
-
-
-
-  public count: any ;
+  public count: any;
   public page: any = [];
-  public listProductOption: any = {};
+  public listProductOption: any = { };
   public p: number = 1;
   public items: any = [];
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
   public loadProductAll(page: any) {
-    page= page-1;
+    page = page - 1;
     this.productService.getAllProductOption(page).subscribe((data) => {
       console.log(data)
       const item = data.content.map(function (obj: {
@@ -81,22 +78,15 @@ export class ProductAllComponent implements OnInit {
       }
       ) {
         return obj;
-      }
-      );
-
-      console.log(item)
+      });
       this.items = item;
       this.page = data;
-     // this.arrays = [];
       this.count = this.page.totalElements;
-      //this.arrays = Array(this.page.totalPages).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}`}));
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
-
     },
       (err) => {
-        console.log(err.error)
         if (err.status == 404) {
           Swal.fire({
             icon: 'error',
@@ -115,14 +105,14 @@ export class ProductAllComponent implements OnInit {
   }
 
 
-  public handlePageChange(event:number){
+  public handlePageChange(event: number) {
     this.p = event;
     this.router.navigate(["/shop/product/all/" + this.p]);
     this.loadProductAll(this.p);
   }
 
-  public countProductPresent(){
-   return this.p * 5 ;
+  public countProductPresent() {
+    return this.p * 5;
   }
 
   // public ToPage() {

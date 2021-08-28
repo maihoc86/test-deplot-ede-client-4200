@@ -37,4 +37,9 @@ public interface Product_option_service {
 	Product_child_category findChildCategoryById(String id);
 
 	int countItemByProductID(String id);
+
+	Page<Product_option> findProductEnableShop(Shop shop, PageRequest of, Boolean value);
+
+
+	Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of);
 }

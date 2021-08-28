@@ -23,10 +23,9 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	@Query("SELECT o FROM Product_option o where o.product.location =:location and o.product.child_category.name =:category and o.product.brand.name =:brand")
 	List<Product_option> filterProductShopByCustomerAND(String location, String category, String brand);
 
-	
 	@Query("SELECT o FROM Product_option o where o.product.location =:location or o.product.child_category.name =:category or o.product.brand.name =:brand")
 	List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand);
-	
+
 	@Query("select o from Product_option o where o.product.id = ?1")
 	Product_option findByIdbyProduct(String id);
 
@@ -34,14 +33,23 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	List<Product_option> finByShop(Shop shop);
 
 	@Query("select o from Product_option o where o.product.shop = ?1")
-	Page<Product_option> finAllByShop(Shop shop ,PageRequest of );
+	Page<Product_option> finAllByShop(Shop shop, PageRequest of);
 
+	@Query("select o from Product_option o where o.product.shop = ?1 and o.product.enable =: value")
+	Page<Product_option> findProductEnableShop(Shop shop, PageRequest of, Boolean value);
 
+	@Query("select o from Product_option o where o.product.shop = ?1 and o.quantity = 0")
+	Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of);
+	
 	@Query("select o.product from Product_option o where o.id = ?1")
 	Product findProductById(String id);
+
 	@Query("select o.product.child_category from Product_option o where o.id = ?1")
 	Product_child_category findChildCategoryById(String id);
 
 	@Query("SELECT count(o) FROM Product_option o where o.product.id = ?1 ")
 	int countItemByProductID(String id);
+
+
+
 }
