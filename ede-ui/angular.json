@@ -49,9 +49,7 @@
               "src/assets/css/themecss/so-listing-tabs.css",
               "src/assets/css/themecss/so-newletter-popup.css",
               "src/assets/css/theme.css",
-              "src/assets/css/responsive.css",
-              "src/assets/css/header/header1.css",
-              "src/assets/css/footer/footer1.css"
+              "src/assets/css/responsive.css"
             ],
             "scripts": [
               "src/assets/js/jquery-2.2.4.min.js",
@@ -107,6 +105,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "port": 4200
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
