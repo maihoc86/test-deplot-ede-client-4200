@@ -75,7 +75,8 @@
                 </div><br>
                 <div class="buttons clearfix">
                   <div class="pull-left" style="margin-left: 20px;">
-                    <h3><span>{{p==page.totalPages?page.totalElements:p*5}}</span> / <span>{{page.totalElements}}</span> Sản phẩm
+                    <h3><span>{{p==page.totalPages?page.totalElements:p*5}}</span> / <span>{{page.totalElements}}</span>
+                      Sản phẩm
                     </h3>
                   </div>
                   <div class="pull-right">
@@ -133,12 +134,11 @@
                 </nav> -->
 
 
-                 <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+                <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
               </div>
 
             </div>
             <!--Middle Part End -->
-
           </div>
         </div>
       </div>
@@ -230,18 +230,19 @@
                   </tr>
                 </thead>
                 <tbody>
-
-                  <tr *ngFor="let e of itemsEnableTrue">
+                  <tr
+                    *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: 5, currentPage: p, totalItems: count}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
                     <td>chưa có</td>
-                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -333,17 +334,19 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of itemsQuantity0">
+                  <tr
+                    *ngFor="let e of itemsQuantity0  | paginate: {itemsPerPage: 5, currentPage: p, totalItems: count}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
                     <td>chưa có</td>
-                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -435,21 +438,23 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of itemsEnableFalse">
+                  <tr
+                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: 5, currentPage: p, totalItems: count}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
-                    <td>{{countOrder}}</td>
-                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                    <td>chưa có</td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
-          
+
         </div>
       </div>
     </div>

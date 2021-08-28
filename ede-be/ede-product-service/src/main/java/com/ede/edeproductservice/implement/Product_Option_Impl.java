@@ -67,7 +67,6 @@ public class Product_Option_Impl implements Product_option_service {
 
 	@Override
 	public Page<Product_option> finAllByShop(Shop shop ,PageRequest of) {
-		// TODO Auto-generated method stub
 		return dao.finAllByShop( shop,of);
 	}
 	public Product_option deleteProductByID(String id) {
@@ -91,5 +90,14 @@ public class Product_Option_Impl implements Product_option_service {
 	@Override
 	public int countItemByProductID(String id) {
 		return dao.countItemByProductID(id);
+	}
+
+	@Override
+	public Page<Product_option> findProductEnableShop(Shop shop, PageRequest of, Boolean value) {
+		return dao.findProductEnableShop(shop,of,value);
+	}
+	@Override
+	public Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of) {
+		return dao.findProductQuantity0Shop(shop,of);
 	}
 }

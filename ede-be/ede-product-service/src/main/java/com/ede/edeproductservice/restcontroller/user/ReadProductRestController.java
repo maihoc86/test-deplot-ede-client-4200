@@ -84,7 +84,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getproductbyid/{id}")
 	public ResponseEntity<?> getProductByID(@PathVariable("id") String id) {
-		if( product_option_service.findById(id).getIs_delete())
+		if (product_option_service.findById(id).getIs_delete())
 			return ResponseEntity.badRequest().build();
 		return ResponseEntity.ok(product_option_service.findProductById(id));
 	}
@@ -98,9 +98,7 @@ public class ReadProductRestController {
 	public List<Product> getAllProduct() {
 		return service.findAll();
 	}
-	
-	
-	
+
 	@GetMapping("/view/getAllProductOption/{page}")
 	public ResponseEntity<?> getAllProductOption(@PathVariable("page") Optional<Integer> p) {
 		Shop shop = new Shop();
@@ -109,10 +107,40 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.println("iiiiiiiiiiin : "+p);
-		Page<Product_option> page = product_option_service.finAllByShop(shop,PageRequest.of(p.orElse(0), 5));
-		//List<Product_option>listProduct = product_option_service.finByShop(shop);
-		System.err.println("listProduct size : "+page.getSize());
+		Page<Product_option> page = product_option_service.finAllByShop(shop, PageRequest.of(p.orElse(0), 5));
+		// List<Product_option>listProduct = product_option_service.finByShop(shop);
+		return ResponseEntity.ok(page);
+	}
+
+	@GetMapping("/view/getAllProductOption/enable/{value}/{page}")
+	public ResponseEntity<?> getAllProductOptionEnableTrue(@PathVariable("page") Optional<Integer> p,
+			@PathVariable("value") Boolean value) {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+		Page<Product_option> page;
+		if (value) {
+			page = product_option_service.findProductEnableShop(shop, PageRequest.of(p.orElse(0), 5), true);
+		} else {
+			page = product_option_service.findProductEnableShop(shop, PageRequest.of(p.orElse(0), 5), false);
+		}
+		// List<Product_option>listProduct = product_option_service.finByShop(shop);
+		return ResponseEntity.ok(page);
+	}
+
+	@GetMapping("/view/getAllProductOption/quantity0/{page}")
+	public ResponseEntity<?> getAllProductOptionQuantity0(@PathVariable("page") Optional<Integer> p) {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+		Page<Product_option> page = product_option_service.findProductQuantity0Shop(shop,
+				PageRequest.of(p.orElse(0), 5));
 		return ResponseEntity.ok(page);
 	}
 
@@ -145,7 +173,7 @@ public class ReadProductRestController {
 	public List<Product_tag> etTag(@PathVariable("id") String id) {
 		return product_Tag_service.findTagByidProduct(id);
 	}
-	
+
 	/**
 	 * Tìm sản phẩm
 	 * 
@@ -155,8 +183,7 @@ public class ReadProductRestController {
 	 */
 	@CrossOrigin(allowedHeaders = "*")
 	@GetMapping("/view/get-products")
-	public ResponseEntity<?> getProducts(
-			@RequestParam(value = "search", required = false) Optional<String> keysearch,
+	public ResponseEntity<?> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
