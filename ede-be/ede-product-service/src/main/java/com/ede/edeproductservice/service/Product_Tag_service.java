@@ -15,4 +15,6 @@ public interface Product_Tag_service {
 	
 	List<Product_tag> findTagByidProduct(String id);
 
+	void deleteAllTagByIdProduct(String id);
+
 }

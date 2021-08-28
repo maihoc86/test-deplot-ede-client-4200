@@ -30,4 +30,6 @@ public interface Product_option_service {
 	Product findProductById(String id);
 
 	Product_child_category findChildCategoryById(String id);
+
+	int countItemByProductID(String id);
 }
