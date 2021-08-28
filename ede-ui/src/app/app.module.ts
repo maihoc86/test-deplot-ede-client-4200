@@ -27,6 +27,7 @@ import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +61,8 @@ import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
     MatAutocompleteModule,
     MatIconModule,
     MatDatepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
