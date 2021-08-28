@@ -82,12 +82,12 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getproductbyid/{id}")
 	public Product getProductByID(@PathVariable("id") String id) {
-		return service.findById(id);
+		return product_option_service.findProductById(id);
 	}
 
 	@GetMapping("/view/getproductoption/{id}")
 	public Product_option getProductOptionByIDProduct(@PathVariable("id") String id) {
-		return product_option_service.findByIdbyProduct(id);
+		return product_option_service.findById(id);
 	}
 	
 	@GetMapping("/view/getAllProduct")
