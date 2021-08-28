@@ -250,7 +250,6 @@ export class ProductShopComponent implements OnInit {
     this.product.controls['deleted'].setValue('false');
     this.Addservice.updateProduct(this.createDataProduct()).subscribe(
       (data) => {
-        console.log(data.id);
         if (this.product_discount.controls['id'].value != '') {
           this.product_discount.controls['productdiscount'].setValue(data);
           this.Addservice.updateProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
@@ -299,6 +298,32 @@ export class ProductShopComponent implements OnInit {
           icon: 'error'
         })
       })
+  }
+  public addNewProductOption() {
+    this.product_options.controls['deleted'].setValue('false');
+    console.log(this.product.value);
+    // this.Addservice.addProductOption(this.createNewOption()).subscribe(
+    //   (data) => {
+    //     this.product_options_image.controls['productoption'].setValue(data);
+    //     if (this.imageArray.length > 0) {
+    //       console.log(this.product_options_image.value);
+    //       this.Addservice.addProductOptionImage(this.createNewOptionImage()).subscribe(
+    //         (data) => {
+    //         }), ((error: any) => {
+    //           Swal.fire({
+    //             title: 'Thông báo!',
+    //             text: 'Cập nhật hình ảnh thất bại !!!',
+    //             icon: 'error'
+    //           })
+    //         })
+    //     }
+    //   }), ((error: any) => {
+    //     Swal.fire({
+    //       title: 'Thông báo!',
+    //       text: 'Thêm thuộc tính sản phẩm thất bại !!!',
+    //       icon: 'error'
+    //     })
+    //   })
   }
   public addProduct() {
     this.product.controls['deleted'].setValue('false');
