@@ -23,12 +23,12 @@ spring:
     username: maihoc12344@gmail.com
     password: maihoc63asd
     properties:
-      mail:
-        smpt:
-          auth: true
-        smtp:
-          starttls:
-            enable: true
+          mail:
+           smpt:
+             auth: true
+           smtp:
+            starttls:
+              enable: true
   cloud:
       config:
          uri:
