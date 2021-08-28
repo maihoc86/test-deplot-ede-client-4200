@@ -24,10 +24,9 @@ spring:
     password: maihoc63asd
     properties:
           mail:
-           smpt:
-             auth: true
            smtp:
-            starttls:
+             auth: true
+             starttls:
               enable: true
   cloud:
       config:
