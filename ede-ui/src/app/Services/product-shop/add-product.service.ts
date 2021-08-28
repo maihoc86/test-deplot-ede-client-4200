@@ -28,7 +28,7 @@ export class AddProductService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/discount', data, this.httpOptions);
   }
   public addProductOption(data: ProductOptions) {
-    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/' + data.id_product, data, this.httpOptions);
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/', data, this.httpOptions);
   }
   public addProductOptionImage(data: ProductOptionsImage) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/images', data, this.httpOptions);

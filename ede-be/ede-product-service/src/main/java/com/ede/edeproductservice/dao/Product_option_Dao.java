@@ -34,4 +34,7 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	Product findProductById(String id);
 	@Query("select o.product.child_category from Product_option o where o.id = ?1")
 	Product_child_category findChildCategoryById(String id);
+
+	@Query("SELECT count(o) FROM Product_option o where o.product.id = ?1 ")
+	int countItemByProductID(String id);
 }

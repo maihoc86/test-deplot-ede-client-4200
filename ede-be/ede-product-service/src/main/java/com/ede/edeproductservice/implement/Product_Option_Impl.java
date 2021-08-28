@@ -60,7 +60,6 @@ public class Product_Option_Impl implements Product_option_service {
 
 	@Override
 	public List<Product_option> finByShop(Shop shop) {
-		// TODO Auto-generated method stub
 		return dao.finByShop(shop);
 	}
 
@@ -81,5 +80,10 @@ public class Product_Option_Impl implements Product_option_service {
 	public Product_child_category findChildCategoryById(String id) {
 		
 		return dao.findChildCategoryById(id);
+	}
+
+	@Override
+	public int countItemByProductID(String id) {
+		return dao.countItemByProductID(id);
 	}
 }

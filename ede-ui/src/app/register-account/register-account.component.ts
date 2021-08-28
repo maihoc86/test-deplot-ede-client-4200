@@ -132,7 +132,7 @@ export class RegisterAccountComponent implements OnInit {
         this.register.controls['address'].setValue(oldAddress);
         Swal.fire({
           icon: 'error',
-          title: 'Lỗi',
+          title: err.error.errors[0].defaultMessage,
           text: err.error.message,
         });
       }
