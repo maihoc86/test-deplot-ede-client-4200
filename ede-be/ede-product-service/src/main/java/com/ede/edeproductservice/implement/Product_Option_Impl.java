@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_option_Dao;
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.service.Product_option_service;
@@ -74,5 +75,11 @@ public class Product_Option_Impl implements Product_option_service {
 	public Product findProductById(String id) {
 		
 		return dao.findProductById(id);
+	}
+
+	@Override
+	public Product_child_category findChildCategoryById(String id) {
+		
+		return dao.findChildCategoryById(id);
 	}
 }
