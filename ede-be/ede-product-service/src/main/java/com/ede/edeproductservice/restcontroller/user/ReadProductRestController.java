@@ -105,8 +105,9 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 		return ResponseEntity.notFound().build();
 		}
+		System.err.println("iiiiiiiiiiin : "+p);
 		Page<Product_option> page = product_option_service.finAllByShop(shop,PageRequest.of(p.orElse(0), 5));
-//		List<Product_option>listProduct = product_option_service.finByShop(shop);
+		//List<Product_option>listProduct = product_option_service.finByShop(shop);
 		System.err.println("listProduct size : "+page.getSize());
 		return ResponseEntity.ok(page);
 		

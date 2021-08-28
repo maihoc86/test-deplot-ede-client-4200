@@ -33,4 +33,6 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 
 	@Query("select o from Product_option o where o.product.shop = ?1")
 	Page<Product_option> finAllByShop(Shop shop ,PageRequest of );
+
+
 }

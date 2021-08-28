@@ -15,7 +15,7 @@ export class ProductAllComponent implements OnInit {
   constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.ToPage();
+    this.loadProductAll(1);
   }
   filterEnableFalse() {
     this.itemsEnableFalse = this.itemsEnableFalse.filter(function (obj: {
@@ -58,8 +58,7 @@ export class ProductAllComponent implements OnInit {
 
 
 
-  public pageOfItems: Array<any> = [];
-  public arrays: any = [];
+  public count: any ;
   public page: any = [];
   public listProductOption: any = {};
   public p: number = 1;
@@ -68,6 +67,7 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
   public loadProductAll(page: any) {
+    page= page-1;
     this.productService.getAllProductOption(page).subscribe((data) => {
       console.log(data)
       const item = data.content.map(function (obj: {
@@ -86,12 +86,9 @@ export class ProductAllComponent implements OnInit {
       console.log(item)
       this.items = item;
       this.page = data;
-      this.arrays = [];
-      // for (let i = 0; i < this.page.totalPages; i++) {
-      //   this.arrays.push(i);
-      //   console.log("page nè Thanh: " + this.arrays);
-      // }
-      this.arrays = Array(this.page.totalPages).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}`}));
+     // this.arrays = [];
+      this.count = this.page.totalElements;
+      //this.arrays = Array(this.page.totalPages).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}`}));
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
@@ -116,32 +113,43 @@ export class ProductAllComponent implements OnInit {
       });
   }
 
-  public ToPage() {
-    var page = '';
-    this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
-    this.loadProductAll(page);
+
+  public handlePageChange(event:number){
+    this.p = event;
+    this.router.navigate(["/shop/product/all/" + this.p]);
+    this.loadProductAll(this.p);
   }
 
-  public ToPageNext() {
-    var page: number = 0;
-    this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
-    page++;
-    this.router.navigate(["/shop/product/all/" + page]);
-    this.loadProductAll(page);
+  public countProductPresent(){
+   return this.p * 5 ;
   }
 
-  public ToPagePrev() {
-    var page: number = 0;
-    this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
-    page--;
-    this.router.navigate(["/shop/product/all/" + page]);
-    this.loadProductAll(page);
-  }
+  // public ToPage() {
+  //   var page = '';
+  //   this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
+  //   this.loadProductAll(page);
+  // }
 
-  public routerToPage(number: any) {
-    this.router.navigate(["/shop/product/all/" + number]);
-    this.ToPage();
-  }
+  // public ToPageNext() {
+  //   var page: number = 0;
+  //   this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
+  //   page++;
+  //   this.router.navigate(["/shop/product/all/" + page]);
+  //   this.loadProductAll(page);
+  // }
+
+  // public ToPagePrev() {
+  //   var page: number = 0;
+  //   this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
+  //   page--;
+  //   this.router.navigate(["/shop/product/all/" + page]);
+  //   this.loadProductAll(page);
+  // }
+
+  // public routerToPage(number: any) {
+  //   this.router.navigate(["/shop/product/all/" + number]);
+  //   this.ToPage();
+  // }
 
 
 
