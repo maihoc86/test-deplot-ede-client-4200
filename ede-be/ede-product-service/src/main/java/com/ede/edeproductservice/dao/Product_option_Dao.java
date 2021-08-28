@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
 
@@ -28,4 +29,6 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 
 	@Query("select o from Product_option o where o.product.shop = ?1")
 	List<Product_option> finByShop(Shop shop);
+	@Query("select o.product from Product_option o where o.id = ?1")
+	Product findProductById(String id);
 }

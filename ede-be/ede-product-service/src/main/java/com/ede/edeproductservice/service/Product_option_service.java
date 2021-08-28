@@ -1,6 +1,7 @@
 package com.ede.edeproductservice.service;
 import java.util.List;
 
+import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
 
@@ -24,4 +25,6 @@ public interface Product_option_service {
 	List<Product_option> finByShop(Shop shop);
 
 	Product_option deleteProductByID(String id);
+
+	Product findProductById(String id);
 }

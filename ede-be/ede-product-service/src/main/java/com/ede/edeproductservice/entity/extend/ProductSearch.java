@@ -29,8 +29,7 @@ public class ProductSearch {
 	String idProduct;
 	
 	private String keysearch;
-	
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	@Column(table = "product")
 	String origin;
 	@Column(table = "product")

@@ -20,13 +20,15 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: maihoc12344@gmail.com
-    password: maihoc63asd
+    username: teamsdarkeyes2021@gmail.com
+    password: teamsdarkeyes123
     properties:
-      mail:
-        smpt:
-          auth: true
-        smtp:
-          starttls:
-            enable: true
-
+          mail:
+           smtp:
+             auth: true
+             starttls:
+              enable: true
+  cloud:
+      config:
+         uri:
+            - http://localhost:8888

@@ -1,7 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,11 +86,14 @@ public class CreateCustomerRestController {
 		return checkDataUser(user);
 	}
 
+	public String generateUUID() {
+		return UUID.randomUUID().toString();
+	}
+
 	// checkData user
 	@SuppressWarnings("rawtypes")
 	public ResponseEntity checkDataUser(@RequestBody User user) {
-		UUID uuid = UUID.randomUUID();
-		user.setId(uuid.toString());
+		user.setId(generateUUID());
 		String validate = validateUser(user);
 		if (validate != null && validate.equals("username")) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Tài khoản đã tồn tại", "username",
@@ -106,8 +107,7 @@ public class CreateCustomerRestController {
 			Optional<Roles> roles = roleDao.findById("US");
 			this.service.saveUser(user);
 			Shop shop = new Shop();
-			UUID sid = UUID.randomUUID();
-			shop.setId(sid.toString());
+			shop.setId(generateUUID());
 			shop.setAddress(user.getAddress());
 			shop.setCreate_date(new Date());
 			shop.setImage("bia.jpg");
@@ -148,13 +148,11 @@ public class CreateCustomerRestController {
 			otp += rand.nextInt(10);
 		}
 		// create and save token
-		User userOri = this.service.findByEmailLike(email);
-		System.out.println(userOri);
+		User userOri = this.service.findByEmailLike(email);;
 		if (null == userOri) {
 			return ResponseEntity.ok(false);
 		}
 		String token = this.jwtService.createToken(otp, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 minue
-		System.err.println(token);
 		userOri.setOtp(token);
 		if (null == this.service.updateUserById(userOri)) {
 			return ResponseEntity.ok(false);
@@ -175,26 +173,22 @@ public class CreateCustomerRestController {
 	public ResponseEntity checkActiveAccount(@RequestParam String email, @RequestParam String token) {
 		User active = service.findByEmail(email);
 		if (active == null) {
-			return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Hệ thống không có Email này", "email",
-					null);
+			return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Hệ thống không có Email này", "email", null);
 		} else {
 			if (active.getOtp() == null && active.getIs_active() == true) {
-				return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Tài khoản này đã được kích hoạt",
-						"email", null);
+				return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Tài khoản này đã được kích hoạt", "email", null);
 			} else if (!active.getOtp().equals(token)) {
-				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token không chính xác", "email",
-						null);
+				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token không chính xác", "email", null);
 			} else {
 				if (jwtService.checkToken(token)) {
 					active.setIs_active(true);
 					active.setOtp(null);
 					return ResponseEntity.status(HttpStatus.OK).body(this.service.saveUser(active));
 				} else {
-					active.setOtp(null);
 					active.setIs_active(false);
+					active.setOtp(null);
 					this.service.saveUser(active);
-					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token đã hết hạn", "email",
-							null);
+					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token đã hết hạn", "email", null);
 				}
 			}
 		}
@@ -273,17 +267,12 @@ public class CreateCustomerRestController {
 		return ResponseEntity.ok(b);
 	}
 
-
-	
-
-	
 	/**
 	 * Create search account admin
+	 * 
 	 * @author Thanh
 	 */
-	
 
-	
 	@GetMapping("/getuserlogin/{token}")
 	public User getUserLogin(@PathVariable("token") String toekn) {
 		try {

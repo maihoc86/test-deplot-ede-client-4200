@@ -352,21 +352,13 @@
                             </mat-chip-list>
                         </mat-form-field>
                     </div>
-                    <div class="form-group">
-                        <label for="input-description" class="col-sm-2 control-label">Mô
-                            tả</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
-                                rows="10"></textarea>
-                        </div>
-                    </div>
                 </fieldset>
                 <div class="buttons clearfix">
                     <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
                     </div>
                     <div class="pull-right">
                         <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
-                            type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
+                            type="submit" class="btn btn-success" (click)="addProduct()" *ngIf="!loadProdutedit()"  value="Thêm">
                         <input type="submit" class="btn btn-primary" (click)="updateProduct()" *ngIf="loadProdutedit()"  value="Sửa">
                         <input type="submit" class="btn btn-danger"  (click)="deleteProduct(loadProdutedit())" *ngIf="loadProdutedit()" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">

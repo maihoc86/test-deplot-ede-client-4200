@@ -26,10 +26,10 @@ import { ShopInterfaceComponent } from './shop-interface/shop-interface.componen
 import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NgxPaginationModule} from 'ngx-pagination';
 import { ProductSearchElementComponent } from './items/product-search-element/product-search-element.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
-
+import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +65,8 @@ import { ProductSearchComponent } from './product-search/product-search.componen
     MatAutocompleteModule,
     MatIconModule,
     MatDatepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
