@@ -54,7 +54,7 @@ export class ProductAllComponent implements OnInit {
       return obj.quantity == 0;
     });
   }
-
+  
   public listProductOption: any = {};
   public p: number = 1;
   public items: any = [];
