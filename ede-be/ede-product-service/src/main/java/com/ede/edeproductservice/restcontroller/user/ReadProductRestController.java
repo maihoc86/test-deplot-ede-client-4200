@@ -83,8 +83,10 @@ public class ReadProductRestController {
 	HttpServletRequest req;
 
 	@GetMapping("/view/getproductbyid/{id}")
-	public Product getProductByID(@PathVariable("id") String id) {
-		return product_option_service.findProductById(id);
+	public ResponseEntity<?> getProductByID(@PathVariable("id") String id) {
+		if( product_option_service.findById(id).getIs_delete())
+			return ResponseEntity.badRequest().build();
+		return ResponseEntity.ok(product_option_service.findProductById(id));
 	}
 
 	@GetMapping("/view/getproductoption/{id}")
@@ -122,7 +124,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getcatrgory/{id}")
 	public Product_child_category getProduct_child_category(@PathVariable("id") String id) {
-		return service.findCategorybyIDProduct(id);
+		return product_option_service.findChildCategoryById(id);
 	}
 
 	@GetMapping("/view/getparentchildcatrgory/{id}")
