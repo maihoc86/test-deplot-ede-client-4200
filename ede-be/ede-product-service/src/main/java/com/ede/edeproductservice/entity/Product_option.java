@@ -30,7 +30,7 @@ public class Product_option implements Serializable {
 	Double price;
 	String size;
 	Integer quantity;
-
+	Boolean is_delete;
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product product;
@@ -39,5 +39,10 @@ public class Product_option implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productoption")
 //	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option_image> product_option_images;
-
+	
+	
+	@Override
+	public String toString() {
+		return "";
+	}
 }

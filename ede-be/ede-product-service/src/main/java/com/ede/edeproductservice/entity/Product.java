@@ -1,9 +1,10 @@
 package com.ede.edeproductservice.entity;
 
+
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -18,14 +19,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("serial")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product")
-@AllArgsConstructor
-@NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product {
-	
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Product implements Serializable {
 	@Id
 	String id;
 	String origin;
@@ -33,6 +34,7 @@ public class Product {
 	String name;
 	Boolean enable;
 	Boolean deleted;
+	String location;
 
 	@ManyToOne
 	@JoinColumn(name = "id_shop")
@@ -45,17 +47,20 @@ public class Product {
 	Product_child_category child_category;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
-//	@Fetch(value = FetchMode.SUBSELECT)
+	@OneToMany(mappedBy = "product")
 	List<Product_option> product_options;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+	@OneToMany(mappedBy = "productdiscount")
+	List<Product_discount> product_discount;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "producttag")
 	List<Product_tag> product_tags;
 
 	@Override
 	public String toString() {
-		return String.format("%s | %s | %s | %s | %s | %s", this.id, this.origin, this.description, this.name,
-				this.enable, this.deleted);
+		return "";
 	}
+	
 }

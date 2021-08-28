@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.ProductDao;
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.ProductService;
 
 
@@ -30,8 +32,7 @@ public class ProductImpl implements ProductService {
 	 * @author Vinh
 	 */
 	@Override
-	public Page<Product> searchByKeysearch(String keysearch, Pageable pageRequest) {
-		keysearch = "Tên gì";
+	public Page<ProductSearch> searchByKeysearch(String keysearch, Pageable pageRequest) {
 		return this.dao.searchBykeysearch(keysearch, pageRequest);
 	}
 
@@ -50,4 +51,9 @@ public class ProductImpl implements ProductService {
 		return dao.findById(id).get();
 	}
 
+	@Override
+	public Product_child_category findCategorybyIDProduct(String id) {
+		
+		return dao.findCategorybyIDProduct(id);
+	}
 }

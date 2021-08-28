@@ -9,22 +9,23 @@
             <div class="modcontent">
               <div class="box-category">
                 <ul id="cat_accordion" class="list-group">
-                  <li class="hadchild"><a href="category.html" class="cutom-parent">Quản lý sản phẩm</a>   <span class="button-view  fa fa-plus-square-o"></span>
+                  <li class="hadchild"><a  class="cutom-parent">Quản lý Shop</a>   <span class="button-view  fa fa-plus-square-o"></span>
+                    <ul style="display: block;">
+                      <li><a routerLink="/shop/profile" [routerLinkActive]="'active-link'">Hồ sơ shop</a></li>
+                    </ul>
+                  </li>
+                  <li class="hadchild"><a  class="cutom-parent">Quản lý sản phẩm</a>   <span class="button-view  fa fa-plus-square-o"></span>
                     <ul style="display: block;">
                       <li><a routerLink="/shop/product/all" [routerLinkActive]="'active-link'" >Tất cả sản phẩm</a></li>
                       <li><a routerLink="/shop/product/manager/" [routerLinkActive]="'active-link'">Thêm sản phẩm</a></li>
-                      <li><a href="category.html">Kids' Watches</a></li>
-                      <li><a href="category.html">Accessories</a></li>
+                      <li><a >Thống kê sản phẩm</a></li>
                     </ul>
                   </li>
-                  <li class="hadchild"><a class="cutom-parent" href="category.html">Electronics</a>   <span class="button-view  fa fa-plus-square-o"></span>
+                  <li class="hadchild"><a class="cutom-parent" >Quản lý đơn hàng</a>   <span class="button-view  fa fa-plus-square-o"></span>
                     <ul style="display: none;">
-                      <li><a href="category.html">Cycling</a></li>
-                      <li><a href="category.html">Running</a></li>
-                      <li><a href="category.html">Swimming</a></li>
-                      <li><a href="category.html">Football</a></li>
-                      <li><a href="category.html">Golf</a></li>
-                      <li><a href="category.html">Windsurfing</a></li>
+                      <li><a routerLink="/shop/order/all"  [routerLinkActive]="'active-link'">Tất cả đơn hàng</a></li>
+                      <li><a >Đơn huỷ</a></li>
+                      <li><a >Trả hàng/ Hoàn tiền</a></li>
                     </ul>
                   </li>
                   <li class="hadchild"><a href="category.html" class="cutom-parent">Shoes</a>   <span class="button-view  fa fa-plus-square-o"></span>

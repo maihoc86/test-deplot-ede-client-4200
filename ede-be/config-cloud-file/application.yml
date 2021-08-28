@@ -6,14 +6,29 @@ eureka:
          defaultZone: http://localhost:8761/eureka
    instance:
       hostname: localhost
-      
-microservice:
-   payment-service:
-      endpoints:
-         endpoint:
-            uri: http://PAYMENT-SERVICE/payment/doPayment
-   order-service:
-      endpoints:
-         endpoint:
-            uri: http://ORDER-SERVICE/order/bookOrder
-
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost;database=EDE
+    username: sa
+    password: 123
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: teamsdarkeyes2021@gmail.com
+    password: teamsdarkeyes123
+    properties:
+          mail:
+           smtp:
+             auth: true
+             starttls:
+              enable: true
+  cloud:
+      config:
+         uri:
+            - http://localhost:8888

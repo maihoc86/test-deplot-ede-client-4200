@@ -25,7 +25,7 @@
                                 <span *ngIf="
                               product.controls['name'].errors &&
                               product.controls['name'].errors.pattern
-                                ">Tên sản phẩm không đúng định dạng(ít nhất 6 kí tự).</span>
+                                ">Tên sản phẩm không đúng định dạng.</span>
                             </div>
                         </div>
                     </div>
@@ -38,6 +38,37 @@
                                     {{ prf.name }}
                                 </option>
                             </select>
+                            <div *ngIf="
+                            product.controls['origin'].invalid &&
+                            (product.controls['origin'].dirty ||
+                            product.controls['origin'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['origin'].errors &&
+                          product.controls['origin'].errors.required
+                            ">Vui lòng chọn xuất sứ...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="input-model" class="col-sm-2 control-label">Nơi bán</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" formControlName="location">
+                                <option value="" disabled selected>Vui lòng chọn nơi bán..</option>
+                                <option *ngFor="let prf of listCities" [ngValue]="prf.name">
+                                    {{ prf.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                            product.controls['location'].invalid &&
+                            (product.controls['location'].dirty ||
+                            product.controls['location'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['location'].errors &&
+                          product.controls['location'].errors.required
+                            ">Vui lòng chọn nơi bán...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required">
@@ -66,7 +97,7 @@
                         <label for="input-model" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <select class="form-control" formControlName="parent_child_category" (change)="showChild()">
-                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                                <option value="" disabled selected>Vui lòng chọn loại phụ...</option>
                                 <option *ngFor="let prf of listParent_ChildCategory" [ngValue]="prf.id">
                                     {{ prf.name == null ? 'Không có' : prf.name }}
                                 </option>
@@ -86,8 +117,9 @@
                     <div class="form-group required" *ngIf="!isHiddenChild">
                         <label for="input-model" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
-                            <select class="form-control" formControlName="child_category">
-                                <option value="" disabled selected>Vui lòng chọn phụ...</option>
+                            <select class="form-control" formControlName="child_category"
+                                [compareWith]="objectComparisonFunction">
+                                <option value="" disabled selected>Vui lòng chọn loại phụ...</option>
                                 <option *ngFor="let prf of listChildCategory" [ngValue]="prf">
                                     {{ prf.name == null ? 'Không có' : prf.name }}
                                 </option>
@@ -107,11 +139,23 @@
                     <div class="form-group required">
                         <label for="input-quantity" class="col-sm-2 control-label">Nhãn hàng</label>
                         <div class="col-sm-10">
-                            <select class="form-control" formControlName="brand">
+                            <select class="form-control" formControlName="brand"
+                                [compareWith]="objectComparisonFunction">
+                                <option value="" disabled selected>Vui lòng chọn nhãn hàng...</option>
                                 <option *ngFor="let prf of listBrands" [ngValue]="prf">
                                     {{ prf.name }}
                                 </option>
                             </select>
+                            <div *ngIf="
+                            product.controls['brand'].invalid &&
+                            (product.controls['brand'].dirty ||
+                            product.controls['brand'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                          product.controls['brand'].errors &&
+                          product.controls['brand'].errors.required
+                            ">Vui lòng chọn nhãn hàng...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -145,7 +189,7 @@
                                 <span *ngIf="
                               product_options.controls['display_name'].errors &&
                               product_options.controls['display_name'].errors.pattern
-                                ">Tên nhãn không đúng định dạng(ít nhất 6 kí tự).</span>
+                                ">Tên nhãn không đúng định dạng.</span>
                             </div>
                         </div>
                     </div>
@@ -183,8 +227,10 @@
                     <div class="form-group required">
                         <label for="input-display-name" class="col-sm-2 control-label">Giá</label>
                         <div class="col-sm-10">
-                            <input type="text" (keypress)="numberOnly($event)" class="form-control"
+                            <input type="number" (keypress)="numberOnly($event)" class="form-control"
                                 formControlName="price" id="input-display-name" placeholder="Giá">
+                            <span *ngIf="isHiddenDiscount" style="color: #ff3c20;cursor: pointer;"
+                                (click)="showDiscount()">+ Thêm giảm giá</span>
                             <div *ngIf="
                                 product_options.controls['price'].invalid &&
                                 (product_options.controls['price'].dirty ||
@@ -198,6 +244,75 @@
                               product_options.controls['price'].errors &&
                               product_options.controls['price'].errors.pattern
                                 ">Giá không đúng định dạng.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required" [formGroup]="product_discount" *ngIf="!isHiddenDiscount">
+                        <label for="input-display-name" class="col-sm-2 control-label">Giảm giá</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="number" max="100" min="1" maxLength="3" (keypress)="numberOnly($event)"
+                                    min="1" max="100" class="form-control" formControlName="discount"
+                                    id="input-display-name" placeholder="Giảm giá" required>
+                                <span class="input-group-addon">%</span>
+                            </div>
+                            <div *ngIf="
+                            product_discount.controls['discount'].invalid &&
+                            (product_discount.controls['discount'].dirty ||
+                            product_discount.controls['discount'].touched)
+                          " class="alert alert-danger">
+                                <span *ngIf="
+                                product_discount.controls['discount'].errors &&
+                                product_discount.controls['discount'].errors.required
+                            ">Giảm giá là bắt buộc.</span>
+                                <span *ngIf="
+                                product_discount.controls['discount'].errors &&
+                                product_discount.controls['discount'].errors.max
+                            ">Giảm giá % phải bé hơn 100</span>
+                                <span *ngIf="
+                                product_discount.controls['discount'].errors &&
+                                product_discount.controls['discount'].errors.min
+                            ">Giảm giá % phải lớn hơn 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group required" [formGroup]="product_discount" *ngIf="!isHiddenDiscount">
+                        <label for="input-display-name" class="col-sm-2 control-label">Giảm giá từ</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" formControlName="startdate" id="input-display-name"
+                                [min]="minDate" [max]="maxDate" (change)="changeDate($event)" required>
+                            {{this.product_discount.value.startdate > maxDate || this.product_discount.value.startdate >
+                            this.product_discount.value.enddate ?
+                            product_discount.controls['startdate'].setValue(minDate) : ''}}
+                            <div *ngIf="
+                                product_discount.controls['enddate'].invalid &&
+                                (product_discount.controls['enddate'].dirty ||
+                                product_discount.controls['enddate'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                                    product_discount.controls['enddate'].errors &&
+                                    product_discount.controls['enddate'].errors.required
+                                ">Ngày bắt đầu là bắt buộc.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required" [formGroup]="product_discount" *ngIf="!isHiddenEndDate">
+                        <label for="input-display-name" class="col-sm-2 control-label">Đến ngày</label>
+                        <div class="col-sm-10">
+                            <input type="date" [min]="product_discount.controls['startdate'].value" [max]="maxDate"
+                                class="form-control" formControlName="enddate" id="input-display-name" required>
+                            {{this.product_discount.value.enddate > maxDate ?
+                            product_discount.controls['enddate'].setValue(minDate) : ''}}
+                            <div *ngIf="
+                                product_discount.controls['enddate'].invalid &&
+                                (product_discount.controls['enddate'].dirty ||
+                                product_discount.controls['enddate'].touched)
+                              " class="alert alert-danger">
+                                <span *ngIf="
+                                    product_discount.controls['enddate'].errors &&
+                                    product_discount.controls['enddate'].errors.required
+                                ">Ngày kết thúc là bắt buộc.</span>
                             </div>
                         </div>
                     </div>
@@ -222,28 +337,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" [formGroup]="product_tags">
                         <label for="input-tag" class="col-sm-2 control-label">Tag#</label>
                         <mat-form-field class="example-chip-list col-sm-10" appearance="fill">
                             <mat-chip-list #chipList aria-label="Fruit selection">
-                                <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-                                    (removed)="remove(fruit)">
-                                    {{fruit.name}}
+                                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                                    (removed)="removeTag(tag)">
+                                    {{tag.name}}
                                     <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                 </mat-chip>
                                 <input placeholder="Thêm tag..." [matChipInputFor]="chipList"
                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)">
                             </mat-chip-list>
                         </mat-form-field>
-                    </div>
-                    <div class="form-group">
-                        <label for="input-description" class="col-sm-2 control-label">Mô
-                            tả</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" formControlName="description" name="" id="" cols="30"
-                                rows="10"></textarea>
-                        </div>
                     </div>
                 </fieldset>
                 <div class="buttons clearfix">
@@ -251,9 +358,15 @@
                     </div>
                     <div class="pull-right">
                         <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
-                            type="submit" class="btn btn-success" (click)="addProduct()" value="Thêm">
-                        <input type="submit" class="btn btn-primary" value="Sửa">
-                        <input type="submit" class="btn btn-danger" value="Xóa">
+                            type="submit" class="btn btn-success" (click)="addProduct()" *ngIf="!loadProdutedit()"
+                            value="Thêm">
+                        <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
+                            type="submit" class="btn btn-success" (click)="addNewProductOption()" *ngIf="loadProdutedit()"
+                            value="Thêm thuộc tính mới">
+                        <input type="submit" class="btn btn-primary" (click)="updateProduct()" *ngIf="loadProdutedit()"
+                            value="Sửa">
+                        <input type="submit" class="btn btn-danger" (click)="deleteProduct(loadProdutedit())"
+                            *ngIf="loadProdutedit()" value="Xóa">
                         <input type="submit" class="btn btn-secondary" value="Làm mới">
                     </div>
                 </div>
