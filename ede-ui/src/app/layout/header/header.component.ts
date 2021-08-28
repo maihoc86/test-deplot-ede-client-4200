@@ -8,14 +8,16 @@ import { User } from 'src/app/models/user.model';
   templateUrl: './header.component.html',
   styleUrls: [
     './header.component.css',
-	"../../../assets/css/header/header1.css",
+	  "../../../assets/css/header/header1.css",
   ]
 })
 export class HeaderComponent implements OnInit {
 
   constructor(private cookieService:CookieService,private headerService:HeaderService ) {
     this.u={} as User;
-   }
+  }
+
+  public txtKeysearch: string = ''
 
   ngOnInit(): void {
     this.getUserLogin();
@@ -41,4 +43,5 @@ export class HeaderComponent implements OnInit {
     this.cookieService.delete("auth")
     document.location.href='';
   }
+
 }

@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 col-xlg-2">Aside</div>
+        <div class="col-sm-9 col-xlg-10">
+            <div class="row">
+                <div class="col-sm-4" *ngFor="let item of productSearchPage.content">
+                    <app-product-search-element [product]="item"></app-product-search-element>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
