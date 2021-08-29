@@ -3,7 +3,7 @@ export interface Product {
     origin: string;
     description: string;
     location: string;
-    name: String;
+    name: string;
     enable: boolean;
     delete: boolean;
     shop:  string;
