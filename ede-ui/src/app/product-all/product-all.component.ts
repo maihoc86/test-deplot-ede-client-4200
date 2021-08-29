@@ -16,54 +16,35 @@ export class ProductAllComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductAll(1);
-    console.log(this.filterEnableTrue());
   }
   filterEnableFalse() {
-    this.itemsEnableFalse = this.itemsEnableFalse.filter(function (obj: {
-      id: any;
-      product: any;
-      display_name: any;
-      price: any;
-      size: any;
-      quantity: any;
-    }) {
-      return obj.product.enable == false;
-    });
-    console.log(this.items)
+    this.loadProductEnable(false, 1);
   }
   filterEnableTrue() {
-    this.itemsEnableTrue = this.itemsEnableTrue.filter(function (obj: {
-      id: any;
-      product: any;
-      display_name: any;
-      price: any;
-      size: any;
-      quantity: any;
-    }) {
-      return obj.product.enable == true;
-    });
+    this.loadProductEnable(true, 1);
   }
   filterQuantity0() {
-    this.itemsQuantity0 = this.itemsQuantity0.filter(function (obj: {
-      id: any;
-      id_product: any;
-      display_name: any;
-      price: any;
-      size: any;
-      quantity: any;
-    }) {
-      return obj.quantity == 0;
-    });
+    this.loadProductQty0(1);
   }
 
   public count: any;
+  public countEnableTrue: any;
+  public countEnableFalse: any;
+  public countQty0: any;
   public page: any = [];
+  public pageEnableTrue: any=[];
+  public pageEnableFalse: any=[];
+  public pageQty0: any=[];
   public listProductOption: any = { };
   public p: number = 1;
+  public pEnableTrue: number = 1;
+  public pEnableFalse: number = 1;
+  public pQty0: number = 1;
   public items: any = [];
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
+
   public loadProductAll(page: any) {
     page = page - 1;
     this.productService.getAllProductOption(page).subscribe((data) => {
@@ -82,9 +63,6 @@ export class ProductAllComponent implements OnInit {
       this.items = item;
       this.page = data;
       this.count = this.page.totalElements;
-      this.itemsEnableTrue = item;
-      this.itemsEnableFalse = item;
-      this.itemsQuantity0 = item;
     },
       (err) => {
         if (err.status == 404) {
@@ -95,55 +73,125 @@ export class ProductAllComponent implements OnInit {
           });
           this.router.navigate(['/login'])
         } else {
+          console.log(err)
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
-            text: err.error.message,
+            text: err.message,
           });
         }
       });
   }
 
+  public loadProductQty0(page: any) {
+    page = page - 1;
+    this.productService.getAllProductByQty0(page).subscribe((data) => {
+      this.itemsQuantity0 = data.content.map(function (obj: {
+        id: any;
+        id_product: any;
+        display_name: any;
+        price: any;
+        size: any;
+        quantity: any;
+      }) {
+        return obj;
+      });
+      this.pageQty0 = data;
+      this.countQty0 = this.pageQty0.totalElements;
+      console.log(this.countQty0);
+    },
+      (err) => {
+        if (err.status == 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: "Chưa đăng nhập",
+          });
+          this.router.navigate(['/login'])
+        } else {
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: err.message,
+          });
+        }
+      });
 
+  }
+  public loadProductEnable(value: boolean, page: any) {
+    page = page - 1;
+    this.productService.getAllProductByEnable(value, page).subscribe((data) => {
+      if (value) {
+        this.itemsEnableTrue = data.content.map(function (obj: {
+          id: any;
+          id_product: any;
+          display_name: any;
+          price: any;
+          size: any;
+          quantity: any;
+        }) {
+          return obj;
+        });
+        this.pageEnableTrue = data;
+        console.log(this.pageEnableTrue);
+        this.countEnableTrue = this.pageEnableTrue.totalElements;
+        console.log(this.countEnableTrue);
+      } else {
+        this.itemsEnableFalse = data.content.map(function (obj: {
+          id: any;
+          id_product: any;
+          display_name: any;
+          price: any;
+          size: any;
+          quantity: any;
+        }) {
+          return obj;
+        });
+        this.pageEnableFalse = data;
+        this.countEnableFalse = this.pageEnableFalse.totalElements;
+        console.log(this.countEnableFalse);
+      }
+    }, error => {
+      console.log(error);
+      if (error.status == 404) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: "Chưa đăng nhập",
+        });
+        this.router.navigate(['/login'])
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
+      }
+    })
+  }
   public handlePageChange(event: number) {
     this.p = event;
     this.router.navigate(["/shop/product/all/" + this.p]);
     this.loadProductAll(this.p);
   }
+  public handlePageChangeEnableTrue(event: number) {
+    console.log(event);
+    this.pEnableTrue = event;
+    this.loadProductEnable(true, this.pEnableTrue);
+  }
+  public handlePageChangeEnableFalse(event: number) {
+    this.pEnableFalse = event;
+    this.loadProductEnable(false, this.pEnableFalse);
+  }
+  public handlePageChangeQty0(event: number) {
+    this.pQty0 = event;
+    this.loadProductQty0(this.pQty0);
+  }
 
   public countProductPresent() {
     return this.p * 5;
   }
-
-  // public ToPage() {
-  //   var page = '';
-  //   this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
-  //   this.loadProductAll(page);
-  // }
-
-  // public ToPageNext() {
-  //   var page: number = 0;
-  //   this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
-  //   page++;
-  //   this.router.navigate(["/shop/product/all/" + page]);
-  //   this.loadProductAll(page);
-  // }
-
-  // public ToPagePrev() {
-  //   var page: number = 0;
-  //   this.route.params.subscribe(params => { console.log(params['page']), page = params['page']; });
-  //   page--;
-  //   this.router.navigate(["/shop/product/all/" + page]);
-  //   this.loadProductAll(page);
-  // }
-
-  // public routerToPage(number: any) {
-  //   this.router.navigate(["/shop/product/all/" + number]);
-  //   this.ToPage();
-  // }
-
-
-
 
   public editProduct(id: string) {
     //routerLink="[`/shop/product/manager`,e.product.id,'id']"
@@ -154,7 +202,6 @@ export class ProductAllComponent implements OnInit {
   public countProductOder(id: string) {
     this.productService.countProductOrder(id).subscribe((data) => {
       this.countOrder = data;
-      console.log("helloooooooooooooooooooooooooo: " + data);
     })
 
   }
