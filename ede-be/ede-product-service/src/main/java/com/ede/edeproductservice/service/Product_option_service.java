@@ -38,7 +38,7 @@ public interface Product_option_service {
 
 	int countItemByProductID(String id);
 
-	Page<Product_option> findProductEnableShop(Shop shop, PageRequest of, Boolean value);
+	Page<Product_option> findProductEnableShop(Shop shop, Boolean value,PageRequest of);
 
 
 	Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of);

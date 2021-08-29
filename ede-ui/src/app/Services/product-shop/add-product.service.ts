@@ -67,11 +67,18 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category', this.httpOptions);
   }
   public getAllProduct() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct',this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct', this.httpOptions);
   }
   public getAllProductOption(page: any) {
-    console.log("hihi: "+page)
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/'+page, this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/' + page, this.httpOptions);
+  }
+
+  public getAllProductByEnable(value: boolean, page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/enable/' + value + "/" + page, this.httpOptions);
+  }
+
+  public getAllProductByQty0(page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/quantity0/' + page, this.httpOptions);
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {
