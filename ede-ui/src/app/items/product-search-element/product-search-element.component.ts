@@ -14,6 +14,7 @@ export class ProductSearchElementComponent implements OnInit {
   public product: Product = {} as Product;
 
   ngOnInit(): void {
+    console.log(this.product)
   }
 
 }

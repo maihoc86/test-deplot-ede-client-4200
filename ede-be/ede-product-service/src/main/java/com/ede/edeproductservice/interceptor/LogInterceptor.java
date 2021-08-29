@@ -3,19 +3,20 @@ package com.ede.edeproductservice.interceptor;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.ede.edeproductservice.entity.User;
 import com.ede.edeproductservice.service.Auth_Service;
+
+@SuppressWarnings("deprecation")
 @Component
 public class LogInterceptor extends HandlerInterceptorAdapter {
+	
 	@Autowired
 	Auth_Service authService;
+	
     @Override
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler)
             throws Exception {
@@ -30,7 +31,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         try {
         	String token = request.getHeader("Authorization");
         	if(token.contains("Bearer")) {
-        		token=token.substring(token.indexOf(" ")+1,token.length());
+        		token = token.substring(token.indexOf(" ")+1,token.length());
         		authService.getUserLogin(token);
         	}else {
         		authService.getUserLogin(token);
@@ -40,7 +41,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			System.err.println(e);
 			return false;
 		}
-        
-        
     }
+    
 }
