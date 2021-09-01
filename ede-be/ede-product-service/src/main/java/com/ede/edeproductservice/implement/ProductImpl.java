@@ -21,8 +21,8 @@ public class ProductImpl implements ProductService {
 	ProductDao dao;
 
 	@Override
-	public List<Product> findAll() {
-		return dao.findAll();
+	public Page<Product> listAll(Pageable pageable) {
+		return dao.listAll(pageable);
 	}
 
 	/**
@@ -55,5 +55,10 @@ public class ProductImpl implements ProductService {
 	public Product_child_category findCategorybyIDProduct(String id) {
 		
 		return dao.findCategorybyIDProduct(id);
+	}
+
+	@Override
+	public List<Product> findByShop(String id) {
+		return dao.findByShop(id);
 	}
 }

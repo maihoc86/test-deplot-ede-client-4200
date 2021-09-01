@@ -79,6 +79,11 @@ public class Product_child_category_impl implements Product_child_category_servi
 		return dao.findParent(id);
 	}
 
+	@Override
+	public List<Product_child_category> findAllByShop(String id) {
+		return dao.findAllByShop(id);
+	}
+
 	
 
 }

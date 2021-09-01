@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,8 +94,8 @@ public class ReadProductRestController {
 	}
 
 	@GetMapping("/view/getAllProduct")
-	public List<Product> getAllProduct() {
-		return service.findAll();
+	public Page<Product> getAllProduct(@RequestParam("page") Optional<Integer> page) {
+		return service.listAll(PageRequest.of(page.orElse(0), 5));
 	}
 
 	@GetMapping("/view/getAllProductOption/{page}")
@@ -122,7 +121,7 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		Page<Product_option> page = product_option_service.findProductEnableShop(shop, value.get(),
 				PageRequest.of(p.orElse(0), 5));
 		System.out.println(page.getContent());
@@ -182,13 +181,12 @@ public class ReadProductRestController {
 	 */
 	@CrossOrigin(allowedHeaders = "*")
 	@GetMapping("/view/get-products")
-	public ResponseEntity<?> getProducts(
-			@RequestParam(value = "search", required = false) Optional<String> keysearch,
-			@RequestParam(value = "page", required = false) Optional<Integer> page
-			) {
+	public ResponseEntity<?> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
+			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
-		if (npage < 0) npage = 0;
+		if (npage < 0)
+			npage = 0;
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
 	}
@@ -245,7 +243,7 @@ public class ReadProductRestController {
 	}
 
 	// TODO: Filter product shop by customer
-	@PostMapping("/view/customer/shop/list_product/filter")
+	@GetMapping("/view/customer/shop/list_product/filter")
 	public List<Product_option> getList(@RequestParam Optional<String> location,
 			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
 		String valueLocate = location.orElse("");
@@ -257,4 +255,25 @@ public class ReadProductRestController {
 			return product_option_service.filterProductShopByCustomerOR(valueLocate, valueCate, valueBrand);
 		}
 	}
+
+	/* GET CATEGORY SHOP */
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/view/customer/shop/all/category")
+	public ResponseEntity getListCategoryShop() {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+		System.err.println(shop.getId());
+		return ResponseEntity.ok(child_category_service.findAllByShop(shop.getId()));
+	}
+
+	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+	@GetMapping("/view/customer/shop/all/product")
+	public Page<Product> getList(@RequestParam("page") Optional<Integer> page) {
+		return service.listAll(PageRequest.of(page.orElse(0), 20));
+	}
+
 }

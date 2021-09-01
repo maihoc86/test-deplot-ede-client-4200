@@ -31,6 +31,8 @@ public interface Product_child_category_service {
 
 	Product_parent_child_category findParent(String id);
 
+	List<Product_child_category> findAllByShop(String id);
+
 
 
 
