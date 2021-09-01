@@ -144,7 +144,7 @@ export class ProductAllComponent implements OnInit {
         this.pageEnableTrue = data;
         console.log(this.pageEnableTrue);
         this.countEnableTrue = this.pageEnableTrue.totalElements;
-        console.log(this.countEnableTrue);
+
       } else {
         this.itemsEnableFalse = data.content.map(function (obj: {
           id: any;

@@ -11,7 +11,7 @@ import com.ede.edeproductservice.entity.extend.ProductSearch;
 
 public interface ProductService {
 
-	List<Product> findAll();
+	Page<Product> listAll(Pageable pageable);
 
 	Page<ProductSearch> searchByKeysearch(String keysearch, Pageable page);
 
@@ -22,6 +22,8 @@ public interface ProductService {
 	Product findById(String id);
 
 	Product_child_category findCategorybyIDProduct(String id);
+
+	List<Product> findByShop(String id);
 	
 
 
