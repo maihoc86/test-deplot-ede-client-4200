@@ -40,17 +40,10 @@
                                 <option value="78">Phân loại hàng</option>
                                 <option value="77">Mã sản phẩm </option>
                                 <option value="82">ThươNg hiệu</option>
-
                               </select>
                             </div>
-
                             <input class="autosearch-input form-control" type="text" value="" size="50"
                               autocomplete="off" placeholder="Nhập vào..." name="search" />
-                            <!-- <span class="input-group-btn">
-                              <button type="submit" class="button-search btn btn-primary" name="submit_search">
-                                <i class="fa fa-search"></i>
-                              </button>
-                            </span> -->
                           </div>
                           <input type="hidden" name="route" value="product/search" />
                         </form>
@@ -82,13 +75,10 @@
                   <div class="pull-right">
                     <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
                       class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
-
                   </div>
                 </div>
                 <br>
-
               </div>
-
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead>
@@ -116,7 +106,6 @@
                 </table>
                 <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
               </div>
-
             </div>
             <!--Middle Part End -->
           </div>
@@ -124,7 +113,6 @@
       </div>
       <div id="menu1" class="tab-pane fade">
         <div class="row">
-
           <!--Middle Part Start-->
           <div id="content" class="col-sm-12">
             <div class="row">
@@ -134,7 +122,6 @@
                     <div class="icon-search hidden-lg hidden-md hidden-sm">
                       <i class="fa fa-search"></i>
                     </div>
-
                     <div id="sosearchpro" class="sosearchpro-wrapper so-search">
                       <form method="GET" action="index.html">
                         <div id="search0" class="search input-group form-group">
@@ -152,7 +139,6 @@
 
                             </select>
                           </div>
-
                           <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
                             placeholder="Nhập vào..." name="search" />
                         </div>
@@ -283,9 +269,12 @@
               </div><br>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 20px;">
-                  <h3><span>{{pQty0==pageQty0.totalPages?pageQty0.totalElements:pQty0*5}}</span> /
-                    <span>{{pageQty0.totalElements}}</span>
-                    Sản phẩm
+                  <h3>
+                    <span>{{pageQty0.totalElements == 0 ? 0 :pQty0==pageQty0.totalPages?pageQty0.totalElements
+                      :pQty0*5}}</span> /
+
+                      <span>{{pageQty0.totalElements}}</span>
+                      Sản phẩm
                   </h3>
                 </div>
                 <div class="pull-right">
@@ -395,6 +384,7 @@
                   <h3>
                     <span>{{pEnableFalse==pageEnableFalse.totalPages?pageEnableFalse.totalElements:pEnableFalse*5}}</span>
                     / <span>{{pageEnableFalse.totalElements}}</span>
+
                     Sản phẩm
                   </h3>
                 </div>

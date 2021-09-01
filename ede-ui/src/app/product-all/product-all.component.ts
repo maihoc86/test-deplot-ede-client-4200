@@ -26,19 +26,25 @@ export class ProductAllComponent implements OnInit {
   filterQuantity0() {
     this.loadProductQty0(1);
   }
-
   public count: any;
+  // count item filter enable true
   public countEnableTrue: any;
+  // count item filter enable false
   public countEnableFalse: any;
+  // count item filter quantity 0
   public countQty0: any;
   public page: any = [];
-  public pageEnableTrue: any=[];
-  public pageEnableFalse: any=[];
-  public pageQty0: any=[];
+  public pageEnableTrue: any = [];
+  public pageEnableFalse: any = [];
+  public pageQty0: any = [];
+
   public listProductOption: any = { };
   public p: number = 1;
+  // page filter enable true
   public pEnableTrue: number = 1;
+  // page filter enable false
   public pEnableFalse: number = 1;
+  // page filter quantity 0
   public pQty0: number = 1;
   public items: any = [];
   public itemsEnableTrue: any = [];
@@ -83,6 +89,7 @@ export class ProductAllComponent implements OnInit {
       });
   }
 
+  // load all produt filter by quantity
   public loadProductQty0(page: any) {
     page = page - 1;
     this.productService.getAllProductByQty0(page).subscribe((data) => {
@@ -119,6 +126,7 @@ export class ProductAllComponent implements OnInit {
       });
 
   }
+  // load all product filter by enable
   public loadProductEnable(value: boolean, page: any) {
     page = page - 1;
     this.productService.getAllProductByEnable(value, page).subscribe((data) => {
@@ -175,15 +183,17 @@ export class ProductAllComponent implements OnInit {
     this.router.navigate(["/shop/product/all/" + this.p]);
     this.loadProductAll(this.p);
   }
+  // action change page filter enable true
   public handlePageChangeEnableTrue(event: number) {
-    console.log(event);
     this.pEnableTrue = event;
     this.loadProductEnable(true, this.pEnableTrue);
   }
+  // action change page filter enable true
   public handlePageChangeEnableFalse(event: number) {
     this.pEnableFalse = event;
     this.loadProductEnable(false, this.pEnableFalse);
   }
+  // action change page filter quantity
   public handlePageChangeQty0(event: number) {
     this.pQty0 = event;
     this.loadProductQty0(this.pQty0);
