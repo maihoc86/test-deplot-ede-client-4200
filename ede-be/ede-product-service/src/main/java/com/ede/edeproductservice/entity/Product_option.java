@@ -32,6 +32,7 @@ public class Product_option implements Serializable {
 	Integer quantity;
 	Boolean is_delete;
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "id_product")
 	Product product;
 
@@ -45,4 +46,9 @@ public class Product_option implements Serializable {
 	public String toString() {
 		return "";
 	}
+//	@Transient
+//	public Product_option_image optionImageDef;
+//	public Product_option_image getOptionImageDef() {
+//		return this.getProduct_option_images().get(0);
+//	}
 }

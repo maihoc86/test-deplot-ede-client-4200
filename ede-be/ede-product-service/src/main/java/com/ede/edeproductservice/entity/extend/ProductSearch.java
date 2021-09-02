@@ -13,7 +13,6 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;
@@ -29,12 +28,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "view_product_search")
-@SecondaryTable(name = "product",  pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
+@SecondaryTable(name = "product", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 public class ProductSearch {
-	
+
 	@Id
 	String idProduct;
-	
+
 	private String keysearch;
 
 	@Column(table = "product")
@@ -49,7 +48,7 @@ public class ProductSearch {
 	Boolean deleted;
 	@Column(table = "product")
 	String location;
-	//------------------------
+	// ------------------------
 	@ManyToOne
 	@JoinColumn(name = "id_shop", table = "product")
 	Shop shop;
@@ -59,7 +58,7 @@ public class ProductSearch {
 	@ManyToOne
 	@JoinColumn(name = "id_category", table = "product")
 	Product_child_category childCategory;
-	//------------------------
+	// ------------------------
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Product_option> productOptions;
@@ -69,13 +68,13 @@ public class ProductSearch {
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "producttag")
 //	List<Product_tag> producTags;
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 	@Transient
 	public Product_option optionDef;
 
 	public Product_option getOptionDef() {
 		return this.getProductOptions().get(0);
 	}
-	
+
 }

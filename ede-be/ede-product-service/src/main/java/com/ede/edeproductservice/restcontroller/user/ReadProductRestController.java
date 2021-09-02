@@ -271,9 +271,17 @@ public class ReadProductRestController {
 	}
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product")
-	public Page<Product> getList(@RequestParam("page") Optional<Integer> page) {
-		return service.listAll(PageRequest.of(page.orElse(0), 20));
+	public ResponseEntity getAllListProductByCustomer(@RequestParam("page") Optional<Integer> page) {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
+		Page<Product> pageF = service.listAllProductShopByCustomer(shop.getId(), PageRequest.of(page.orElse(0), 3));
+		return ResponseEntity.ok(pageF);
 	}
-
 }

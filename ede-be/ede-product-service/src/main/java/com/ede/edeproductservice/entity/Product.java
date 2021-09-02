@@ -66,7 +66,6 @@ public class Product implements Serializable {
 	
 	@Transient
 	public Product_option optionDef;
-
 	public Product_option getOptionDef() {
 		return this.getProduct_options().get(0);
 	}

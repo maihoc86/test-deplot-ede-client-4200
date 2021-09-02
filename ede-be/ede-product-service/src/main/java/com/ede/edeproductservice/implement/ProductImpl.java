@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProductImpl implements ProductService {
 	public Page<Product> listAll(Pageable pageable) {
 		return dao.listAll(pageable);
 	}
-
+	
 	/**
 	 * Hàm search bằng từ khóa, hàm sẽ lấy ra product giống với từ khóa nhất (luôn có kết quả trả về)
 	 * @param keysearch Từ khóa muốn search
@@ -60,5 +61,11 @@ public class ProductImpl implements ProductService {
 	@Override
 	public List<Product> findByShop(String id) {
 		return dao.findByShop(id);
+	}
+
+
+	@Override
+	public Page<Product> listAllProductShopByCustomer(String id, PageRequest of) {
+		return dao.listAllProductShopByCustomer(id,of);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -49,5 +50,8 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 
 	@Query("SELECT count(o) FROM Product_option o where o.product.id = ?1 ")
 	int countItemByProductID(String id);
+	
+	@Query("SELECT p FROM Product_option p WHERE p.product.shop.id =:id_shop AND  p.is_delete = false AND p.product.deleted = false AND p.product.enable = true")
+	Page<Product_option> listAllProductByCustomer(String id_shop,Pageable page);
 
 }
