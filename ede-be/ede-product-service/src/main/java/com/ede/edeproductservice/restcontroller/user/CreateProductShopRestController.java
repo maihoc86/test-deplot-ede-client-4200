@@ -90,20 +90,20 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
-
 		if (product_option_service.countItemByProductID(product_option.getProduct().getId()) == 10) {
 			System.out.println(product_option_service.countItemByProductID(product_option.getProduct().getId()));
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 					"Bạn đã có 10 thuộc tính sản phẩm, vui lòng xóa bớt !", "", null);
 		} else {
-			product_option.setId(generateUUID().toString());
-			return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
+		product_option.setId(generateUUID().toString());
+		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create/product-shop/options/images")
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
+		System.err.println("Vào image r ");
 		String[] words = product_option.getImage().split(",");
 		for (int i = 0; i < words.length; i++) {
 			Optional<Product_option_image> findImage = product_option_image_service.findById(generateUUID().toString());
