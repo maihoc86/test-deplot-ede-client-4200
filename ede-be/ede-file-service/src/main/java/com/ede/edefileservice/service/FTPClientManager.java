@@ -1,6 +1,8 @@
 package com.ede.edefileservice.service;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -16,5 +18,9 @@ public interface FTPClientManager {
 	boolean delete(String nameInRemote);
 
 	boolean update(String nameInRemote, InputStream fileContent, int fTP_FILE_TYPE);
+
+	List<String> uploadMulti(Map<String, InputStream> mapInputStream, int FPT_FILE_TYPE);
+
+	List<String> deleteMulti(String[] filenames);
 	
 }
