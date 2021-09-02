@@ -28,6 +28,7 @@ export class AddProductService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/discount', data, this.httpOptions);
   }
   public addProductOption(data: ProductOptions) {
+    console.log(data);
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/product-shop/options/', data, this.httpOptions);
   }
   public addProductOptionImage(data: ProductOptionsImage) {
@@ -69,7 +70,7 @@ export class AddProductService {
   public getChildCategoriesShop() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/category', this.httpOptions);
   }
-  public getAllProductShopByCustomer(page: any){
+  public getAllProductShopByCustomer(page: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
   }
   public getAllProduct() {
@@ -77,8 +78,8 @@ export class AddProductService {
   }
 
   public getAllProductOption(page: any, size: any) {
-    console.log("hihi: "+page)
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption?page='+page+"&size="+size, this.httpOptions);
+    console.log("hihi: " + page)
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption?page=' + page + "&size=" + size, this.httpOptions);
   }
 
   public getAllProductByEnable(value: boolean, page: any) {
@@ -125,7 +126,16 @@ export class AddProductService {
   }
 
   public getAllProductShowInterface(page: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page='+page, this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
+  }
+  // upload image
+  private httpOptionsFile = {
+    headers: new HttpHeaders({
+      'Authorization': this.cookieService.get('auth')
+    }),
+  }
+  public createMultiImageProductOption(files: any) {
+    return this.httpClient.post<any>('http://localhost:8080/ede-file/create-multi/binary', files, this.httpOptionsFile);
   }
 
 }
