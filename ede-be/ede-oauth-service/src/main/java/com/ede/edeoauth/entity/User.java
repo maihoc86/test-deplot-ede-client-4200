@@ -1,6 +1,7 @@
 package com.ede.edeoauth.entity;
 
-
+import java.util.HashSet;
+import java.util.Set;
 import java.io.Serializable;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class User implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	List<Authority> authorities;
-
+	//private Set<Role> authorities = new HashSet<>();
 	
 	@Override
 	public String toString() {

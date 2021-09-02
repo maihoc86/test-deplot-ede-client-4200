@@ -1,11 +1,16 @@
 package com.ede.edeproductservice.implement;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ede.edeproductservice.dao.ShopDao;
@@ -32,7 +37,7 @@ public class Auth_impl implements Auth_Service {
 		JsonNode jsonNode = respone.getBody();
 
 		System.err.println(jsonNode.get("id"));
-
+		
 		String url2 = "http://localhost:8080/ede-customer/findbyusername/" + jsonNode.get("id");
 		ResponseEntity<User> user = restTemplate.exchange(url2, HttpMethod.GET, entity, User.class);
 		return user.getBody();
@@ -41,6 +46,20 @@ public class Auth_impl implements Auth_Service {
 	@Override
 	public Shop getShopLogin(String header) {
 		return shopdao.findByUser(this.getUserLogin(header));
+	}
+
+	@Override
+	public void Security(String token, StringBuffer requestURL) throws HttpClientErrorException {
+		System.err.println("security");
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json");
+		header.add("Authorization", "Bearer " + token);
+
+		RestTemplate restTemplate = new RestTemplate();
+	//	if(requestURL.toString().contains("admin"))
+		String url = "http://localhost:8080/ede-oauth-service/api/test/user/";
+		HttpEntity<Object> entity = new HttpEntity<Object>(null, header);
+		ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
 	}
 
 }

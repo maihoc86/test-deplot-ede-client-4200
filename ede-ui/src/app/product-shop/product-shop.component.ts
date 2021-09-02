@@ -607,7 +607,6 @@ export class ProductShopComponent implements OnInit {
   public objectComparisonFunction = function (option: { id: any; }, value: { id: any; }): boolean {
     return option.id === value.id;
   }
-
 }
 
 interface size {
