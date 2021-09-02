@@ -34,7 +34,6 @@ public class Product_option implements Serializable {
 
 	@JsonIgnore
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "id_product")
 	Product product;
 
