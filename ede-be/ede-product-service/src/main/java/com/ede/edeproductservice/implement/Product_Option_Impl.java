@@ -109,4 +109,9 @@ public class Product_Option_Impl implements Product_option_service {
 	public Page<Product_option> listAll(String id_shop,Pageable of) {
 		return dao.listAllProductByCustomer(id_shop,of);
 	}
+//	@Override
+//	public Page<Product_option> listAll(PageRequest of) {
+//		// TODO Auto-generated method stub
+//		return dao.listAll(of);
+//	}
 }

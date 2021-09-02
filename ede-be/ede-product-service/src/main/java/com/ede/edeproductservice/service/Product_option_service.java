@@ -45,4 +45,5 @@ public interface Product_option_service {
 	Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of);
 
 	Page<Product_option> listAll(String id_shop,Pageable of);
+//	Page<Product_option> listAll(PageRequest of);
 }
