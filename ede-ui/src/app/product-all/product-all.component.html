@@ -40,17 +40,10 @@
                                 <option value="78">Phân loại hàng</option>
                                 <option value="77">Mã sản phẩm </option>
                                 <option value="82">ThươNg hiệu</option>
-
                               </select>
                             </div>
-
                             <input class="autosearch-input form-control" type="text" value="" size="50"
                               autocomplete="off" placeholder="Nhập vào..." name="search" />
-                            <!-- <span class="input-group-btn">
-                              <button type="submit" class="button-search btn btn-primary" name="submit_search">
-                                <i class="fa fa-search"></i>
-                              </button>
-                            </span> -->
                           </div>
                           <input type="hidden" name="route" value="product/search" />
                         </form>
@@ -75,18 +68,17 @@
                 </div><br>
                 <div class="buttons clearfix">
                   <div class="pull-left" style="margin-left: 20px;">
-                    <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                    <h3><span>{{p==page.totalPages?page.totalElements:p*5}}</span> / <span>{{page.totalElements}}</span>
+                      Sản phẩm
+                    </h3>
                   </div>
                   <div class="pull-right">
                     <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
                       class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
-
                   </div>
                 </div>
                 <br>
-
               </div>
-
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead>
@@ -101,7 +93,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let e of items | paginate: { itemsPerPage: 3, currentPage: p }">
+                    <tr *ngFor="let e of items  | paginate: {itemsPerPage: 5, currentPage: p, totalItems: count}">
                       <td>{{e.product.name}}</td>
                       <td>{{e.product.brand.name}}</td>
                       <td>{{e.display_name}}</td>
@@ -112,18 +104,15 @@
                     </tr>
                   </tbody>
                 </table>
-           <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
               </div>
-
             </div>
             <!--Middle Part End -->
-
           </div>
         </div>
       </div>
       <div id="menu1" class="tab-pane fade">
         <div class="row">
-
           <!--Middle Part Start-->
           <div id="content" class="col-sm-12">
             <div class="row">
@@ -133,7 +122,6 @@
                     <div class="icon-search hidden-lg hidden-md hidden-sm">
                       <i class="fa fa-search"></i>
                     </div>
-
                     <div id="sosearchpro" class="sosearchpro-wrapper so-search">
                       <form method="GET" action="index.html">
                         <div id="search0" class="search input-group form-group">
@@ -151,14 +139,8 @@
 
                             </select>
                           </div>
-
                           <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
                             placeholder="Nhập vào..." name="search" />
-                          <!-- <span class="input-group-btn">
-                            <button type="submit" class="button-search btn btn-primary" name="submit_search">
-                              <i class="fa fa-search"></i>
-                            </button>
-                          </span> -->
                         </div>
                         <input type="hidden" name="route" value="product/search" />
                       </form>
@@ -183,8 +165,10 @@
               </div><br>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 20px;">
-                  <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
-
+                  <h3><span>{{pEnableTrue==pageEnableTrue.totalPages?pageEnableTrue.totalElements:pEnableTrue*5}}</span>
+                    / <span>{{pageEnableTrue.totalElements}}</span>
+                    Sản phẩm
+                  </h3>
                 </div>
 
                 <div class="pull-right">
@@ -196,7 +180,7 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover" >
+              <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
@@ -209,18 +193,20 @@
                   </tr>
                 </thead>
                 <tbody>
-
-                  <tr *ngFor="let e of itemsEnableTrue">
+                  <tr
+                    *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: 5, currentPage: pEnableTrue, totalItems: countEnableTrue}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
                     <td>chưa có</td>
-                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls *ngIf="pageEnableTrue.totalPages>1"
+                (pageChange)="handlePageChangeEnableTrue($event)"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -259,11 +245,6 @@
 
                           <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
                             placeholder="Nhập vào..." name="search" />
-                          <!-- <span class="input-group-btn">
-                            <button type="submit" class="button-search btn btn-primary" name="submit_search">
-                              <i class="fa fa-search"></i>
-                            </button>
-                          </span> -->
                         </div>
                         <input type="hidden" name="route" value="product/search" />
                       </form>
@@ -288,7 +269,13 @@
               </div><br>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 20px;">
-                  <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                  <h3>
+                    <span>{{pageQty0.totalElements == 0 ? 0 :pQty0==pageQty0.totalPages?pageQty0.totalElements
+                      :pQty0*5}}</span> /
+
+                      <span>{{pageQty0.totalElements}}</span>
+                      Sản phẩm
+                  </h3>
                 </div>
                 <div class="pull-right">
                   <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
@@ -299,7 +286,7 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover" >
+              <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
@@ -312,17 +299,21 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of itemsQuantity0">
+                  <tr
+                    *ngFor="let e of itemsQuantity0  | paginate: {itemsPerPage: 5, currentPage: pQty0, totalItems: countQty0}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
                     <td>chưa có</td>
-                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+
+              <pagination-controls *ngIf="pageQty0.totalPages>1" (pageChange)="handlePageChangeQty0($event)">
+              </pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -390,7 +381,12 @@
               </div><br>
               <div class="buttons clearfix">
                 <div class="pull-left" style="margin-left: 20px;">
-                  <h3>2 Sản phẩm/ 1000 sản phẩm</h3>
+                  <h3>
+                    <span>{{pEnableFalse==pageEnableFalse.totalPages?pageEnableFalse.totalElements:pEnableFalse*5}}</span>
+                    / <span>{{pageEnableFalse.totalElements}}</span>
+
+                    Sản phẩm
+                  </h3>
                 </div>
                 <div class="pull-right">
                   <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
@@ -401,7 +397,7 @@
 
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-hover" >
+              <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
@@ -414,21 +410,24 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of itemsEnableFalse">
+                  <tr
+                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: 5, currentPage: pEnableFalse, totalItems: countEnableFalse}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
-                    <td>{{countOrder}}</td>
-                    <td><a routerLink="/shop/product/manager">Sửa</a></td>
+                    <td>chưa có</td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls *ngIf="pageEnableFalse.totalPages>1"
+                (pageChange)="handlePageChangeEnableFalse($event)"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
-          
+
         </div>
       </div>
     </div>

@@ -1,7 +1,5 @@
 package com.ede.edefileservice.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,24 +7,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ede.edefileservice.service.FileManagerService;
+import com.ede.edefileservice.service.FTPClientManager;
 
+/**
+ * Lớp dùng để xóa file từ FTP Server
+ * @author Vinh
+ *
+ */
 @RestController
 @RequestMapping("/ede-file")
 public class FileDeleteRestController {
-
-	@Autowired
-	FileManagerService fileManagerService;
 	
 	@Autowired
-	HttpServletResponse httpServletResponse;
+	FTPClientManager ftpClientManager;
 
-	@DeleteMapping("delete/{folder}/{filename}")
-	ResponseEntity<Void> deleteFile(@PathVariable("folder") String folder, @PathVariable("filename") String filename) {
-		if (null != this.fileManagerService.delete(folder, filename)) {
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.noContent().build();
+	@DeleteMapping("delete/{filename}")
+	ResponseEntity<Boolean> deleteFile(@PathVariable("filename") String filename){
+		boolean isRemove = this.ftpClientManager.delete(filename);
+		return ResponseEntity.ok(isRemove);
 	}
 	
 }

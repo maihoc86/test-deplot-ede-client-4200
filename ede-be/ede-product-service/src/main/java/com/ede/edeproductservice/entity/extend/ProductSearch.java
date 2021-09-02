@@ -1,17 +1,23 @@
 package com.ede.edeproductservice.entity.extend;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,12 +28,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "view_product_search")
-@SecondaryTable(name = "product",  pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
+@SecondaryTable(name = "product", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 public class ProductSearch {
-	
+
 	@Id
 	String idProduct;
-	
+
 	private String keysearch;
 
 	@Column(table = "product")
@@ -42,7 +48,7 @@ public class ProductSearch {
 	Boolean deleted;
 	@Column(table = "product")
 	String location;
-	//------------------------
+	// ------------------------
 	@ManyToOne
 	@JoinColumn(name = "id_shop", table = "product")
 	Shop shop;
@@ -52,16 +58,23 @@ public class ProductSearch {
 	@ManyToOne
 	@JoinColumn(name = "id_category", table = "product")
 	Product_child_category childCategory;
-	//------------------------
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "product")
-//	List<Product_option> productOptions;
+	// ------------------------
+	@JsonIgnore
+	@OneToMany(mappedBy = "product")
+	List<Product_option> productOptions;
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "productdiscount")
 //	List<Product_discount> productDiscount;
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "producttag")
 //	List<Product_tag> producTags;
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	@Transient
+	public Product_option optionDef;
+
+	public Product_option getOptionDef() {
+		return this.getProductOptions().get(0);
+	}
+
 }

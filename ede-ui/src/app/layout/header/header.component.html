@@ -76,8 +76,17 @@
               </li>
               <li class="language">
                 <div class="btn-group languages-block">
-                  <form action="index.html" method="post" enctype="multipart/form-data" id="bt-language">
-                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" routerLink="shop/product/all">
+                  <form
+                    action="index.html"
+                    method="post"
+                    enctype="multipart/form-data"
+                    id="bt-language"
+                  >
+                    <a
+                      class="btn btn-link dropdown-toggle"
+                      data-toggle="dropdown"
+                      routerLink="shop/product/all/1"
+                    >
                       <span class="">Kênh người bán</span>
                     </a>
                   </form>
@@ -481,9 +490,9 @@
           <!-- //end Main menu -->
 
 
-          <!-- --------------------Tài khoản đã đăng nhập-------------------------------- -->
-          <div class="middle-right col-lg-4 col-md-3 col-sm-6 col-xs-8">
-            <li class="currency" *ngIf="login"  style="list-style-type:none;">
+<!-- --------------------Tài khoản đã đăng nhập-------------------------------- -->
+          <div class="middle-right col-lg-4 col-md-3 col-sm-6 col-xs-8" >
+            <li class="currency" *ngIf="login">
               <div class="btn-group currencies-block">
 
                 <a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
@@ -505,7 +514,7 @@
               <ul class="signin-link blank">
                 <li class="log login">
                   <i class="fa fa-lock"></i>
-                  <a class="link-lg" routerLink="/login">Login </a> or
+                  <a class="link-lg" routerLink="/login">&nbsp;Login </a> or
                   <a routerLink="/register">Register</a>
                 </li>
 

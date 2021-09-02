@@ -3,6 +3,9 @@ package com.ede.edeproductservice.implement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_option_Dao;
@@ -40,11 +43,12 @@ public class Product_Option_Impl implements Product_option_service {
 
 	@Override
 	public List<Product_option> filterProductShopByCustomerAND(String location, String category, String brand) {
-		return dao.filterProductShopByCustomerAND(location, category,  brand);
+		return dao.filterProductShopByCustomerAND(location, category, brand);
 	}
+
 	@Override
 	public List<Product_option> filterProductShopByCustomerOR(String location, String category, String brand) {
-		return dao.filterProductShopByCustomerOR(location, category,  brand);
+		return dao.filterProductShopByCustomerOR(location, category, brand);
 	}
 
 	@Override
@@ -54,7 +58,7 @@ public class Product_Option_Impl implements Product_option_service {
 
 	@Override
 	public Product_option findByIdbyProduct(String id) {
-		
+
 		return dao.findByIdbyProduct(id);
 	}
 
@@ -64,6 +68,10 @@ public class Product_Option_Impl implements Product_option_service {
 	}
 
 	@Override
+	public Page<Product_option> finAllByShop(Shop shop, PageRequest of) {
+		return dao.finAllByShop(shop, of);
+	}
+
 	public Product_option deleteProductByID(String id) {
 		Product_option product = dao.findById(id).get();
 		product.setIs_delete(true);
@@ -72,18 +80,33 @@ public class Product_Option_Impl implements Product_option_service {
 
 	@Override
 	public Product findProductById(String id) {
-		
+
 		return dao.findProductById(id);
 	}
 
 	@Override
 	public Product_child_category findChildCategoryById(String id) {
-		
+
 		return dao.findChildCategoryById(id);
 	}
 
 	@Override
 	public int countItemByProductID(String id) {
 		return dao.countItemByProductID(id);
+	}
+
+	@Override
+	public Page<Product_option> findProductEnableShop(Shop shop, Boolean value, PageRequest of) {
+		return dao.findProductEnableShop(shop, value, of);
+	}
+
+	@Override
+	public Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of) {
+		return dao.findProductQuantity0Shop(shop, of);
+	}
+
+	@Override
+	public Page<Product_option> listAll(String id_shop,Pageable of) {
+		return dao.listAllProductByCustomer(id_shop,of);
 	}
 }

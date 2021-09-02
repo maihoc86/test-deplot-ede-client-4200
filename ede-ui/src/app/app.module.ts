@@ -30,6 +30,7 @@ import { ProductSearchElementComponent } from './items/product-search-element/pr
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +68,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDatepickerModule,
     NgxPaginationModule,
     MatProgressBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

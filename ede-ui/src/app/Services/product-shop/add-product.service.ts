@@ -66,11 +66,25 @@ export class AddProductService {
   public getChildCategories() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category', this.httpOptions);
   }
-  public getAllProduct() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct',this.httpOptions);
+  public getChildCategoriesShop() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/category', this.httpOptions);
   }
-  public getAllProductOption() {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption', this.httpOptions);
+  public getAllProductShopByCustomer(page: any){
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
+  }
+  public getAllProduct() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct', this.httpOptions);
+  }
+  public getAllProductOption(page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/' + page, this.httpOptions);
+  }
+
+  public getAllProductByEnable(value: boolean, page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/enable/' + value + "/" + page, this.httpOptions);
+  }
+
+  public getAllProductByQty0(page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/quantity0/' + page, this.httpOptions);
   }
 
   public getChildParentCategoriesByIdParent(idParent: any) {

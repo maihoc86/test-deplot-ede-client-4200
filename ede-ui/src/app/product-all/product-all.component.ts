@@ -4,6 +4,7 @@ import { Product } from '../models/product.model';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-product-all',
   templateUrl: './product-all.component.html',
@@ -11,59 +12,88 @@ import Swal from 'sweetalert2';
 })
 export class ProductAllComponent implements OnInit {
 
-  constructor(private productService: AddProductService, private router:Router) { }
+  constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadProductAll();
+    this.loadProductAll(1);
   }
   filterEnableFalse() {
-    this.itemsEnableFalse = this.itemsEnableFalse.filter(function (obj: {
-      id: any;
-      product: any;
-      display_name: any;
-      price: any;
-      size: any;
-      quantity: any;
-    }) {
-      return obj.product.enable == false;
-    });
-    console.log(this.items)
+    this.loadProductEnable(false, 1);
   }
   filterEnableTrue() {
-    this.itemsEnableTrue = this.itemsEnableTrue.filter(function (obj: {
-      id: any;
-      product: any;
-      display_name: any;
-      price: any;
-      size: any;
-      quantity: any;
-    }) {
-      return obj.product.enable == true;
-    });
-    console.log(this.items)
+    this.loadProductEnable(true, 1);
   }
   filterQuantity0() {
-    this.itemsQuantity0 = this.itemsQuantity0.filter(function (obj: {
-      id: any;
-      id_product: any;
-      display_name: any;
-      price: any;
-      size: any;
-      quantity: any;
-    }) {
-      return obj.quantity == 0;
-    });
+    this.loadProductQty0(1);
   }
-  
-  public listProductOption: any = {};
+  public count: any;
+  // count item filter enable true
+  public countEnableTrue: any;
+  // count item filter enable false
+  public countEnableFalse: any;
+  // count item filter quantity 0
+  public countQty0: any;
+  public page: any = [];
+  public pageEnableTrue: any = [];
+  public pageEnableFalse: any = [];
+  public pageQty0: any = [];
+
+  public listProductOption: any = { };
   public p: number = 1;
+  // page filter enable true
+  public pEnableTrue: number = 1;
+  // page filter enable false
+  public pEnableFalse: number = 1;
+  // page filter quantity 0
+  public pQty0: number = 1;
   public items: any = [];
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
-  public loadProductAll() {
-    this.productService.getAllProductOption().subscribe((data) => {
-    const item = data.map(function (obj: {
+
+  public loadProductAll(page: any) {
+    page = page - 1;
+    this.productService.getAllProductOption(page).subscribe((data) => {
+      console.log(data)
+      const item = data.content.map(function (obj: {
+        id: any;
+        id_product: any;
+        display_name: any;
+        price: any;
+        size: any;
+        quantity: any;
+      }
+      ) {
+        return obj;
+      });
+      this.items = item;
+      this.page = data;
+      this.count = this.page.totalElements;
+    },
+      (err) => {
+        if (err.status == 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: "Chưa đăng nhập",
+          });
+          this.router.navigate(['/login'])
+        } else {
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: err.message,
+          });
+        }
+      });
+  }
+
+  // load all produt filter by quantity
+  public loadProductQty0(page: any) {
+    page = page - 1;
+    this.productService.getAllProductByQty0(page).subscribe((data) => {
+      this.itemsQuantity0 = data.content.map(function (obj: {
         id: any;
         id_product: any;
         display_name: any;
@@ -73,16 +103,66 @@ export class ProductAllComponent implements OnInit {
       }) {
         return obj;
       });
-      console.log(item)
-      this.items = item;
-      this.itemsEnableTrue = item;
-      this.itemsEnableFalse = item;
-      this.itemsQuantity0 = item;
-
+      this.pageQty0 = data;
+      this.countQty0 = this.pageQty0.totalElements;
+      console.log(this.countQty0);
     },
-    (err) => {
-      console.log(err.error)
-      if (err.status == 404) {
+      (err) => {
+        if (err.status == 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: "Chưa đăng nhập",
+          });
+          this.router.navigate(['/login'])
+        } else {
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: err.message,
+          });
+        }
+      });
+
+  }
+  // load all product filter by enable
+  public loadProductEnable(value: boolean, page: any) {
+    page = page - 1;
+    this.productService.getAllProductByEnable(value, page).subscribe((data) => {
+      if (value) {
+        this.itemsEnableTrue = data.content.map(function (obj: {
+          id: any;
+          id_product: any;
+          display_name: any;
+          price: any;
+          size: any;
+          quantity: any;
+        }) {
+          return obj;
+        });
+        this.pageEnableTrue = data;
+        console.log(this.pageEnableTrue);
+        this.countEnableTrue = this.pageEnableTrue.totalElements;
+
+      } else {
+        this.itemsEnableFalse = data.content.map(function (obj: {
+          id: any;
+          id_product: any;
+          display_name: any;
+          price: any;
+          size: any;
+          quantity: any;
+        }) {
+          return obj;
+        });
+        this.pageEnableFalse = data;
+        this.countEnableFalse = this.pageEnableFalse.totalElements;
+        console.log(this.countEnableFalse);
+      }
+    }, error => {
+      console.log(error);
+      if (error.status == 404) {
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
@@ -93,23 +173,45 @@ export class ProductAllComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
-          text: err.error.message,
+          text: error.error.message,
         });
       }
-    });
+    })
+  }
+  public handlePageChange(event: number) {
+    this.p = event;
+    this.router.navigate(["/shop/product/all/" + this.p]);
+    this.loadProductAll(this.p);
+  }
+  // action change page filter enable true
+  public handlePageChangeEnableTrue(event: number) {
+    this.pEnableTrue = event;
+    this.loadProductEnable(true, this.pEnableTrue);
+  }
+  // action change page filter enable true
+  public handlePageChangeEnableFalse(event: number) {
+    this.pEnableFalse = event;
+    this.loadProductEnable(false, this.pEnableFalse);
+  }
+  // action change page filter quantity
+  public handlePageChangeQty0(event: number) {
+    this.pQty0 = event;
+    this.loadProductQty0(this.pQty0);
   }
 
+  public countProductPresent() {
+    return this.p * 5;
+  }
 
-  public editProduct(id:string){
+  public editProduct(id: string) {
     //routerLink="[`/shop/product/manager`,e.product.id,'id']"
     this.router.navigate(['shop/product/manager', id]);
   }
 
   public countOrder: any = "";
-  public countProductOder(id:string){
-    this.productService.countProductOrder(id).subscribe((data) =>{
-    this.countOrder = data;
-      console.log("helloooooooooooooooooooooooooo: "+data);
+  public countProductOder(id: string) {
+    this.productService.countProductOrder(id).subscribe((data) => {
+      this.countOrder = data;
     })
 
   }

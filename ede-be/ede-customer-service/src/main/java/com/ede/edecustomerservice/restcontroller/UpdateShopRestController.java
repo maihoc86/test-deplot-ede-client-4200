@@ -39,6 +39,9 @@ public class UpdateShopRestController {
 		}
 		
 		if (shop.getUser().getId().equals(shopLogin.getUser().getId())) {
+			if(shopLogin.getImage() == null || shopLogin.getImage().equals("")) {
+				shopLogin.setImage(shop.getImage());
+			}
 			return ResponseEntity.status(HttpStatus.OK).body(shopService.save(shop));
 		} else {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,

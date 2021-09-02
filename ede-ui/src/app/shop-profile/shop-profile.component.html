@@ -31,7 +31,6 @@
                             10</strong></h6>
                         <h6 class="pull-left">Đã tham gia: <span>{{shop.create_date | date: 'dd-MM-yyyy'}}</span> </h6>
                       </div>
->>>>>>> 469e09f3290fc4b3576bcf4efa7d8423cfa0af17
                     </div>
                     <div class="row">
                       <div class="col-sm-12"> <input type="file" #InputImage (change)="onselectFile($event)"
@@ -75,24 +74,103 @@
               <label for="input-display-name" class="col-sm-12 control-label"><b>Tên cửa hàng</b></label>
               <div class="col-sm-12">
                 <input type="text" class="form-control" formControlName="name" id="input-display-name"
-                  placeholder="Nhập tên cửa hàng..." value="" name="product"><br>
+                  placeholder="Nhập tên cửa hàng..." value="" name="product">
+                <div *ngIf="
+                  formShop.controls['name'].invalid &&
+                  (formShop.controls['name'].dirty ||
+                  formShop.controls['name'].touched)
+                " class="alert alert-danger">
+                  <span *ngIf="
+                formShop.controls['name'].errors &&
+                formShop.controls['name'].errors.required
+                  ">Tên cửa hàng là bắt buộc</span>
+                  <span *ngIf="
+                formShop.controls['name'].errors &&
+                formShop.controls['name'].errors.pattern
+                  ">Tên không đúng định dạng</span>
+                </div><br>
               </div><br>
+              <div *ngIf="!isHiddenAddress">
+                <label for="input-display-name" class="col-sm-12 control-label"><b>Tỉnh/thành</b></label>
+                <div class="col-sm-12">
+                  <select name="country_id" id="input-city" class="form-control" formControlName="city"
+                    (change)="getDistricts()">
+                    <option [ngValue]="null" disabled>
+                      --- Chọn tỉnh thành ---
+                    </option>
+                    <option *ngFor="let prf of listCitys" [ngValue]="prf">
+                      {{ prf.name }}
+                    </option>
+                  </select>
+                </div><br>
+                <div *ngIf="!isHiddenDistrict">
+                  <label for="input-display-name" class="col-sm-12 control-label"><b>Quận/huyện</b></label>
+                  <div class="col-sm-12">
+                    <select name="country_id" id="input-district" class="form-control" formControlName="district"
+                      (change)="getWards()">
+                      <option [ngValue]="null" disabled>
+                        --- Chọn quận, huyện ---
+                      </option>
+                      <option *ngFor="let prf of listDistricts" [ngValue]="prf">
+                        {{ prf.name }}
+                      </option>
+                    </select>
+                  </div><br>
+                </div>
+                <div *ngIf="!isHiddenWards">
+                  <label for="input-display-name" class="col-sm-12 control-label"><b>Phường/xã</b></label>
+                  <div class="col-sm-12">
+                    <select name="country_id" id="input-wards" class="form-control" formControlName="wards">
+                      <option [ngValue]="null" disabled>
+                        --- Chọn phường xã ---
+                      </option>
+                      <option *ngFor="let prf of listWards" [ngValue]="prf">
+                        {{ prf.name }}
+                      </option>
+                    </select>
+                    <div *ngIf="
+                  formShop.controls['wards'].invalid &&
+                  (formShop.controls['wards'].dirty ||
+                  formShop.controls['address'].touched)
+                " class="alert alert-danger">
+                      <span *ngIf="
+                formShop.controls['wards'].errors &&
+                formShop.controls['wards'].errors.required
+                  ">Phường/xã là bắt buộc</span>
+                    </div>
+                  </div><br>
+                </div>
+              </div>
               <label for="input-display-name" class="col-sm-12 control-label"><b>Địa chỉ cửa hàng</b></label>
               <div class="col-sm-12">
-                <input type="text" class="form-control" formControlName="address" id="input-display-name"
-                  placeholder="Địa chỉ cửa hàng..." value="" name="product"><br>
+                <input type="text" maxlength="200" class="form-control" formControlName="address"
+                  id="input-display-name" placeholder="Địa chỉ cửa hàng..." value="" name="product">
+                <span style="color: #ff3c20;cursor: pointer;" (click)="showSelectionAddress()">+ Sửa địa chỉ</span>
+                <div *ngIf="
+                formShop.controls['address'].invalid &&
+                (formShop.controls['address'].dirty ||
+                formShop.controls['address'].touched)
+              " class="alert alert-danger">
+                  <span *ngIf="
+              formShop.controls['address'].errors &&
+              formShop.controls['address'].errors.required
+                ">Địa chỉ là bắt buộc</span>
+                  <span *ngIf="
+              formShop.controls['address'].errors &&
+              formShop.controls['address'].errors.pattern
+                ">Địa chỉ không đúng định dạng</span>
+                </div><br>
               </div><br>
               <label for="input-display-name" class="col-sm-12 control-label"><b>Mô tả cửa hàng</b></label>
               <div class="col-sm-12">
                 <textarea cols="70" rows="11" type="text" class="form-control" formControlName="description"
                   id="input-display-name" placeholder="Mô tả cửa hàng..." value="" name="product"></textarea>
               </div>
-              <div class="col-sm-12 subcribe"><button class="btn btn-secondary btn-default font-title col-sm-12"
-                  (click)="updateInfoShop()">Lưu</button></div>
+              <div class="col-sm-12 subcribe"><button [disabled]="formShop.invalid ? 'disabled' : null"
+                  class="btn btn-secondary btn-default font-title col-sm-12" (click)="updateInfoShop()">Lưu</button>
+              </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </form>
