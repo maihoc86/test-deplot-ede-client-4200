@@ -49,6 +49,7 @@ export class ProductShopComponent implements OnInit {
   public listBrands: any = [];
   public listCountry: any = [];
   public listCities: any = [];
+  public selectedFiles: File[] = [];
   public product = new FormGroup({
     id: new FormControl(''),
     origin: new FormControl('', [
@@ -97,7 +98,6 @@ export class ProductShopComponent implements OnInit {
     startdate: new FormControl('', Validators.required),
     enddate: new FormControl('', Validators.required),
   });
-
   public product_tags = new FormGroup({
     id: new FormControl(''),
     producttag: new FormControl(''),
@@ -223,7 +223,7 @@ export class ProductShopComponent implements OnInit {
           this.images.push(event.target.result);
         }
         reader.readAsDataURL(event.target.files[i]);
-        this.imageArray.push(event.target.files[i].name)
+        this.imageArray.push(event.target.files[i])
         this.product_options_image.patchValue({
           image: this.imageArray.toString()
         });
@@ -318,6 +318,7 @@ export class ProductShopComponent implements OnInit {
           console.log(this.product_options_image.value);
           this.Addservice.addProductOptionImage(this.createNewOptionImage()).subscribe(
             (data) => {
+              alert(data)
             }), ((error: any) => {
               Swal.fire({
                 title: 'Thông báo!',
@@ -365,17 +366,33 @@ export class ProductShopComponent implements OnInit {
               })
             })
           }
-          this.product_options.controls['product'].setValue(data);
+
           this.product_discount.controls['productdiscount'].setValue(data);
           this.Addservice.addProductDiscount(this.createNewDataDiscount()).toPromise().then(data => {
           }), ((error: any) => {
           })
+          this.product_options.controls['product'].setValue(data);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
-            this.product_options_image.controls['productoption'].setValue(data);
-            if (this.imageArray.length > 0) {
-              this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
-              });
+            const formData = new FormData();
+            for (var i = 0; i < this.imageArray.length; i++) { 
+              formData.append("files", this.imageArray[i]);
             }
+            console.log(formData.getAll('files'));
+            this.Addservice.createMultiImageProductOption(formData).toPromise().then(data => {
+              this.product_options_image.controls['productoption'].setValue(data);
+              if (this.imageArray.length > 0) {
+                this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
+                  alert(data)
+                }, error => {
+                  alert(error)
+                });
+              }
+            }), ((error: any) => {
+              alert("Lỗi thêm Image FTP")
+            })
+
+          }, error => {
+            alert("Lỗi option")
           });
           if (result.isConfirmed) {
             this.Addservice.enableProductShop(data.id).subscribe((data) => {
