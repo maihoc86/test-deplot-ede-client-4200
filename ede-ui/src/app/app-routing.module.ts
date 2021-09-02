@@ -12,6 +12,7 @@ import { ShopInterfaceComponent } from './shop-interface/shop-interface.componen
 import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
+import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -20,13 +21,14 @@ const routes: Routes = [
   { path: 'register', component: RegisterAccountComponent },
   { path: 'account/verify', component: AccountActiveComponent },
   { path: 'shop/product/manager', component: ProductShopComponent },
-  { path: 'shop/product/all/:page', component: ProductAllComponent},
+  { path: 'shop/product/all', component: ProductAllComponent},
   { path: 'shop/order/all', component:OrderAllComponent},
   { path: 'shop/interface', component: ShopInterfaceComponent},
   { path: 'shop/showall/interface', component: ShowAllProductsShopInterfaceComponent},
   { path: 'shop/profile', component: ShopProfileComponent},
   { path: 'shop/product/manager/:id', component:ProductShopComponent, pathMatch: 'full'},
-  { path: 'search', component: ProductSearchComponent }
+  { path: 'search', component: ProductSearchComponent },
+  { path: 'shop/revenue', component:RevenueShopComponent}
 ];
 
 @NgModule({

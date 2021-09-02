@@ -488,7 +488,7 @@ export class ProductShopComponent implements OnInit {
         { value: 'chu_m', viewValue: 'M' },
         { value: 'chu_L', viewValue: 'L' },
         { value: 'chu_XL', viewValue: 'XL' },
-        { value: 'chu_XX:', viewValue: 'XXL' },
+        { value: 'chu_XX', viewValue: 'XXL' },
         { value: 'chu_XXXL', viewValue: 'XXXL' },
       ]
     }

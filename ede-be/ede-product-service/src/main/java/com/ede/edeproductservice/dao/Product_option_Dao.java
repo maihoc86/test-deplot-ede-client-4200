@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -35,12 +36,12 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	@Query("select o from Product_option o where o.product.shop = ?1")
 	Page<Product_option> finAllByShop(Shop shop, PageRequest of);
 
-	@Query("select o from Product_option o where o.product.shop = ?1 and o.product.enable = ?2")
-	Page<Product_option> findProductEnableShop(Shop shop,Boolean value,PageRequest of);
+	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and o.product.shop = ?1 and o.product.enable = ?2 ")
+	Page<Product_option> findProductEnableShop(Shop shop, Boolean value, PageRequest of);
 
-	@Query("select o from Product_option o where o.product.shop = ?1 and o.quantity = 0")
+	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and  o.product.shop = ?1 and o.quantity = 0")
 	Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of);
-	
+
 	@Query("select o.product from Product_option o where o.id = ?1")
 	Product findProductById(String id);
 
@@ -49,7 +50,13 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 
 	@Query("SELECT count(o) FROM Product_option o where o.product.id = ?1 ")
 	int countItemByProductID(String id);
+	
+	@Query("SELECT p FROM Product_option p WHERE p.product.shop.id =:id_shop AND  p.is_delete = false AND p.product.deleted = false AND p.product.enable = true")
+	Page<Product_option> listAllProductByCustomer(String id_shop,Pageable page);
 
 
+	
+//	@Query("SELECT o from Product_option o where o")
+//	Page<Product_option> listAll(PageRequest of);
 
 }

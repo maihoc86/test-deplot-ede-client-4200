@@ -14,16 +14,14 @@ export class ProductSearchComponent {
     private activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
-      if (JSON.stringify(this.params) != JSON.stringify(params)) {
-        this.params = params
-        this.init()
-      }
+      this.params = params
+      this.init()
     })
   }
 
-  public productSearchPage: any
+  public params: any
 
-  public params = {}
+  public productSearchPage: any
 
   init(): void {
     this.productSearchSvc.getProductByKeySearch(this.params).subscribe(
