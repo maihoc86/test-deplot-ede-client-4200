@@ -33,6 +33,7 @@ public class FileCreateRestController {
 	
 	@PostMapping("create-multi/binary")
 	ResponseEntity<List<String>> putFiles(@RequestPart("files") MultipartFile[] partFiles) throws IOException{
+		System.out.println("Vào đây nè");
 		return addFiles(partFiles, FTP.BINARY_FILE_TYPE);
 	}
 	
