@@ -63,7 +63,6 @@ public class Product implements Serializable {
 	public String toString() {
 		return "";
 	}
-	
 	@Transient
 	public Product_option optionDef;
 	public Product_option getOptionDef() {
