@@ -31,6 +31,8 @@ public class Product_option implements Serializable {
 	String size;
 	Integer quantity;
 	Boolean is_delete;
+
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product product;
