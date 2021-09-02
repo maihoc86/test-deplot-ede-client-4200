@@ -19,7 +19,6 @@ import { ProductTag } from '../models/product-tag.model';
 import { HeaderService } from '../Services/header/header.service';
 import * as moment from 'moment';
 import { ProductDiscount } from '../models/product-discount.model';
-
 @Component({
   selector: 'app-product-shop',
   templateUrl: './product-shop.component.html',
@@ -37,6 +36,7 @@ export class ProductShopComponent implements OnInit {
   maxDate = moment(new Date(2023, 1, 1)).format('YYYY-MM-DD');
   images: string[] = [];
   imageArray: string[] = [];
+  imageArrayDelete: string[] = [];
   tagArray: string[] = [];
   image_option: any;
   public isHiddenEndDate: boolean = true;
@@ -224,9 +224,6 @@ export class ProductShopComponent implements OnInit {
         }
         reader.readAsDataURL(event.target.files[i]);
         this.imageArray.push(event.target.files[i])
-        this.product_options_image.patchValue({
-          image: this.imageArray.toString()
-        });
       }
     }
 
@@ -239,9 +236,6 @@ export class ProductShopComponent implements OnInit {
       if (this.images[i] == item) {
         this.imageArray.splice(i, 1);
         this.images.splice(i, 1);
-        this.product_options_image.patchValue({
-          image: this.imageArray.toString()
-        });
       }
     }
   }
@@ -273,20 +267,24 @@ export class ProductShopComponent implements OnInit {
           })
         }
         this.product_options.controls['product'].setValue(data);
-        console.log(this.product_options.controls['id'].value);
         this.Addservice.updateProductOption(this.createNewOption()).subscribe(
-          (data) => {
-            this.product_options_image.controls['productoption'].setValue(data);
+          (dataOption) => {
             if (this.imageArray.length > 0) {
-              this.Addservice.updateProductOptionImage(this.createNewOptionImage()).subscribe(
+              this.Addservice.getProductOptionImageByIdOption(dataOption.id).subscribe(
                 (data) => {
-                }), ((error: any) => {
-                  Swal.fire({
-                    title: 'Thông báo!',
-                    text: 'Cập nhật hình ảnh thất bại !!!',
-                    icon: 'error'
+                  data.forEach((element: any) => {
+                    this.imageArrayDelete.push(element.image);
                   })
-                })
+                  this.Addservice.deleteMultiImageProductOption(this.imageArrayDelete).subscribe(
+                    (data) => {
+                      this.updateMultiImage(dataOption);
+                    }, error => {
+                      alert("error deletemuti")
+                    })
+                }, error => {
+                  alert("error getimage")
+                });
+
             }
           }), ((error: any) => {
             Swal.fire({
@@ -373,24 +371,7 @@ export class ProductShopComponent implements OnInit {
           })
           this.product_options.controls['product'].setValue(data);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
-            const formData = new FormData();
-            for (var i = 0; i < this.imageArray.length; i++) { 
-              formData.append("files", this.imageArray[i]);
-            }
-            console.log(formData.getAll('files'));
-            this.Addservice.createMultiImageProductOption(formData).toPromise().then(data => {
-              this.product_options_image.controls['productoption'].setValue(data);
-              if (this.imageArray.length > 0) {
-                this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
-                  alert(data)
-                }, error => {
-                  alert(error)
-                });
-              }
-            }), ((error: any) => {
-              alert("Lỗi thêm Image FTP")
-            })
-
+            this.addMultiImage(data)
           }, error => {
             alert("Lỗi option")
           });
@@ -548,8 +529,15 @@ export class ProductShopComponent implements OnInit {
             for (const i in data) {
               this.product_options_image.controls['id'].setValue(data[0].id);
               this.product_options_image.controls['productoption'].setValue(data[0].productoption);
-              console.log(data[0].id);
-              console.log(data[0].productoption);
+              // TODO
+              this.Addservice.readrFileMultiImageProductOption(data[0].image).subscribe(data => {
+                // filereader.readAsArrayBuffer(data, () => {
+                //   console.log(data)
+                // })
+              }, error => {
+                console.log(error)
+              })
+              this.images.push("http://localhost:8080/ede-file/get/image/" + data[i].image);
               this.imageArray.push(data[i].image);
               this.product_options_image.patchValue({
                 image: this.imageArray.toString()
@@ -625,6 +613,51 @@ export class ProductShopComponent implements OnInit {
     return option.id === value.id;
   }
 
+
+  public addMultiImage(data: any) {
+    const formData = new FormData();
+    for (var i = 0; i < this.imageArray.length; i++) {
+      formData.append("files", this.imageArray[i]);
+    }
+    this.Addservice.createMultiImageProductOption(formData).toPromise().then(valueFile => {
+      this.product_options_image.patchValue({
+        image: valueFile.toString()
+      });
+      this.product_options_image.controls['productoption'].setValue(data);
+      if (valueFile.length > 0) {
+        this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
+        }, error => {
+          alert(error)
+        });
+      }
+    }), ((error: any) => {
+      alert("Lỗi thêm Image FTP")
+    })
+  }
+  public updateMultiImage(data: any) {
+    const formData = new FormData();
+    for (var i = 0; i < this.imageArray.length; i++) {
+      formData.append("files", this.imageArray[i]);
+    }
+    this.Addservice.createMultiImageProductOption(formData).toPromise().then(valueFile => {
+      this.product_options_image.patchValue({
+        image: valueFile.toString()
+      });
+      this.product_options_image.controls['productoption'].setValue(data);
+      this.Addservice.updateProductOptionImage(this.createNewOptionImage()).subscribe(
+        (data) => {
+          console.log(data)
+        }), ((error: any) => {
+          Swal.fire({
+            title: 'Thông báo!',
+            text: 'Cập nhật hình ảnh thất bại !!!',
+            icon: 'error'
+          })
+        })
+    }), ((error: any) => {
+      alert("Lỗi thêm Image FTP")
+    })
+  }
 }
 
 interface size {

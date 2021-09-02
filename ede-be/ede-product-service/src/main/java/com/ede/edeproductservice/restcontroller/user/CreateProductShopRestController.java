@@ -109,13 +109,11 @@ public class CreateProductShopRestController {
 			Optional<Product_option_image> findImage = product_option_image_service.findById(generateUUID().toString());
 			if (findImage.isPresent() && findImage != null) {
 				product_option.setId(generateUUID().toString());
-				String[] fileCat = words[i].split("\\.");
-				product_option.setImage(generateUUID().toString() + "." + fileCat[1]);
+				product_option.setImage(words[i]);
 				product_option_image_service.save(product_option);
 			} else {
 				product_option.setId(generateUUID().toString());
-				String[] fileCat = words[i].split("\\.");
-				product_option.setImage(generateUUID().toString() + "." + fileCat[1]);
+				product_option.setImage(words[i]);
 				product_option_image_service.save(product_option);
 			}
 		}
