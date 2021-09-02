@@ -16,6 +16,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	   public void addInterceptors(InterceptorRegistry registry) {
 	      // LogInterceptor apply to all URLs.
 	      registry.addInterceptor(login)
-	      .excludePathPatterns("/ede-product/view/get-products");
+	      .excludePathPatterns(
+	    		  "/ede-product/view/get-products",
+	    		  "/ede-product/view/getAllProduct"
+	    		  );
 	   }
 }

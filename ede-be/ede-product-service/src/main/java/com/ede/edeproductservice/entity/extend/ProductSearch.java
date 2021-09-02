@@ -1,17 +1,24 @@
 package com.ede.edeproductservice.entity.extend;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
+import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -53,9 +60,9 @@ public class ProductSearch {
 	@JoinColumn(name = "id_category", table = "product")
 	Product_child_category childCategory;
 	//------------------------
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "product")
-//	List<Product_option> productOptions;
+	@JsonIgnore
+	@OneToMany(mappedBy = "product")
+	List<Product_option> productOptions;
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "productdiscount")
 //	List<Product_discount> productDiscount;
@@ -63,5 +70,12 @@ public class ProductSearch {
 //	@OneToMany(mappedBy = "producttag")
 //	List<Product_tag> producTags;
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	@Transient
+	public Product_option optionDef;
+
+	public Product_option getOptionDef() {
+		return this.getProductOptions().get(0);
+	}
 	
 }
