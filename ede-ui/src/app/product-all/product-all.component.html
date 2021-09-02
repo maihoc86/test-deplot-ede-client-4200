@@ -46,11 +46,6 @@
 
                             <input class="autosearch-input form-control" type="text" value="" size="50"
                               autocomplete="off" placeholder="Nhập vào..." name="search" />
-                            <!-- <span class="input-group-btn">
-                              <button type="submit" class="button-search btn btn-primary" name="submit_search">
-                                <i class="fa fa-search"></i>
-                              </button>
-                            </span> -->
                           </div>
                           <input type="hidden" name="route" value="product/search" />
                         </form>
@@ -59,11 +54,12 @@
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" formControlName="name" id="input-product"
-                      placeholder="Tên sản phẩm" value="" name="product">
-                  </div>
+                  <select (change)="changeSize($event)" name="cars" id="cars" style="width: 200px; height: 30px;">
+                    <option hidden >Show</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                  </select>
                 </div>
                 <div class="buttons clearfix">
                   <div class="pull-left" style="margin-left: 30px;">
@@ -75,8 +71,7 @@
                 </div><br>
                 <div class="buttons clearfix">
                   <div class="pull-left" style="margin-left: 20px;">
-                    <h3><span>{{p==page.totalPages?page.totalElements:p*5}}</span> / <span>{{page.totalElements}}</span>
-                      Sản phẩm
+                    <h3><span>{{p==page.totalPages?page.totalElements:p*size}}</span> / <span>{{page.totalElements}}</span> Sản phẩm
                     </h3>
                   </div>
                   <div class="pull-right">
@@ -103,7 +98,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let e of items  | paginate: {itemsPerPage: 5, currentPage: p, totalItems: count}">
+                    <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count, id: 'first'}">
                       <td>{{e.product.name}}</td>
                       <td>{{e.product.brand.name}}</td>
                       <td>{{e.display_name}}</td>
@@ -114,7 +109,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+                <pagination-controls (pageChange)="handlePageChange($event)"  id="first"></pagination-controls>
               </div>
 
             </div>
@@ -208,7 +203,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: 5, currentPage: pEnableTrue, totalItems: countEnableTrue}">
+                    *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: 5, currentPage: pEnableTrue, totalItems: countEnableTrue , id: 'second'}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
@@ -220,7 +215,7 @@
                 </tbody>
               </table>
               <pagination-controls *ngIf="pageEnableTrue.totalElements>1"
-                (pageChange)="handlePageChangeEnableTrue($event)"></pagination-controls>
+                (pageChange)="handlePageChangeEnableTrue($event)"  id="second"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -311,7 +306,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsQuantity0  | paginate: {itemsPerPage: 5, currentPage: pQty0, totalItems: countQty0}">
+                    *ngFor="let e of itemsQuantity0  | paginate: {itemsPerPage: 5, currentPage: pQty0, totalItems: countQty0, id: 'three' }">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
@@ -323,7 +318,7 @@
                 </tbody>
               </table>
 
-              <pagination-controls *ngIf="pageQty0.totalElements>1" (pageChange)="handlePageChangeQty0($event)">
+              <pagination-controls *ngIf="pageQty0.totalElements>1" (pageChange)="handlePageChangeQty0($event)" id="three">
               </pagination-controls>
             </div>
           </div>
@@ -421,7 +416,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: 5, currentPage: pEnableFalse, totalItems: countEnableFalse}">
+                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: 5, currentPage: pEnableFalse, totalItems: countEnableFalse ,id: 'four'}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
@@ -433,7 +428,7 @@
                 </tbody>
               </table>
               <pagination-controls *ngIf="pageEnableFalse.totalElements>1"
-                (pageChange)="handlePageChangeEnableFalse($event)"></pagination-controls>
+                (pageChange)="handlePageChangeEnableFalse($event)" id="four"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->

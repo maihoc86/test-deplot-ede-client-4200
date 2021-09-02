@@ -15,7 +15,7 @@ export class ProductAllComponent implements OnInit {
   constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadProductAll(1);
+    this.loadProductAll(1,5);
   }
   filterEnableFalse() {
     this.loadProductEnable(false, 1);
@@ -27,6 +27,7 @@ export class ProductAllComponent implements OnInit {
     this.loadProductQty0(1);
   }
 
+  public size: number = 5;
   public count: any;
   public countEnableTrue: any;
   public countEnableFalse: any;
@@ -45,11 +46,11 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
 
-  public loadProductAll(page: any) {
-    page = page - 1;
-    this.productService.getAllProductOption(page).subscribe((data) => {
+  public loadProductAll(page: any, size: any) {
+    page= page-1;
+    this.productService.getAllProductOption(page, size).subscribe((data) => {
       console.log(data)
-      const item = data.content.map(function (obj: {
+      const item = data.content.map(function (obj: { 
         id: any;
         id_product: any;
         display_name: any;
@@ -59,12 +60,21 @@ export class ProductAllComponent implements OnInit {
       }
       ) {
         return obj;
-      });
+      }
+      );
+      console.log(item)
       this.items = item;
       this.page = data;
+     // this.arrays = [];
       this.count = this.page.totalElements;
+      //this.arrays = Array(this.page.totalPages).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}`}));
+      this.itemsEnableTrue = item;
+      this.itemsEnableFalse = item;
+      this.itemsQuantity0 = item;
+
     },
       (err) => {
+        console.log("Chưa đăng nhập "+err.error)
         if (err.status == 404) {
           Swal.fire({
             icon: 'error',
@@ -73,11 +83,10 @@ export class ProductAllComponent implements OnInit {
           });
           this.router.navigate(['/login'])
         } else {
-          console.log(err)
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
-            text: err.message,
+            text: err.error.message,
           });
         }
       });
@@ -170,11 +179,21 @@ export class ProductAllComponent implements OnInit {
       }
     })
   }
-  public handlePageChange(event: number) {
+  
+  public handlePageChange(event:number){
     this.p = event;
-    this.router.navigate(["/shop/product/all/" + this.p]);
-    this.loadProductAll(this.p);
+    //this.router.navigate(["/shop/product/all?page=" + this.p+"&size="+this]);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams("",this.p,this.size),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+      console.log("handlePageChange nè")
+    this.loadProductAll(this.p,this.size);
   }
+
   public handlePageChangeEnableTrue(event: number) {
     console.log(event);
     this.pEnableTrue = event;
@@ -189,8 +208,30 @@ export class ProductAllComponent implements OnInit {
     this.loadProductQty0(this.pQty0);
   }
 
-  public countProductPresent() {
-    return this.p * 5;
+  getRequestParams(searchKeyword: string, page: number, pageSize: number): any {
+    let params: any = {};
+
+    if (searchKeyword) {
+      params[`keyword`] = searchKeyword;
+    }
+
+    if (page) {
+      params[`page`] = page;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
+  }
+
+  public changeSize(event: any){
+    this.p = 1;
+    this.size = event.target.value;
+    console.log("size nè: "+event.target.value);
+    this.loadProductAll(this.p, this.size);
+
   }
 
   public editProduct(id: string) {

@@ -50,6 +50,10 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	@Query("SELECT count(o) FROM Product_option o where o.product.id = ?1 ")
 	int countItemByProductID(String id);
 
+	
+//	@Query("SELECT o from Product_option o where o")
+//	Page<Product_option> listAll(PageRequest of);
+
 
 
 }

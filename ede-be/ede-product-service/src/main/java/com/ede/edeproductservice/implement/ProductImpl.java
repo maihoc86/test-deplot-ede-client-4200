@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +56,11 @@ public class ProductImpl implements ProductService {
 	public Product_child_category findCategorybyIDProduct(String id) {
 		
 		return dao.findCategorybyIDProduct(id);
+	}
+
+	@Override
+	public Page<Product> listAll(PageRequest of) {
+		// TODO Auto-generated method stub
+		return dao.listAll(of);
 	}
 }
