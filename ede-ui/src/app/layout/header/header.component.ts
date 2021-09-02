@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { ActivatedRoute } from '@angular/router';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
 
@@ -13,7 +14,11 @@ import { User } from 'src/app/models/user.model';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private cookieService:CookieService,private headerService:HeaderService ) {
+  constructor(
+    private cookieService:CookieService,
+    private headerService:HeaderService,
+    private activatedRoute: ActivatedRoute
+    ) {
     this.u={} as User;
   }
 
@@ -21,7 +26,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserLogin();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.params = params
+      this.txtKeysearch = params.search
+    })
   }
+
+  public params = {}
+
   public login:boolean=false;
   public u:User;
 

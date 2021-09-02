@@ -13,7 +13,6 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;

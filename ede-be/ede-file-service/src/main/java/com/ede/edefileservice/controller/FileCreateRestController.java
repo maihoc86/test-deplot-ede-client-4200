@@ -1,7 +1,11 @@
 package com.ede.edefileservice.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.net.ftp.FTP;
@@ -27,6 +31,11 @@ public class FileCreateRestController {
 	@Autowired
 	FTPClientManager myFtp;
 	
+	@PostMapping("create-multi/binary")
+	ResponseEntity<List<String>> putFiles(@RequestPart("files") MultipartFile[] partFiles) throws IOException{
+		return addFiles(partFiles, FTP.BINARY_FILE_TYPE);
+	}
+	
 	@PostMapping("create/binary")
 	ResponseEntity<String> putFile(@RequestPart("file") MultipartFile partFile) throws IOException{
 		return addFile(partFile, FTP.BINARY_FILE_TYPE);
@@ -41,9 +50,26 @@ public class FileCreateRestController {
 		return ResponseEntity.badRequest().build();
 	}
 	
+	private ResponseEntity<List<String>> addFiles(MultipartFile[] partFiles, int FTP_FILE_TYPE) throws IOException{
+		Map<String, InputStream> mapPart = new HashMap<String, InputStream>();
+		for (MultipartFile partFile : partFiles) {
+			String fileName = createFileName(partFile);
+			mapPart.put(fileName, partFile.getInputStream());
+		}
+		
+		List<String> ls = this.myFtp.uploadMulti(mapPart, FTP_FILE_TYPE);
+		
+		if (null != ls && !ls.isEmpty()) {
+			return ResponseEntity.ok(ls);
+		}
+		
+		return ResponseEntity.badRequest().build();
+	}
+	
+	
 	private String createFileName(MultipartFile partFile) {
 		String extend = partFile.getOriginalFilename().substring(partFile.getOriginalFilename().lastIndexOf("."));
-		String result = "f_" + UUID.randomUUID().toString() + "_" + Long.toHexString(new Date().getTime()) + extend;
+		String result = "f_" + Long.toHexString(new Date().getTime()) + "_" + UUID.randomUUID().toString() + extend;
 		return result;
 	}
 	
