@@ -30,6 +30,7 @@ import { ProductSearchElementComponent } from './items/product-search-element/pr
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ShopProfileComponent,
     ProductSearchElementComponent,
     ProductSearchComponent,
+    RevenueShopComponent,
   ],
   imports: [
     BrowserModule,

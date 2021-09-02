@@ -103,4 +103,10 @@ public class Product_Option_Impl implements Product_option_service {
 	public Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of) {
 		return dao.findProductQuantity0Shop(shop, of);
 	}
+
+//	@Override
+//	public Page<Product_option> listAll(PageRequest of) {
+//		// TODO Auto-generated method stub
+//		return dao.listAll(of);
+//	}
 }

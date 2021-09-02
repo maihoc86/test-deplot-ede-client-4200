@@ -15,6 +15,7 @@
                         <h6>Online 10 phút trước</h6><br>
                     </div>
                 </li>
+<<<<<<< HEAD
                 <li class="list-group-item title">Danh mục shop</li>
                 <li class="list-group-item target hover" *ngFor="let item of listCategories" [value]="item.name">
                     <a class="clearfix">
@@ -50,6 +51,16 @@
                         <span>{{item.name}}</span>
                     </a>
                 </li>
+=======
+                <li class="list-group-item">Sản phẩm</li>
+                <li class="list-group-item">T-shirt</li>
+                <li class="list-group-item">Dress/Skirt</li>
+                <li class="list-group-item">Blouse</li>
+                <li class="list-group-item">Camiso</li>
+                <li class="list-group-item">swinesha</li>
+                <li class="list-group-item">Blouse</li>
+                <li class="list-group-item">Blouse</li>
+>>>>>>> 142-create-pagination-search-shop-all-product
             </ul>
 
         </aside>
@@ -72,11 +83,15 @@
         <!--changed listings-->
         <div class="related titleLine products-list grid module ">
 
+<<<<<<< HEAD
             <div class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
+=======
+            <div *ngFor="let e of items " class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
+>>>>>>> 142-create-pagination-search-shop-all-product
                 <div class="product-item-container">
                     <div class="left-block">
                         <div class="product-image-container second_img">
-                            <a href="product.html" target="_self" title="Chicken swinesha">
+                            <a  target="_self" title="Chicken swinesha">
                                 <img src="/assets/img/8.jpg" class="img-1 img-responsive" alt="image">
                                 <img src="/assets/img/8.jpg" class="img-2 img-responsive" alt="image">
                             </a>
@@ -113,15 +128,16 @@
                                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                             </div>
-                            <h4><a href="product.html" title="Chicken swinesha" target="_self">Chicken swinesha</a></h4>
-                            <div class="price"> <span class="price-new">$46.00</span>
-                                <span class="price-old">$55.00</span>
+                            <h4><a href="product.html" title="Chicken swinesha" target="_self">{{e.name}}</a></h4>
+                            <div class="price"> <span class="price-new">{{e.price}}</span>
+                                <span class="price-old">{{e.price}}</span>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
                 <div class="product-item-container">
                     <div class="left-block">
@@ -577,11 +593,25 @@
 
         </div>
         <!--// End Changed listings-->
+=======
+           
+
+        </div>
+        <!--// End Changed listings-->
 
 
+
+
+>>>>>>> 142-create-pagination-search-shop-all-product
+
+    </div>
+
+<<<<<<< HEAD
 
 
 
     </div>
 
+=======
+>>>>>>> 142-create-pagination-search-shop-all-product
 </div>
