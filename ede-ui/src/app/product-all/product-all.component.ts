@@ -27,6 +27,7 @@ export class ProductAllComponent implements OnInit {
     this.loadProductQty0(1);
   }
   public size: number = 5;
+
   public count: any;
   // count item filter enable true
   public countEnableTrue: any;
@@ -51,6 +52,7 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
+
 
   public loadProductAll(page: any, size: any) {
     page= page-1;
@@ -201,6 +203,8 @@ export class ProductAllComponent implements OnInit {
       console.log("handlePageChange nè")
     this.loadProductAll(this.p,this.size);
   }
+
+  // action change page filter enable true
 
   public handlePageChangeEnableTrue(event: number) {
     this.pEnableTrue = event;

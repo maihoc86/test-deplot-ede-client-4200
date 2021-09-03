@@ -275,6 +275,7 @@ public class ReadProductRestController {
 	}
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product")
 	public ResponseEntity getAllListProductByCustomer(@RequestParam("page") Optional<Integer> page) {
@@ -293,6 +294,7 @@ public class ReadProductRestController {
 	@GetMapping("/view/customer/shop/all/productOption")
 	public Page<Product> getAll(@RequestParam("page") Optional<Integer> page) {
 		System.err.println(" getList showAllProductShop : "+service.listAll(PageRequest.of(page.orElse(0), 20)));
+
 		return service.listAll(PageRequest.of(page.orElse(0), 20));
 	}
 

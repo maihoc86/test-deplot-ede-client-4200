@@ -392,7 +392,8 @@ export class ProductShopComponent implements OnInit {
                 window.location.reload();
               })
             }, error => {
-              alert("lỗi đăng bán")
+              alert(error)
+              console.log(error)
             })
 
           } else {

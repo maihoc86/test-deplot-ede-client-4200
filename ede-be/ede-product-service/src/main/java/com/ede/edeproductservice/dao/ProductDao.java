@@ -22,6 +22,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	@Query("SELECT p FROM Product p WHERE p.enable = true AND p.deleted = false AND p.shop.id=:id_shop")
 	Page<Product> listAllProductShopByCustomer(String id_shop, Pageable page);
 
+
 	List<Product> findAllByDeleted(boolean isdelete);
 
 	@Query("select o.child_category from Product o where o.id=?1 ")
@@ -32,5 +33,8 @@ public interface ProductDao extends JpaRepository<Product, String> {
 
 	@Query("SELECT o from Product o where o.shop.id =:id")
 	List<Product> findByShop(String id);
+
+	
+	
 
 }

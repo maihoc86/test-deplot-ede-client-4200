@@ -55,8 +55,10 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	Page<Product_option> listAllProductByCustomer(String id_shop,Pageable page);
 
 
+
 	
 //	@Query("SELECT o from Product_option o where o")
 //	Page<Product_option> listAll(PageRequest of);
+
 
 }
