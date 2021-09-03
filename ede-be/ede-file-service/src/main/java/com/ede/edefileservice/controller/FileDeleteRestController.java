@@ -34,6 +34,7 @@ public class FileDeleteRestController {
 	// XXX DeleteMapping not have body
 	@PostMapping("delete-multi")
 	ResponseEntity<List<String>> deleteFile(@RequestBody String[] filenames){
+		System.err.println("Vào đây" + filenames.toString());
 		List<String> removed = this.ftpClientManager.deleteMulti(filenames);
 		return ResponseEntity.ok(removed);
 	}

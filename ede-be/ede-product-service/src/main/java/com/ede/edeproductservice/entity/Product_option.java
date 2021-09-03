@@ -23,8 +23,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
-@Data
 @Entity
+@Data
 @Table(name = "product_option")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,11 +37,10 @@ public class Product_option implements Serializable {
 	Integer quantity;
 	Boolean is_delete;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product product;
-
+	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productoption")
 	@Fetch(value = FetchMode.SUBSELECT) 
@@ -52,6 +51,18 @@ public class Product_option implements Serializable {
 	public String toString() {
 		return "";
 	}
+//	/**
+//	 * @return the product
+//	 */
+//	public Product getProduct() {
+//		return product;
+//	}
+//	/**
+//	 * @param product the product to set
+//	 */
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 //	@Transient
 //	public Product_option_image optionImageDef;
 //	public Product_option_image getOptionImageDef() {

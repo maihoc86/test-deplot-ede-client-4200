@@ -63,7 +63,7 @@ public class UpdateProductRestController {
 	public String generateUUID() {
 		return UUID.randomUUID().toString();
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/update/product-shop/")
 	public ResponseEntity updateProduct(@RequestBody Product product, HttpServletRequest req) {
@@ -99,9 +99,8 @@ public class UpdateProductRestController {
 			product_option_image_service.deleteAllImage(product_option.getProductoption().getId());
 			String[] words = product_option.getImage().split(",");
 			for (int i = 0; i < words.length; i++) {
-				String[] fileCat = words[i].split("\\.");
 				product_option.setId(generateUUID().toString());
-				product_option.setImage(product_option.getId() + "." + fileCat[1]);
+				product_option.setImage(words[i]);
 				product_option_image_service.save(product_option);
 			}
 		}

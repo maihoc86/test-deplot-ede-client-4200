@@ -137,5 +137,13 @@ export class AddProductService {
   public createMultiImageProductOption(files: any) {
     return this.httpClient.post<any>('http://localhost:8080/ede-file/create-multi/binary', files, this.httpOptionsFile);
   }
-
+  public readrFileMultiImageProductOption(name: string) {
+    return this.httpClient.get('http://localhost:8080/ede-file/get/image/' + name, {observe: 'response', responseType: 'arraybuffer'});
+  }
+  public updateMultiImageProductOption(files: any) {
+    return this.httpClient.post<any>('http://localhost:8080/ede-file/update-multi/binary', files, this.httpOptionsFile);
+  }
+  public deleteMultiImageProductOption(files: any) {
+    return this.httpClient.post<any>('http://localhost:8080/ede-file/delete-multi', files, this.httpOptionsFile);
+  }
 }
