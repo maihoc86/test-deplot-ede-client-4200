@@ -1,5 +1,5 @@
 package com.ede.edeoauth.controller;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,17 +55,20 @@ public class AuthController {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/check/login")
+	//@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity checkLogin(HttpServletRequest req) {
 		System.err.println("Check login...");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		/// new token
-		try {
-			String jwt = createNewToken(req.getRemoteUser());
-			return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
-
+//		try {
+//			String jwt = createNewToken(req.getRemoteUser());
+//			return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
+//		} catch (Exception e) {
+//			return ResponseEntity.notFound().build();
+//		}
+		System.err.println(req.getRemoteUser());
+		String jwt = createNewToken(req.getRemoteUser());
+		return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
 	}
 
 	@RequestMapping("/check/admin")

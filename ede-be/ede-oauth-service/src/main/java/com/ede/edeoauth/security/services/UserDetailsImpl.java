@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ede.edeoauth.entity.User;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class UserDetailsImpl implements UserDetails {
 	private String id;
 
 	private String username;
-//	@JsonIgnore
+	@JsonIgnore
 	private String password;
 
 
@@ -39,7 +39,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getAuthorities().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getRole().getName()))
+				.map(role -> new SimpleGrantedAuthority("ROLE_"+role.getRole().getName()))
 				.collect(Collectors.toList());
 		System.err.println("authority : " + authorities);
 		return new UserDetailsImpl(

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 import com.ede.edeoauth.security.jwt.AuthEntryPoinJwt;
 import com.ede.edeoauth.security.jwt.AuthTokenFilter;
 import com.ede.edeoauth.security.services.UserDetailServiceImpl;
@@ -51,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		System.err.println(authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance()));
 //		System.err.println(AuthProvider.class + "dsadas");
 //		authenticationManagerBuilder.authenticationProvider(authProvider());
+	//	authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());	
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());//.passwordEncoder(passwordEncoder());
 	}
 
@@ -71,13 +73,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	} 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/ede-oauth-service/api/auth/**").permitAll()
+				//.antMatchers("/ede-oauth-service/api/auth/**").permitAll()
 				//.antMatchers("/ede-oauth-service/api/auth/signin").permitAll()
-				.antMatchers("/api/test/**").permitAll().anyRequest()
-				.authenticated();
-				
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+				.antMatchers("/ede-oauth-service/api/auth/**").permitAll()
+				.antMatchers("/ede-oauth-service/api/test/**").permitAll()
+				.anyRequest().authenticated();
+							
 	}
+	
 }

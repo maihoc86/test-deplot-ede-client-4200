@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -46,11 +47,11 @@ public class Product implements Serializable {
 	Product_child_category child_category;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "product")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	List<Product_option> product_options;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "productdiscount")
+	@OneToMany( mappedBy = "productdiscount")
 	List<Product_discount> product_discount;
 
 	@JsonIgnore

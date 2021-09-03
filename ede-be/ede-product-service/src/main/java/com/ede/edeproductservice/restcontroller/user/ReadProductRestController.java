@@ -288,6 +288,7 @@ public class ReadProductRestController {
 		Page<Product> pageF = service.listAllProductShopByCustomer(shop.getId(), PageRequest.of(page.orElse(0), 3));
 		return ResponseEntity.ok(pageF);
 	}
+	
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
 	@GetMapping("/view/customer/shop/all/productOption")
 	public Page<Product> getAll(@RequestParam("page") Optional<Integer> page) {
