@@ -1,26 +1,12 @@
 package com.ede.edeproductservice.interceptor;
 
-import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
-
-import javax.ws.rs.core.Context;
-import io.sentry.Sentry;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import com.ede.edeproductservice.service.Auth_Service;
 
 @SuppressWarnings("deprecation")
@@ -44,6 +30,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader("Authorization");
 
         try {
+
       	  authService.Security(token,request.getRequestURL());
       	  
 		} catch (HttpClientErrorException e) {
@@ -52,6 +39,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			 return false;
 		}
       return true;
+
     }
     
 }

@@ -1,9 +1,9 @@
 export interface ProductOptions {
     id: String;
-    id_product: String;
+    product: String;
     display_name: String;
     price: number;
     size: String;
     quantity: number;
-    is_deleted: boolean;
+    is_delete: boolean;
 }

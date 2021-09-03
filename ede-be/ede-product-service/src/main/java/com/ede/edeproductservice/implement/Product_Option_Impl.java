@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.Product_option_Dao;
@@ -103,4 +104,14 @@ public class Product_Option_Impl implements Product_option_service {
 	public Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of) {
 		return dao.findProductQuantity0Shop(shop, of);
 	}
+
+	@Override
+	public Page<Product_option> listAll(String id_shop,Pageable of) {
+		return dao.listAllProductByCustomer(id_shop,of);
+	}
+//	@Override
+//	public Page<Product_option> listAll(PageRequest of) {
+//		// TODO Auto-generated method stub
+//		return dao.listAll(of);
+//	}
 }

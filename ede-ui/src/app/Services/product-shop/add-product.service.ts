@@ -6,6 +6,7 @@ import { ProductOptions } from 'src/app/models/product-options.model';
 import { ProductOptionsImage } from 'src/app/models/product-options-image.model';
 import { ProductTag } from '../../models/product-tag.model';
 import { ProductDiscount } from 'src/app/models/product-discount.model';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -66,11 +67,19 @@ export class AddProductService {
   public getChildCategories() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/list_child_category', this.httpOptions);
   }
+  public getChildCategoriesShop() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/category', this.httpOptions);
+  }
+  public getAllProductShopByCustomer(page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
+  }
   public getAllProduct() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct', this.httpOptions);
   }
-  public getAllProductOption(page: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/' + page, this.httpOptions);
+
+  public getAllProductOption(page: any, size: any) {
+    console.log("hihi: " + page)
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption?page=' + page + "&size=" + size, this.httpOptions);
   }
 
   public getAllProductByEnable(value: boolean, page: any) {
@@ -114,5 +123,9 @@ export class AddProductService {
   }
   public deleteProductByid(id: any) {
     return this.httpClient.delete<any>(`${this.REST_API_SERVER}/user/product/delete/` + id, this.httpOptions);
+  }
+
+  public getAllProductShowInterface(page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
   }
 }

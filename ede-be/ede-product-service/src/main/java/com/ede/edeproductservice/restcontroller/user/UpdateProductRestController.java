@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,7 @@ public class UpdateProductRestController {
 	public String generateUUID() {
 		return UUID.randomUUID().toString();
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/user/update/product-shop/")
 	public ResponseEntity updateProduct(@RequestBody Product product, HttpServletRequest req) {
@@ -99,13 +100,21 @@ public class UpdateProductRestController {
 			product_option_image_service.deleteAllImage(product_option.getProductoption().getId());
 			String[] words = product_option.getImage().split(",");
 			for (int i = 0; i < words.length; i++) {
-				String[] fileCat = words[i].split("\\.");
 				product_option.setId(generateUUID().toString());
-				product_option.setImage(product_option.getId() + "." + fileCat[1]);
+				product_option.setImage(words[i]);
 				product_option_image_service.save(product_option);
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Cập nhật hình ảnh thành công", "", null);
+	}
+
+	// TODO: java.lang.NullPointerException: Cannot invoke "String.contains(java.lang.CharSequence)" because "token" is null
+	@SuppressWarnings("rawtypes")
+	@PutMapping("/enable/product-shop/{id}")
+	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
+		Product product = service.findById(id);
+		product.setEnable(true);
+		return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,22 +94,27 @@ public class ReadProductRestController {
 	}
 
 	@GetMapping("/view/getAllProduct")
-	public List<Product> getAllProduct() {
-		return service.findAll();
+	public Page<Product> getAllProduct(@RequestParam("page") Optional<Integer> page) {
+		return service.listAll(PageRequest.of(page.orElse(0), 5));
 	}
 
-	@GetMapping("/view/getAllProductOption/{page}")
-	public ResponseEntity<?> getAllProductOption(@PathVariable("page") Optional<Integer> p) {
+	@GetMapping("/view/getAllProductOption")
+	public ResponseEntity<?> getAllProductOption(@RequestParam(name = "page", defaultValue = "0" ) int page , @RequestParam(name = "size", defaultValue = "5" ) int size ) {
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		Page<Product_option> page = product_option_service.finAllByShop(shop, PageRequest.of(p.orElse(0), 5));
-		// List<Product_option>listProduct = product_option_service.finByShop(shop);
-		return ResponseEntity.ok(page);
+		Page<Product_option> pages = product_option_service.finAllByShop(shop,PageRequest.of(page, size));
+		//List<Product_option>listProduct = product_option_service.finByShop(shop);
+		System.err.println("listProduct size : "+pages.getSize());
+		System.err.println(" size nè : "+size);
+		System.err.println(" page nè : "+page);
+		return ResponseEntity.ok(pages);
 	}
+	
+	
 
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/enable/{value}/{page}")
@@ -122,7 +126,6 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		
 		Page<Product_option> page = product_option_service.findProductEnableShop(shop, value.get(),
 				PageRequest.of(p.orElse(0), 5));
 		System.out.println(page.getContent());
@@ -245,7 +248,7 @@ public class ReadProductRestController {
 	}
 
 	// TODO: Filter product shop by customer
-	@PostMapping("/view/customer/shop/list_product/filter")
+	@GetMapping("/view/customer/shop/list_product/filter")
 	public List<Product_option> getList(@RequestParam Optional<String> location,
 			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
 		String valueLocate = location.orElse("");
@@ -257,4 +260,40 @@ public class ReadProductRestController {
 			return product_option_service.filterProductShopByCustomerOR(valueLocate, valueCate, valueBrand);
 		}
 	}
+
+	/* GET CATEGORY SHOP */
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/view/customer/shop/all/category")
+	public ResponseEntity getListCategoryShop() {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+		System.err.println(shop.getId());
+		return ResponseEntity.ok(child_category_service.findAllByShop(shop.getId()));
+	}
+
+	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/view/customer/shop/all/product")
+	public ResponseEntity getAllListProductByCustomer(@RequestParam("page") Optional<Integer> page) {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
+		Page<Product> pageF = service.listAllProductShopByCustomer(shop.getId(), PageRequest.of(page.orElse(0), 3));
+		return ResponseEntity.ok(pageF);
+	}
+	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+	@GetMapping("/view/customer/shop/all/productOption")
+	public Page<Product> getAll(@RequestParam("page") Optional<Integer> page) {
+		System.err.println(" getList showAllProductShop : "+service.listAll(PageRequest.of(page.orElse(0), 20)));
+		return service.listAll(PageRequest.of(page.orElse(0), 20));
+	}
+
 }

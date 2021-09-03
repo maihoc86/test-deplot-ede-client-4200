@@ -1,6 +1,5 @@
 package com.ede.edeproductservice.entity;
 
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -62,5 +61,17 @@ public class Product implements Serializable {
 	public String toString() {
 		return "";
 	}
-	
+//
+//	@Transient
+//	public Product_option optionDef;
+//
+//	@Transient
+//	public Product_option getOptionDef() {
+//		if (this.getProduct_options() != null) {
+//			return this.getProduct_options().get(0);
+//		} else {
+//			return null;
+//		}
+//	}
+
 }

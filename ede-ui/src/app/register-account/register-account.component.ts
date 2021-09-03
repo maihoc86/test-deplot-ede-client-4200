@@ -47,9 +47,9 @@ export class RegisterAccountComponent implements OnInit {
     is_delete: new FormControl(false),
     is_active: new FormControl(false),
     otp: new FormControl(null),
-    city: new FormControl(''),
-    district: new FormControl(''),
-    wards: new FormControl(''),
+    city: new FormControl('', Validators.required),
+    district: new FormControl('', Validators.required),
+    wards: new FormControl('', Validators.required),
     phone: new FormControl('', [
       Validators.required,
       Validators.pattern('(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b'),
@@ -99,7 +99,7 @@ export class RegisterAccountComponent implements OnInit {
     this.genders;
   }
   private createNewData() {
-    const newUser: any = {};
+    const newUser: any = { };
     for (const controlName in this.register.controls) {
       if (controlName) {
         newUser[controlName] = this.register.controls[controlName].value;

@@ -90,32 +90,30 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
-
 		if (product_option_service.countItemByProductID(product_option.getProduct().getId()) == 10) {
 			System.out.println(product_option_service.countItemByProductID(product_option.getProduct().getId()));
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 					"Bạn đã có 10 thuộc tính sản phẩm, vui lòng xóa bớt !", "", null);
 		} else {
-			product_option.setId(generateUUID().toString());
-			return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
+		product_option.setId(generateUUID().toString());
+		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/images")
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
+		System.err.println("Vào image r ");
 		String[] words = product_option.getImage().split(",");
 		for (int i = 0; i < words.length; i++) {
 			Optional<Product_option_image> findImage = product_option_image_service.findById(generateUUID().toString());
 			if (findImage.isPresent() && findImage != null) {
 				product_option.setId(generateUUID().toString());
-				String[] fileCat = words[i].split("\\.");
-				product_option.setImage(generateUUID().toString() + "." + fileCat[1]);
+				product_option.setImage(words[i]);
 				product_option_image_service.save(product_option);
 			} else {
 				product_option.setId(generateUUID().toString());
-				String[] fileCat = words[i].split("\\.");
-				product_option.setImage(generateUUID().toString() + "." + fileCat[1]);
+				product_option.setImage(words[i]);
 				product_option_image_service.save(product_option);
 			}
 		}
@@ -156,6 +154,7 @@ public class CreateProductShopRestController {
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm tag thành công", "", null);
 	}
 
+
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/user/enable/product-shop/{id}")
 	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
@@ -163,4 +162,5 @@ public class CreateProductShopRestController {
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
+
 }
