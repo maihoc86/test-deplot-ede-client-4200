@@ -59,7 +59,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public getChildCategory() {
     this.Addservice.getChildCategoriesShop().subscribe(
       (data) => {
-        console.log("Vào đây ch")
         const listCategories = data.map(function (obj: { id: any; name: any; }) {
           return obj;
         });

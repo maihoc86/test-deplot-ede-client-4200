@@ -71,6 +71,7 @@ public class ReadProductRestController {
 
 	@Autowired
 	Product_discount_service product_discount_service;
+	
 
 	@Autowired
 	ShopService shopService;
@@ -270,7 +271,6 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.println(shop.getId());
 		return ResponseEntity.ok(child_category_service.findAllByShop(shop.getId()));
 	}
 
@@ -284,8 +284,9 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
+		System.err.println(shop.getId());
 		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
-		Page<Product> pageF = service.listAllProductShopByCustomer(shop.getId(), PageRequest.of(page.orElse(0), 3));
+		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(shop.getId(), PageRequest.of(page.orElse(0), 3));
 		return ResponseEntity.ok(pageF);
 	}
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
