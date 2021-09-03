@@ -10,3 +10,4 @@ Update a image:	localhost:8021/ede-file/update/binary/<image name>
 Delete a image: localhost:8021/ede-file/delete/<image name>
 
 Create mutil Image:	localhost:8021/ede-file/create/multi-binary
+

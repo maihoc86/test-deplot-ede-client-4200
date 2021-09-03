@@ -98,20 +98,6 @@ public class ReadProductRestController {
 		return service.listAll(PageRequest.of(page.orElse(0), 5));
 	}
 
-//	@GetMapping("/view/getAllProductOption/{page}")
-//	public ResponseEntity<?> getAllProductOption(@PathVariable("page") Optional<Integer> p) {
-//		Shop shop = new Shop();
-//		try {
-//			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-//		} catch (Exception e) {
-//			return ResponseEntity.notFound().build();
-//		}
-//		Page<Product_option> page = product_option_service.finAllByShop(shop, PageRequest.of(p.orElse(0), 5));
-//		// List<Product_option>listProduct = product_option_service.finByShop(shop);
-//		return ResponseEntity.ok(page);
-//	}
-//	
-	
 	@GetMapping("/view/getAllProductOption")
 	public ResponseEntity<?> getAllProductOption(@RequestParam(name = "page", defaultValue = "0" ) int page , @RequestParam(name = "size", defaultValue = "5" ) int size ) {
 		Shop shop = new Shop();
@@ -140,7 +126,6 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-
 		Page<Product_option> page = product_option_service.findProductEnableShop(shop, value.get(),
 				PageRequest.of(p.orElse(0), 5));
 		System.out.println(page.getContent());

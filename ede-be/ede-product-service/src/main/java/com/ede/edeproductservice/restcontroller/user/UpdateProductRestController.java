@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,6 +106,15 @@ public class UpdateProductRestController {
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Cập nhật hình ảnh thành công", "", null);
+	}
+
+	// TODO: java.lang.NullPointerException: Cannot invoke "String.contains(java.lang.CharSequence)" because "token" is null
+	@SuppressWarnings("rawtypes")
+	@PutMapping("/enable/product-shop/{id}")
+	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
+		Product product = service.findById(id);
+		product.setEnable(true);
+		return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
 	}
 
 	@SuppressWarnings("rawtypes")
