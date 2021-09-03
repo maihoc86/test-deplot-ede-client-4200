@@ -53,7 +53,7 @@ export class AddProductService {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/user/update/product-shop/tag', data, this.httpOptions);
   }
   public enableProductShop(id: string) {
-    return this.httpClient.put<any>(this.REST_API_SERVER + '/user/enable/product-shop/' + id, this.httpOptions);
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/user/enable/product-shop/' + id,id, this.httpOptions);
   }
   public getBrand() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listBrand', this.httpOptions);
