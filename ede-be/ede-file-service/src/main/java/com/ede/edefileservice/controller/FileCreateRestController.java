@@ -33,7 +33,7 @@ public class FileCreateRestController {
 	
 	@PostMapping("create-multi/binary")
 	ResponseEntity<List<String>> putFiles(@RequestPart("files") MultipartFile[] partFiles) throws IOException{
-		System.err.println("Vào đây nè");
+		
 		return addFiles(partFiles, FTP.BINARY_FILE_TYPE);
 	}
 	
@@ -55,11 +55,14 @@ public class FileCreateRestController {
 		Map<String, InputStream> mapPart = new HashMap<String, InputStream>();
 		for (MultipartFile partFile : partFiles) {
 			String fileName = createFileName(partFile);
+			System.err.println("File name: " + fileName);
+			System.err.println("Content Type: " + partFile.getContentType());
+			System.err.println(partFile.getInputStream());
 			mapPart.put(fileName, partFile.getInputStream());
 		}
 		
 		List<String> ls = this.myFtp.uploadMulti(mapPart, FTP_FILE_TYPE);
-		
+		System.err.println(ls);
 		if (null != ls && !ls.isEmpty()) {
 			return ResponseEntity.ok(ls);
 		}

@@ -15,10 +15,10 @@ import com.ede.edeproductservice.entity.Shop;
 
 public interface Product_option_Dao extends JpaRepository<Product_option, String> {
 
-	@Query("SELECT o FROM Product_option o where o.product.enable =: value")
+	@Query("SELECT o FROM Product_option o where o.product.enable =: value and o.product.deleted = false and o.is_delete = false")
 	List<Product_option> findByProductEnable(Boolean value);
 
-	@Query("SELECT o FROM Product_option o where o.quantity = 0")
+	@Query("SELECT o FROM Product_option o where o.quantity = 0 and o.product.deleted = false and o.is_delete = false")
 	List<Product_option> findProductQuantity0();
 
 	@Query("SELECT o FROM Product_option o where o.product.location =:location and o.product.child_category.name =:category and o.product.brand.name =:brand")
@@ -55,8 +55,10 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	Page<Product_option> listAllProductByCustomer(String id_shop,Pageable page);
 
 
+
 	
 //	@Query("SELECT o from Product_option o where o")
 //	Page<Product_option> listAll(PageRequest of);
+
 
 }

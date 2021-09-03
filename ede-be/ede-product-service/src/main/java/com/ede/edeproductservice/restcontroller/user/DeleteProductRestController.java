@@ -20,7 +20,7 @@ public class DeleteProductRestController {
 	@Autowired
 	Product_option_service productOptionService;
 	
-	@DeleteMapping("/product/delete/{id}")
+	@DeleteMapping("/user/product/delete/{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable("id")String id){
 		try {
 			return ResponseEntity.ok(productOptionService.deleteProductByID(id));

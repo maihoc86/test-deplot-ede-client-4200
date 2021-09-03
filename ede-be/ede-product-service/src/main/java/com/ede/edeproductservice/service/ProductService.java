@@ -24,12 +24,12 @@ public interface ProductService {
 
 	Product_child_category findCategorybyIDProduct(String id);
 
-
 	List<Product> findByShop(String id);
 
 	Page<Product> listAllProductShopByCustomer(String id, PageRequest of);
 
 	Page<Product> listAll(PageRequest of);
+
 
 
 	

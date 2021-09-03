@@ -8,6 +8,7 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
   styleUrls: ['./show-all-products-shop-interface.component.css']
 })
 export class ShowAllProductsShopInterfaceComponent implements OnInit {
+<<<<<<< HEAD
   constructor(private AddresseService: ApiAddressService, private Addservice: AddProductService, private ProductService: AddProductService) { }
   public listCities: any = [];
   public listBrands: any = [];
@@ -16,12 +17,19 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public page: any = [];
   public p: number = 1;
   public count: any;
+=======
+  constructor(private AddresseService: ApiAddressService, private Addservice: AddProductService) { }
+  public listCities: any = [];
+  public listBrands: any = [];
+  public listCategories: any = [];
+>>>>>>> 66ed9b96 (load aside produt shop view customer)
   hiddenLocation: boolean = true;
   hiddenShowLocationMore: boolean = true;
   ngOnInit(): void {
     this.getCities();
     this.getBrands();
     this.getChildCategory();
+<<<<<<< HEAD
     this.getAllProduct(1);
   }
   public getAllProduct(page: any) {
@@ -37,6 +45,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         // this.listAllProducts = listAllProducts;
       }, error => {
       })
+=======
+>>>>>>> 66ed9b96 (load aside produt shop view customer)
   }
   public getCities() {
     this.AddresseService.getApiCity().subscribe((data) => {
@@ -47,12 +57,18 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     });
   }
   public getBrands() {
+
+    console.log("asdasd")
+
     this.Addservice.getBrand().subscribe(
       (data) => {
         const listBrands = data.map(function (obj: { id: any; name: any; avatar: any; }) {
           return obj;
         });
         this.listBrands = listBrands;
+
+        console.log(this.listBrands);
+
       }
     );
   }
@@ -64,16 +80,19 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           return obj;
         });
         this.listCategories = listCategories;
-      }, error => {
+
+      },error=>{
         console.log(error);
       });
   }
   showHiddenLocation() {
     this.hiddenShowLocationMore = !this.hiddenShowLocationMore;
     this.hiddenLocation = !this.hiddenLocation;
+
   }
   public handlePageChange(event: number) {
     this.p = event;
     this.getAllProduct(this.p);
+
   }
 }
