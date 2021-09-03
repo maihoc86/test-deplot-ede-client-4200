@@ -72,10 +72,10 @@
         <!--changed listings-->
         <div class="related titleLine products-list grid module">
             <div class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12"
-                *ngFor="let product of listAllProducts | paginate: {itemsPerPage: 5, currentPage: p, totalItems: count}">
-                <div class="product-item-container">
+                *ngFor="let product of listAllProducts | paginate: {itemsPerPage: 10, currentPage: p, totalItems: count}">
+                <div class="product-item-container" style="height:300px">
                     <div class="left-block">
-                        <div class="product-image-container second_img" style="height:200px">
+                        <div class="product-image-container second_img" style="height:150px">
                             <a target="_self" title="Chicken swinesha">
                                 <img src="/assets/img/8.jpg" class="img-1 img-responsive" alt="image">
                                 <img src="/assets/img/8.jpg" class="img-2 img-responsive" alt="image">
@@ -114,10 +114,9 @@
                                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                             </div>
                             <h4><a href="product.html" title="Chicken swinesha" target="_self"></a>{{product.name}}</h4>
-                            <div class="price"> <span class="price-new">{{product.optionDef.price}} VNĐ</span>
+                            <div class="price"> <span class="price-new">{{product.optionDef.price | number}} VNĐ</span>
                                 <span class="price-old">$55.00</span>
                             </div>
-
                         </div>
                     </div>
                 </div>

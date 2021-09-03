@@ -380,8 +380,7 @@ export class ProductShopComponent implements OnInit {
             alert("Lỗi option")
           });
           if (result.isConfirmed) {
-            console.log(data.id);
-            this.Addservice.enableProductShop(data.id).subscribe((data) => {
+            this.Addservice.enableProductShop(data).subscribe((data) => {
               console.log("Vào đây r nè ")
               console.log(data)
               Swal.fire({

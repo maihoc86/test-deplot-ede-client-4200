@@ -8,7 +8,7 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
   styleUrls: ['./show-all-products-shop-interface.component.css']
 })
 export class ShowAllProductsShopInterfaceComponent implements OnInit {
-  constructor(private AddresseService: ApiAddressService, private Addservice: AddProductService, private ProductService: AddProductService) { }
+  constructor(private AddresseService: ApiAddressService,private ProductService: AddProductService) { }
   public listCities: any = [];
   public listBrands: any = [];
   public listCategories: any = [];
@@ -47,7 +47,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     });
   }
   public getBrands() {
-    this.Addservice.getBrand().subscribe(
+    this.ProductService.getBrand().subscribe(
       (data) => {
         const listBrands = data.map(function (obj: { id: any; name: any; avatar: any; }) {
           return obj;
@@ -57,7 +57,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     );
   }
   public getChildCategory() {
-    this.Addservice.getChildCategoriesShop().subscribe(
+    this.ProductService.getChildCategoriesShop().subscribe(
       (data) => {
         const listCategories = data.map(function (obj: { id: any; name: any; }) {
           return obj;

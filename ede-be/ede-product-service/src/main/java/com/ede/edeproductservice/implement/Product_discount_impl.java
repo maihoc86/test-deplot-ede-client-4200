@@ -30,4 +30,14 @@ public class Product_discount_impl implements Product_discount_service {
 		return dao.findByIdProduct(id);
 	}
 
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public List<Product_discount> findAllByShop(String id) {
+		return dao.findAllByShop(id);
+	}
+
 }

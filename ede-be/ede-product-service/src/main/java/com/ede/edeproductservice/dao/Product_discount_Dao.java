@@ -13,4 +13,12 @@ public interface Product_discount_Dao extends JpaRepository<Product_discount, St
 	@Query("SELECT o FROM Product_discount o where o.productdiscount.id =:id")
 	List<Product_discount> findByIdProduct(String id);
 
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Query("SELECT o FROM Product_discount o where o.product.id=:id")
+	List<Product_discount> findAllByShop(String id);
+
 }
