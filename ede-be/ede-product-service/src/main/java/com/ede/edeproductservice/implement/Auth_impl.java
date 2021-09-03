@@ -54,12 +54,19 @@ public class Auth_impl implements Auth_Service {
 		HttpHeaders header = new HttpHeaders();
 		header.add("Content-Type", "application/json");
 		header.add("Authorization", "Bearer " + token);
-
-		RestTemplate restTemplate = new RestTemplate();
-	//	if(requestURL.toString().contains("admin"))
-		String url = "http://localhost:8080/ede-oauth-service/api/test/user/";
 		HttpEntity<Object> entity = new HttpEntity<Object>(null, header);
-		ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+		RestTemplate restTemplate = new RestTemplate();
+		String url ="";
+		if(requestURL.toString().contains("admin")) {
+		 url = "http://localhost:8080/ede-oauth-service/api/test/admin/";
+		 ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+		}else if(requestURL.toString().contains("user")) {
+		 url = "http://localhost:8080/ede-oauth-service/api/test/user/";
+		 ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+		}
+		System.err.println(requestURL+"url");
+		
+		
 	}
 
 }

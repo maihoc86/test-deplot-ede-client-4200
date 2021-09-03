@@ -68,7 +68,7 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/create/product-shop")
+	@PostMapping("/user/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
 		User us = new User();
 		try {
@@ -88,7 +88,7 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/create/product-shop/options/")
+	@PostMapping("/user/create/product-shop/options/")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
 		if (product_option_service.countItemByProductID(product_option.getProduct().getId()) == 10) {
 			System.out.println(product_option_service.countItemByProductID(product_option.getProduct().getId()));
@@ -101,7 +101,7 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/create/product-shop/options/images")
+	@PostMapping("/user/create/product-shop/options/images")
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
 		System.err.println("Vào image r ");
 		String[] words = product_option.getImage().split(",");
@@ -121,7 +121,7 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/create/product-shop/discount")
+	@PostMapping("/user/create/product-shop/discount")
 	public ResponseEntity addProductDiscount(@RequestBody Product_discount product_discount) {
 		try {
 			product_discount.setId(generateUUID().toString());
@@ -135,7 +135,7 @@ public class CreateProductShopRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/create/product-shop/tag")
+	@PostMapping("/user/create/product-shop/tag")
 	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
 		System.err.println(product_tag);
 		String[] words = product_tag.getTag().split(",");
@@ -153,4 +153,14 @@ public class CreateProductShopRestController {
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm tag thành công", "", null);
 	}
+
+
+	@SuppressWarnings("rawtypes")
+	@PutMapping("/user/enable/product-shop/{id}")
+	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
+		Product product = service.findById(id);
+		product.setEnable(true);
+		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
+	}
+
 }

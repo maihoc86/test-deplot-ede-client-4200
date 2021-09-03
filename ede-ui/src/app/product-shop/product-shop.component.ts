@@ -245,6 +245,7 @@ export class ProductShopComponent implements OnInit {
   }
   public updateProduct() {
     this.product.controls['deleted'].setValue('false');
+    console.log(this.product.value);
     this.Addservice.updateProduct(this.createDataProduct()).subscribe(
       (data) => {
         if (this.product_discount.controls['id'].value != '') {
@@ -381,7 +382,6 @@ export class ProductShopComponent implements OnInit {
           });
           if (result.isConfirmed) {
             this.Addservice.enableProductShop(data).subscribe((data) => {
-              console.log("Vào đây r nè ")
               console.log(data)
               Swal.fire({
                 title: 'Thông báo!',
@@ -391,7 +391,8 @@ export class ProductShopComponent implements OnInit {
                 window.location.reload();
               })
             }, error => {
-              alert("lỗi đăng bán")
+              alert(error)
+              console.log(error)
             })
 
           } else {
@@ -522,6 +523,7 @@ export class ProductShopComponent implements OnInit {
               this.product.controls[controlName].setValue(data[node]);
             }
           }
+          console.log(this.product.value);
         }
         if (data['brand']) {
           this.product.controls['brand'].setValue(data['brand']);
@@ -547,6 +549,8 @@ export class ProductShopComponent implements OnInit {
                     const fileRender = new File([myFile], dataOptionImage[index].image, { type: "image/jpeg" });
                     this.imageArray.push(fileRender);
                   })
+                } else {
+                  alert("data null")
                 }
               }), ((error: any) => {
                 alert("Lỗi update hình ảnh");
@@ -678,7 +682,9 @@ export class ProductShopComponent implements OnInit {
       alert("Lỗi thêm Image FTP")
     })
   }
-
+  resetForm() {
+    window.location.reload();
+  }
 }
 
 interface size {

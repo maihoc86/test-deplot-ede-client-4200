@@ -12,7 +12,7 @@ export class ImagesService {
   constructor(private httpClient: HttpClient, private cookieService: CookieService) { }
 
 
-  private URL = "http://localhost:8080/ede-file";
+  private API = "http://localhost:8080/ede-file";
   // upload image
   private httpOptionsFile = {
     headers: new HttpHeaders({
@@ -20,16 +20,16 @@ export class ImagesService {
     }),
   }
   public createMultiImageProductOption(files: any) {
-    return this.httpClient.post<any>(URL + '/create-multi/binary', files, this.httpOptionsFile);
+    return this.httpClient.post<any>(this.API + '/create-multi/binary', files, this.httpOptionsFile);
   }
   getData(name: string): Observable<string> {
-    return this.httpClient.get(URL + '/get/image/' + name, { responseType: 'blob' })
+    return this.httpClient.get(this.API + '/get/image/' + name, { responseType: 'blob' })
       .pipe(
         switchMap((response: Blob) => this.readFile(response))
       );
   }
   blobToFile(name: string) {
-    return this.httpClient.get(URL + '/get/image/' + name, { responseType: 'blob' });
+    return this.httpClient.get(this.API + '/get/image/' + name, { responseType: 'blob' });
   }
 
   private readFile(blob: Blob): Observable<string> {
@@ -45,12 +45,12 @@ export class ImagesService {
     });
   }
   public readrFileMultiImageProductOption(name: string) {
-    return this.httpClient.get(URL + '/get/image/' + name, { observe: 'response', responseType: 'blob' });
+    return this.httpClient.get(this.API + '/get/image/' + name, { observe: 'response', responseType: 'blob' });
   }
   public updateMultiImageProductOption(files: any) {
-    return this.httpClient.post<any>(URL + '/update-multi/binary', files, this.httpOptionsFile);
+    return this.httpClient.post<any>(this.API + '/update-multi/binary', files, this.httpOptionsFile);
   }
   public deleteMultiImageProductOption(files: any) {
-    return this.httpClient.post<any>(URL + '/delete-multi', files, this.httpOptionsFile);
+    return this.httpClient.post<any>(this.API + '/delete-multi', files, this.httpOptionsFile);
   }
 }

@@ -205,8 +205,10 @@
                   </tr>
                 </tbody>
               </table>
+
               <pagination-controls *ngIf="pageEnableTrue.totalElements>1"
                 (pageChange)="handlePageChangeEnableTrue($event)"  id="second"></pagination-controls>
+
             </div>
           </div>
           <!--Middle Part End -->
@@ -311,7 +313,9 @@
                   </tr>
                 </tbody>
               </table>
+
               <pagination-controls *ngIf="pageQty0.totalElements>1" (pageChange)="handlePageChangeQty0($event)" id="three">
+
               </pagination-controls>
             </div>
           </div>
@@ -421,8 +425,10 @@
                   </tr>
                 </tbody>
               </table>
+
               <pagination-controls *ngIf="pageEnableFalse.totalElements>1"
                 (pageChange)="handlePageChangeEnableFalse($event)" id="four"></pagination-controls>
+
             </div>
           </div>
           <!--Middle Part End -->

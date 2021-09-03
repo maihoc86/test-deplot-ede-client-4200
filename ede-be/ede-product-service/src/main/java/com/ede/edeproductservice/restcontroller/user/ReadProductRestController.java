@@ -273,6 +273,7 @@ public class ReadProductRestController {
 	}
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product")
 	public ResponseEntity getAllListProductByCustomer(@RequestParam("page") Optional<Integer> page) {
@@ -290,17 +291,17 @@ public class ReadProductRestController {
 	}
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
 	@SuppressWarnings("rawtypes")
-	@GetMapping("/view/customer/shop/all/product")
-	public ResponseEntity getAllListProductDiscountByCustomer(@RequestParam("page") Optional<Integer> page) {
+	@GetMapping("/view/customer/shop/all/product/discount")
+	public ResponseEntity getAllListProductDiscountByCustomer() {
+		
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.println(shop.getId());
 		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
-		List<Product_discount> pageF = product_discount_service.findAllByShop(shop.getId());
+		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId());
 		return ResponseEntity.ok(pageF);
 	}
 }

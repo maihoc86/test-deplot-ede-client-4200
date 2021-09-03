@@ -8,11 +8,13 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
   styleUrls: ['./show-all-products-shop-interface.component.css']
 })
 export class ShowAllProductsShopInterfaceComponent implements OnInit {
-  constructor(private AddresseService: ApiAddressService,private ProductService: AddProductService) { }
+  constructor(private AddresseService: ApiAddressService, private ProductService: AddProductService) { }
+
   public listCities: any = [];
   public listBrands: any = [];
   public listCategories: any = [];
   public listAllProducts: any = [];
+  public listAllProductsDiscount: any = [];
   public page: any = [];
   public p: number = 1;
   public count: any;
@@ -22,20 +24,28 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.getCities();
     this.getBrands();
     this.getChildCategory();
+    this.getAllDiscountProduct();
     this.getAllProduct(1);
   }
   public getAllProduct(page: any) {
     page = page - 1;
     this.ProductService.getAllProductShopByCustomer(page).subscribe(
       (data) => {
-        this.listAllProducts = data.content.map(function (obj: { id: any; name: any; }) {
+        this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
           return obj;
         });
         this.page = data;
         this.count = this.page.totalElements;
-        console.log(data.content);
-        // this.listAllProducts = listAllProducts;
       }, error => {
+      })
+  }
+  public getAllDiscountProduct() {
+    this.ProductService.getAllProductDiscountShopByCustomer().subscribe(
+      (data) => {
+        this.listAllProductsDiscount = data
+        console.log(this.listAllProductsDiscount[0].productdiscount.id);
+      }, error => {
+        console.log(error);
       })
   }
   public getCities() {
@@ -63,6 +73,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           return obj;
         });
         this.listCategories = listCategories;
+
       }, error => {
         console.log(error);
       });
@@ -70,9 +81,11 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   showHiddenLocation() {
     this.hiddenShowLocationMore = !this.hiddenShowLocationMore;
     this.hiddenLocation = !this.hiddenLocation;
+
   }
   public handlePageChange(event: number) {
     this.p = event;
     this.getAllProduct(this.p);
+
   }
 }

@@ -27,17 +27,20 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         request.setAttribute("startTime", startTime);
     	  
         System.err.println(request.getHeader("Authorization"));
-
         String token = request.getHeader("Authorization");
 
-          try {
-        	  authService.Security(token,request.getRequestURL());
+        try {
+
+      	  authService.Security(token,request.getRequestURL());
+      	  
 		} catch (HttpClientErrorException e) {
 			System.err.println(e.getRawStatusCode());
 			 response.sendError(e.getRawStatusCode(),e.getStatusCode().toString());
 			 return false;
 		}
-        return true;
+
+
+      return true;
 
     }
     

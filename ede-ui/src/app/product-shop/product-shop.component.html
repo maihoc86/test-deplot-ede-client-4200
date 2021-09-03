@@ -369,7 +369,7 @@
                             value="Sửa">
                         <input type="submit" class="btn btn-danger" (click)="deleteProduct(loadProdutedit())"
                             *ngIf="loadProdutedit()" value="Xóa">
-                        <input type="submit" class="btn btn-secondary" value="Làm mới">
+                        <input type="submit" class="btn btn-secondary" (click)="resetForm()" value="Làm mới">
                     </div>
                 </div>
             </form>
