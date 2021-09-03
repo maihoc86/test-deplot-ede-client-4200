@@ -153,12 +153,4 @@ public class CreateProductShopRestController {
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm tag thành công", "", null);
 	}
-
-	@SuppressWarnings("rawtypes")
-	@PutMapping("/enable/product-shop/{id}")
-	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
-		Product product = service.findById(id);
-		product.setEnable(true);
-		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
-	}
 }
