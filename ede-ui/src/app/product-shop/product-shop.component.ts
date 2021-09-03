@@ -633,6 +633,7 @@ export class ProductShopComponent implements OnInit {
     return option.id === value.id;
   }
 
+
   public addMultiImage(data: any) {
     const formData = new FormData();
     for (var i = 0; i < this.imageArray.length; i++) {
@@ -678,6 +679,7 @@ export class ProductShopComponent implements OnInit {
       alert("Lỗi thêm Image FTP")
     })
   }
+
 }
 
 interface size {

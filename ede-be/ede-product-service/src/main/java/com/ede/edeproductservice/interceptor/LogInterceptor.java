@@ -38,8 +38,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			 response.sendError(e.getRawStatusCode(),e.getStatusCode().toString());
 			 return false;
 		}
-      return true;
 
+      return true;
     }
     
 }

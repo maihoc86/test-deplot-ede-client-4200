@@ -79,11 +79,11 @@ export class ProductAllComponent implements OnInit {
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
-
+      console.log(this.itemsEnableTrue)
     },
       (err) => {
         console.log("Chưa đăng nhập "+err.error)
-        if (err.status == 404) {
+        if (err.status == 401) {
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -119,7 +119,7 @@ export class ProductAllComponent implements OnInit {
       console.log(this.countQty0);
     },
       (err) => {
-        if (err.status == 404) {
+        if (err.status == 401) {
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -173,7 +173,7 @@ export class ProductAllComponent implements OnInit {
       }
     }, error => {
       console.log(error);
-      if (error.status == 404) {
+      if (error.status == 401) {
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',

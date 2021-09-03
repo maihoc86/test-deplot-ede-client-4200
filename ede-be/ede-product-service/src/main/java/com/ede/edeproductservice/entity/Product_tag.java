@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,7 @@ public class Product_tag {
 	@Id
 	String id;
 	String tag;
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product producttag;
