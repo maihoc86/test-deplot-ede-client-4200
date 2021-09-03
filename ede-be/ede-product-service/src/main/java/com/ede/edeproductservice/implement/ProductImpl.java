@@ -59,7 +59,6 @@ public class ProductImpl implements ProductService {
 	}
 
 	@Override
-
 	public List<Product> findByShop(String id) {
 		return dao.findByShop(id);
 	}
@@ -73,4 +72,5 @@ public class ProductImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return dao.listAll(of);
 	}
+
 }

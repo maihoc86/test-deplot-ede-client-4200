@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterAccountComponent },
   { path: 'account/verify', component: AccountActiveComponent },
   { path: 'shop/product/manager', component: ProductShopComponent },
-  { path: 'shop/product/all/:page', component: ProductAllComponent},
+  { path: 'shop/product/all/1', component: ProductAllComponent},
   { path: 'shop/order/all', component:OrderAllComponent},
   { path: 'shop/interface', component: ShopInterfaceComponent},
   { path: 'shop/showall/interface', component: ShowAllProductsShopInterfaceComponent},

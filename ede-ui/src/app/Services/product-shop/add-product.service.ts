@@ -70,9 +70,12 @@ export class AddProductService {
   public getChildCategoriesShop() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/category', this.httpOptions);
   }
+
   public getAllProductShopByCustomer(page: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
   }
+
+
   public getAllProduct() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct', this.httpOptions);
   }

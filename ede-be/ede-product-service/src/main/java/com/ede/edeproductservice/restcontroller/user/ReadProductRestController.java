@@ -185,13 +185,12 @@ public class ReadProductRestController {
 	 */
 	@CrossOrigin(allowedHeaders = "*")
 	@GetMapping("/view/get-products")
-	public ResponseEntity<?> getProducts(
-			@RequestParam(value = "search", required = false) Optional<String> keysearch,
-			@RequestParam(value = "page", required = false) Optional<Integer> page
-			) {
+	public ResponseEntity<?> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
+			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
-		if (npage < 0) npage = 0;
+		if (npage < 0)
+			npage = 0;
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
 	}
@@ -276,6 +275,7 @@ public class ReadProductRestController {
 	}
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product")
 	public ResponseEntity getAllListProductByCustomer(@RequestParam("page") Optional<Integer> page) {
@@ -293,6 +293,7 @@ public class ReadProductRestController {
 	@GetMapping("/view/customer/shop/all/productOption")
 	public Page<Product> getAll(@RequestParam("page") Optional<Integer> page) {
 		System.err.println(" getList showAllProductShop : "+service.listAll(PageRequest.of(page.orElse(0), 20)));
+
 		return service.listAll(PageRequest.of(page.orElse(0), 20));
 	}
 
