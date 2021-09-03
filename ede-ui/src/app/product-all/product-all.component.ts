@@ -45,7 +45,7 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
 
-  public loadProductAll(page: any) {
+  public async loadProductAll(page: any) {
     page = page - 1;
     this.productService.getAllProductOption(page).subscribe((data) => {
       console.log(data)

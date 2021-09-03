@@ -65,7 +65,7 @@ public class UpdateProductRestController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/update/product-shop/")
+	@PutMapping("/user/update/product-shop/")
 	public ResponseEntity updateProduct(@RequestBody Product product, HttpServletRequest req) {
 		User us = new User();
 		try {
@@ -80,20 +80,20 @@ public class UpdateProductRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/update/product-shop/discount")
+	@PutMapping("/user/update/product-shop/discount")
 	public ResponseEntity updateProductDiscount(@RequestBody Product_discount discount) {
 		return ResponseEntity.status(HttpStatus.OK).body(product_discount_service.save(discount));
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/update/product-shop/options/")
+	@PutMapping("/user/update/product-shop/options/")
 	public ResponseEntity updateProductOptions(@RequestBody Product_option product_option) {
 		System.err.println(product_option);
 		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/update/product-shop/options/images")
+	@PutMapping("/user/update/product-shop/options/images")
 	public ResponseEntity updateProductOptionImage(@RequestBody Product_option_image product_option) {
 		if (product_option != null) {
 			product_option_image_service.deleteAllImage(product_option.getProductoption().getId());
@@ -109,7 +109,7 @@ public class UpdateProductRestController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/update/product-shop/tag")
+	@PutMapping("/user/update/product-shop/tag")
 	public ResponseEntity updateProductTag(@RequestBody Product_tag product_tag) {
 		if (product_tag != null) {
 			product_Tag_service.deleteAllTagByIdProduct(product_tag.getProducttag().getId());

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,7 +13,7 @@ import { User } from 'src/app/models/user.model';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private cookieService:CookieService,private headerService:HeaderService ) {
+  constructor(private cookieService:CookieService,private headerService:HeaderService,private router:Router ) {
     this.u={} as User;
   }
 
@@ -39,9 +39,11 @@ export class HeaderComponent implements OnInit {
   console.log("545665")
   }
 
-  public logout(){
+  public async logout(){
+    this.router.navigate(['/'])
     this.cookieService.delete("auth")
-    document.location.href='';
+    document.location.href="";
+   
   }
 
 }
