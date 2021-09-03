@@ -63,14 +63,13 @@ public class ProductImpl implements ProductService {
 		return dao.findByShop(id);
 	}
 
-	@Override
-	public Page<Product> listAllProductShopByCustomer(String id, PageRequest of) {
-		return dao.listAllProductShopByCustomer(id,of);
-	}
 
 	public Page<Product> listAll(PageRequest of) {
-		// TODO Auto-generated method stub
 		return dao.listAll(of);
 	}
 
+	@Override
+	public Page<ProductSearch> listAllProductShopByCustomer(String id, Pageable page) {
+		return dao.listAllProductShopByCustomer(id, page);
+	}
 }

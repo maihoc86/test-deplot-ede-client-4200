@@ -10,6 +10,13 @@ public interface Product_discount_service {
 
 	List<Product_discount> findAll();
 
+	/**
+	 * @author Thái Học
+	 * @param id
+	 * @return
+	 */
 	List<Product_discount> findByIdProduct(String id);
+
+	
 
 }

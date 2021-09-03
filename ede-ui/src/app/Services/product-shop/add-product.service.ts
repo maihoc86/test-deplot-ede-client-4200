@@ -52,8 +52,8 @@ export class AddProductService {
   public updateProductTag(data: ProductTag) {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/user/update/product-shop/tag', data, this.httpOptions);
   }
-  public enableProductShop(id: string) {
-    return this.httpClient.put<any>(this.REST_API_SERVER + '/user/enable/product-shop/' + id,id, this.httpOptions);
+  public enableProductShop(data: Product) {
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/user/enable/product-shop/',data, this.httpOptions);
   }
   public getBrand() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listBrand', this.httpOptions);
@@ -73,6 +73,9 @@ export class AddProductService {
 
   public getAllProductShopByCustomer(page: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
+  }
+  public getAllProductDiscountShopByCustomer() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product/discount', this.httpOptions);
   }
 
 
@@ -120,7 +123,6 @@ export class AddProductService {
   public getTagbyProductid(id: string) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/gettag/' + id, this.httpOptions);
   }
-
   public countProductOrder(id: any) {
     return this.httpClient.get<any>('http://localhost:8080/ede-order/view/countProductOder/' + id, this.httpOptions);
   }

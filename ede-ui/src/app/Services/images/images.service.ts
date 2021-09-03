@@ -11,23 +11,25 @@ export class ImagesService {
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) { }
 
-   // upload image
-   private httpOptionsFile = {
+
+  private API = "http://localhost:8080/ede-file";
+  // upload image
+  private httpOptionsFile = {
     headers: new HttpHeaders({
       'Authorization': this.cookieService.get('auth')
     }),
   }
   public createMultiImageProductOption(files: any) {
-    return this.httpClient.post<any>('http://localhost:8080/ede-file/create-multi/binary', files, this.httpOptionsFile);
+    return this.httpClient.post<any>(this.API + '/create-multi/binary', files, this.httpOptionsFile);
   }
   getData(name: string): Observable<string> {
-    return this.httpClient.get('http://localhost:8080/ede-file/get/image/' + name, { responseType: 'blob' })
+    return this.httpClient.get(this.API + '/get/image/' + name, { responseType: 'blob' })
       .pipe(
         switchMap((response: Blob) => this.readFile(response))
       );
   }
   blobToFile(name: string) {
-    return this.httpClient.get('http://localhost:8080/ede-file/get/image/' + name, { responseType: 'blob' });
+    return this.httpClient.get(this.API + '/get/image/' + name, { responseType: 'blob' });
   }
 
   private readFile(blob: Blob): Observable<string> {
@@ -43,12 +45,12 @@ export class ImagesService {
     });
   }
   public readrFileMultiImageProductOption(name: string) {
-    return this.httpClient.get('http://localhost:8080/ede-file/get/image/' + name, {observe: 'response', responseType: 'blob'});
+    return this.httpClient.get(this.API + '/get/image/' + name, { observe: 'response', responseType: 'blob' });
   }
   public updateMultiImageProductOption(files: any) {
-    return this.httpClient.post<any>('http://localhost:8080/ede-file/update-multi/binary', files, this.httpOptionsFile);
+    return this.httpClient.post<any>(this.API + '/update-multi/binary', files, this.httpOptionsFile);
   }
   public deleteMultiImageProductOption(files: any) {
-    return this.httpClient.post<any>('http://localhost:8080/ede-file/delete-multi', files, this.httpOptionsFile);
+    return this.httpClient.post<any>(this.API + '/delete-multi', files, this.httpOptionsFile);
   }
 }

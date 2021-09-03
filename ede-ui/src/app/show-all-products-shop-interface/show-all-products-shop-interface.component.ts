@@ -8,45 +8,45 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
   styleUrls: ['./show-all-products-shop-interface.component.css']
 })
 export class ShowAllProductsShopInterfaceComponent implements OnInit {
-<<<<<<< HEAD
-  constructor(private AddresseService: ApiAddressService, private Addservice: AddProductService, private ProductService: AddProductService) { }
+  constructor(private AddresseService: ApiAddressService, private ProductService: AddProductService) { }
+
   public listCities: any = [];
   public listBrands: any = [];
   public listCategories: any = [];
   public listAllProducts: any = [];
+  public listAllProductsDiscount: any = [];
   public page: any = [];
   public p: number = 1;
   public count: any;
-=======
-  constructor(private AddresseService: ApiAddressService, private Addservice: AddProductService) { }
-  public listCities: any = [];
-  public listBrands: any = [];
-  public listCategories: any = [];
->>>>>>> 66ed9b96 (load aside produt shop view customer)
   hiddenLocation: boolean = true;
   hiddenShowLocationMore: boolean = true;
   ngOnInit(): void {
     this.getCities();
     this.getBrands();
     this.getChildCategory();
-<<<<<<< HEAD
+    this.getAllDiscountProduct();
     this.getAllProduct(1);
   }
   public getAllProduct(page: any) {
     page = page - 1;
     this.ProductService.getAllProductShopByCustomer(page).subscribe(
       (data) => {
-        this.listAllProducts = data.content.map(function (obj: { id: any; name: any; }) {
+        this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
           return obj;
         });
         this.page = data;
         this.count = this.page.totalElements;
-        console.log(data.content);
-        // this.listAllProducts = listAllProducts;
       }, error => {
       })
-=======
->>>>>>> 66ed9b96 (load aside produt shop view customer)
+  }
+  public getAllDiscountProduct() {
+    this.ProductService.getAllProductDiscountShopByCustomer().subscribe(
+      (data) => {
+        this.listAllProductsDiscount = data
+        console.log(this.listAllProductsDiscount[0].productdiscount.id);
+      }, error => {
+        console.log(error);
+      })
   }
   public getCities() {
     this.AddresseService.getApiCity().subscribe((data) => {
@@ -57,31 +57,24 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     });
   }
   public getBrands() {
-
-    console.log("asdasd")
-
-    this.Addservice.getBrand().subscribe(
+    this.ProductService.getBrand().subscribe(
       (data) => {
         const listBrands = data.map(function (obj: { id: any; name: any; avatar: any; }) {
           return obj;
         });
         this.listBrands = listBrands;
-
-        console.log(this.listBrands);
-
       }
     );
   }
   public getChildCategory() {
-    this.Addservice.getChildCategoriesShop().subscribe(
+    this.ProductService.getChildCategoriesShop().subscribe(
       (data) => {
-        console.log("Vào đây ch")
         const listCategories = data.map(function (obj: { id: any; name: any; }) {
           return obj;
         });
         this.listCategories = listCategories;
 
-      },error=>{
+      }, error => {
         console.log(error);
       });
   }
