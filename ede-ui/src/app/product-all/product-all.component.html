@@ -19,66 +19,47 @@
             <!--Middle Part Start-->
             <div id="content" class="col-sm-12">
               <div class="row">
-                <div class="col-sm-6">
-                  <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
-                    <div class="search-header-w">
-                      <div class="icon-search hidden-lg hidden-md hidden-sm">
-                        <i class="fa fa-search"></i>
-                      </div>
 
-                      <div id="sosearchpro" class="sosearchpro-wrapper so-search">
-                        <form method="GET" action="index.html">
-                          <div id="search0" class="search input-group form-group">
-                            <div class="
-                            select_category
-                            filter_type
-                            icon-select
-                            hidden-sm hidden-xs
-                          " style="width: 150px;">
-                              <select class="no-border" name="category_id">
-                                <option value="0">Tên sản phẩm</option>
-                                <option value="78">Phân loại hàng</option>
-                                <option value="77">Mã sản phẩm </option>
-                                <option value="82">ThươNg hiệu</option>
-                              </select>
-                            </div>
-                            <input class="autosearch-input form-control" type="text" value="" size="50"
-                              autocomplete="off" placeholder="Nhập vào..." name="search" />
-                          </div>
-                          <input type="hidden" name="route" value="product/search" />
-                        </form>
-                      </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                        <div class="position-relative">
+                          <input   type="text" class="form-control"
+                            placeholder="Search..." name="keywordProductAll" id="keywordProductAll" #keywordProductAll>
+
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-md-6">
+                      <input (click)= "searchProductAll(keywordProductAll.value)"  type="submit" class="btn btn-danger" value="Tìm"
+                        style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                      &nbsp;
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6" style="margin-top: 16px;">
                   <select (change)="changeSize($event)" name="cars" id="cars" style="width: 200px; height: 30px;">
-                    <option hidden >Show</option>
+                    <option hidden>Show</option>
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
                   </select>
                 </div>
-                <div class="buttons clearfix">
-                  <div class="pull-left" style="margin-left: 30px;">
-                    <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
-                    &nbsp;
-                    <input type="submit" class="btn btn-secondary" value="Nhập lại">
-                  </div>
-
-                </div><br>
-                <div class="buttons clearfix">
-                  <div class="pull-left" style="margin-left: 20px;">
-                    <h3><span>{{p==page.totalPages?page.totalElements:p*size}}</span> / <span>{{page.totalElements}}</span> Sản phẩm
-                    </h3>
-                  </div>
-                  <div class="pull-right">
-                    <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
-                      class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
-                  </div>
+              </div><br>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><span>{{p==page.totalPages?page.totalElements:p*size}}</span> /
+                    <span>{{page.totalElements}}</span> Sản phẩm
+                  </h3>
                 </div>
-                <br>
+                <div class="col-sm-6">
+                  <input style="margin-top: 5px;" type="submit" routerLink="/shop/product/manager"
+                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
+                </div>
               </div>
+              <br>
+
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead>
@@ -93,7 +74,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count, id: 'first'}">
+                    <tr
+                      *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count, id: 'first'}">
                       <td>{{e.product.name}}</td>
                       <td>{{e.product.brand.name}}</td>
                       <td>{{e.display_name}}</td>
@@ -104,7 +86,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <pagination-controls (pageChange)="handlePageChange($event)"  id="first"></pagination-controls>
+                <pagination-controls (pageChange)="handlePageChange($event)" id="first"></pagination-controls>
               </div>
             </div>
             <!--Middle Part End -->
@@ -116,69 +98,46 @@
           <!--Middle Part Start-->
           <div id="content" class="col-sm-12">
             <div class="row">
-              <div class="col-sm-6">
-                <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
-                  <div class="search-header-w">
-                    <div class="icon-search hidden-lg hidden-md hidden-sm">
-                      <i class="fa fa-search"></i>
-                    </div>
-                    <div id="sosearchpro" class="sosearchpro-wrapper so-search">
-                      <form method="GET" action="index.html">
-                        <div id="search0" class="search input-group form-group">
-                          <div class="
-                          select_category
-                          filter_type
-                          icon-select
-                          hidden-sm hidden-xs
-                        " style="width: 150px;">
-                            <select class="no-border" name="category_id">
-                              <option value="0">Tên sản phẩm</option>
-                              <option value="78">Phân loại hàng</option>
-                              <option value="77">Mã sản phẩm </option>
-                              <option value="82">ThươNg hiệu</option>
+             <div class="col-sm-6">
+              <div class="row">
+                <div class="col-md-6">
+                  <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                    <div class="position-relative">
+                      <input   type="text" class="form-control"
+                        placeholder="Search..." name="keywordEnableTrue" id="keywordEnableTrue" #keywordEnableTrue>
 
-                            </select>
-                          </div>
-                          <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
-                            placeholder="Nhập vào..." name="search" />
-                        </div>
-                        <input type="hidden" name="route" value="product/search" />
-                      </form>
                     </div>
-                  </div>
+                  </form>
                 </div>
-              </div>
-              <div class="col-sm-6">
-                <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tên sản phẩm" value="" name="product">
-                </div>
-              </div>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 30px;">
-                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
+                <div class="col-md-6">
+                  <input (click)= "searchEnableTrue(keywordEnableTrue.value)"  type="submit" class="btn btn-danger" value="Tìm"
+                    style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
                   &nbsp;
-                  <input type="submit" class="btn btn-secondary" value="Nhập lại">
-                </div>
-
-              </div><br>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;">
-                  <h3><span>{{pEnableTrue==pageEnableTrue.totalPages?pageEnableTrue.totalElements:pEnableTrue*5}}</span>
-                    / <span>{{pageEnableTrue.totalElements}}</span>
-                    Sản phẩm
-                  </h3>
-                </div>
-
-                <div class="pull-right">
-                  <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
-                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
                 </div>
               </div>
-              <br>
-
+             </div>
+              <div class="col-sm-6" style="margin-top: 16px;">
+                <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
+                  style="width: 200px; height: 30px;">
+                  <option hidden>Show</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
+              </div>
+            </div><br>
+            <div class="buttons clearfix">
+              <div class="pull-left" style="margin-left: 20px;">
+                <h3>
+                  <span>{{(pEnableTrue==pageEnableTrue.totalPages||pageEnableTrue.totalElements==0)?pageEnableTrue.totalElements:pEnableTrue*sizeEnableTrue}}</span>
+                  / <span>{{pageEnableTrue.totalElements}}</span>
+                  Sản phẩm
+                </h3>
+              </div>
             </div>
+            <br>
+
+
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
                 <thead>
@@ -194,7 +153,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: 5, currentPage: pEnableTrue, totalItems: countEnableTrue , id: 'second'}">
+                    *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: sizeEnableTrue, currentPage: pEnableTrue, totalItems: countEnableTrue , id: 'second'}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
@@ -206,7 +165,7 @@
                 </tbody>
               </table>
               <pagination-controls *ngIf="pageEnableTrue.totalElements>1"
-                (pageChange)="handlePageChangeEnableTrue($event)"  id="second"></pagination-controls>
+                (pageChange)="handlePageChangeEnableTrue($event)" id="second"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -218,73 +177,50 @@
           <!--Middle Part Start-->
           <div id="content" class="col-sm-12">
             <div class="row">
-              <div class="col-sm-6">
-                <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
-                  <div class="search-header-w">
-                    <div class="icon-search hidden-lg hidden-md hidden-sm">
-                      <i class="fa fa-search"></i>
-                    </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input   type="text" class="form-control"
+                          placeholder="Search..." name="keywordQty0" id="keywordQty0" #keywordQty0>
 
-                    <div id="sosearchpro" class="sosearchpro-wrapper so-search">
-                      <form method="GET" action="index.html">
-                        <div id="search0" class="search input-group form-group">
-                          <div class="
-                          select_category
-                          filter_type
-                          icon-select
-                          hidden-sm hidden-xs
-                        " style="width: 150px;">
-                            <select class="no-border" name="category_id">
-                              <option value="0">Tên sản phẩm</option>
-                              <option value="78">Phân loại hàng</option>
-                              <option value="77">Mã sản phẩm </option>
-                              <option value="82">ThươNg hiệu</option>
-
-                            </select>
-                          </div>
-
-                          <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
-                            placeholder="Nhập vào..." name="search" />
-                        </div>
-                        <input type="hidden" name="route" value="product/search" />
-                      </form>
-                    </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)= "searchQty0(keywordQty0.value)"  type="submit" class="btn btn-danger" value="Tìm"
+                      style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6">
-                <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tên sản phẩm" value="" name="product">
-                </div>
+              <div class="col-sm-6" style="margin-top: 16px;">
+                <select (change)="changeSizeQuantity0($event)" name="cars" id="cars"
+                  style="width: 200px; height: 30px;">
+                  <option hidden>Show</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
               </div>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 30px;">
-                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
-                  &nbsp;
-                  <input type="submit" class="btn btn-secondary" value="Nhập lại">
-                </div>
+            </div><br>
 
-              </div><br>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;">
-                  <h3>
-                    <span>{{pageQty0.totalElements == 0 ? 0 :pQty0==pageQty0.totalPages?pageQty0.totalElements
-                      :pQty0*5}}</span> /
+            <div class="buttons clearfix">
+              <div class="pull-left" style="margin-left: 20px;">
+                <h3>
+                  <span>{{pageQty0.totalElements == 0 ? 0 :pQty0==pageQty0.totalPages?pageQty0.totalElements
+                    :pQty0*5}}</span> /
 
-                      <span>{{pageQty0.totalElements}}</span>
-                      Sản phẩm
-                  </h3>
-                </div>
-                <div class="pull-right">
-                  <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
-                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
-                </div>
+                  <span>{{pageQty0.totalElements}}</span>
+                  Sản phẩm
+                </h3>
               </div>
-              <br>
 
             </div>
+            <br>
+
+
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
                 <thead>
@@ -300,7 +236,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsQuantity0  | paginate: {itemsPerPage: 5, currentPage: pQty0, totalItems: countQty0, id: 'three' }">
+                    *ngFor="let e of itemsQuantity0  | paginate: {itemsPerPage: sizeQuantity0, currentPage: pQty0, totalItems: countQty0, id: 'three' }">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
@@ -311,7 +247,8 @@
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls *ngIf="pageQty0.totalElements>1" (pageChange)="handlePageChangeQty0($event)" id="three">
+              <pagination-controls *ngIf="pageQty0.totalElements>1" (pageChange)="handlePageChangeQty0($event)"
+                id="three">
               </pagination-controls>
             </div>
           </div>
@@ -325,76 +262,46 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-                <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
-                  <div class="search-header-w">
-                    <div class="icon-search hidden-lg hidden-md hidden-sm">
-                      <i class="fa fa-search"></i>
-                    </div>
-
-                    <div id="sosearchpro" class="sosearchpro-wrapper so-search">
-                      <form method="GET" action="index.html">
-                        <div id="search0" class="search input-group form-group">
-                          <div class="
-                          select_category
-                          filter_type
-                          icon-select
-                          hidden-sm hidden-xs
-                        " style="width: 150px;">
-                            <select class="no-border" name="category_id">
-                              <option value="0">Tên sản phẩm</option>
-                              <option value="78">Phân loại hàng</option>
-                              <option value="77">Mã sản phẩm </option>
-                              <option value="82">ThươNg hiệu</option>
-
-                            </select>
-                          </div>
-
-                          <input class="autosearch-input form-control" type="text" value="" size="50" autocomplete="off"
-                            placeholder="Nhập vào..." name="search" />
-                          <!-- <span class="input-group-btn">
-                            <button type="submit" class="button-search btn btn-primary" name="submit_search">
-                              <i class="fa fa-search"></i>
-                            </button>
-                          </span> -->
-                        </div>
-                        <input type="hidden" name="route" value="product/search" />
-                      </form>
-                    </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input   type="text" class="form-control"
+                          placeholder="Search..." name="keywordEnableFalse" id="keywordEnableFalse" #keywordEnableFalse>
+  
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)= "searchEnableFalse(keywordEnableFalse.value)"  type="submit" class="btn btn-danger" value="Tìm"
+                      style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
                   </div>
                 </div>
+               </div>
+              <div class="col-sm-6" style="margin-top: 16px;">
+                <select (change)="changeSizeEnableFalse($event)" name="cars" id="cars"
+                  style="width: 200px; height: 30px;">
+                  <option hidden>Show</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
               </div>
-              <div class="col-sm-6">
-                <label for="input-product" class="col-sm-2 control-label" style="font-size: 14px;">Danh mục</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tên sản phẩm" value="" name="product">
-                </div>
+            </div><br>
+            <div class="buttons clearfix">
+              <div class="pull-left" style="margin-left: 20px;">
+                <h3>
+                  <span>{{(pEnableFalse==pageEnableFalse.totalPages||pageEnableFalse.totalElements==0)?pageEnableFalse.totalElements:pEnableFalse*sizeEnableFalse}}</span>
+                  / <span>{{pageEnableFalse.totalElements}}</span>
+                  Sản phẩm
+                </h3>
               </div>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 30px;">
-                  <input type="submit" class="btn btn-danger" value="Tìm" style="border-radius:4px 4px; width: 76px;">
-                  &nbsp;
-                  <input type="submit" class="btn btn-secondary" value="Nhập lại">
-                </div>
-
-              </div><br>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;">
-                  <h3>
-                    <span>{{pEnableFalse==pageEnableFalse.totalPages?pageEnableFalse.totalElements:pEnableFalse*5}}</span>
-                    / <span>{{pageEnableFalse.totalElements}}</span>
-
-                    Sản phẩm
-                  </h3>
-                </div>
-                <div class="pull-right">
-                  <input style="margin-right: 20px;" type="submit" routerLink="/shop/product/manager"
-                    class="btn btn-danger" value="&#10010; Thêm 1 sản phẩm mớI">
-                </div>
-              </div>
-              <br>
 
             </div>
+            <br>
+
+
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
                 <thead>
@@ -410,7 +317,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: 5, currentPage: pEnableFalse, totalItems: countEnableFalse ,id: 'four'}">
+                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: sizeEnableFalse, currentPage: pEnableFalse, totalItems: countEnableFalse ,id: 'four'}">
                     <td>{{e.product.name}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>

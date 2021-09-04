@@ -68,8 +68,8 @@ public class Product_Option_Impl implements Product_option_service {
 	}
 
 	@Override
-	public Page<Product_option> finAllByShop(Shop shop, PageRequest of) {
-		return dao.finAllByShop(shop, of);
+	public Page<Product_option> finAllByShop(String keySeach ,Shop shop, PageRequest of) {
+		return dao.finAllByShop(keySeach, shop, of);
 	}
 
 	public Product_option deleteProductByID(String id) {
@@ -96,13 +96,13 @@ public class Product_Option_Impl implements Product_option_service {
 	}
 
 	@Override
-	public Page<Product_option> findProductEnableShop(Shop shop, Boolean value, PageRequest of) {
-		return dao.findProductEnableShop(shop, value, of);
+	public Page<Product_option> findProductEnableShop(String keyword,Shop shop, Boolean value, PageRequest of) {
+		return dao.findProductEnableShop(keyword,shop, value, of);
 	}
 
 	@Override
-	public Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of) {
-		return dao.findProductQuantity0Shop(shop, of);
+	public Page<Product_option> findProductQuantity0Shop(String keyword ,Shop shop, PageRequest of) {
+		return dao.findProductQuantity0Shop(keyword,shop, of);
 	}
 
 	@Override

@@ -29,7 +29,9 @@ public interface Product_option_service {
 
 	List<Product_option> finByShop(Shop shop);
 
-	Page<Product_option> finAllByShop(Shop shop,PageRequest of);
+	Page<Product_option> finAllByShop(String keySearch, Shop shop,PageRequest of);
+	
+	
 	Product_option deleteProductByID(String id);
 
 
@@ -39,10 +41,10 @@ public interface Product_option_service {
 
 	int countItemByProductID(String id);
 
-	Page<Product_option> findProductEnableShop(Shop shop, Boolean value,PageRequest of);
+	Page<Product_option> findProductEnableShop(String keyword ,Shop shop, Boolean value,PageRequest of);
 
 
-	Page<Product_option> findProductQuantity0Shop(Shop shop, PageRequest of);
+	Page<Product_option> findProductQuantity0Shop(String keyword ,Shop shop, PageRequest of);
 
 	Page<Product_option> listAll(String id_shop,Pageable of);
 //	Page<Product_option> listAll(PageRequest of);

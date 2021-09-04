@@ -15,18 +15,28 @@ export class ProductAllComponent implements OnInit {
   constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadProductAll(1,5);
+
+    this.loadProductAll("",1,5);
   }
   filterEnableFalse() {
-    this.loadProductEnable(false, 1);
+    this.loadProductEnableFalse("",false, 1,5);
   }
   filterEnableTrue() {
-    this.loadProductEnable(true, 1);
+    this.loadProductEnableTrue("",true, 1,5);
   }
   filterQuantity0() {
-    this.loadProductQty0(1);
+    this.loadProductQty0("",1,5);
   }
+
+  public keywordProductAll: string="";
+  public keywordEnableTrue: string="";
+  public keywordEnableFalse: string="";
+  public keywordQty0: string="";
+
   public size: number = 5;
+  public sizeEnableTrue: number = 5;
+  public sizeEnableFalse: number = 5;
+  public sizeQuantity0: number = 5;
   public count: any;
   // count item filter enable true
   public countEnableTrue: any;
@@ -52,9 +62,9 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
 
-  public loadProductAll(page: any, size: any) {
+  public loadProductAll(keyword: any, page: any, size: any) {
     page= page-1;
-    this.productService.getAllProductOption(page, size).subscribe((data) => {
+    this.productService.getAllProductOption(keyword,page, size).subscribe((data) => {
       console.log(data)
       const item = data.content.map(function (obj: { 
         id: any;
@@ -99,9 +109,9 @@ export class ProductAllComponent implements OnInit {
   }
 
   // load all produt filter by quantity
-  public loadProductQty0(page: any) {
+  public loadProductQty0(keyword: any, page: any, size: any) {
     page = page - 1;
-    this.productService.getAllProductByQty0(page).subscribe((data) => {
+    this.productService.getAllProductByQty0(keyword,page, size).subscribe((data) => {
       this.itemsQuantity0 = data.content.map(function (obj: {
         id: any;
         id_product: any;
@@ -112,9 +122,10 @@ export class ProductAllComponent implements OnInit {
       }) {
         return obj;
       });
+      console.log(this.itemsQuantity0);
       this.pageQty0 = data;
+      console.log(this.pageQty0);
       this.countQty0 = this.pageQty0.totalElements;
-      console.log(this.countQty0);
     },
       (err) => {
         if (err.status == 404) {
@@ -135,10 +146,13 @@ export class ProductAllComponent implements OnInit {
       });
 
   }
+
+
+
   // load all product filter by enable
-  public loadProductEnable(value: boolean, page: any) {
+  public loadProductEnableTrue(keyword: any, value: boolean, page: any, size: any) {
     page = page - 1;
-    this.productService.getAllProductByEnable(value, page).subscribe((data) => {
+    this.productService.getAllProductByEnable(keyword, value, page, size).subscribe((data) => {
       if (value) {
         this.itemsEnableTrue = data.content.map(function (obj: {
           id: any;
@@ -150,25 +164,12 @@ export class ProductAllComponent implements OnInit {
         }) {
           return obj;
         });
+        console.log(this.itemsEnableTrue)
         this.pageEnableTrue = data;
         console.log(this.pageEnableTrue);
         this.countEnableTrue = this.pageEnableTrue.totalElements;
 
-      } else {
-        this.itemsEnableFalse = data.content.map(function (obj: {
-          id: any;
-          id_product: any;
-          display_name: any;
-          price: any;
-          size: any;
-          quantity: any;
-        }) {
-          return obj;
-        });
-        this.pageEnableFalse = data;
-        this.countEnableFalse = this.pageEnableFalse.totalElements;
-        console.log(this.countEnableFalse);
-      }
+      } 
     }, error => {
       console.log(error);
       if (error.status == 404) {
@@ -188,6 +189,50 @@ export class ProductAllComponent implements OnInit {
     })
   }
   
+
+
+  public loadProductEnableFalse(keyword: any, value: boolean, page: any, size: any) {
+    page = page - 1;
+    this.productService.getAllProductByEnable(keyword, value, page, size).subscribe((data) => {
+      if (!value) {
+        this.itemsEnableFalse = data.content.map(function (obj: {
+          id: any;
+          id_product: any;
+          display_name: any;
+          price: any;
+          size: any;
+          quantity: any;
+        }) {
+          return obj;
+        });
+        console.log(this.itemsEnableFalse);
+        this.pageEnableFalse = data;
+        console.log(this.pageEnableFalse);
+        this.countEnableFalse = this.pageEnableFalse.totalElements;
+
+      } 
+    }, error => {
+      console.log(error);
+      if (error.status == 404) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: "Chưa đăng nhập",
+        });
+        this.router.navigate(['/login'])
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
+      }
+    })
+  }
+
+
+
+
   public handlePageChange(event:number){
     this.p = event;
     //this.router.navigate(["/shop/product/all?page=" + this.p+"&size="+this]);
@@ -199,23 +244,57 @@ export class ProductAllComponent implements OnInit {
         queryParamsHandling: 'merge', // remove to replace all query params by provided
       });
       console.log("handlePageChange nè")
-    this.loadProductAll(this.p,this.size);
+    this.loadProductAll(this.keywordProductAll,this.p,this.size);
   }
+
+
+
 
   public handlePageChangeEnableTrue(event: number) {
     this.pEnableTrue = event;
-    this.loadProductEnable(true, this.pEnableTrue);
+    console.log("pEnableTrue in handlePageChangeEnableTrue: "+this.pEnableTrue);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams("",this.pEnableTrue,this.sizeEnableTrue),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+  
+    this.loadProductEnableTrue(this.keywordEnableTrue,true, this.pEnableTrue, this.sizeEnableTrue);
   }
+
+
+
   // action change page filter enable true
   public handlePageChangeEnableFalse(event: number) {
     this.pEnableFalse = event;
-    this.loadProductEnable(false, this.pEnableFalse);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams("",this.pEnableFalse,this.sizeEnableFalse),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+    this.loadProductEnableFalse(this.keywordEnableFalse,false, this.pEnableFalse,this.sizeEnableFalse);
   }
+
+
+
   // action change page filter quantity
   public handlePageChangeQty0(event: number) {
     this.pQty0 = event;
-    this.loadProductQty0(this.pQty0);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams("",this.pQty0,this.sizeQuantity0),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+    this.loadProductQty0(this.keywordQty0,this.pQty0, this.sizeQuantity0);
   }
+
+
 
   getRequestParams(searchKeyword: string, page: number, pageSize: number): any {
     let params: any = {};
@@ -235,18 +314,60 @@ export class ProductAllComponent implements OnInit {
     return params;
   }
 
+
+
+
   public changeSize(event: any){
     this.p = 1;
     this.size = event.target.value;
     console.log("size nè: "+event.target.value);
-    this.loadProductAll(this.p, this.size);
+    this.loadProductAll(this.keywordProductAll,this.p, this.size);
 
   }
+
+
+
+
+  public changeSizeEnableTrue(event: any){
+    this.pEnableTrue = 1;
+    this.sizeEnableTrue = event.target.value;
+    console.log("size nè: "+event.target.value);
+    this.loadProductEnableTrue(this.keywordEnableTrue,true,this.pEnableTrue, this.sizeEnableTrue);
+
+  }
+
+
+
+
+  public changeSizeEnableFalse(event: any){
+    this.pEnableFalse= 1;
+    this.sizeEnableFalse = event.target.value;
+    console.log("size nè: "+event.target.value);
+    console.log("pEnableFalse in changeSizeEnableFalse: "+ this.pEnableFalse);
+    this.loadProductEnableFalse(this.keywordEnableFalse,false,this.pEnableFalse, this.sizeEnableFalse);
+
+  }
+
+
+  
+
+  public changeSizeQuantity0(event: any){
+    this.pQty0= 1;
+    this.sizeQuantity0 = event.target.value;
+    console.log("size nè: "+event.target.value);
+    console.log("pQty0 in changeSizeQuantity0: "+ this.pQty0);
+    this.loadProductQty0(this.keywordQty0,this.pQty0, this.sizeQuantity0);
+
+  }
+
 
   public editProduct(id: string) {
     //routerLink="[`/shop/product/manager`,e.product.id,'id']"
     this.router.navigate(['shop/product/manager', id]);
   }
+
+
+  
 
   public countOrder: any = "";
   public countProductOder(id: string) {
@@ -255,4 +376,37 @@ export class ProductAllComponent implements OnInit {
     })
 
   }
+
+
+  public searchProductAll(keywordProductAll: string){
+    this.keywordProductAll = keywordProductAll;
+    console.log("keywordProductAll: "+ this.keywordProductAll);
+    this.loadProductAll(this.keywordProductAll,this.p,this.size)
+  }
+
+
+
+  public searchEnableTrue(keywordEnableTrue: string){
+    this.keywordEnableTrue = keywordEnableTrue;
+    console.log("keywordEnableTrue: "+ this.keywordEnableTrue);
+    this.loadProductEnableTrue(this.keywordEnableTrue,true,this.pEnableTrue,this.sizeEnableTrue)
+  }
+
+  
+
+  public searchEnableFalse(keywordEnableFalse: string){
+    this.keywordEnableFalse = keywordEnableFalse;
+    console.log("keywordEnableFalse: "+ this.keywordEnableFalse);
+    this.loadProductEnableFalse(this.keywordEnableFalse,false,this.pEnableFalse,this.sizeEnableFalse)
+  }
+
+
+
+  
+  public searchQty0(keywordQty0: string){
+    this.keywordQty0 = keywordQty0;
+    console.log("keywordQty0: "+ this.keywordQty0);
+    this.loadProductQty0(this.keywordQty0,this.pQty0,this.sizeQuantity0)
+  }
+
 }
