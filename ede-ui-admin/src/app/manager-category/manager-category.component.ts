@@ -366,11 +366,16 @@ export class ManagerCategoryComponent implements OnInit {
   }
   public editPC(e: any) {
     const newP: any = {};
+   
     for (const controlName in this.parent_child_category.controls) {
       if (controlName) {
         this.parent_child_category.controls[controlName].setValue(e[controlName])
       } 
     
+    }
+    if(e['parentcategory']){
+      console.log(e)
+      this.parent_child_category.controls['parentcategory'].setValue(e['parentcategory'].id)
     }
     if(e['is_enable']){
       this.parent_child_category.controls['is_enable'].setValue('true')
@@ -387,6 +392,9 @@ export class ManagerCategoryComponent implements OnInit {
         this.child_category.controls[controlName].setValue(e[controlName])
       } 
     
+    }
+    if(e['parentcategory']){
+      this.child_category.controls['parentcategory'].setValue(e['parentcategory'].id)
     }
     if(e['is_enable']){
       this.child_category.controls['is_enable'].setValue('true')
