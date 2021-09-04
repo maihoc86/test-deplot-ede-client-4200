@@ -13,6 +13,7 @@ import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
+import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.Product_option_service;
 
 @Service
@@ -106,12 +107,9 @@ public class Product_Option_Impl implements Product_option_service {
 	}
 
 	@Override
-	public Page<Product_option> listAll(String id_shop,Pageable of) {
-		return dao.listAllProductByCustomer(id_shop,of);
+	public Page<Product_option> listAll(String id_shop, Pageable of) {
+		return dao.listAllProductByCustomer(id_shop, of);
 	}
-//	@Override
-//	public Page<Product_option> listAll(PageRequest of) {
-//		// TODO Auto-generated method stub
-//		return dao.listAll(of);
-//	}
+
+
 }

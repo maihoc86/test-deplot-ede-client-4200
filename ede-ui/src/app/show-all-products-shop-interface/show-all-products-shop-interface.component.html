@@ -18,7 +18,7 @@
                 <li class="list-group-item title">Danh mục shop</li>
                 <li class="list-group-item target hover" *ngFor="let item of listCategories" [value]="item.name">
                     <a class="clearfix">
-                        <span>{{item.name}}</span>
+                        <span (click)="clickFilterCategory(item.name)">{{item.name}}</span>
                     </a>
                 </li>
                 <br><br>
@@ -78,13 +78,15 @@
                     <div class="left-block">
                         <div class="product-image-container second_img" style="height:150px">
                             <a target="_self" title="Chicken swinesha">
-                                <img src="/assets/img/8.jpg" class="img-1 img-responsive" alt="image">
-                                <img src="/assets/img/8.jpg" class="img-2 img-responsive" alt="image">
+                                <img src="http://localhost:8080/ede-file/get/image/{{product.optionDef.optionImageDef.image}}"
+                                    class="img-1 img-responsive" alt="image">
+                                <img src="http://localhost:8080/ede-file/get/image/{{product.optionDef.optionImageDef.image}}"
+                                    class="img-2 img-responsive" alt="image">
                             </a>
                         </div>
-                        <div class="box-label">
-                            <span class="label-product label-sale"> {{i}} </span>
-                        </div>
+                        <!-- <div class="box-label">
+                            <span class="label-product label-sale"> 11 </span>
+                        </div> -->
                         <div style="margin-top: 30px;">
                             <div class="button-group so-quickview cartinfo--left">
                                 <button type="button" class="addToCart btn-button" title="Add to cart"

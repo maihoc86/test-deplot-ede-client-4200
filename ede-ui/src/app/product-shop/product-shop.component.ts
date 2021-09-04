@@ -376,9 +376,10 @@ export class ProductShopComponent implements OnInit {
           })
           this.product_options.controls['product'].setValue(data);
           this.Addservice.addProductOption(this.createNewOption()).toPromise().then(data => {
+            console.log(data)
             this.addMultiImage(data)
           }, error => {
-            alert("Lỗi option")
+            console.log(error);
           });
           if (result.isConfirmed) {
             this.Addservice.enableProductShop(data).subscribe((data) => {
@@ -638,6 +639,8 @@ export class ProductShopComponent implements OnInit {
 
 
   public addMultiImage(data: any) {
+    console.log("Vào đây r")
+    console.log(this.imageArray);
     const formData = new FormData();
     for (var i = 0; i < this.imageArray.length; i++) {
       formData.append("files", this.imageArray[i]);
@@ -646,9 +649,12 @@ export class ProductShopComponent implements OnInit {
       this.product_options_image.patchValue({
         image: valueFile.toString()
       });
+      console.log(valueFile);
       this.product_options_image.controls['productoption'].setValue(data);
+      console.log(this.product_options_image.value);
       if (valueFile.length > 0) {
         this.Addservice.addProductOptionImage(this.createNewOptionImage()).toPromise().then(data => {
+          console.log(data)
         }, error => {
           alert(error)
         });

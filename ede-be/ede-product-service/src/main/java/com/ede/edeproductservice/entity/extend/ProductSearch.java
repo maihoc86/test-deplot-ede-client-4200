@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
-import com.ede.edeproductservice.entity.Product_option;
+import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Shop;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -61,20 +61,33 @@ public class ProductSearch {
 	// ------------------------
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
-	List<Product_option> productOptions;
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "productdiscount")
-//	List<Product_discount> productDiscount;
+	List<ProductOptionView> productOptions;
+	@JsonIgnore
+	@OneToMany(mappedBy = "productdiscount")
+	List<Product_discount> productDiscount;
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "producttag")
 //	List<Product_tag> producTags;
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	@Transient
-	public Product_option optionDef;
+	public ProductOptionView optionDef;
 
-	public Product_option getOptionDef() {
+	public ProductOptionView getOptionDef() {
 		return this.getProductOptions().get(0);
 	}
+
+//	@Transient
+//	public Product_discount discountDef;
+//
+//	public Product_discount getDiscountDef() {
+//		if (this.getProductOptions() != null) {
+//			return this.getProductDiscount().get(0);
+//		} else {
+//			System.err.println(this.getProductDiscount());
+//			return null;
+//		}
+//
+//	}
 
 }
