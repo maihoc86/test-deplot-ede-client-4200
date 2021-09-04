@@ -95,8 +95,10 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
     this.filterProductByCategory(category, 1);
   }
+  // LỌC SÀN PHẨM THEO LOẠI DANH MỤC CÓ TRÊN CỬA HÀNG
   public filterProductByCategory(category: any, page: any) {
-    this.ProductService.getAllProductShowInterfaceFilterByCategory(category, 0).subscribe(
+    page = page - 1;
+    this.ProductService.getAllProductShowInterfaceFilterByCategory(category, page).subscribe(
       (data) => {
         console.log(data);
         this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
