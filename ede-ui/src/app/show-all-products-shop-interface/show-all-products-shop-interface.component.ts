@@ -16,6 +16,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public listCategories: any = [];
   public listAllProducts: any = [];
   public listAllProductsDiscount: any = [];
+  public location: any = [];
+  public brand: any = [];
+  public category: any;
   public page: any = [];
   public p: number = 1;
   public count: any;
@@ -26,26 +29,81 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.getBrands();
     this.getChildCategory();
     this.getAllDiscountProduct();
-    this.getAllProduct(1);
+    this.listProduct();
   }
-  public getAllProduct(page: any) {
-    page = page - 1;
+  public listProduct() {
+    this.route.queryParams.subscribe(params => {
+      this.category = params['category'] ? params['category'] : '';
+      this.location = params['location'] ? params['location'].split(',') : [];
+      this.brand = params['brand'] ? params['brand'].split(',') : [];
+      let page = params['page'];
+      if (page != undefined) {
+        page = page - 1;
+        if (this.category != "" && this.location == "" && this.brand == "") {
+          // CATEGORY
+          alert(1);
+          this.filter(this.category, "", "", page);
+        } else if (this.category == "" && this.location != "" && this.brand == "") {
+          // LOCATION
+          alert(2);
+          this.filter("", this.location, "", page);
+        } else if (this.brand != "" && this.location == "" && this.category == "") {
+          // BRAND
+          alert(3);
+          this.filter("", "", this.brand, page);
+        } else if (this.category != "" && this.location != "") {
+          // CATEGORY AND LOCATION
+          alert(4);
+          this.filter(this.category, this.location, "", page);
+        } else if (this.category != "" && this.brand != "") {
+          // CATEGORY AND BRAND
+          alert(5);
+          this.filter(this.category, "", this.brand, page);
+        } else if (this.location != "" && this.brand != "") {
+          // LOCATION AND BRAND
+          alert(6);
+          this.filter("", this.location, this.brand, page);
+        } else if (this.category != "" && this.location != "" && this.brand != "") {
+          // CATEGORY AND LOCATION AND BRAND
+          alert(7);
+          this.filter(this.category, this.location, this.brand, page);
+        } else {
+          // DEFAULT
+          alert(8);
+          this.getAllProductDefault(page);
+        }
+      } else {
+        this.getAllProductDefault(0);
+      }
+
+    })
+  }
+  public getAllProductDefault(page: any) {
     this.ProductService.getAllProductShopByCustomer(page).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
           return obj;
         });
-        console.log(this.listAllProducts);
         this.page = data;
         this.count = this.page.totalElements;
       }, error => {
+      })
+  }
+  public filter(category: any, location: any, brand: any, page: any) {
+    this.ProductService.getAllProductShowInterfaceFilter(category, location, brand, page).subscribe(
+      (data) => {
+        console.log(data);
+        this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
+          return obj;
+        });
+        this.page = data;
+        this.count = this.page.totalElements;
       })
   }
   public getAllDiscountProduct() {
     this.ProductService.getAllProductDiscountShopByCustomer().subscribe(
       (data) => {
         this.listAllProductsDiscount = data
-        console.log(this.listAllProductsDiscount[0].productdiscount.id);
       }, error => {
         console.log(error);
       })
@@ -75,7 +133,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           return obj;
         });
         this.listCategories = listCategories;
-
       }, error => {
         console.log(error);
       });
@@ -83,55 +140,55 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   showHiddenLocation() {
     this.hiddenShowLocationMore = !this.hiddenShowLocationMore;
     this.hiddenLocation = !this.hiddenLocation;
-
   }
   clickFilterCategory(category: any) {
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: this.getRequestParams("", category, 1),
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
-    this.filterProductByCategory(category, 1);
+    this.category = category;
+    this.listProduct();
   }
-  // LỌC SÀN PHẨM THEO LOẠI DANH MỤC CÓ TRÊN CỬA HÀNG
-  public filterProductByCategory(category: any, page: any) {
-    page = page - 1;
-    this.ProductService.getAllProductShowInterfaceFilterByCategory(category, page).subscribe(
-      (data) => {
-        console.log(data);
-        this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
-          return obj;
-        });
-        console.log(this.listAllProducts);
-        this.page = data;
-        this.count = this.page.totalElements;
-      })
+  clickFilterLocation(event: any, location: any) {
+    if (event.currentTarget.checked) {
+      this.location.push(location);
+    } else {
+      this.location.splice(this.location.indexOf(location), 1);
+    }
+    this.routeParams();
+    this.listProduct();
+  }
+  clickFilterBrand(event: any, brand: any) {
+    if (event.currentTarget.checked) {
+      this.brand.push(brand);
+    } else {
+      this.brand.splice(this.brand.indexOf(brand), 1);
+    }
+    this.routeParams();
+    this.listProduct();
   }
   public handlePageChange(event: number) {
     this.p = event;
+    this.routeParams();
+  }
+  routeParams() {
     this.router.navigate(
       [],
       {
         relativeTo: this.route,
-        queryParams: this.getRequestParams("", "", this.p),
+        queryParams: this.getRequestParams(this.category, this.location, this.brand, this.p),
         queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
-    this.getAllProduct(this.p);
+      })
   }
-  getRequestParams(searchKeyword: string, category: string, page: number): any {
+  getRequestParams(category: string, location: [] = [], brand: [] = [], page: number): any {
     let params: any = {};
-
     if (category) {
       params[`category`] = category;
     }
-    if (searchKeyword) {
-      params[`keyword`] = searchKeyword;
-    }
-
     if (page) {
       params[`page`] = page;
+    }
+    if (location != undefined && location.length > 0) {
+      params[`location`] = location.toString();
+    }
+    if (brand != undefined && brand.length > 0) {
+      params[`brand`] = brand.toString();
     }
     return params;
   }

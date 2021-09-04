@@ -36,5 +36,14 @@ public interface ProductService {
 	 * 
 	 */
 	Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerLocation(List<String> names, String id, Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerBrand(List<String> valueBrand, String id, Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> names,String category, String id, Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category,List<String> valueBrand, String id, Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names,List<String> valueBrand, String id, Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> names,String category,List<String> brand, String id, Pageable of);
+	
+
+
 
 }

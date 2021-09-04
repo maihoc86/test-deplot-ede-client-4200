@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.restcontroller.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,48 +99,52 @@ public class ReadProductRestController {
 		return service.listAll(PageRequest.of(page.orElse(0), 5));
 	}
 
-
-	
 	@GetMapping("/view/getAllProductOption")
-	public ResponseEntity<?> getAllProductOption(@RequestParam(name = "keyword") String keyword ,@RequestParam(name = "page", defaultValue = "0" ) int page , @RequestParam(name = "size", defaultValue = "5" ) int size ) {
+	public ResponseEntity<?> getAllProductOption(@RequestParam(name = "keyword") String keyword,
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		Page<Product_option> pages = product_option_service.finAllByShop(keyword,shop,PageRequest.of(page, size));
-		//List<Product_option>listProduct = product_option_service.finByShop(shop);
-		System.err.println("listProduct size : "+pages.getSize());
-		System.err.println(" size nè : "+size);
-		System.err.println(" page nè : "+page);
-		System.err.println(" keySearch nè : "+keyword);
+		Page<Product_option> pages = product_option_service.finAllByShop(keyword, shop, PageRequest.of(page, size));
+		// List<Product_option>listProduct = product_option_service.finByShop(shop);
+		System.err.println("listProduct size : " + pages.getSize());
+		System.err.println(" size nè : " + size);
+		System.err.println(" page nè : " + page);
+		System.err.println(" keySearch nè : " + keyword);
 		return ResponseEntity.ok(pages);
 	}
-	
-	
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/quantity0")
-	public ResponseEntity getAllProductOptionQuantity0(@RequestParam(name = "keyword") String keyword ,@RequestParam(name = "page", defaultValue = "0" ) int page , @RequestParam(name = "size", defaultValue = "5" ) int size ) {
+	public ResponseEntity getAllProductOptionQuantity0(@RequestParam(name = "keyword") String keyword,
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		Page<Product_option> pages = product_option_service.findProductQuantity0Shop(keyword,shop,PageRequest.of(page, size));
-		System.err.println("listProduct enable = true & is_delete = false in getAllProductOption/quantity0 : "+pages.getSize());
-		System.err.println(" size nè : "+size);
-		System.err.println(" page nè : "+page);
-		System.err.println(" page conten: "+pages.getSize());
-		System.err.println(" keySearch nè : "+keyword);
+		Page<Product_option> pages = product_option_service.findProductQuantity0Shop(keyword, shop,
+				PageRequest.of(page, size));
+		System.err.println(
+				"listProduct enable = true & is_delete = false in getAllProductOption/quantity0 : " + pages.getSize());
+		System.err.println(" size nè : " + size);
+		System.err.println(" page nè : " + page);
+		System.err.println(" page conten: " + pages.getSize());
+		System.err.println(" keySearch nè : " + keyword);
 		return ResponseEntity.ok(pages);
 	}
-	
-	
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/enable")
-	public ResponseEntity getAllProductOptionEnableTrue(@RequestParam(name = "keyword") String keyword ,@RequestParam(name ="value") Boolean value,@RequestParam(name = "page", defaultValue = "0" ) int page , @RequestParam(name = "size", defaultValue = "5" ) int size) {
+	public ResponseEntity getAllProductOptionEnableTrue(@RequestParam(name = "keyword") String keyword,
+			@RequestParam(name = "value") Boolean value, @RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
@@ -147,17 +152,15 @@ public class ReadProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 
-		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword,shop,value,PageRequest.of(page, size));
-		System.err.println("listProduct enable = true & is_delete = false : "+pages.getSize());
-		System.err.println(" size nè : "+size);
-		System.err.println(" page nè : "+page);
-		System.err.println(" page conten: "+pages.getSize());
-		System.err.println(" keySearch nè : "+keyword);
+		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword, shop, value,
+				PageRequest.of(page, size));
+		System.err.println("listProduct enable = true & is_delete = false : " + pages.getSize());
+		System.err.println(" size nè : " + size);
+		System.err.println(" page nè : " + page);
+		System.err.println(" page conten: " + pages.getSize());
+		System.err.println(" keySearch nè : " + keyword);
 		return ResponseEntity.ok(pages);
 	}
-
-	
-
 
 	@GetMapping("/view/getproductoptionimage/{id}")
 	public List<Product_option_image> getImage(@PathVariable("id") String id) {
@@ -259,24 +262,95 @@ public class ReadProductRestController {
 		return product_discount_service.findAll();
 	}
 
-	// TODO: Filter product shop by customer
+	// TODO: NEED OPTIMIZE IF ELSE
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product/filter")
-	public ResponseEntity getList(@RequestParam Optional<String> category,
+	public ResponseEntity getListProductShopFilterCategory(@RequestParam("category") Optional<String> category,
+			@RequestParam("location") Optional<String> location, @RequestParam("brand") Optional<String> brand,
 			@RequestParam("page") Optional<Integer> page) {
-		String valueCate = category.orElse("");
-		System.err.println(valueCate);
+		String valueCategory = category.orElse("");
+		String valueBrand = brand.orElse("");
+		String valueLocation = location.orElse("");
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
 		Shop shop = new Shop();
+		Page<ProductSearch> listPage = null;
+		String[] splitLocation = null;
+		String[] splitBrand = null;
+		List<String> locationList = null;
+		List<String> brandList = null;
+		if (location.isPresent()) {
+			// SPLIT STRING AND ADD TO LIST
+			splitLocation = valueLocation.split(",");
+			locationList = new ArrayList<String>();
+			for (int i = 0; i < splitLocation.length; i++) {
+				locationList.add(splitLocation[i]);
+			}
+		}
+		if (brand.isPresent()) {
+			// SPLIT STRING AND ADD TO LIST
+			splitBrand = valueBrand.split(",");
+			brandList = new ArrayList<String>();
+			for (int i = 0; i < splitBrand.length; i++) {
+				brandList.add(splitBrand[i]);
+			}
+		}
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		Page<ProductSearch> pageF = service.filterProductShopByCustomerCategory(valueCate, shop.getId(),
-				PageRequest.of(page.orElse(0), 10));
-		System.err.println(pageF);
-		return ResponseEntity.ok(pageF);
+		if (category.isPresent() && valueLocation.equals("") && valueBrand.equals("")) {
+			// CATEGORY
+			System.err.println(1);
+			listPage = service.filterProductShopByCustomerCategory(valueCategory, shop.getId(), pageRequest);
+		} else if (location.isPresent() && valueCategory.equals("") && valueBrand.equals("")) {
+			// LOCATION
+			System.err.println(2);
+			listPage = service.filterProductShopByCustomerLocation(locationList, shop.getId(), pageRequest);
+		} else if (brand.isPresent() && valueLocation.equals("") && valueCategory.equals("")) {
+			// BRAND
+			System.err.println(3 + valueBrand);
+			listPage = service.filterProductShopByCustomerBrand(brandList, shop.getId(), pageRequest);
+		} else if (category.isPresent() && location.isPresent() && valueBrand.equals("")) {
+			// CATEGORY AND LOCATION
+			System.err.println(4);
+			listPage = service.filterProductShopByCustomerLocationAndCategory(locationList, valueCategory, shop.getId(),
+					pageRequest);
+		} else if (location.isPresent() && brand.isPresent() && valueCategory.equals("")) {
+			// LOCATION AND BRAND
+			System.err.println(5);
+			listPage = service.filterProductShopByCustomerCategoryAndBrand(valueLocation, brandList, shop.getId(),
+					pageRequest);
+		} else if (category.isPresent() && brand.isPresent() && valueLocation.equals("")) {
+			// CATEGORY AND BRAND
+			System.err.println(6);
+			listPage = service.filterProductShopByCustomerCategoryAndBrand(valueCategory, brandList, shop.getId(),
+					pageRequest);
+		} else {
+			// ALL
+			System.err.println(7);
+			listPage = service.filterProductShopByCustomerLocationAndCategoryAndBrand(locationList, valueCategory,
+					brandList, shop.getId(), pageRequest);
+		}
+
+		return ResponseEntity.ok(listPage);
 	}
+
+//	@SuppressWarnings("rawtypes")
+//	@GetMapping("/view/customer/shop/all/product/filterLocation")
+//	public ResponseEntity getListProductShopFilterLocation(@RequestParam("location") Optional<String> location,
+//			@RequestParam("page") Optional<Integer> page) {
+//
+//		Shop shop = new Shop();
+//		try {
+//			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+//		} catch (Exception e) {
+//			return ResponseEntity.notFound().build();
+//		}
+//		Page<ProductSearch> pageF = service.filterProductShopByCustomerLocation(locaList, shop.getId(),
+//				PageRequest.of(page.orElse(0), 10));
+//		return ResponseEntity.ok(pageF);
+//	}
 
 	/* GET CATEGORY SHOP */
 	@SuppressWarnings("rawtypes")

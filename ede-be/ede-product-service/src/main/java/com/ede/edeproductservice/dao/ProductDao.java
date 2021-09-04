@@ -27,6 +27,34 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id_shop and p.childCategory.name=:valueCate")
 	Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of);
 
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:names) and p.shop.id=:id")
+	Page<ProductSearch> filterProductShopByCustomerLocation(List<String> names, String id, Pageable of);
+
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id and p.brand.name IN (:brand)")
+	Page<ProductSearch> filterProductShopByCustomerBrand(List<String> brand, String id, Pageable of);
+
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.name =:category and p.shop.id=:id")
+	Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> location, String category, String id,
+			Pageable of);
+
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.name =:category and p.brand.name IN (:brand) and p.shop.id=:id")
+	Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> brand, String id,
+			Pageable of);
+
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.brand.name IN (:brand) and p.shop.id=:id")
+	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> location, List<String> brand, String id,
+			Pageable of);
+
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.name =:category and p.brand.name IN (:brand) and p.shop.id=:id")
+	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> location, String category,
+			List<String> brand, String id, Pageable of);
+
+	/*****************************************/
 	@Query("SELECT p FROM Product p WHERE p.enable = true AND p.deleted = false")
 	Page<Product> listAll(Pageable page);
 

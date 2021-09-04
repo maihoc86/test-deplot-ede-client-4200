@@ -16,8 +16,12 @@
                     </div>
                 </li>
                 <li class="list-group-item title">Danh mục shop</li>
+                <li class="list-group-item">
+                    <a href="http://localhost:4200/shop/showall/interface">Tất cả</a>
+                </li>
                 <li class="list-group-item target hover" *ngFor="let item of listCategories" [value]="item.name">
                     <a class="clearfix">
+
                         <span (click)="clickFilterCategory(item.name)">{{item.name}}</span>
                     </a>
                 </li>
@@ -26,7 +30,7 @@
                 <li class="list-group-item target hover hover" *ngFor="let item of listCities.slice(0, 4);"
                     [value]="item.name">
                     <a class="clearfix">
-                        <input type="checkbox">&nbsp;
+                        <input type="checkbox" (change)="clickFilterLocation($event,item.name)">&nbsp;
                         <span>{{item.name}}</span>
                     </a>
                 </li>
@@ -37,7 +41,7 @@
                     <li class="list-group-item target hover" *ngFor="let item of listCities.slice(4)"
                         [value]="item.name">
                         <a class="clearfix">
-                            <input type="checkbox">&nbsp;
+                            <input type="checkbox" (change)="clickFilterLocation($event,item.name)">&nbsp;
                             <span>{{item.name}}</span>
                         </a>
                     </li>
@@ -46,7 +50,7 @@
                 <li class="list-group-item title ">Nhãn hàng</li>
                 <li class="list-group-item target hover hover" *ngFor="let item of listBrands" [value]="item.name">
                     <a class="clearfix">
-                        <input type="checkbox">&nbsp;
+                        <input type="checkbox" (change)="clickFilterBrand($event,item.name)">&nbsp;
                         <span>{{item.name}}</span>
                     </a>
                 </li>
