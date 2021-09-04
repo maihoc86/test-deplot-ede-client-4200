@@ -359,13 +359,17 @@
                     <div class="pull-left"><a class="btn btn-default buttonGray" href="">Back</a>
                     </div>
                     <div class="pull-right">
-                        <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
+                        <input
+                            [disabled]="product.invalid || images.length == 0 || product_options.invalid ? 'disabled': null"
                             type="submit" class="btn btn-success" (click)="addProduct()" *ngIf="!loadProdutedit()"
                             value="Thêm">
-                        <input [disabled]="product.invalid ? 'disabled': (product_options.invalid?'disabled':null)"
+                        <input
+                            [disabled]="product.invalid || images.length == 0 || product_options.invalid ? 'disabled': null"
                             type="submit" class="btn btn-success" (click)="addNewProductOption()"
                             *ngIf="loadProdutedit()" value="Thêm thuộc tính mới">
-                        <input type="submit" class="btn btn-primary" (click)="updateProduct()" *ngIf="loadProdutedit()"
+                        <input
+                            [disabled]="product.invalid || images.length == 0 || product_options.invalid ? 'disabled': null"
+                            type="submit" class="btn btn-primary" (click)="updateProduct()" *ngIf="loadProdutedit()"
                             value="Sửa">
                         <input type="submit" class="btn btn-danger" (click)="deleteProduct(loadProdutedit())"
                             *ngIf="loadProdutedit()" value="Xóa">

@@ -53,7 +53,7 @@ export class AddProductService {
     return this.httpClient.put<any>(this.REST_API_SERVER + '/user/update/product-shop/tag', data, this.httpOptions);
   }
   public enableProductShop(data: Product) {
-    return this.httpClient.put<any>(this.REST_API_SERVER + '/user/enable/product-shop/',data, this.httpOptions);
+    return this.httpClient.put<any>(this.REST_API_SERVER + '/user/enable/product-shop/', data, this.httpOptions);
   }
   public getBrand() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/listBrand', this.httpOptions);
@@ -133,4 +133,9 @@ export class AddProductService {
   public getAllProductShowInterface(page: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
   }
+
+  public getAllProductShowInterfaceFilterByCategory(category: any, page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product/filter?page=' + page + '&category=' + category, this.httpOptions);
+  }
+
 }

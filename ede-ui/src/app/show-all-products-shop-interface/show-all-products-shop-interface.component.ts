@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 
@@ -8,7 +9,7 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
   styleUrls: ['./show-all-products-shop-interface.component.css']
 })
 export class ShowAllProductsShopInterfaceComponent implements OnInit {
-  constructor(private AddresseService: ApiAddressService, private ProductService: AddProductService) { }
+  constructor(private AddresseService: ApiAddressService, private router: Router, private ProductService: AddProductService, private route: ActivatedRoute) { }
 
   public listCities: any = [];
   public listBrands: any = [];
@@ -34,6 +35,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
           return obj;
         });
+        console.log(this.listAllProducts);
         this.page = data;
         this.count = this.page.totalElements;
       }, error => {
@@ -83,9 +85,54 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.hiddenLocation = !this.hiddenLocation;
 
   }
+  clickFilterCategory(category: any) {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams("", category, 1),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+    this.filterProductByCategory(category, 1);
+  }
+  // LỌC SÀN PHẨM THEO LOẠI DANH MỤC CÓ TRÊN CỬA HÀNG
+  public filterProductByCategory(category: any, page: any) {
+    page = page - 1;
+    this.ProductService.getAllProductShowInterfaceFilterByCategory(category, page).subscribe(
+      (data) => {
+        console.log(data);
+        this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
+          return obj;
+        });
+        console.log(this.listAllProducts);
+        this.page = data;
+        this.count = this.page.totalElements;
+      })
+  }
   public handlePageChange(event: number) {
     this.p = event;
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams("", "", this.p),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
     this.getAllProduct(this.p);
+  }
+  getRequestParams(searchKeyword: string, category: string, page: number): any {
+    let params: any = {};
 
+    if (category) {
+      params[`category`] = category;
+    }
+    if (searchKeyword) {
+      params[`keyword`] = searchKeyword;
+    }
+
+    if (page) {
+      params[`page`] = page;
+    }
+    return params;
   }
 }

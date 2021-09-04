@@ -72,4 +72,14 @@ public class ProductImpl implements ProductService {
 	public Page<ProductSearch> listAllProductShopByCustomer(String id, Pageable page) {
 		return dao.listAllProductShopByCustomer(id, page);
 	}
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of) {
+		return dao.filterProductShopByCustomerCategory(valueCate, id_shop, of);
+	}
+
 }

@@ -246,17 +246,22 @@ public class ReadProductRestController {
 	}
 
 	// TODO: Filter product shop by customer
-	@GetMapping("/view/customer/shop/list_product/filter")
-	public List<Product_option> getList(@RequestParam Optional<String> location,
-			@RequestParam Optional<String> category, @RequestParam Optional<String> brand) {
-		String valueLocate = location.orElse("");
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/view/customer/shop/all/product/filter")
+	public ResponseEntity getList(@RequestParam Optional<String> category,
+			@RequestParam("page") Optional<Integer> page) {
 		String valueCate = category.orElse("");
-		String valueBrand = brand.orElse("");
-		if (!valueLocate.equals("") && !valueBrand.equals("") && !valueCate.equals("")) {
-			return product_option_service.filterProductShopByCustomerAND(valueLocate, valueCate, valueBrand);
-		} else {
-			return product_option_service.filterProductShopByCustomerOR(valueLocate, valueCate, valueBrand);
+		System.err.println(valueCate);
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
 		}
+		Page<ProductSearch> pageF = service.filterProductShopByCustomerCategory(valueCate, shop.getId(),
+				PageRequest.of(page.orElse(0), 10));
+		System.err.println(pageF);
+		return ResponseEntity.ok(pageF);
 	}
 
 	/* GET CATEGORY SHOP */
@@ -289,11 +294,12 @@ public class ReadProductRestController {
 				PageRequest.of(page.orElse(0), 10));
 		return ResponseEntity.ok(pageF);
 	}
+
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product/discount")
 	public ResponseEntity getAllListProductDiscountByCustomer() {
-		
+
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));

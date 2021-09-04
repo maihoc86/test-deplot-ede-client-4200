@@ -15,7 +15,7 @@ public interface ProductService {
 	Page<Product> listAll(Pageable pageable);
 
 	Page<ProductSearch> searchByKeysearch(String keysearch, Pageable page);
-	
+
 	Page<ProductSearch> listAllProductShopByCustomer(String id, Pageable page);
 
 	Product save(Product product);
@@ -28,13 +28,13 @@ public interface ProductService {
 
 	List<Product> findByShop(String id);
 
-
 	Page<Product> listAll(PageRequest of);
 
-
-
-	
-
-
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of);
 
 }
