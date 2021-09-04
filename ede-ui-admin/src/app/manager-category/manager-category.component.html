@@ -266,7 +266,7 @@
                           <select class="form-select" formControlName="parentcategory">
                             <option [ngValue]="null" disabled>
                             </option>
-                            <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf">
+                            <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf.id">
                               {{ prf.name }}
                             </option>
                           </select>
@@ -428,7 +428,7 @@
                           <select class="form-select" formControlName="parentcategory">
                             <option [ngValue]="null" disabled>
                             </option>
-                            <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf">
+                            <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf.id">
                               {{ prf ? prf.name : 'Không có' }}
                             </option>
                           </select>
