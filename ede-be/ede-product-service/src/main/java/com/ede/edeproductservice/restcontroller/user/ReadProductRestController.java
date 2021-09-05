@@ -113,6 +113,7 @@ public class ReadProductRestController {
 		System.err.println("listProduct size : "+pages.getSize());
 		System.err.println(" size nè : "+size);
 		System.err.println(" page nè : "+page);
+		System.err.println(" pages.getSize() nè  : "+pages.getSize());
 		System.err.println(" keySearch nè : "+keyword);
 		return ResponseEntity.ok(pages);
 	}
@@ -151,7 +152,7 @@ public class ReadProductRestController {
 		System.err.println("listProduct enable = true & is_delete = false : "+pages.getSize());
 		System.err.println(" size nè : "+size);
 		System.err.println(" page nè : "+page);
-		System.err.println(" page conten: "+pages.getSize());
+		System.err.println(" page conten: "+pages.getContent());
 		System.err.println(" keySearch nè : "+keyword);
 		return ResponseEntity.ok(pages);
 	}
