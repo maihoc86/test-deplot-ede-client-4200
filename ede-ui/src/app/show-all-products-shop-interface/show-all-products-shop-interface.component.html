@@ -30,7 +30,8 @@
                 <li class="list-group-item target hover hover" *ngFor="let item of listCities.slice(0, 4);"
                     [value]="item.name">
                     <a class="clearfix">
-                        <input type="checkbox" (change)="clickFilterLocation($event,item.name)">&nbsp;
+                        <input type="checkbox" [checked]="location.indexOf(item.name) > -1"
+                            (change)="clickFilterLocation($event,item.name)">&nbsp;
                         <span>{{item.name}}</span>
                     </a>
                 </li>
@@ -41,16 +42,19 @@
                     <li class="list-group-item target hover" *ngFor="let item of listCities.slice(4)"
                         [value]="item.name">
                         <a class="clearfix">
-                            <input type="checkbox" (change)="clickFilterLocation($event,item.name)">&nbsp;
+                            <input type="checkbox" [checked]="location.indexOf(item.name) > -1"
+                                (change)="clickFilterLocation($event,item.name)">&nbsp;
                             <span>{{item.name}}</span>
                         </a>
                     </li>
                 </div>
                 <br><br>
                 <li class="list-group-item title ">Nhãn hàng</li>
-                <li class="list-group-item target hover hover" *ngFor="let item of listBrands" [value]="item.name">
+                <li class="list-group-item target hover hover" *ngFor="let item of listBrands; let i = index;"
+                    [value]="item.name">
                     <a class="clearfix">
-                        <input type="checkbox" (change)="clickFilterBrand($event,item.name)">&nbsp;
+                        <input type="checkbox" [checked]="brand.indexOf(item.name) > -1"
+                            (change)="clickFilterBrand($event,item.name)">&nbsp;
                         <span>{{item.name}}</span>
                     </a>
                 </li>

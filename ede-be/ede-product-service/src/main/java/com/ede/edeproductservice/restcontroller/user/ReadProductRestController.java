@@ -294,7 +294,9 @@ public class ReadProductRestController {
 				brandList.add(splitBrand[i]);
 			}
 		}
+		// CHECKLOGIN SHOP
 		try {
+			// TODO: LẤY ID SHOP TRÊN URL CHỨ KHÔNG LẤY THẰNG ĐÃ LOGIN
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
@@ -313,13 +315,13 @@ public class ReadProductRestController {
 			listPage = service.filterProductShopByCustomerBrand(brandList, shop.getId(), pageRequest);
 		} else if (category.isPresent() && location.isPresent() && valueBrand.equals("")) {
 			// CATEGORY AND LOCATION
-			System.err.println(4);
+			System.err.println(4 + valueBrand);
 			listPage = service.filterProductShopByCustomerLocationAndCategory(locationList, valueCategory, shop.getId(),
 					pageRequest);
 		} else if (location.isPresent() && brand.isPresent() && valueCategory.equals("")) {
 			// LOCATION AND BRAND
 			System.err.println(5);
-			listPage = service.filterProductShopByCustomerCategoryAndBrand(valueLocation, brandList, shop.getId(),
+			listPage = service.filterProductShopByCustomerLocationAndBrand(locationList, brandList, shop.getId(),
 					pageRequest);
 		} else if (category.isPresent() && brand.isPresent() && valueLocation.equals("")) {
 			// CATEGORY AND BRAND
@@ -328,7 +330,6 @@ public class ReadProductRestController {
 					pageRequest);
 		} else {
 			// ALL
-			System.err.println(7);
 			listPage = service.filterProductShopByCustomerLocationAndCategoryAndBrand(locationList, valueCategory,
 					brandList, shop.getId(), pageRequest);
 		}
