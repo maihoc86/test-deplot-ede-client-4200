@@ -1109,8 +1109,8 @@
                       <p class="text-shopping-cart">My cart</p>
 
                       <span class="total-shopping-cart cart-total-full">
-                        <span class="items_cart">02</span><span class="items_cart2"> item(s)</span><span
-                          class="items_carts"> - $162.00 </span>
+                        <span class="items_cart">{{cart.length}}</span><span class="items_cart2"> item(s)</span><span
+                          class="items_carts"> - {{totalCart}} VND</span>
                       </span>
                     </div>
                   </div>
@@ -1120,7 +1120,7 @@
                   <li>
                     <table class="table table-striped">
                       <tbody>
-                        <tr>
+                        <tr *ngFor="let item of cart">
                           <td class="text-center" style="width: 70px">
                             <a href="product.html">
                               <img src="/assets/image/catalog/demo/product/80/1.jpg" style="width: 70px"
@@ -1128,36 +1128,18 @@
                             </a>
                           </td>
                           <td class="text-left">
-                            <a class="cart_product_name" href="product.html">Yutculpa ullamco</a>
+                            <a class="cart_product_name" href="product.html">{{item.name}}</a>
                           </td>
-                          <td class="text-center">x1</td>
-                          <td class="text-center">$80.00</td>
+                          <td class="text-center">x{{item.qty}}</td>
+                          <td class="text-center">{{item.qty*item.price}}VND</td>
                           <td class="text-right">
                             <a href="product.html" class="fa fa-edit"></a>
                           </td>
                           <td class="text-right">
-                            <a onclick="cart.remove('2');" class="fa fa-times fa-delete"></a>
+                            <a onclick="cart.remove('2');" (click)="removeItemCart(item)" class="fa fa-times fa-delete"></a>
                           </td>
                         </tr>
-                        <tr>
-                          <td class="text-center" style="width: 70px">
-                            <a href="product.html">
-                              <img src="/assets/image/catalog/demo/product/80/2.jpg" style="width: 70px"
-                                alt="Xancetta bresao" title="Xancetta bresao" class="preview" />
-                            </a>
-                          </td>
-                          <td class="text-left">
-                            <a class="cart_product_name" href="product.html">Xancetta bresao</a>
-                          </td>
-                          <td class="text-center">x1</td>
-                          <td class="text-center">$60.00</td>
-                          <td class="text-right">
-                            <a href="product.html" class="fa fa-edit"></a>
-                          </td>
-                          <td class="text-right">
-                            <a onclick="cart.remove('1');" class="fa fa-times fa-delete"></a>
-                          </td>
-                        </tr>
+                      
                       </tbody>
                     </table>
                   </li>
@@ -1169,7 +1151,7 @@
                             <td class="text-left">
                               <strong>Sub-Total</strong>
                             </td>
-                            <td class="text-right">$140.00</td>
+                            <td class="text-right">{{totalCart}} VND</td>
                           </tr>
                           <tr>
                             <td class="text-left">
@@ -1185,7 +1167,7 @@
                           </tr>
                           <tr>
                             <td class="text-left"><strong>Total</strong></td>
-                            <td class="text-right">$162.00</td>
+                            <td class="text-right">{{totalCart*(20/100)}}</td>
                           </tr>
                         </tbody>
                       </table>
