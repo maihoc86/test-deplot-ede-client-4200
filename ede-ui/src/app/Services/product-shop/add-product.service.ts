@@ -83,16 +83,16 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProduct', this.httpOptions);
   }
 
-  public getAllProductOption(keyword: any ,page: any, size: any) {
+  public getAllProductOption(keyword: any, page: any, size: any) {
     console.log("getAllProductOption: " + page)
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption?keyword=' + keyword+"&page="+page + "&size=" + size, this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption?keyword=' + keyword + "&page=" + page + "&size=" + size, this.httpOptions);
   }
 
   public getAllProductByEnable(keyword: any, value: boolean, page: any, size: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/enable?keyword=' + keyword + "&value=" + value + "&page=" + page+ "&size=" + size, this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/enable?keyword=' + keyword + "&value=" + value + "&page=" + page + "&size=" + size, this.httpOptions);
   }
 
-  public getAllProductByQty0(keyword: any,page: any, size: any) {
+  public getAllProductByQty0(keyword: any, page: any, size: any) {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/getAllProductOption/quantity0?keyword=' + keyword + "&page=" + page + "&size=" + size, this.httpOptions);
   }
 
@@ -134,8 +134,11 @@ export class AddProductService {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product?page=' + page, this.httpOptions);
   }
 
-  public getAllProductShowInterfaceFilterByCategory(category: any, page: any) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product/filter?page=' + page + '&category=' + category, this.httpOptions);
+  public getAllProductShowInterfaceFilter(category: any,location: any, brand: any, page: any) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product/filter?page=' + page + '&category=' + category + '&location=' + location + '&brand='+ brand, this.httpOptions);
   }
+  // public getAllProductShowInterfaceFilterByLocation(location: any, page: any) {
+  //   return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product/filterLocation?page=' + page + '&location=' + location, this.httpOptions);
+  // }
 
 }
