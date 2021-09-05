@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ProductOptions } from '../models/product-options.model';
 import { Product } from '../models/product.model';
 import { AddProductService } from '../Services/product-shop/add-product.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart, NavigationError, Event } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-product-all',
   templateUrl: './product-all.component.html',
@@ -12,11 +12,42 @@ import Swal from 'sweetalert2';
 })
 export class ProductAllComponent implements OnInit {
 
-  constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+          // Show loading indicator
+      }
+
+      if (event instanceof NavigationEnd) {
+        this.route.queryParams.subscribe(params => {
+          let getSize = params['size'];
+          let getPage = params['page'];
+          let getKeyword = params['keyword'];
+          console.log(getKeyword+"\t"+getPage+"\t"+getSize);
+          if(getKeyword !== undefined){
+            this.keywordProductAll = getKeyword;
+          }
+          if(getPage !== undefined){
+            this.p = getPage;
+          }
+          if(getSize !== undefined){
+            this.size = getSize;
+          }
+      });
+      }
+
+      if (event instanceof NavigationError) {
+          // Hide loading indicator
+
+          // Present error to user
+          console.log(event.error);
+      }
+  });
+
+   }
 
   ngOnInit(): void {
-
-    this.loadProductAll("",1,5);
+        this.loadProductAll(this.keywordProductAll,this.p,this.size);    
   }
   filterEnableFalse() {
     this.loadProductEnableFalse("",false, 1,5);
@@ -62,6 +93,9 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
+
+
+
 
 
   public loadProductAll(keyword: any, page: any, size: any) {
@@ -110,6 +144,9 @@ export class ProductAllComponent implements OnInit {
       });
   }
 
+
+
+
   // load all produt filter by quantity
   public loadProductQty0(keyword: any, page: any, size: any) {
     page = page - 1;
@@ -148,6 +185,8 @@ export class ProductAllComponent implements OnInit {
       });
 
   }
+
+
 
 
 
@@ -191,6 +230,8 @@ export class ProductAllComponent implements OnInit {
     })
   }
   
+
+
 
 
   public loadProductEnableFalse(keyword: any, value: boolean, page: any, size: any) {
@@ -238,13 +279,7 @@ export class ProductAllComponent implements OnInit {
   public handlePageChange(event:number){
     this.p = event;
     //this.router.navigate(["/shop/product/all?page=" + this.p+"&size="+this]);
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: this.getRequestParams("",this.p,this.size),
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
+    this.showParamsURL("",this.p,this.size);
       console.log("handlePageChange nè")
     this.loadProductAll(this.keywordProductAll,this.p,this.size);
   }
@@ -253,50 +288,49 @@ export class ProductAllComponent implements OnInit {
 
 
 
-
   public handlePageChangeEnableTrue(event: number) {
     this.pEnableTrue = event;
     console.log("pEnableTrue in handlePageChangeEnableTrue: "+this.pEnableTrue);
+    this.showParamsURL("",this.pEnableTrue,this.sizeEnableTrue);
+    this.loadProductEnableTrue(this.keywordEnableTrue,true, this.pEnableTrue, this.sizeEnableTrue);
+  }
+
+
+
+
+
+  public showParamsURL(keyword: string, page: number, size: number){
     this.router.navigate(
       [],
       {
         relativeTo: this.route,
-        queryParams: this.getRequestParams("",this.pEnableTrue,this.sizeEnableTrue),
+        queryParams: this.getRequestParams(keyword,page,size),
         queryParamsHandling: 'merge', // remove to replace all query params by provided
       });
-  
-    this.loadProductEnableTrue(this.keywordEnableTrue,true, this.pEnableTrue, this.sizeEnableTrue);
   }
+
+
 
 
 
   // action change page filter enable true
   public handlePageChangeEnableFalse(event: number) {
     this.pEnableFalse = event;
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: this.getRequestParams("",this.pEnableFalse,this.sizeEnableFalse),
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
+    this.showParamsURL("",this.pEnableFalse,this.sizeEnableFalse);
     this.loadProductEnableFalse(this.keywordEnableFalse,false, this.pEnableFalse,this.sizeEnableFalse);
   }
+
 
 
 
   // action change page filter quantity
   public handlePageChangeQty0(event: number) {
     this.pQty0 = event;
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: this.getRequestParams("",this.pQty0,this.sizeQuantity0),
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
+    this.showParamsURL("",this.pQty0,this.sizeQuantity0);
     this.loadProductQty0(this.keywordQty0,this.pQty0, this.sizeQuantity0);
   }
+
+
 
 
 
@@ -321,6 +355,7 @@ export class ProductAllComponent implements OnInit {
 
 
 
+
   public changeSize(event: any){
     this.p = 1;
     this.size = event.target.value;
@@ -328,6 +363,7 @@ export class ProductAllComponent implements OnInit {
     this.loadProductAll(this.keywordProductAll,this.p, this.size);
 
   }
+
 
 
 
@@ -343,6 +379,7 @@ export class ProductAllComponent implements OnInit {
 
 
 
+
   public changeSizeEnableFalse(event: any){
     this.pEnableFalse= 1;
     this.sizeEnableFalse = event.target.value;
@@ -351,6 +388,7 @@ export class ProductAllComponent implements OnInit {
     this.loadProductEnableFalse(this.keywordEnableFalse,false,this.pEnableFalse, this.sizeEnableFalse);
 
   }
+
 
 
   
@@ -363,6 +401,9 @@ export class ProductAllComponent implements OnInit {
     this.loadProductQty0(this.keywordQty0,this.pQty0, this.sizeQuantity0);
 
   }
+
+
+
 
 
   public editProduct(id: string) {
@@ -382,35 +423,59 @@ export class ProductAllComponent implements OnInit {
   }
 
 
+
+
   public searchProductAll(keywordProductAll: string){
     this.keywordProductAll = keywordProductAll;
+    this.p = 1;
     console.log("keywordProductAll: "+ this.keywordProductAll);
+    this.showParamsURL(this.keywordProductAll,this.p,this.size);
     this.loadProductAll(this.keywordProductAll,this.p,this.size)
   }
 
 
 
+
+
+
   public searchEnableTrue(keywordEnableTrue: string){
     this.keywordEnableTrue = keywordEnableTrue;
+    this.pEnableTrue = 1;
     console.log("keywordEnableTrue: "+ this.keywordEnableTrue);
+    this.showParamsURL(this.keywordEnableTrue,this.pEnableTrue,this.sizeEnableTrue);
     this.loadProductEnableTrue(this.keywordEnableTrue,true,this.pEnableTrue,this.sizeEnableTrue)
   }
+
+
+
 
   
 
   public searchEnableFalse(keywordEnableFalse: string){
     this.keywordEnableFalse = keywordEnableFalse;
+    this.pEnableFalse = 1;
     console.log("keywordEnableFalse: "+ this.keywordEnableFalse);
+    this.showParamsURL(this.keywordEnableFalse,this.pEnableFalse,this.sizeEnableFalse);
     this.loadProductEnableFalse(this.keywordEnableFalse,false,this.pEnableFalse,this.sizeEnableFalse)
   }
+
+
+
 
 
 
   
   public searchQty0(keywordQty0: string){
     this.keywordQty0 = keywordQty0;
+    this.pQty0 = 1;
     console.log("keywordQty0: "+ this.keywordQty0);
+    this.showParamsURL(this.keywordQty0,this.pQty0,this.sizeQuantity0);
     this.loadProductQty0(this.keywordQty0,this.pQty0,this.sizeQuantity0)
   }
+
+
+
+
+  
 
 }

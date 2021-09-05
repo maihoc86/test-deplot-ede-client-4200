@@ -109,12 +109,13 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		Page<Product_option> pages = product_option_service.finAllByShop(keyword, shop, PageRequest.of(page, size));
-		// List<Product_option>listProduct = product_option_service.finByShop(shop);
-		System.err.println("listProduct size : " + pages.getSize());
-		System.err.println(" size nè : " + size);
-		System.err.println(" page nè : " + page);
-		System.err.println(" keySearch nè : " + keyword);
+		Page<Product_option> pages = product_option_service.finAllByShop(keyword,shop,PageRequest.of(page, size));
+		//List<Product_option>listProduct = product_option_service.finByShop(shop);
+		System.err.println("listProduct size : "+pages.getSize());
+		System.err.println(" size nè : "+size);
+		System.err.println(" page nè : "+page);
+		System.err.println(" pages.getSize() nè  : "+pages.getSize());
+		System.err.println(" keySearch nè : "+keyword);
 		return ResponseEntity.ok(pages);
 	}
 
@@ -152,13 +153,12 @@ public class ReadProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 
-		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword, shop, value,
-				PageRequest.of(page, size));
-		System.err.println("listProduct enable = true & is_delete = false : " + pages.getSize());
-		System.err.println(" size nè : " + size);
-		System.err.println(" page nè : " + page);
-		System.err.println(" page conten: " + pages.getSize());
-		System.err.println(" keySearch nè : " + keyword);
+		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword,shop,value,PageRequest.of(page, size));
+		System.err.println("listProduct enable = true & is_delete = false : "+pages.getSize());
+		System.err.println(" size nè : "+size);
+		System.err.println(" page nè : "+page);
+		System.err.println(" page conten: "+pages.getContent());
+		System.err.println(" keySearch nè : "+keyword);
 		return ResponseEntity.ok(pages);
 	}
 
