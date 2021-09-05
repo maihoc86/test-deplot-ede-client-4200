@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -23,6 +24,10 @@ export class HeaderComponent implements OnInit {
     ) {
 
     this.u={} as User;
+    this.headerService.myMethod$.subscribe(data=>{
+      this.cart=data;
+      this.loadTotal();
+    });
   }
 
   public txtKeysearch: string = ''
@@ -33,8 +38,10 @@ export class HeaderComponent implements OnInit {
       this.params = params
       this.txtKeysearch = params.search
     })
+    this.loadCart();
   }
-
+  public totalCart:any=0;
+  public cart:Array<any>= [] ;
   public params = {}
 
   public login:boolean=false;
@@ -59,6 +66,27 @@ export class HeaderComponent implements OnInit {
     this.cookieService.delete("auth")
     document.location.href="";
    
-  }
+  } 
 
+   loadCart(){
+    var json = localStorage.getItem('cart');
+   
+    this.cart  =json ? JSON.parse(json) : [];
+    this.loadTotal();
+  }
+  public removeItemCart(e:any){
+    if(e.qty<=1){
+      this.cart.splice(this.cart.findIndex(es=>es.id==e.id),1);
+    }else{
+      e.qty--;
+    }
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+    this.loadTotal();
+  }
+  loadTotal(){
+    this.totalCart=0;
+    this.cart.forEach(e=>{
+      this.totalCart+=(e.qty*e.price)
+    })
+  }
 }

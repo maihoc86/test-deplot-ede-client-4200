@@ -2,15 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { AddProductService } from '../Services/product-shop/add-product.service';
-
+import { HeaderService  } from '../Services/header/header.service';
 @Component({
   selector: 'app-show-all-products-shop-interface',
   templateUrl: './show-all-products-shop-interface.component.html',
   styleUrls: ['./show-all-products-shop-interface.component.css']
 })
-export class ShowAllProductsShopInterfaceComponent implements OnInit {
-  constructor(private AddresseService: ApiAddressService, private router: Router, private ProductService: AddProductService, private route: ActivatedRoute) { }
 
+export class ShowAllProductsShopInterfaceComponent implements OnInit {
+
+  constructor(private AddresseService: ApiAddressService, private router: Router,
+     private ProductService: AddProductService, private route: ActivatedRoute
+     ,private headerService:HeaderService
+ ) { }
+  public totalCart:any=0;
+  public cart: Array<any> = [];
   public listCities: any = [];
   public listBrands: any = [];
   public listCategories: any = [];
@@ -191,5 +197,24 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       params[`brand`] = undefined;
      }
     return params;
+  }
+
+  addToCart(product: any) {
+    var json = localStorage.getItem('cart');
+    this.cart = json ? JSON.parse(json) : [];
+    var item: any;
+    this.cart.forEach(e => {
+      if (e.id == product.optionDef.id) {
+        item = e;
+      }
+    })
+    if (item) {
+      item.qty++;
+    } else {
+      this.cart.push({ 'qty': 1,'name': product.name, 'id': product.optionDef.id, 'price': product.optionDef.price })
+    }
+    console.log(this.cart)
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+    this.headerService.myMethod(this.cart)
   }
 }
