@@ -14,7 +14,6 @@ import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.ProductService;
 
-
 @Service
 public class ProductImpl implements ProductService {
 
@@ -25,10 +24,12 @@ public class ProductImpl implements ProductService {
 	public Page<Product> listAll(Pageable pageable) {
 		return dao.listAll(pageable);
 	}
-	
+
 	/**
-	 * Hàm search bằng từ khóa, hàm sẽ lấy ra product giống với từ khóa nhất (luôn có kết quả trả về)
-	 * @param keysearch Từ khóa muốn search
+	 * Hàm search bằng từ khóa, hàm sẽ lấy ra product giống với từ khóa nhất (luôn
+	 * có kết quả trả về)
+	 * 
+	 * @param keysearch   Từ khóa muốn search
 	 * @param pageRequest Số lượng product muốn lấy ra
 	 * @author Vinh
 	 */
@@ -43,18 +44,18 @@ public class ProductImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> findAllIsdeleteFalse() {	
+	public List<Product> findAllIsdeleteFalse() {
 		return dao.findAllByDeleted(false);
 	}
 
 	@Override
-	public Product findById(String id) {	
+	public Product findById(String id) {
 		return dao.findById(id).get();
 	}
 
 	@Override
 	public Product_child_category findCategorybyIDProduct(String id) {
-		
+
 		return dao.findCategorybyIDProduct(id);
 	}
 
@@ -62,7 +63,6 @@ public class ProductImpl implements ProductService {
 	public List<Product> findByShop(String id) {
 		return dao.findByShop(id);
 	}
-
 
 	public Page<Product> listAll(PageRequest of) {
 		return dao.listAll(of);
@@ -72,6 +72,7 @@ public class ProductImpl implements ProductService {
 	public Page<ProductSearch> listAllProductShopByCustomer(String id, Pageable page) {
 		return dao.listAllProductShopByCustomer(id, page);
 	}
+
 	/**
 	 * @author thái học
 	 *
@@ -80,6 +81,60 @@ public class ProductImpl implements ProductService {
 	@Override
 	public Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of) {
 		return dao.filterProductShopByCustomerCategory(valueCate, id_shop, of);
+	}
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerLocation(List<String> names, String id, Pageable of) {
+		return dao.filterProductShopByCustomerLocation(names, id, of);
+	}
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> names, String category,
+			String id, Pageable of) {
+		return dao.filterProductShopByCustomerLocationAndCategory(names, category, id, of);
+	}
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> names,
+			String category, List<String> brand, String id, Pageable of) {
+		return dao.filterProductShopByCustomerLocationAndCategoryAndBrand(names, category, brand, id, of);
+	}
+
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerBrand(List<String> valueBrand, String id, Pageable of) {
+		return dao.filterProductShopByCustomerBrand(valueBrand, id, of);
+	}
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> valueBrand, String id,
+			Pageable of) {
+		return dao.filterProductShopByCustomerCategoryAndBrand(category, valueBrand, id, of);
+	}
+
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names, List<String> brand, String id,
+			Pageable of) {
+		return dao.filterProductShopByCustomerLocationAndBrand(names, brand, id, of);
 	}
 
 }

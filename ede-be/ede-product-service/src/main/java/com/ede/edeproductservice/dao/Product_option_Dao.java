@@ -33,13 +33,13 @@ public interface Product_option_Dao extends JpaRepository<Product_option, String
 	@Query("select o from Product_option o where o.product.shop = ?1")
 	List<Product_option> finByShop(Shop shop);
 
-	@Query("select o from Product_option o where o.product.deleted = false and o.display_name like %?1%  and o.product.shop = ?2 ")
+	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and (o.display_name like %?1% or o.product.name like %?1% or o.product.brand.name like %?1%)  and o.product.shop = ?2 ")
 	Page<Product_option> finAllByShop(String keySearch, Shop shop, PageRequest of);
 
-	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and o.display_name like %?1%  and o.product.shop = ?2 and o.product.enable = ?3 ")
+	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and o.quantity !=0 and (o.display_name like %?1% or o.product.name like %?1% or o.product.brand.name like %?1%) and o.product.shop = ?2 and o.product.enable = ?3 ")
 	Page<Product_option> findProductEnableShop(String keyword,Shop shop, Boolean value, PageRequest of);
 
-	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and o.display_name like %?1% and  o.product.shop = ?2 and o.quantity = 0")
+	@Query("select o from Product_option o where o.product.deleted = false and o.is_delete = false and (o.display_name like %?1% or o.product.name like %?1% or o.product.brand.name like %?1%)  and  o.product.shop = ?2 and o.quantity = 0")
 	Page<Product_option> findProductQuantity0Shop(String keyword,Shop shop, PageRequest of);
 
 	@Query("select o.product from Product_option o where o.id = ?1")

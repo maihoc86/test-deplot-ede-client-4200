@@ -143,6 +143,7 @@
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
+                    <td><strong>ID Option</strong></td>
                     <td><strong>Nhãn hàng</strong></td>
                     <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
@@ -155,6 +156,7 @@
                   <tr
                     *ngFor="let e of itemsEnableTrue  | paginate: {itemsPerPage: sizeEnableTrue, currentPage: pEnableTrue, totalItems: countEnableTrue , id: 'second'}">
                     <td>{{e.product.name}}</td>
+                    <td>{{e.id}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
@@ -310,6 +312,7 @@
                 <thead>
                   <tr>
                     <td><strong>Tên</strong></td>
+                    <td><strong>ID Option</strong></td>
                     <td><strong>Nhãn hàng</strong></td>
                     <td><strong>Phân loại hàng</strong></td>
                     <td><strong>Giá</strong></td>
@@ -321,7 +324,8 @@
                 <tbody>
                   <tr
                     *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: sizeEnableFalse, currentPage: pEnableFalse, totalItems: countEnableFalse ,id: 'four'}">
-                    <td>{{e.product.name}}</td>
+                    <td>{{e.product?.name}}</td>
+                    <td>{{e.id}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
