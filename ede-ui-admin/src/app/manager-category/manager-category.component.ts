@@ -7,10 +7,15 @@ import {
   AbstractControl,
   FormBuilder,
 } from '@angular/forms';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators'
 import { Parent_Category } from '../models/Parent_category.model';
 import { Parent_Child_Category } from '../models/Parent_Child_category.model';
 import { Child_Category } from '../models/Child_category.model';
 import { ManageCategotyService } from '../Services/manage-category/manage-categoty.service';
+import { ImagesService } from '../Services/images/images.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-manager-category',
   templateUrl: './manager-category.component.html',
@@ -23,16 +28,17 @@ export class ManagerCategoryComponent implements OnInit {
   InputVarParentChild!: ElementRef;
   @ViewChild('parentInputImage_Child', { static: false })
   InputVarChild!: ElementRef;
-  urlParent = "assets/images/fancy_upload.png";
-  urlParent_child = "assets/images/fancy_upload.png";
-  urlChild = "assets/images/fancy_upload.png";
-  ImageUrlParent = "";
-  ImageUrlParent_Child = "";
-  ImageUrlChild = "";
+  urlParent = "";
+  urlParent_child = "";
+  urlChild = "";
+  imageParent = "";
+  imageParent_Child = "";
+  imageChild = "";
+  public images: File[] = [];
   onselectFileParent(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrlParent = e.target.files[0].name;
+      this.imageParent = e.target.files[0];
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (e: any) => {
         this.urlParent = e.target.result;
@@ -42,7 +48,7 @@ export class ManagerCategoryComponent implements OnInit {
   onselectFileParent_Child(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrlParent_Child = e.target.files[0].name;
+      this.imageParent_Child = e.target.files[0];
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (e: any) => {
         this.urlParent_child = e.target.result;
@@ -52,7 +58,7 @@ export class ManagerCategoryComponent implements OnInit {
   onselectFile_Child(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrlChild = e.target.files[0].name;
+      this.imageChild = e.target.files[0];
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (e: any) => {
         this.urlChild = e.target.result;
@@ -86,7 +92,7 @@ export class ManagerCategoryComponent implements OnInit {
       Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"),
     ]),
     image_url: new FormControl(''),
-    parentcategory: new FormControl('', Validators.required),
+    parentcategory: new FormControl(''),
     is_delete: new FormControl(false),
     is_enable: new FormControl('true'),
   });
@@ -94,9 +100,9 @@ export class ManagerCategoryComponent implements OnInit {
     formGroup.reset();
     formGroup.controls['is_delete'].setValue(false)
     formGroup.controls['is_enable'].setValue('true')
-    this.ImageUrlParent = "";
-    this.ImageUrlParent_Child = "";
-    this.ImageUrlChild = "";
+    this.imageParent = "";
+    this.imageParent_Child = "";
+    this.imageChild = "";
     this.InputVarParent.nativeElement.value = "";
     this.InputVarParentChild.nativeElement.value = "";
     this.InputVarChild.nativeElement.value = "";
@@ -107,7 +113,7 @@ export class ManagerCategoryComponent implements OnInit {
 
   constructor(
     private manageCategoryService: ManageCategotyService,
-    private fb: FormBuilder
+    private fb: FormBuilder, private imageService: ImagesService,
   ) { }
 
   ngOnInit(): void {
@@ -117,9 +123,8 @@ export class ManagerCategoryComponent implements OnInit {
     this.loadParent_Child_Category();
     this.load_Child_Category();
   }
-  private createNewData(formGroup: FormGroup, url: string) {
+  private createNewData(formGroup: FormGroup) {
     const stringReturn: any = {}
-    formGroup.controls['image_url'].setValue(url);
     for (const controlName in formGroup.controls) {
       if (controlName) {
         stringReturn[controlName] = formGroup.controls[controlName].value;
@@ -127,108 +132,152 @@ export class ManagerCategoryComponent implements OnInit {
     }
     return stringReturn as Parent_Category;
   }
+  private createNewDataChildParent(formGroup: FormGroup) {
+    const stringReturn: any = {}
+    for (const controlName in formGroup.controls) {
+      if (controlName) {
+        stringReturn[controlName] = formGroup.controls[controlName].value;
+      }
+    }
+    return stringReturn as Parent_Child_Category;
+  }
+  private createNewDataChild(formGroup: FormGroup) {
+    const stringReturn: any = {}
+    for (const controlName in formGroup.controls) {
+      if (controlName) {
+        stringReturn[controlName] = formGroup.controls[controlName].value;
+      }
+    }
+    return stringReturn as Child_Category;
+  }
   /*---------------------- Parent ------------------ */
   // thêm mới Parent_Category
   public addNewParentCategory() {
-    console.log(this.parent);
-    console.log(this.parent.controls['is_delete']);
-    this.manageCategoryService.addNewParentCategory(this.createNewData(this.parent, this.ImageUrlParent)).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm loại danh mục thành công',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.reset(this.parent);
-            this.urlParent = "assets/images/fancy_upload.png";
-          } else {
-            this.reset(this.parent);
-            this.urlParent = "assets/images/fancy_upload.png";
+    this.addImage(this.parent, "Parent").subscribe(data => {
+      if (data == true) {
+        this.manageCategoryService.addNewParentCategory(this.createNewData(this.parent)).subscribe(
+          (data) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Thành công!',
+              text: 'Thêm loại danh mục thành công',
+              confirmButtonText: `OK`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.reset(this.parent);
+                this.urlParent = "assets/images/fancy_upload.png";
+              } else {
+                this.reset(this.parent);
+                this.urlParent = "assets/images/fancy_upload.png";
+              }
+            })
+          },
+          (err) => {
+            console.log(err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi',
+              text: err.error.message,
+            });
           }
-        })
-      },
-      (err) => {
-        console.log(err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
+        );
       }
-    );
+    })
   }
   /******************************* Child Parent **************************** */
   // thêm mới Parent_Child_Category
   public addNewParent_child_Category() {
-    console.log(this.parent_child_category);
-    console.log(this.parent_child_category.controls['id_parent']);
-    this.manageCategoryService.addNewParent_child_Category(this.createNewData(this.parent_child_category, this.ImageUrlParent_Child)).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm loại danh mục thành công',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.reset(this.parent_child_category);
-            this.urlParent_child = "assets/images/fancy_upload.png";
-          } else {
-            this.reset(this.parent_child_category);
-            this.urlParent_child = "assets/images/fancy_upload.png";
-          }
+    this.addImage(this.parent_child_category, "Parent_Child").subscribe(data => {
+      this.manageCategoryService.getParentCategory(this.parent_child_category.controls['parentcategory'].value).subscribe(
+        (data) => {
+          this.parent_child_category.controls['parentcategory'].setValue(data);
+          this.manageCategoryService.addNewParent_child_Category(this.createNewDataChildParent(this.parent_child_category)).subscribe(
+            (data) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Thêm loại danh mục thành công',
+                confirmButtonText: `OK`,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.reset(this.parent_child_category);
+                  this.urlParent_child = "assets/images/fancy_upload.png";
+                } else {
+                  this.reset(this.parent_child_category);
+                  this.urlParent_child = "assets/images/fancy_upload.png";
+                }
+              })
+            },
+            (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: err.error.message,
+              });
+            }
+          );
         })
-      },
-      (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
-      }
-    );
+    })
   }
   /******************************* Child **************************** */
   // thêm mới Child_Category
   public addNew_child_Category() {
-    console.log(this.child_category);
-    console.log(this.child_category.controls['child_parentCategory']);
-    this.manageCategoryService.addNewchild_Category(this.createNewData(this.child_category, this.ImageUrlChild)).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm loại danh mục thành công',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.reset(this.child_category);
-            this.urlChild = "assets/images/fancy_upload.png";
-          } else {
-            this.reset(this.child_category);
-            this.urlChild = "assets/images/fancy_upload.png";
-          }
+    this.addImage(this.child_category, "Child").subscribe(data => {
+      this.manageCategoryService.getParentChildCategory(this.child_category.controls['parentcategory'].value).subscribe(
+        (data) => {
+          this.child_category.controls['parentcategory'].setValue(data);
+          this.manageCategoryService.addNewchild_Category(this.createNewData(this.child_category)).subscribe(
+            (data) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Thêm loại danh mục thành công',
+                confirmButtonText: `OK`,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.reset(this.child_category);
+                  this.urlChild = "assets/images/fancy_upload.png";
+                } else {
+                  this.reset(this.child_category);
+                  this.urlChild = "assets/images/fancy_upload.png";
+                }
+              })
+            },
+            (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: err.error.message,
+              });
+            }
+          );
         })
-      },
-      (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
-      }
-    );
+    })
   }
 
+  addImage(form: FormGroup, nameFormGroup: string): Observable<boolean> {
+    console.log(nameFormGroup)
+    const formData = new FormData();
 
+    nameFormGroup == 'Parent' ? formData.append("file", this.imageParent)
+      : nameFormGroup == 'Parent_Child' ? formData.append("file", this.imageParent_Child)
+        : formData.append("file", this.imageChild);
+
+    return this.imageService.createImageCategory(formData).pipe(
+      switchMap((response) => {
+        form.patchValue({
+          image_url: response.text,
+        });
+        return of(true)
+      })
+    )
+  }
 
   public p: number = 1;
-  public items:any=[];
-  public loadParentCategory(){
-    this.manageCategoryService.loadParentCategory().subscribe((data) =>{
-      const item = data.map(function(obj: {
+  public items: any = [];
+  public loadParentCategory() {
+    this.manageCategoryService.loadParentCategory().subscribe((data) => {
+      const item = data.map(function (obj: {
         id: any;
         name: any;
         image_url: any;
@@ -244,10 +293,10 @@ export class ManagerCategoryComponent implements OnInit {
 
 
   public pc: number = 1;
-  public itemP:any=[];
-  public loadParent_Child_Category(){
-    this.manageCategoryService.loadParent_Child_Category().subscribe((data) =>{
-      const item = data.map(function(obj: {
+  public itemP: any = [];
+  public loadParent_Child_Category() {
+    this.manageCategoryService.loadParent_Child_Category().subscribe((data) => {
+      const item = data.map(function (obj: {
         id: any;
         name: any;
         id_parent: any;
@@ -262,10 +311,10 @@ export class ManagerCategoryComponent implements OnInit {
     })
   }
   public c: number = 1;
-  public itemC:any=[];
-  public load_Child_Category(){
-    this.manageCategoryService.load_Child_Category().subscribe((data) =>{
-      const item = data.map(function(obj: {
+  public itemC: any = [];
+  public load_Child_Category() {
+    this.manageCategoryService.load_Child_Category().subscribe((data) => {
+      const item = data.map(function (obj: {
         id: any;
         name: any;
         id_parent_Child: any;
@@ -325,7 +374,7 @@ export class ManagerCategoryComponent implements OnInit {
     })
   }
 
-  
+
   public DeleteChild_Category(id: string) {
 
     this.manageCategoryService.DeleteChild_Category(id).subscribe(data => {
@@ -353,12 +402,12 @@ export class ManagerCategoryComponent implements OnInit {
     for (const controlName in this.parent.controls) {
       if (controlName) {
         this.parent.controls[controlName].setValue(e[controlName])
-      } 
-    
+      }
+
     }
-    if(e['is_enable']){
+    if (e['is_enable']) {
       this.parent.controls['is_enable'].setValue('true')
-    }else{
+    } else {
       this.parent.controls['is_enable'].setValue('false')
     }
     this.idParentCategory = e.id
@@ -366,20 +415,20 @@ export class ManagerCategoryComponent implements OnInit {
   }
   public editPC(e: any) {
     const newP: any = {};
-   
+
     for (const controlName in this.parent_child_category.controls) {
       if (controlName) {
         this.parent_child_category.controls[controlName].setValue(e[controlName])
-      } 
-    
+      }
+
     }
-    if(e['parentcategory']){
+    if (e['parentcategory']) {
       console.log(e)
       this.parent_child_category.controls['parentcategory'].setValue(e['parentcategory'].id)
     }
-    if(e['is_enable']){
+    if (e['is_enable']) {
       this.parent_child_category.controls['is_enable'].setValue('true')
-    }else{
+    } else {
       this.parent_child_category.controls['is_enable'].setValue('false')
     }
     this.idParentChildCategory = e.id
@@ -390,29 +439,29 @@ export class ManagerCategoryComponent implements OnInit {
     for (const controlName in this.child_category.controls) {
       if (controlName) {
         this.child_category.controls[controlName].setValue(e[controlName])
-      } 
-    
+      }
+
     }
-    if(e['parentcategory']){
+    if (e['parentcategory']) {
       this.child_category.controls['parentcategory'].setValue(e['parentcategory'].id)
     }
-    if(e['is_enable']){
+    if (e['is_enable']) {
       this.child_category.controls['is_enable'].setValue('true')
-    }else{
+    } else {
       this.child_category.controls['is_enable'].setValue('false')
     }
     this.idChildCategory = e.id
     return newP as Child_Category;
   }
-  public SearchP(tem:string){
-    this.manageCategoryService.SearchP(tem).subscribe((data:any) =>{
-      const itemP = data.map(function(obj: {
+  public SearchP(tem: string) {
+    this.manageCategoryService.SearchP(tem).subscribe((data: any) => {
+      const itemP = data.map(function (obj: {
         id: any;
         name: any;
         image_url: any;
         is_enable: any;
         is_delete: any;
-      }){
+      }) {
         return obj;
       });
       this.items = itemP;
@@ -420,16 +469,16 @@ export class ManagerCategoryComponent implements OnInit {
   }
 
 
-  public SearchPC(tem:string){
-    this.manageCategoryService.SearchPC(tem).subscribe((data:any) =>{
-      const it = data.map(function(obj: {
+  public SearchPC(tem: string) {
+    this.manageCategoryService.SearchPC(tem).subscribe((data: any) => {
+      const it = data.map(function (obj: {
         id: any;
         name: any;
         id_parent: any;
         image_url: any;
         is_enable: any;
         is_delete: any;
-      }){
+      }) {
         return obj;
       });
       this.itemP = it;
@@ -438,16 +487,16 @@ export class ManagerCategoryComponent implements OnInit {
 
 
 
-  public SearchC(tem:string){
-    this.manageCategoryService.SearchC(tem).subscribe((data:any) =>{
-      const itema = data.map(function(obj: {
+  public SearchC(tem: string) {
+    this.manageCategoryService.SearchC(tem).subscribe((data: any) => {
+      const itema = data.map(function (obj: {
         id: any;
         name: any;
         id_parent_Child: any;
         image_url: any;
         is_enable: any;
         is_delete: any;
-      }){
+      }) {
         return obj;
       });
       this.itemC = itema;
@@ -461,7 +510,7 @@ export class ManagerCategoryComponent implements OnInit {
   public idChildCategory: string = ''
 
   public updateParentCategory() {
-    this.parent.controls['image_url'].setValue(this.ImageUrlParent)
+    this.parent.controls['image_url'].setValue(this.imageParent)
     let categoryUpdate: Parent_Category = this.coverFormGroupToObject<Parent_Category>(this.parent)
     categoryUpdate.id = this.idParentCategory
 
@@ -476,7 +525,7 @@ export class ManagerCategoryComponent implements OnInit {
     )
   }
   public updateParentChildCategory() {
-    this.parent_child_category.controls['image_url'].setValue(this.ImageUrlParent_Child)
+    this.parent_child_category.controls['image_url'].setValue(this.imageParent_Child)
     let categoryUpdate: Parent_Child_Category = this.coverFormGroupToObject<Parent_Child_Category>(this.parent_child_category)
     categoryUpdate.id = this.idParentChildCategory
 
@@ -491,11 +540,11 @@ export class ManagerCategoryComponent implements OnInit {
     )
   }
   public updateChildCategory() {
-    this.child_category.controls['image_url'].setValue(this.ImageUrlChild)
+    this.child_category.controls['image_url'].setValue(this.imageChild)
     let categoryUpdate: Child_Category = this.coverFormGroupToObject<Child_Category>(this.child_category)
     categoryUpdate.id = this.idChildCategory
 
-    this.manageCategoryService.updateChildCategory(categoryUpdate).subscribe (
+    this.manageCategoryService.updateChildCategory(categoryUpdate).subscribe(
       response => {
         console.log(response)
         this.load_Child_Category();
@@ -506,7 +555,7 @@ export class ManagerCategoryComponent implements OnInit {
     )
   }
   private coverFormGroupToObject<T>(formGroup: FormGroup) {
-    let obj :any = {}
+    let obj: any = {}
     for (const controlName in formGroup.controls) {
       if (controlName) {
         obj[controlName] = formGroup.controls[controlName].value

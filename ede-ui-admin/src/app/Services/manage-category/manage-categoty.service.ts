@@ -35,6 +35,17 @@ export class ManageCategotyService {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/create/child_category', data, this.httpOptions);
   }
 
+  // GET
+  public getParentCategory(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/parent_category/' + id, this.httpOptions);
+  }
+  public getParentChildCategory(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/parent_child_category/' + id, this.httpOptions);
+  }
+  public getChildCategory(id: string) {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/child_category/' + id, this.httpOptions);
+  }
+
 
   public DeleteParent_Category(id:string){
     return this.httpClient.delete<any>(this.REST_API_SERVER+'/delete/parent_category/'+id,this.httpOptions);

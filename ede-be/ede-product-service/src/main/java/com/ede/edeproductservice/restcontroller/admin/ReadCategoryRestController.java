@@ -3,6 +3,7 @@ package com.ede.edeproductservice.restcontroller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +53,20 @@ public class ReadCategoryRestController {
 	public List<Product_child_category> view_child() {
 		return product_child_category_service.findByIsdeleteFalse();
 	}
+	
+	@GetMapping("/view/parent_category/{id}")
+	public ResponseEntity<Product_parent_category> view_parent_by_id(@PathVariable("id") String id) {
+		return ResponseEntity.ok(product_parent_categoryService.findById(id).get());
+	}
+	@GetMapping("/view/parent_child_category/{id}")
+	public ResponseEntity<Product_parent_child_category> view_parent_child_by_id(@PathVariable("id") String id) {
+		return ResponseEntity.ok(product_child_parent_category_service.findById(id).get());
+	}
+	@GetMapping("/view/child_category/{id}")
+	public ResponseEntity<Product_child_category> view_child_by_id(@PathVariable("id") String id) {
+		return ResponseEntity.ok(product_child_category_service.findById(id).get());
+	}
+	
 
 	/**
 	 * Search 
