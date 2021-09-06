@@ -102,19 +102,18 @@ public class CreateProductShopRestController {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/images")
-	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option) {
-		System.err.println("Vào image r ");
-		String[] words = product_option.getImage().split(",");
+	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option_image) {
+		String[] words = product_option_image.getImage().split(",");
 		for (int i = 0; i < words.length; i++) {
 			Optional<Product_option_image> findImage = product_option_image_service.findById(generateUUID().toString());
 			if (findImage.isPresent() && findImage != null) {
-				product_option.setId(generateUUID().toString());
-				product_option.setImage(words[i]);
-				product_option_image_service.save(product_option);
+				product_option_image.setId(generateUUID().toString());
+				product_option_image.setImage(words[i]);
+				product_option_image_service.save(product_option_image);
 			} else {
-				product_option.setId(generateUUID().toString());
-				product_option.setImage(words[i]);
-				product_option_image_service.save(product_option);
+				product_option_image.setId(generateUUID().toString());
+				product_option_image.setImage(words[i]);
+				product_option_image_service.save(product_option_image);
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
