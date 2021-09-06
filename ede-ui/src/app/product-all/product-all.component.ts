@@ -23,7 +23,6 @@ export class ProductAllComponent implements OnInit {
           let getSize = params['size'];
           let getPage = params['page'];
           let getKeyword = params['keyword'];
-          console.log(getKeyword+"\t"+getPage+"\t"+getSize);
           if(getKeyword !== undefined){
             this.keywordProductAll = getKeyword;
           }
@@ -47,7 +46,7 @@ export class ProductAllComponent implements OnInit {
    }
 
   ngOnInit(): void {
-        this.loadProductAll(this.keywordProductAll,this.p,this.size);    
+        this.loadProductAll(this.keywordProductAll,this.p,this.size);
   }
   filterEnableFalse() {
     this.loadProductEnableFalse("",false, 1,5);
@@ -102,7 +101,7 @@ export class ProductAllComponent implements OnInit {
     page= page-1;
     this.productService.getAllProductOption(keyword,page, size).subscribe((data) => {
       console.log(data)
-      const item = data.content.map(function (obj: { 
+      const item = data.content.map(function (obj: {
         id: any;
         id_product: any;
         display_name: any;
@@ -210,7 +209,7 @@ export class ProductAllComponent implements OnInit {
         console.log(this.pageEnableTrue);
         this.countEnableTrue = this.pageEnableTrue.totalElements;
 
-      } 
+      }
     }, error => {
       console.log(error);
       if (error.status == 404) {
@@ -229,7 +228,7 @@ export class ProductAllComponent implements OnInit {
       }
     })
   }
-  
+
 
 
 
@@ -253,7 +252,7 @@ export class ProductAllComponent implements OnInit {
         console.log(this.pageEnableFalse);
         this.countEnableFalse = this.pageEnableFalse.totalElements;
 
-      } 
+      }
     }, error => {
       console.log(error);
       if (error.status == 401) {
@@ -391,7 +390,7 @@ export class ProductAllComponent implements OnInit {
 
 
 
-  
+
 
   public changeSizeQuantity0(event: any){
     this.pQty0= 1;
@@ -412,7 +411,7 @@ export class ProductAllComponent implements OnInit {
   }
 
 
-  
+
 
   public countOrder: any = "";
   public countProductOder(id: string) {
@@ -449,7 +448,7 @@ export class ProductAllComponent implements OnInit {
 
 
 
-  
+
 
   public searchEnableFalse(keywordEnableFalse: string){
     this.keywordEnableFalse = keywordEnableFalse;
@@ -464,7 +463,7 @@ export class ProductAllComponent implements OnInit {
 
 
 
-  
+
   public searchQty0(keywordQty0: string){
     this.keywordQty0 = keywordQty0;
     this.pQty0 = 1;
@@ -476,6 +475,6 @@ export class ProductAllComponent implements OnInit {
 
 
 
-  
+
 
 }
