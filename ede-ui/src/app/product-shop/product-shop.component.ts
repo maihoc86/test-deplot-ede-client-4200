@@ -348,12 +348,14 @@ export class ProductShopComponent implements OnInit {
           });
         };
     }
-    this.product_discount.controls['productdiscount'].setValue(this.product.value);
+    this.product_discount.controls['productdiscount'].setValue(
+      this.product.value
+    );
     this.Addservice.addProductDiscount(this.createNewDataDiscount())
       .toPromise()
       .then((data) => {}),
       (error: any) => {};
-      this.product_options.controls['product'].setValue(this.product.value);
+    this.product_options.controls['product'].setValue(this.product.value);
     this.Addservice.addProductOption(this.createNewOption()).subscribe(
       (data) => {
         this.addMultiImage(data);
