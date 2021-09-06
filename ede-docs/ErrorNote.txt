@@ -1,0 +1,2 @@
+Chưa load lại ảnh khi update category (ảnh đã được update, nhưng front-end không load lại, bấm F5 mới load)
+Khi cập nhật ảnh, ảnh không tồn tại sẽ báo lỗi (nên fix thành: ảnh chưa tồn tại sẽ tạo mới)

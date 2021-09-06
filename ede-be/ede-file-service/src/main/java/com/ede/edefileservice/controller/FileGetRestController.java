@@ -40,7 +40,8 @@ public class FileGetRestController {
 	private ResponseEntity<byte[]> getFile(String fileName, int FTP_FILE_TYPE) throws IOException {
 		InputStream is = this.ftpManager.getFile(fileName,  FTP_FILE_TYPE);
 		if (null == is) {
-			return ResponseEntity.badRequest().build();
+			// XXX Hot Fix
+			return ResponseEntity.ok(this.ftpManager.getFile("no-document.png",  FTP_FILE_TYPE).readAllBytes());
 		}
 		return ResponseEntity.ok(is.readAllBytes());
 	}
