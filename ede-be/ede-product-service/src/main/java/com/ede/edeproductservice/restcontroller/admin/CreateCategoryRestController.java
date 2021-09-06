@@ -55,7 +55,6 @@ public class CreateCategoryRestController {
 	/*thêm child_parent_category */
 	@PostMapping("/create/child_parent_category")
 	public ResponseEntity create_parent_child(@RequestBody Product_parent_child_category child_parent_category) {
-		System.err.println("Vào đây");
 		UUID uuid = UUID.randomUUID();
 		Optional<Product_parent_child_category> findCategory = product_child_parent_category_service
 				.findById(uuid.toString());
