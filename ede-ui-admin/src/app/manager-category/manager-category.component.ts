@@ -35,6 +35,7 @@ export class ManagerCategoryComponent implements OnInit {
   imageParent_Child = "";
   imageChild = "";
   public images: File[] = [];
+  public HOST_EDE_FILE = 'http://localhost:8080/ede-file'
   onselectFileParent(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
@@ -101,8 +102,11 @@ export class ManagerCategoryComponent implements OnInit {
     formGroup.controls['is_delete'].setValue(false)
     formGroup.controls['is_enable'].setValue('true')
     this.imageParent = "";
+    this.urlParent = ''
     this.imageParent_Child = "";
+    this.urlParent_child = ''
     this.imageChild = "";
+    this.urlChild = ''
     this.InputVarParent.nativeElement.value = "";
     this.InputVarParentChild.nativeElement.value = "";
     this.InputVarChild.nativeElement.value = "";
@@ -411,6 +415,8 @@ export class ManagerCategoryComponent implements OnInit {
       this.parent.controls['is_enable'].setValue('false')
     }
     this.idParentCategory = e.id
+    this.urlParent = `${this.HOST_EDE_FILE}/get/image/${e.image_url}`
+    this.imageOfP = this.urlParent
     return newP as Parent_Category;
   }
   public editPC(e: any) {
@@ -432,6 +438,8 @@ export class ManagerCategoryComponent implements OnInit {
       this.parent_child_category.controls['is_enable'].setValue('false')
     }
     this.idParentChildCategory = e.id
+    this.urlParent_child = `${this.HOST_EDE_FILE}/get/image/${e.image_url}`
+    this.imageOfPC = this.urlParent_child
     return newP as Parent_Child_Category;
   }
   public editC(e: any) {
@@ -451,6 +459,8 @@ export class ManagerCategoryComponent implements OnInit {
       this.child_category.controls['is_enable'].setValue('false')
     }
     this.idChildCategory = e.id
+    this.urlChild = `${this.HOST_EDE_FILE}/get/image/${e.image_url}`
+    this.imageOfC = this.urlChild
     return newP as Child_Category;
   }
   public SearchP(tem: string) {
@@ -506,51 +516,94 @@ export class ManagerCategoryComponent implements OnInit {
 
   //<<<<<<<<<<<<<<<<<<<<<<<< update start in here: vinh
   public idParentCategory: string = ''
+  public imageOfP: string = ''
   public idParentChildCategory: string = ''
+  public imageOfPC: string = ''
   public idChildCategory: string = ''
+  public imageOfC: string = ''
 
   public updateParentCategory() {
-    this.parent.controls['image_url'].setValue(this.imageParent)
+    const nameOfUrl = this.imageOfP.substring(this.imageOfP.lastIndexOf('/') + 1)
+    console.log(nameOfUrl, this.imageOfP)
+    this.parent.controls['image_url'].setValue(nameOfUrl)
     let categoryUpdate: Parent_Category = this.coverFormGroupToObject<Parent_Category>(this.parent)
     categoryUpdate.id = this.idParentCategory
 
-    this.manageCategoryService.updateParentCategory(categoryUpdate).subscribe(
+    this.manageCategoryService.updateParentCategory(categoryUpdate, this.imageParent).then(
       response => {
-        console.log(response)
         this.loadParentCategory();
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thêm loại danh mục thành công',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.reset(this.parent);
+        })
       },
       error => {
         console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
       }
     )
   }
   public updateParentChildCategory() {
-    this.parent_child_category.controls['image_url'].setValue(this.imageParent_Child)
+    const nameOfUrl = this.imageOfPC.substring(this.imageOfPC.lastIndexOf('/') + 1)
+    this.parent.controls['image_url'].setValue(nameOfUrl)
     let categoryUpdate: Parent_Child_Category = this.coverFormGroupToObject<Parent_Child_Category>(this.parent_child_category)
     categoryUpdate.id = this.idParentChildCategory
 
-    this.manageCategoryService.updateParentChildCategory(categoryUpdate).subscribe(
+    this.manageCategoryService.updateParentChildCategory(categoryUpdate, this.imageParent_Child).then(
       response => {
-        console.log(response)
         this.loadParent_Child_Category();
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thêm loại danh mục thành công',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.reset(this.parent_child_category);
+        })
       },
       error => {
         console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
       }
     )
   }
   public updateChildCategory() {
-    this.child_category.controls['image_url'].setValue(this.imageChild)
+    const nameOfUrl = this.imageOfC.substring(this.imageOfC.lastIndexOf('/') + 1)
+    this.parent.controls['image_url'].setValue(nameOfUrl)
     let categoryUpdate: Child_Category = this.coverFormGroupToObject<Child_Category>(this.child_category)
     categoryUpdate.id = this.idChildCategory
 
-    this.manageCategoryService.updateChildCategory(categoryUpdate).subscribe(
+    this.manageCategoryService.updateChildCategory(categoryUpdate, this.imageChild).then(
       response => {
-        console.log(response)
         this.load_Child_Category();
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thêm loại danh mục thành công',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.reset(this.child_category);
+        })
       },
       error => {
         console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
       }
     )
   }
@@ -558,6 +611,10 @@ export class ManagerCategoryComponent implements OnInit {
     let obj: any = {}
     for (const controlName in formGroup.controls) {
       if (controlName) {
+        if ('parentcategory' == controlName) {
+          obj[controlName] = { id:  formGroup.controls[controlName].value}
+          continue
+        }
         obj[controlName] = formGroup.controls[controlName].value
       }
     }

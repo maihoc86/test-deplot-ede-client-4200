@@ -28,6 +28,7 @@ public class FileUpdateRestController {
 	
 	@PutMapping("update/binary/{filename}")
 	ResponseEntity<String> putFile(@PathVariable("filename") String filename, @RequestPart("file") MultipartFile partFile) throws IOException{
+		System.err.println(partFile);
 		return updateFile(filename, partFile, FTP.BINARY_FILE_TYPE);
 	}
 	

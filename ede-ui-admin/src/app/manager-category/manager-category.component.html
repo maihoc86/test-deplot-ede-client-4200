@@ -93,7 +93,7 @@
                               <img [src]="urlParent" height="100%" width="100%" formControlName="image_url">
                             </div>
                             <input type="file" #parentInputImage_Parent (change)="onselectFileParent($event)"
-                              accept=".png, .jpg, .jpeg">
+                              accept=".png, .jpg, .jpeg, .gif">
                           </div>
                         </div>
                       </div>
@@ -200,9 +200,6 @@
                                   class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
-
-
-
                               <td>
                                 <div class="d-flex order-actions">
                                   <a href="javascript:;" (click)="editP(e)" class="ms-3 btn-success"
@@ -212,10 +209,8 @@
                                 </div>
                               </td>
                             </tr>
-
                           </tbody>
                         </table>
-
                       </div>
                     </div>
                     <div style="text-align: center;">

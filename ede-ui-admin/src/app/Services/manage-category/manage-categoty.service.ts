@@ -21,6 +21,7 @@ export class ManageCategotyService {
 
 
   private REST_API_SERVER = 'http://localhost:8080/ede-product';
+  private REST_API_IMAGE_SERVER = 'http://localhost:8080/ede-file';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -95,18 +96,35 @@ export class ManageCategotyService {
 
 
   //<<<<<<<<<<< update three table category start in here
-  public updateParentCategory(parentCategory: Parent_Category) {
-    return this.updateCategory('update/parent-category',parentCategory)
+  public updateParentCategory(parentCategory: Parent_Category, image: any) {
+    return this.updateCategory('update/parent-category',parentCategory, image)
   }
-  public updateParentChildCategory(parentChildCategory: Parent_Child_Category) {
-    return this.updateCategory('update/parent-child-category',parentChildCategory)
+  public updateParentChildCategory(parentChildCategory: Parent_Child_Category, image: any) {
+    return this.updateCategory('update/parent-child-category',parentChildCategory, image)
   }
-  public updateChildCategory(childCategory: Child_Category) {
-    return this.updateCategory('update/parent-child-category',childCategory)
+  public updateChildCategory(childCategory: Child_Category, image: any) {
+    return this.updateCategory('update/child-category',childCategory, image)
   }
 
-  private updateCategory(url: string, value: any) {
-    return this.httpClient.put<any>(`${this.REST_API_SERVER}/${url}`, value)
+  private async updateCategory(url: string, value: any, image: any) {
+    if (image) {
+      let fd = new FormData()
+      fd.append('file', image)
+      // {'Content-Type': 'multipart/form-data'}
+      await this.httpClient.put<any>(`${this.REST_API_IMAGE_SERVER}/update/binary/${value?.image_url}`, fd).toPromise()
+      .then (
+        result => {
+          console.log(result)
+          value.image_url = result
+        }
+      )
+      .catch(
+        error => {
+          console.log(error)
+        }
+      )
+    }
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/${url}`, value).toPromise()
   }
   //>>>>>>>>>>> update three table category end in here
 

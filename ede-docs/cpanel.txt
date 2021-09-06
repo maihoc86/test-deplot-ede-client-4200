@@ -1,13 +1,3 @@
 Link đăng nhập: https://nethost-3811.000nethost.com:2083/
 Accounts: mafqwbumhosting
 Password: iN333@Tltm125mx77
-
-
-Create file: 	localhost:8021/ede-file/create/binary
-Get list file: 	localhost:8021/ede-file/gets
-Get a image: 	localhost:8021/ede-file/get/image/<image name>
-Update a image:	localhost:8021/ede-file/update/binary/<image name>
-Delete a image: localhost:8021/ede-file/delete/<image name>
-
-Create mutil Image:	localhost:8021/ede-file/create/multi-binary
-
