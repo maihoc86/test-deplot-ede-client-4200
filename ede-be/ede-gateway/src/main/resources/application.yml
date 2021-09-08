@@ -5,6 +5,10 @@ spring:
         uri: lb://ede-cloud-config
         predicates:
         - Path=/ede-cloud-config/**
+      - id: ede-order
+        uri: lb://ede-order
+        predicates:
+        - Path=/ede-order/**
       - id: ede-customer
         uri: lb://ede-customer
         predicates:

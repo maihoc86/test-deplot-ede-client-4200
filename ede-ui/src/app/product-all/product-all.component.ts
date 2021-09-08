@@ -113,7 +113,6 @@ export class ProductAllComponent implements OnInit {
         return obj;
       }
       );
-      console.log(item)
       this.items = item;
       this.page = data;
      // this.arrays = [];
@@ -122,7 +121,6 @@ export class ProductAllComponent implements OnInit {
       this.itemsEnableTrue = item;
       this.itemsEnableFalse = item;
       this.itemsQuantity0 = item;
-      console.log(this.itemsEnableTrue)
     },
       (err) => {
         console.log("Chưa đăng nhập "+err.error)
@@ -160,9 +158,7 @@ export class ProductAllComponent implements OnInit {
       }) {
         return obj;
       });
-      console.log(this.itemsQuantity0);
       this.pageQty0 = data;
-      console.log(this.pageQty0);
       this.countQty0 = this.pageQty0.totalElements;
     },
       (err) => {
@@ -174,7 +170,6 @@ export class ProductAllComponent implements OnInit {
           });
           this.router.navigate(['/login'])
         } else {
-          console.log(err)
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -204,14 +199,10 @@ export class ProductAllComponent implements OnInit {
         }) {
           return obj;
         });
-        console.log(this.itemsEnableTrue)
         this.pageEnableTrue = data;
-        console.log(this.pageEnableTrue);
         this.countEnableTrue = this.pageEnableTrue.totalElements;
-
       }
     }, error => {
-      console.log(error);
       if (error.status == 404) {
         Swal.fire({
           icon: 'error',
@@ -247,14 +238,11 @@ export class ProductAllComponent implements OnInit {
         }) {
           return obj;
         });
-        console.log(this.itemsEnableFalse);
         this.pageEnableFalse = data;
-        console.log(this.pageEnableFalse);
         this.countEnableFalse = this.pageEnableFalse.totalElements;
 
       }
     }, error => {
-      console.log(error);
       if (error.status == 401) {
         Swal.fire({
           icon: 'error',
@@ -403,8 +391,6 @@ export class ProductAllComponent implements OnInit {
 
 
 
-
-
   public editProduct(id: string) {
     //routerLink="[`/shop/product/manager`,e.product.id,'id']"
     this.router.navigate(['shop/product/manager', id]);
@@ -422,59 +408,38 @@ export class ProductAllComponent implements OnInit {
   }
 
 
-
-
   public searchProductAll(keywordProductAll: string){
     this.keywordProductAll = keywordProductAll;
     this.p = 1;
-    console.log("keywordProductAll: "+ this.keywordProductAll);
     this.showParamsURL(this.keywordProductAll,this.p,this.size);
     this.loadProductAll(this.keywordProductAll,this.p,this.size)
   }
 
 
 
-
-
-
   public searchEnableTrue(keywordEnableTrue: string){
     this.keywordEnableTrue = keywordEnableTrue;
     this.pEnableTrue = 1;
-    console.log("keywordEnableTrue: "+ this.keywordEnableTrue);
     this.showParamsURL(this.keywordEnableTrue,this.pEnableTrue,this.sizeEnableTrue);
     this.loadProductEnableTrue(this.keywordEnableTrue,true,this.pEnableTrue,this.sizeEnableTrue)
   }
 
 
 
-
-
-
   public searchEnableFalse(keywordEnableFalse: string){
     this.keywordEnableFalse = keywordEnableFalse;
     this.pEnableFalse = 1;
-    console.log("keywordEnableFalse: "+ this.keywordEnableFalse);
     this.showParamsURL(this.keywordEnableFalse,this.pEnableFalse,this.sizeEnableFalse);
     this.loadProductEnableFalse(this.keywordEnableFalse,false,this.pEnableFalse,this.sizeEnableFalse)
   }
 
 
-
-
-
-
-
   public searchQty0(keywordQty0: string){
     this.keywordQty0 = keywordQty0;
     this.pQty0 = 1;
-    console.log("keywordQty0: "+ this.keywordQty0);
     this.showParamsURL(this.keywordQty0,this.pQty0,this.sizeQuantity0);
     this.loadProductQty0(this.keywordQty0,this.pQty0,this.sizeQuantity0)
   }
-
-
-
-
 
 
 }
