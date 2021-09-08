@@ -1,5 +1,6 @@
 package com.ede.edeorderservice.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,9 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,12 +20,13 @@ import lombok.NoArgsConstructor;
 
 
 
+@SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Order implements Serializable {
 
 	@Id
 	String id;
@@ -39,7 +39,7 @@ public class Order {
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
-	List<Order_Detail> order_detail;
+	List<Orderdetail> order_detail;
 	
 	@ManyToOne
 	@JoinColumn(name="id_user")

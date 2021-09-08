@@ -336,23 +336,6 @@ public class ReadProductRestController {
 
 		return ResponseEntity.ok(listPage);
 	}
-
-//	@SuppressWarnings("rawtypes")
-//	@GetMapping("/view/customer/shop/all/product/filterLocation")
-//	public ResponseEntity getListProductShopFilterLocation(@RequestParam("location") Optional<String> location,
-//			@RequestParam("page") Optional<Integer> page) {
-//
-//		Shop shop = new Shop();
-//		try {
-//			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-//		} catch (Exception e) {
-//			return ResponseEntity.notFound().build();
-//		}
-//		Page<ProductSearch> pageF = service.filterProductShopByCustomerLocation(locaList, shop.getId(),
-//				PageRequest.of(page.orElse(0), 10));
-//		return ResponseEntity.ok(pageF);
-//	}
-
 	/* GET CATEGORY SHOP */
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/category")

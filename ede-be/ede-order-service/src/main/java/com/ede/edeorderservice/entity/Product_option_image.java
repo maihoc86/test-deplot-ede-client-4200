@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "product_option_image")
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Product_option_image  {
 	@Id
 	String id;
