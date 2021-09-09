@@ -110,12 +110,6 @@ public class ReadProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 		Page<Product_option> pages = product_option_service.finAllByShop(keyword,shop,PageRequest.of(page, size));
-		//List<Product_option>listProduct = product_option_service.finByShop(shop);
-		System.err.println("listProduct size : "+pages.getSize());
-		System.err.println(" size nè : "+size);
-		System.err.println(" page nè : "+page);
-		System.err.println(" pages.getSize() nè  : "+pages.getSize());
-		System.err.println(" keySearch nè : "+keyword);
 		return ResponseEntity.ok(pages);
 	}
 
@@ -132,12 +126,6 @@ public class ReadProductRestController {
 		}
 		Page<Product_option> pages = product_option_service.findProductQuantity0Shop(keyword, shop,
 				PageRequest.of(page, size));
-		System.err.println(
-				"listProduct enable = true & is_delete = false in getAllProductOption/quantity0 : " + pages.getSize());
-		System.err.println(" size nè : " + size);
-		System.err.println(" page nè : " + page);
-		System.err.println(" page conten: " + pages.getSize());
-		System.err.println(" keySearch nè : " + keyword);
 		return ResponseEntity.ok(pages);
 	}
 
@@ -154,11 +142,6 @@ public class ReadProductRestController {
 		}
 
 		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword,shop,value,PageRequest.of(page, size));
-		System.err.println("listProduct enable = true & is_delete = false : "+pages.getSize());
-		System.err.println(" size nè : "+size);
-		System.err.println(" page nè : "+page);
-		System.err.println(" page conten: "+pages.getContent());
-		System.err.println(" keySearch nè : "+keyword);
 		return ResponseEntity.ok(pages);
 	}
 
@@ -233,17 +216,11 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/list_parent_child_category/{id}")
 	public List<Product_parent_child_category> getParentChild_categories_byIdParent(@PathVariable("id") String id) {
-		System.out.println(id);
-		List<Product_parent_child_category> findCategory = child_parent_category_service.findByIdParent(id);
-		System.out.println(findCategory);
 		return child_parent_category_service.findByIdParent(id);
 	}
 
 	@GetMapping("/view/list_child_category/{id}")
 	public List<Product_child_category> getChild_categories_byIdParentChild(@PathVariable("id") String id) {
-		System.out.println(id);
-		List<Product_parent_child_category> findCategory = child_parent_category_service.findByIdParent(id);
-		System.out.println(findCategory);
 		return child_category_service.findByIdParentChild(id);
 	}
 

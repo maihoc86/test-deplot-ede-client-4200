@@ -2,6 +2,9 @@ package com.ede.edeorderservice.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.ede.edeorderservice.entity.Orderdetail;
 
 public interface Order_Detail_service {
@@ -17,9 +20,11 @@ public interface Order_Detail_service {
 
 	/**
 	 * @author thái học
+	 * @param idOrder 
+	 * @param pageRequest 
 	 *
 	 * 
 	 */
-	List<Orderdetail> listAll();
+	Page<Orderdetail> listAll(String idOrder, Pageable page);
 
 }

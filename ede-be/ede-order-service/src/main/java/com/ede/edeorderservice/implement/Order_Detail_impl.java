@@ -3,6 +3,8 @@ package com.ede.edeorderservice.implement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeorderservice.dao.OrderDetailDao;
@@ -18,7 +20,6 @@ public class Order_Detail_impl implements Order_Detail_service{
 	
 	@Override
 	public Long getCountProductOder(String id) {
-		// TODO Auto-generated method stub
 		return dao.getCountProductOder(id);
 	}
 
@@ -38,8 +39,10 @@ public class Order_Detail_impl implements Order_Detail_service{
 	 * 
 	 */
 	@Override
-	public List<Orderdetail> listAll() {
-		return dao.findAll();
+	public Page<Orderdetail> listAll(String idOrder, Pageable page) {
+		return dao.listAll(idOrder,page);
 	}
+
+
 
 }

@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -33,12 +36,12 @@ public class Order implements Serializable {
 	String phone;
 	String status;
 	Date create_date;
-	String discount_code;
 	double total_amount;
 	String note;
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	@Fetch(value = FetchMode.SUBSELECT)
 	List<Orderdetail> order_detail;
 	
 	@ManyToOne
