@@ -46,6 +46,7 @@ public class Product_option implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productOption")
+	@Fetch(value = FetchMode.SUBSELECT)
 	List<Orderdetail> orderdetail;
 	
 	@Override

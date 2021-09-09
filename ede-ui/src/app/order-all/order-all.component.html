@@ -3,7 +3,7 @@
 </div>
 <div class="col-sm-10" style="margin-top: 70px;">
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#tab-1">Tất cả</a>
+    <li class="active"><a data-toggle="tab" href="#tab-1" (click)="filterOrderByStatus('')">Tất cả</a>
     </li>
     <li><a data-toggle="tab" href="#tab-2">Chờ xác nhận</a>
     </li>
@@ -11,9 +11,9 @@
     </li>
     <li><a data-toggle="tab" href="#tab-4">Đang giao</a>
     </li>
-    <li><a data-toggle="tab" href="#tab-5">Đã giao</a>
+    <li><a data-toggle="tab" href="#tab-5" (click)="filterOrderByStatus('Đã giao')">Đã giao</a>
     </li>
-    <li><a data-toggle="tab" href="#tab-6">Đơn huỷ</a>
+    <li><a data-toggle="tab" href="#tab-6" (click)="filterOrderByStatus('Đã hủy')">Đơn huỷ</a>
     </li>
     <li><a data-toggle="tab" href="#tab-7">Trả hàng/ Hoàn tiền</a>
     </li>
@@ -30,7 +30,7 @@
               <div class="col-sm-6">
                 <div class="col-sm-10">
                   <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tìm đơn hàng" value="" name="product"  >
+                    placeholder="Tìm đơn hàng" value="" name="product">
                 </div>
               </div>
               <div class="col-sm-6">
@@ -38,7 +38,8 @@
               </div>
               <br>
               <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;"><h3><b>Đơn hàng</b></h3>
+                <div class="pull-left" style="margin-left: 20px;">
+                  <h3><b>Đơn hàng</b></h3>
                 </div>
                 <div class="pull-right">
 
@@ -53,26 +54,31 @@
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <td><strong>Tên</strong></td>
-                    <td><strong>Số lượng</strong></td>
-                    <td><strong>Giá</strong></td>
-                    <td><strong>Kích thước</strong></td>
-                    <td><strong>Thương hiệu</strong></td>
+                    <td><strong>Mã hóa đơn</strong></td>
+                    <td><strong>Tên người mua</strong></td>
+                    <td><strong>Số điện thoại</strong></td>
+                    <td><strong>Ngày mua</strong></td>
+                    <td><strong>Tổng tiền</strong></td>
                     <td><strong>Trạng thái</strong></td>
+                    <td><strong>Ghi chú</strong></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Product</td>
-                    <td><a href="product.html">Lorem ipsum dolor"</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
-                    <td><a href="product.html">Lorem ipsum dolor</a></td>
+                  <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+                    <td>{{e.id}}</td>
+                    <td>{{e.user.first_name}} {{e.user.last_name}}</td>
+                    <td>{{e.phone}}</td>
+                    <td>{{e.create_date | date :'short'}}</td>
+                    <td>{{e.total_amount}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.note}}</td>
+                    <td><a (click)="showOrderDetail(e.id)" data-toggle="modal" data-target="#exampleModal"> Sửa</a></td>
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
             </div>
+
           </div>
           <!--Middle Part End -->
 
@@ -86,9 +92,182 @@
       dui. Morbi id tellus. Lorem
       ipsum dolor sit amet, consectetuer
       adipiscing elit.</div>
-    <div class="tab-pane" id="tab-3">3333333333333333333333333333</div>
-      <div class="tab-pane" id="tab-4">44444444444444444444444444444444</div>
-        <div class="tab-pane" id="tab-5">5555555555555555555555555555</div>
-          <div class="tab-pane" id="tab-6">666666666666666666666666666</div>
-            <div class="tab-pane" id="tab-7">777777777777777777</div>
+    <div class="tab-pane" id="tab-3"></div>
+    <div class="tab-pane" id="tab-4"></div>
+    <div class="tab-pane" id="tab-5">
+      <div class="main-container container">
+
+
+        <div class="row">
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="name" id="input-product"
+                    placeholder="Tìm đơn hàng" value="" name="product">
+                </div>
+              </div>
+              <div class="col-sm-6">
+              </div>
+              <br>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 20px;">
+                  <h3><b>Đơn hàng</b></h3>
+                </div>
+                <div class="pull-right">
+                </div>
+              </div>
+              <br>
+
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Mã hóa đơn</strong></td>
+                    <td><strong>Tên người mua</strong></td>
+                    <td><strong>Số điện thoại</strong></td>
+                    <td><strong>Ngày mua</strong></td>
+                    <td><strong>Tổng tiền</strong></td>
+                    <td><strong>Trạng thái</strong></td>
+                    <td><strong>Ghi chú</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+                    <td>{{e.id}}</td>
+                    <td>{{e.user.first_name}} {{e.user.last_name}}</td>
+                    <td>{{e.phone}}</td>
+                    <td>{{e.create_date | date :'short'}}</td>
+                    <td>{{e.total_amount}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.note}}</td>
+                    <td><a (click)="showOrderDetail(e.id)" data-toggle="modal" data-target="#exampleModal"> Sửa</a></td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+          </div>
+          <!--Middle Part End -->
+
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="tab-6">
+      <div class="main-container container">
+
+
+        <div class="row">
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="name" id="input-product"
+                    placeholder="Tìm đơn hàng" value="" name="product">
+                </div>
+              </div>
+              <div class="col-sm-6">
+
+              </div>
+              <br>
+              <div class="buttons clearfix">
+                <div class="pull-left" style="margin-left: 20px;">
+                  <h3><b>Đơn hàng</b></h3>
+                </div>
+                <div class="pull-right">
+
+
+                </div>
+              </div>
+              <br>
+
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Mã hóa đơn</strong></td>
+                    <td><strong>Tên người mua</strong></td>
+                    <td><strong>Số điện thoại</strong></td>
+                    <td><strong>Ngày mua</strong></td>
+                    <td><strong>Tổng tiền</strong></td>
+                    <td><strong>Trạng thái</strong></td>
+                    <td><strong>Ghi chú</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+                    <td>{{e.id}}</td>
+                    <td>{{e.user.first_name}} {{e.user.last_name}}</td>
+                    <td>{{e.phone}}</td>
+                    <td>{{e.create_date | date :'short'}}</td>
+                    <td>{{e.total_amount}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.note}}</td>
+                    <td><a (click)="showOrderDetail(e.id)" data-toggle="modal" data-target="#exampleModal"> Sửa</a></td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+          </div>
+          <!--Middle Part End -->
+
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="tab-7">777777777777777777</div>
+    <!-- Modal -->
+
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Đơn hàng chi tiết</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Mã hóa đơn</strong></td>
+                    <td><strong>Tên sản phẩm</strong></td>
+                    <td><strong>Tên loại sản phẩm</strong></td>
+                    <td><strong>Giá</strong></td>
+                    <td><strong>Số lượng</strong></td>
+                    <td><strong>Tổng tiền</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let e of itemsDetail  | paginate: {itemsPerPage: size, currentPage: pDetail, totalItems: countDetail}">
+                    <td>{{e.id}}</td>
+                    <td>{{e.productOption.product.name}}</td>
+                    <td>{{e.productOption.display_name}}</td>
+                    <td>{{e.price}}</td>
+                    <td>{{e.quantity}}</td>
+                    <td>{{e.price * e.quantity}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="handlePageChangeDetail($event)"></pagination-controls>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
