@@ -19,4 +19,5 @@ public interface Product_option_image_Dao extends JpaRepository<Product_option_i
 	@Modifying
 	@Query("DELETE FROM Product_option_image o where o.productoption.id =:id")
 	void deleteAllImageByOptionId(String id);
+
 }

@@ -48,6 +48,7 @@ public class FileCreateRestController {
 		ObjectNode objectNode = mapper.createObjectNode();
 		String filename = this.createFileName(partFile);
 		objectNode.put("text", filename);
+		
 		boolean createOk = this.myFtp.upload(filename, partFile.getInputStream(), FTP_FILE_TYPE);
 		if (createOk) {
 			return objectNode;

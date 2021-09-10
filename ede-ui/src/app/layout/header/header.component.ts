@@ -50,27 +50,25 @@ export class HeaderComponent implements OnInit {
   public async getUserLogin(){
    await this.headerService.getUserByToken(this.cookieService.get("auth")).toPromise(
     ).then(data=>{
-      console.log(data)
       this.login=true;
       this.u=data;
-      
+
     }).catch(err=>{
       console.log(err)
       this.login=false;
     })
-  console.log("545665")
   }
 
   public async logout(){
     this.router.navigate(['/'])
     this.cookieService.delete("auth")
     document.location.href="";
-   
-  } 
+
+  }
 
    loadCart(){
     var json = localStorage.getItem('cart');
-   
+
     this.cart  =json ? JSON.parse(json) : [];
     this.loadTotal();
   }

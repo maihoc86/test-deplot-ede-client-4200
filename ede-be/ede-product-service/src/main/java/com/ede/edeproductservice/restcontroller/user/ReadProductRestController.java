@@ -109,7 +109,7 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		Page<Product_option> pages = product_option_service.finAllByShop(keyword,shop,PageRequest.of(page, size));
+		Page<Product_option> pages = product_option_service.finAllByShop(keyword, shop, PageRequest.of(page, size));
 		return ResponseEntity.ok(pages);
 	}
 
@@ -141,13 +141,19 @@ public class ReadProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 
-		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword,shop,value,PageRequest.of(page, size));
+		Page<Product_option> pages = product_option_service.findProductEnableShop(keyword, shop, value,
+				PageRequest.of(page, size));
 		return ResponseEntity.ok(pages);
 	}
 
 	@GetMapping("/view/getproductoptionimage/{id}")
 	public List<Product_option_image> getImage(@PathVariable("id") String id) {
 		return productImageService.findImageByIdOption(id);
+	}
+
+	@GetMapping("/view/getProductOptionImage/only/{id}")
+	public Product_option_image getImageOnly(@PathVariable("id") String id) {
+		return productImageService.findImageByIdOption(id).get(0);
 	}
 
 	@GetMapping("/view/getAllproductDiscount")
@@ -313,6 +319,7 @@ public class ReadProductRestController {
 
 		return ResponseEntity.ok(listPage);
 	}
+
 	/* GET CATEGORY SHOP */
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/category")

@@ -22,7 +22,6 @@
     <div class="tab-pane active" id="tab-1">
       <div class="main-container container">
 
-
         <div class="row">
           <!--Middle Part Start-->
           <div id="content" class="col-sm-12">
@@ -49,7 +48,7 @@
               <br>
 
             </div>
-
+            <!-- ALL -->
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
                 <thead>
@@ -64,7 +63,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+                  <tr
+                    *ngFor="let e of itemsAll  | paginate: {itemsPerPage: size, currentPage: pAll, totalItems: count, id: 'all'}">
                     <td>{{e.id}}</td>
                     <td>{{e.user.first_name}} {{e.user.last_name}}</td>
                     <td>{{e.phone}}</td>
@@ -76,7 +76,7 @@
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+              <pagination-controls (pageChange)="handlePageChange($event ,'all')" id="all"></pagination-controls>
             </div>
 
           </div>
@@ -136,7 +136,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+                  <tr
+                    *ngFor="let e of itemsDaGiao  | paginate: {itemsPerPage: size, currentPage: pDaGiao, totalItems: count, id: 'dagiao'}">
                     <td>{{e.id}}</td>
                     <td>{{e.user.first_name}} {{e.user.last_name}}</td>
                     <td>{{e.phone}}</td>
@@ -148,7 +149,7 @@
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+              <pagination-controls (pageChange)="handlePageChange($event, 'dagiao')" id="dagiao"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -179,8 +180,6 @@
                   <h3><b>Đơn hàng</b></h3>
                 </div>
                 <div class="pull-right">
-
-
                 </div>
               </div>
               <br>
@@ -201,7 +200,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+                  <tr
+                    *ngFor="let e of itemsDaHuy  | paginate: {itemsPerPage: size, currentPage: pDaHuy, totalItems: count, id:'dahuy'}">
                     <td>{{e.id}}</td>
                     <td>{{e.user.first_name}} {{e.user.last_name}}</td>
                     <td>{{e.phone}}</td>
@@ -214,7 +214,7 @@
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+              <pagination-controls (pageChange)="handlePageChange($event, 'dahuy')" id="dahuy"></pagination-controls>
             </div>
           </div>
           <!--Middle Part End -->
@@ -240,6 +240,7 @@
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
+                    <td><strong>#</strong>td>
                     <td><strong>Mã hóa đơn</strong></td>
                     <td><strong>Tên sản phẩm</strong></td>
                     <td><strong>Tên loại sản phẩm</strong></td>
@@ -250,18 +251,20 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsDetail  | paginate: {itemsPerPage: size, currentPage: pDetail, totalItems: countDetail}">
+                    *ngFor="let e of itemsDetail  | paginate: {itemsPerPage: size, currentPage: pDetail, totalItems: countDetail, id:'detail'}">
+                    <td>
+                      <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{e.productOption.id}}" width="100" height="100">
+                    </td>
                     <td>{{e.id}}</td>
                     <td>{{e.productOption.product.name}}</td>
                     <td>{{e.productOption.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
                     <td>{{e.price * e.quantity}}</td>
-
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls (pageChange)="handlePageChangeDetail($event)"></pagination-controls>
+              <pagination-controls (pageChange)="handlePageChangeDetail($event)" id="detail"></pagination-controls>
             </div>
           </div>
           <div class="modal-footer">
