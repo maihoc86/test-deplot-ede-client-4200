@@ -1,9 +1,5 @@
 package com.ede.edeproductservice.implement;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

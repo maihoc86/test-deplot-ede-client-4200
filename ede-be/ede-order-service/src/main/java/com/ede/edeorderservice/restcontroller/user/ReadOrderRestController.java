@@ -61,7 +61,7 @@ public class ReadOrderRestController {
 	@GetMapping("/view/order/shop/getAll")
 	public ResponseEntity getAllOrder(@RequestParam("status") Optional<String> status,
 			@RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "size", defaultValue = "5") int size) {	
+			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Page<Order> pageLoad;
 		Shop shop = new Shop();
 		try {
@@ -71,12 +71,13 @@ public class ReadOrderRestController {
 			return ResponseEntity.notFound().build();
 		}
 		if (status.isPresent() && !status.get().isEmpty()) {
-			pageLoad = order_service.findAllOrderShopByStatus(shop.getId(), status.get(),
-					PageRequest.of(page, size));
+			pageLoad = order_service.findAllOrderShopByStatus(shop.getId(), status.get(), PageRequest.of(page, size));
 		} else {
-			pageLoad = order_service.findAllOrderByShop(shop.getId(),
-					PageRequest.of(page, size)); 
+			pageLoad = order_service.findAllOrderByShop(shop.getId(), PageRequest.of(page, size));
 		}
+		pageLoad.stream().forEach(e -> {
+			System.out.println(e);
+		});
 		return ResponseEntity.ok(pageLoad);
 	}
 
@@ -84,7 +85,7 @@ public class ReadOrderRestController {
 	public ResponseEntity getAll(@PathVariable("id") String idOrder,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
-		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder,PageRequest.of(page, size));
+		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder, PageRequest.of(page, size));
 		return ResponseEntity.ok(pageLoad);
 	}
 }

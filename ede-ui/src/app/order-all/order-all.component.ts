@@ -10,9 +10,13 @@ import Swal from 'sweetalert2';
 export class OrderAllComponent implements OnInit {
   public page: any = [];
   public pageDetail: any = [];
-  public p: number = 1;
+  public pAll: number = 1;
+  public pDaHuy: number = 1;
+  public pDaGiao: number = 1;
   public pDetail: number = 1;
-  public items: any = [];
+  public itemsAll: any = [];
+  public itemsDaGiao: any = [];
+  public itemsDaHuy: any = [];
   public itemsDetail: any = [];
   public idDetail: any;
   public count: any;
@@ -25,7 +29,7 @@ export class OrderAllComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    this.loadOrderAll(this.status, this.p, this.size);
+    this.loadOrderAll(this.status, this.pAll, this.size);
   }
 
   public loadOrderAll(status: string, page: number, size: number) {
@@ -44,9 +48,12 @@ export class OrderAllComponent implements OnInit {
         }) {
           return obj;
         });
-        console.log(data);
         this.page = data;
-        this.items = item;
+        status == 'Đã giao'
+          ? (this.itemsDaGiao = item)
+          : status == ''
+          ? (this.itemsAll = item)
+          : (this.itemsDaHuy = item);
         this.count = this.page.totalElements;
       },
       (err) => {
@@ -69,17 +76,30 @@ export class OrderAllComponent implements OnInit {
   }
   filterOrderByStatus(status: string) {
     this.status = status;
-    this.loadOrderAll(this.status, this.p, this.size);
+    status === 'Đã hủy'
+      ? this.loadOrderAll(this.status, this.pDaHuy, this.size)
+      : status === 'Đã giao'
+      ? this.loadOrderAll(this.status, this.pDaGiao, this.size)
+      : this.loadOrderAll(this.status, this.pAll, this.size);
   }
   showOrderDetail(id: string) {
     this.idDetail = id;
     this.getOrderDetail(this.idDetail, this.pDetail, this.size);
     // TODO: show order detail
   }
-  public handlePageChange(event: number) {
-    this.showParamsURL(this.p, this.size);
-    this.p = event;
-    this.loadOrderAll(this.status, this.p, this.size);
+  public handlePageChange(event: number, status: string) {
+    if (status === 'dahuy') {
+      this.showParamsURL(this.pDaHuy, this.size);
+      this.pDaHuy = event;
+    } else if (status === 'dagiao') {
+      this.showParamsURL(this.pDaGiao, this.size);
+      this.pDaGiao = event;
+    } else {
+      this.showParamsURL(this.pAll, this.size);
+      this.pAll = event;
+    }
+    console.log(event);
+    this.loadOrderAll(this.status, event, this.size);
   }
 
   getRequestParams(page: number, pageSize: number): any {
@@ -107,6 +127,7 @@ export class OrderAllComponent implements OnInit {
     this.orderShopService
       .getOrderDetailShop(id, page, size)
       .subscribe((data) => {
+        console.log(data);
         const item = data.content.map(function (obj: {
           id: string;
           productOption: string;
