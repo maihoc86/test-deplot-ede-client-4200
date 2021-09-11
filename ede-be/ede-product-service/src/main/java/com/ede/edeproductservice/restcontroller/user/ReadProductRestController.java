@@ -366,4 +366,11 @@ public class ReadProductRestController {
 		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId());
 		return ResponseEntity.ok(pageF);
 	}
+	
+	@GetMapping("/view/shoplogin/category")
+	public ResponseEntity<List<Product_child_category>> getallCategoryByShop(){
+		List<Product_child_category> list = child_category_service.findAllByShop(auservice.getShopLogin(req.getHeader("Authorization")).getId());
+	
+		return ResponseEntity.ok(list);
+	}
 }
