@@ -83,9 +83,10 @@ public class ReadOrderRestController {
 
 	@GetMapping("/view/orderDetail/shop/getAll/{id}")
 	public ResponseEntity getAll(@PathVariable("id") String idOrder,
+			@RequestParam(name = "keyword") String keyword,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
-		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder, PageRequest.of(page, size));
+		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder,keyword, PageRequest.of(page, size));
 		return ResponseEntity.ok(pageLoad);
 	}
 }

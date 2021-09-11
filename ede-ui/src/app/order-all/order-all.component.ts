@@ -28,6 +28,7 @@ export class OrderAllComponent implements OnInit {
   public keywordAll: string="";
   public keywordTrue: string="";
   public keywordFalse: string="";
+  public keywordDetail: string="";
 
   constructor(
     private orderShopService: OrderShopService,
@@ -90,7 +91,7 @@ export class OrderAllComponent implements OnInit {
   }
   showOrderDetail(id: string) {
     this.idDetail = id;
-    this.getOrderDetail(this.idDetail, this.pDetail, this.size);
+    this.getOrderDetail(this.idDetail,this.keywordDetail, this.pDetail, this.size);
     // TODO: show order detail
   }
   public handlePageChange(event: number, status: string) {
@@ -128,10 +129,10 @@ export class OrderAllComponent implements OnInit {
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
   }
-  public getOrderDetail(id: string, page: number, size: number) {
+  public getOrderDetail(id: string, keyword: string, page: number, size: number) {
     page = page - 1;
     this.orderShopService
-      .getOrderDetailShop(id, page, size)
+      .getOrderDetailShop(id,keyword, page, size)
       .subscribe((data) => {
         console.log(data);
         const item = data.content.map(function (obj: {
@@ -151,7 +152,7 @@ export class OrderAllComponent implements OnInit {
   }
   public handlePageChangeDetail(event: number) {
     this.pDetail = event;
-    this.getOrderDetail(this.idDetail, this.pDetail, this.size);
+    this.getOrderDetail(this.idDetail, this.keywordDetail,this.pDetail, this.size);
   }
 
 
@@ -168,6 +169,11 @@ export class OrderAllComponent implements OnInit {
   public searchOrderFalse( keywordFalse: string) {
     this.keywordFalse = keywordFalse;
     this.loadOrderAll(this.keywordFalse,this.status, this.pDaHuy, this.size);
+  }
+
+  public searchOrderDetail( keywordDetail: string) {
+    this.keywordDetail = keywordDetail;
+    this.getOrderDetail(this.idDetail, this.keywordDetail,this.pDetail, this.size);
   }
 
 
