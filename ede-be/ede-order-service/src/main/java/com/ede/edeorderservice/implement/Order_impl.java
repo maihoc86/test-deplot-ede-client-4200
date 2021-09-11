@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeorderservice.dao.OrderDao;
 import com.ede.edeorderservice.entity.Order;
+import com.ede.edeorderservice.entity.Shop;
 import com.ede.edeorderservice.service.Order_service;
 
 @Service
@@ -53,8 +54,8 @@ public class Order_impl implements Order_service {
 	 * 
 	 */
 	@Override
-	public Page<Order> findAllOrderByShop(String id,Pageable page) {
-		return dao.findAllOrderByShop(id,page);
+	public Page<Order> findAllOrderByShop(String keyword,String id,Pageable page) {
+		return dao.findAllOrderByShop(keyword,id,page);
 	}
 
 	/**
@@ -63,8 +64,8 @@ public class Order_impl implements Order_service {
 	 * 
 	 */
 	@Override
-	public Page<Order> findAllOrderShopByStatus(String string, String status, Pageable page) {
-		return dao.findAllOrderShopByStatus(string, status, page);
+	public Page<Order> findAllOrderShopByStatus(String keyword ,String shop, String status, Pageable page) {
+		return dao.findAllOrderShopByStatus(keyword, shop, status, page);
 	}
 
 }

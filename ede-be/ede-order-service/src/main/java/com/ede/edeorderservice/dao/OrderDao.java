@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ede.edeorderservice.entity.Order;
+import com.ede.edeorderservice.entity.Shop;
 
 public interface OrderDao extends JpaRepository<Order, String> {
 
@@ -33,8 +34,8 @@ public interface OrderDao extends JpaRepository<Order, String> {
 	 *
 	 * 
 	 */
-	@Query("SELECT distinct o FROM Order o join o.order_detail orderdetail where orderdetail.productOption.product.shop.id=:id ")
-	Page<Order> findAllOrderByShop(String id, Pageable page);
+	@Query("SELECT distinct o FROM Order o join o.order_detail orderdetail where ( o.user.first_name like %?1% or o.user.last_name like %?1% ) and orderdetail.productOption.product.shop.id= ?2 ")
+	Page<Order> findAllOrderByShop(String keyword, String id, Pageable page);
 
 	/**
 	 * @author thái học
@@ -42,7 +43,7 @@ public interface OrderDao extends JpaRepository<Order, String> {
 	 *
 	 * 
 	 */
-	@Query("SELECT distinct o FROM Order o join o.order_detail orderdetail where orderdetail.productOption.product.shop.id=:id and o.status=:status ")
-	Page<Order> findAllOrderShopByStatus(String id, String status, Pageable page);
+	@Query("SELECT distinct o FROM Order o join o.order_detail orderdetail where ( o.user.first_name like %?1% or o.user.last_name like %?1% ) and orderdetail.productOption.product.shop.id= ?2 and o.status= ?3")
+	Page<Order> findAllOrderShopByStatus(String keyword,String shop, String status, Pageable page);
 
 }

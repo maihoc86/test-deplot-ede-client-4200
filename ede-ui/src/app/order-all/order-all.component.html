@@ -5,17 +5,9 @@
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#tab-1" (click)="filterOrderByStatus('')">Tất cả</a>
     </li>
-    <li><a data-toggle="tab" href="#tab-2">Chờ xác nhận</a>
-    </li>
-    <li><a data-toggle="tab" href="#tab-3">Chờ lấy hàng</a>
-    </li>
-    <li><a data-toggle="tab" href="#tab-4">Đang giao</a>
-    </li>
     <li><a data-toggle="tab" href="#tab-5" (click)="filterOrderByStatus('Đã giao')">Đã giao</a>
     </li>
     <li><a data-toggle="tab" href="#tab-6" (click)="filterOrderByStatus('Đã hủy')">Đơn huỷ</a>
-    </li>
-    <li><a data-toggle="tab" href="#tab-7">Trả hàng/ Hoàn tiền</a>
     </li>
   </ul>
   <div class="tab-content">
@@ -27,27 +19,33 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tìm đơn hàng" value="" name="product">
-                </div>
+               <div class="row">
+                 <div class="col-md-6">
+                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                     <div class="position-relative">
+                       <input   type="text" class="form-control"
+                         placeholder="Search..." name="keywordAll" id="keywordAll" #keywordAll>
+ 
+                     </div>
+                   </form>
+                 </div>
+                 <div class="col-md-6">
+                   <input   (click)= "searchAllOrder(keywordAll.value)" type="submit" class="btn btn-danger" value="Tìm"
+                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                   &nbsp;
+                 </div>
+               </div>
               </div>
-              <div class="col-sm-6">
-
-              </div>
-              <br>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;">
-                  <h3><b>Đơn hàng</b></h3>
-                </div>
-                <div class="pull-right">
-
-
-                </div>
-              </div>
-              <br>
-
-            </div>
+               <div class="col-sm-6" style="margin-top: 16px;">
+                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
+                   style="width: 200px; height: 30px;">
+                   <option hidden>Show</option>
+                   <option value="5">5</option>
+                   <option value="10">10</option>
+                   <option value="15">15</option>
+                 </select> -->
+               </div>
+             </div><br>
             <!-- ALL -->
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
@@ -85,15 +83,7 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane" id="tab-2">Donec eros tellus, scelerisque
-      nec, rhoncus eget, sollicitudin
-      eu, vehicula venenatis, tempor
-      vitae, est. Praesent vitae
-      dui. Morbi id tellus. Lorem
-      ipsum dolor sit amet, consectetuer
-      adipiscing elit.</div>
-    <div class="tab-pane" id="tab-3"></div>
-    <div class="tab-pane" id="tab-4"></div>
+
     <div class="tab-pane" id="tab-5">
       <div class="main-container container">
 
@@ -103,24 +93,33 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tìm đơn hàng" value="" name="product">
-                </div>
+               <div class="row">
+                 <div class="col-md-6">
+                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                     <div class="position-relative">
+                       <input   type="text" class="form-control"
+                         placeholder="Search..." name="keywordTrue" id="keywordTrue" #keywordTrue>
+ 
+                     </div>
+                   </form>
+                 </div>
+                 <div class="col-md-6">
+                   <input   (click)= "searchOrderTrue(keywordTrue.value)" type="submit" class="btn btn-danger" value="Tìm"
+                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                   &nbsp;
+                 </div>
+               </div>
               </div>
-              <div class="col-sm-6">
-              </div>
-              <br>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;">
-                  <h3><b>Đơn hàng</b></h3>
-                </div>
-                <div class="pull-right">
-                </div>
-              </div>
-              <br>
-
-            </div>
+               <div class="col-sm-6" style="margin-top: 16px;">
+                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
+                   style="width: 200px; height: 30px;">
+                   <option hidden>Show</option>
+                   <option value="5">5</option>
+                   <option value="10">10</option>
+                   <option value="15">15</option>
+                 </select> -->
+               </div>
+             </div><br>
 
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
@@ -166,25 +165,33 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" formControlName="name" id="input-product"
-                    placeholder="Tìm đơn hàng" value="" name="product">
-                </div>
+               <div class="row">
+                 <div class="col-md-6">
+                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                     <div class="position-relative">
+                       <input   type="text" class="form-control"
+                         placeholder="Search..." name="keywordFalse" id="keywordFalse" #keywordFalse>
+ 
+                     </div>
+                   </form>
+                 </div>
+                 <div class="col-md-6">
+                   <input   (click)= "searchOrderFalse(keywordFalse.value)" type="submit" class="btn btn-danger" value="Tìm"
+                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                   &nbsp;
+                 </div>
+               </div>
               </div>
-              <div class="col-sm-6">
-
-              </div>
-              <br>
-              <div class="buttons clearfix">
-                <div class="pull-left" style="margin-left: 20px;">
-                  <h3><b>Đơn hàng</b></h3>
-                </div>
-                <div class="pull-right">
-                </div>
-              </div>
-              <br>
-
-            </div>
+               <div class="col-sm-6" style="margin-top: 16px;">
+                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
+                   style="width: 200px; height: 30px;">
+                   <option hidden>Show</option>
+                   <option value="5">5</option>
+                   <option value="10">10</option>
+                   <option value="15">15</option>
+                 </select> -->
+               </div>
+             </div><br>
 
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
@@ -222,7 +229,7 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane" id="tab-7">777777777777777777</div>
+
     <!-- Modal -->
 
     <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
