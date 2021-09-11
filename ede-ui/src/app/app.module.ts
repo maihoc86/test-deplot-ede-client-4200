@@ -31,6 +31,7 @@ import { ProductSearchComponent } from './product-search/product-search.componen
 import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
+import { CategoryShopComponent } from './category-shop/category-shop.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
     ProductSearchElementComponent,
     ProductSearchComponent,
     RevenueShopComponent,
+    CategoryShopComponent,
   ],
   imports: [
     BrowserModule,
