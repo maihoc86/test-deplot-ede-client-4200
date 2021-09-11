@@ -20,10 +20,11 @@ export class OrderShopService {
   private REST_API_SERVER = 'http://localhost:8080/ede-order';
 
   public getOrderShop( keyword: string ,status:string,page:number,size:number) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/order/shop/getAll?keyword='+keyword+"&page"+page+"&size="+size+"&status="+status, this.httpOptions);
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/order/shop/getAll?keyword='+keyword+"&page="+page+"&size="+size+"&status="+status, this.httpOptions);
   }
-  public getOrderDetailShop(id:string,page: number, size: number) {
-    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/orderDetail/shop/getAll/'+id+"?page="+page+"&size="+size, this.httpOptions);
+  public getOrderDetailShop(id:string, keyword: string ,page: number, size: number) {
+    console.log("vào đc getOrderDetailShop ")
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/orderDetail/shop/getAll/'+id+"?keyword="+keyword+"&page="+page+"&size="+size, this.httpOptions);
   }
 
 }

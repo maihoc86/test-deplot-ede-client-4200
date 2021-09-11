@@ -238,6 +238,35 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Đơn hàng chi tiết</h5>
+            <div class="row">
+              <div class="col-sm-6">
+               <div class="row">
+                 <div class="col-md-6">
+                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                     <div class="position-relative">
+                       <input   type="text" class="form-control"
+                         placeholder="Search..." name="keywordDetail" id="keywordDetail" #keywordDetail>
+ 
+                     </div>
+                   </form>
+                 </div>
+                 <div class="col-md-6">
+                   <input   (click)= "searchOrderDetail(keywordDetail.value)" type="submit" class="btn btn-danger" value="Tìm"
+                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                   &nbsp;
+                 </div>
+               </div>
+              </div>
+               <div class="col-sm-6" style="margin-top: 16px;">
+                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
+                   style="width: 200px; height: 30px;">
+                   <option hidden>Show</option>
+                   <option value="5">5</option>
+                   <option value="10">10</option>
+                   <option value="15">15</option>
+                 </select> -->
+               </div>
+             </div><br>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

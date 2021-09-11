@@ -25,6 +25,6 @@ public interface Order_Detail_service {
 	 *
 	 * 
 	 */
-	Page<Orderdetail> listAll(String idOrder, Pageable page);
+	Page<Orderdetail> listAll(String idOrder, String keyword ,Pageable page);
 
 }

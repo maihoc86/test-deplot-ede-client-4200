@@ -39,8 +39,8 @@ public class Order_Detail_impl implements Order_Detail_service{
 	 * 
 	 */
 	@Override
-	public Page<Orderdetail> listAll(String idOrder, Pageable page) {
-		return dao.listAll(idOrder,page);
+	public Page<Orderdetail> listAll(String idOrder, String keyword, Pageable page) {
+		return dao.listAll(idOrder,keyword,page);
 	}
 
 
