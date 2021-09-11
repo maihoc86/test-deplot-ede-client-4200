@@ -23,18 +23,24 @@ export class OrderAllComponent implements OnInit {
   public countDetail: any;
   public size: number = 5;
   public status: string = '';
+
+
+  public keywordAll: string="";
+  public keywordTrue: string="";
+  public keywordFalse: string="";
+
   constructor(
     private orderShopService: OrderShopService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    this.loadOrderAll(this.status, this.pAll, this.size);
+    this.loadOrderAll(this.keywordAll, this.status, this.pAll, this.size);
   }
 
-  public loadOrderAll(status: string, page: number, size: number) {
+  public loadOrderAll(keyword: string, status: string, page: number, size: number) {
     page = page - 1;
-    this.orderShopService.getOrderShop(status, page, size).subscribe(
+    this.orderShopService.getOrderShop(keyword, status, page, size).subscribe(
       (data) => {
         const item = data.content.map(function (obj: {
           id: string;
@@ -77,10 +83,10 @@ export class OrderAllComponent implements OnInit {
   filterOrderByStatus(status: string) {
     this.status = status;
     status === 'Đã hủy'
-      ? this.loadOrderAll(this.status, this.pDaHuy, this.size)
+      ? this.loadOrderAll(this.keywordFalse,this.status, this.pDaHuy, this.size)
       : status === 'Đã giao'
-      ? this.loadOrderAll(this.status, this.pDaGiao, this.size)
-      : this.loadOrderAll(this.status, this.pAll, this.size);
+      ? this.loadOrderAll(this.keywordTrue,this.status, this.pDaGiao, this.size)
+      : this.loadOrderAll(this.keywordAll,this.status, this.pAll, this.size);
   }
   showOrderDetail(id: string) {
     this.idDetail = id;
@@ -99,7 +105,7 @@ export class OrderAllComponent implements OnInit {
       this.pAll = event;
     }
     console.log(event);
-    this.loadOrderAll(this.status, event, this.size);
+    this.loadOrderAll(this.keywordAll,this.status, event, this.size);
   }
 
   getRequestParams(page: number, pageSize: number): any {
@@ -147,4 +153,22 @@ export class OrderAllComponent implements OnInit {
     this.pDetail = event;
     this.getOrderDetail(this.idDetail, this.pDetail, this.size);
   }
+
+
+  public searchAllOrder( keywordAll: string) {
+    this.keywordAll = keywordAll;
+    this.loadOrderAll(this.keywordAll,this.status, this.pAll, this.size);
+  }
+
+  public searchOrderTrue( keywordTrue: string) {
+    this.keywordTrue = keywordTrue;
+    this.loadOrderAll(this.keywordTrue,this.status, this.pDaGiao, this.size);
+  }
+
+  public searchOrderFalse( keywordFalse: string) {
+    this.keywordFalse = keywordFalse;
+    this.loadOrderAll(this.keywordFalse,this.status, this.pDaHuy, this.size);
+  }
+
+
 }
