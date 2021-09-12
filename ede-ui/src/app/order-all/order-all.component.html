@@ -19,33 +19,26 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-               <div class="row">
-                 <div class="col-md-6">
-                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
-                     <div class="position-relative">
-                       <input   type="text" class="form-control"
-                         placeholder="Search..." name="keywordAll" id="keywordAll" #keywordAll>
- 
-                     </div>
-                   </form>
-                 </div>
-                 <div class="col-md-6">
-                   <input   (click)= "searchAllOrder(keywordAll.value)" type="submit" class="btn btn-danger" value="Tìm"
-                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
-                   &nbsp;
-                 </div>
-               </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Search..." name="keywordAll"
+                          id="keywordAll" #keywordAll>
+
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)="searchAllOrder(keywordAll.value)" type="submit" class="btn btn-danger" value="Tìm"
+                      style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
+                  </div>
+                </div>
               </div>
-               <div class="col-sm-6" style="margin-top: 16px;">
-                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
-                   style="width: 200px; height: 30px;">
-                   <option hidden>Show</option>
-                   <option value="5">5</option>
-                   <option value="10">10</option>
-                   <option value="15">15</option>
-                 </select> -->
-               </div>
-             </div><br>
+              <div class="col-sm-6" style="margin-top: 16px;">
+              </div>
+            </div><br>
             <!-- ALL -->
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
@@ -74,7 +67,7 @@
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls (pageChange)="handlePageChange($event ,'all')" id="all"></pagination-controls>
+              <pagination-controls (pageChange)="handlePageChange($event ,'')" id="all"></pagination-controls>
             </div>
 
           </div>
@@ -93,33 +86,26 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-               <div class="row">
-                 <div class="col-md-6">
-                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
-                     <div class="position-relative">
-                       <input   type="text" class="form-control"
-                         placeholder="Search..." name="keywordTrue" id="keywordTrue" #keywordTrue>
- 
-                     </div>
-                   </form>
-                 </div>
-                 <div class="col-md-6">
-                   <input   (click)= "searchOrderTrue(keywordTrue.value)" type="submit" class="btn btn-danger" value="Tìm"
-                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
-                   &nbsp;
-                 </div>
-               </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Search..." name="keywordTrue"
+                          id="keywordTrue" #keywordTrue>
+
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)="searchOrderTrue(keywordTrue.value)" type="submit" class="btn btn-danger" value="Tìm"
+                      style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
+                  </div>
+                </div>
               </div>
-               <div class="col-sm-6" style="margin-top: 16px;">
-                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
-                   style="width: 200px; height: 30px;">
-                   <option hidden>Show</option>
-                   <option value="5">5</option>
-                   <option value="10">10</option>
-                   <option value="15">15</option>
-                 </select> -->
-               </div>
-             </div><br>
+              <div class="col-sm-6" style="margin-top: 16px;">
+              </div>
+            </div><br>
 
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
@@ -165,33 +151,26 @@
           <div id="content" class="col-sm-12">
             <div class="row">
               <div class="col-sm-6">
-               <div class="row">
-                 <div class="col-md-6">
-                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
-                     <div class="position-relative">
-                       <input   type="text" class="form-control"
-                         placeholder="Search..." name="keywordFalse" id="keywordFalse" #keywordFalse>
- 
-                     </div>
-                   </form>
-                 </div>
-                 <div class="col-md-6">
-                   <input   (click)= "searchOrderFalse(keywordFalse.value)" type="submit" class="btn btn-danger" value="Tìm"
-                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
-                   &nbsp;
-                 </div>
-               </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Search..." name="keywordFalse"
+                          id="keywordFalse" #keywordFalse>
+
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)="searchOrderFalse(keywordFalse.value)" type="submit" class="btn btn-danger"
+                      value="Tìm" style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
+                  </div>
+                </div>
               </div>
-               <div class="col-sm-6" style="margin-top: 16px;">
-                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
-                   style="width: 200px; height: 30px;">
-                   <option hidden>Show</option>
-                   <option value="5">5</option>
-                   <option value="10">10</option>
-                   <option value="15">15</option>
-                 </select> -->
-               </div>
-             </div><br>
+              <div class="col-sm-6" style="margin-top: 16px;">
+              </div>
+            </div><br>
 
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
@@ -240,33 +219,26 @@
             <h5 class="modal-title" id="exampleModalLabel">Đơn hàng chi tiết</h5>
             <div class="row">
               <div class="col-sm-6">
-               <div class="row">
-                 <div class="col-md-6">
-                   <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
-                     <div class="position-relative">
-                       <input   type="text" class="form-control"
-                         placeholder="Search..." name="keywordDetail" id="keywordDetail" #keywordDetail>
- 
-                     </div>
-                   </form>
-                 </div>
-                 <div class="col-md-6">
-                   <input   (click)= "searchOrderDetail(keywordDetail.value)" type="submit" class="btn btn-danger" value="Tìm"
-                     style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
-                   &nbsp;
-                 </div>
-               </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Search..." name="keywordDetail"
+                          id="keywordDetail" #keywordDetail>
+
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)="searchOrderDetail(keywordDetail.value)" type="submit" class="btn btn-danger"
+                      value="Tìm" style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
+                  </div>
+                </div>
               </div>
-               <div class="col-sm-6" style="margin-top: 16px;">
-                 <!-- <select (change)="changeSizeEnableTrue($event)" name="cars" id="cars"
-                   style="width: 200px; height: 30px;">
-                   <option hidden>Show</option>
-                   <option value="5">5</option>
-                   <option value="10">10</option>
-                   <option value="15">15</option>
-                 </select> -->
-               </div>
-             </div><br>
+              <div class="col-sm-6" style="margin-top: 16px;">
+              </div>
+            </div><br>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -276,7 +248,7 @@
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <td><strong>#</strong>td>
+                    <td>Hình ảnh</td>
                     <td><strong>Mã hóa đơn</strong></td>
                     <td><strong>Tên sản phẩm</strong></td>
                     <td><strong>Tên loại sản phẩm</strong></td>
@@ -289,7 +261,8 @@
                   <tr
                     *ngFor="let e of itemsDetail  | paginate: {itemsPerPage: size, currentPage: pDetail, totalItems: countDetail, id:'detail'}">
                     <td>
-                      <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{e.productOption.id}}" width="100" height="100">
+                      <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{e.productOption.id}}"
+                        width="50" height="50">
                     </td>
                     <td>{{e.id}}</td>
                     <td>{{e.productOption.product.name}}</td>
