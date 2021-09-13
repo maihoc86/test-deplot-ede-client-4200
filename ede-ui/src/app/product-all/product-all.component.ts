@@ -93,10 +93,6 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
 
-
-
-
-
   public loadProductAll(keyword: any, page: any, size: any) {
     page= page-1;
     this.productService.getAllProductOption(keyword,page, size).subscribe((data) => {

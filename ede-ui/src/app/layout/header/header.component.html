@@ -1110,7 +1110,7 @@
 
                       <span class="total-shopping-cart cart-total-full">
                         <span class="items_cart">{{cart.length}}</span><span class="items_cart2"> item(s)</span><span
-                          class="items_carts"> - {{totalCart}} VND</span>
+                          class="items_carts">: {{totalCart}} VND</span>
                       </span>
                     </div>
                   </div>
@@ -1123,15 +1123,16 @@
                         <tr *ngFor="let item of cart">
                           <td class="text-center" style="width: 70px">
                             <a href="product.html">
-                              <img src="/assets/image/catalog/demo/product/80/1.jpg" style="width: 70px"
+                              <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{item.id}}" style="width: 70px"
                                 alt="Yutculpa ullamcon" title="Yutculpa ullamco" class="preview" />
                             </a>
                           </td>
                           <td class="text-left">
-                            <a class="cart_product_name" href="product.html">{{item.name}}</a>
+                            <a class="cart_product_name limit" href="product.html">{{item.name}}</a>
                           </td>
-                          <td class="text-center">x{{item.qty}}</td>
-                          <td class="text-center">{{item.qty*item.price}}VND</td>
+                          <td class="text-center">
+                            <input type="number" value={{item.qty}} #qty style="width:35px" (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)"></td>
+                          <td class="text-center">{{item.qty*item.price}} VND</td>
                           <td class="text-right">
                             <a href="product.html" class="fa fa-edit"></a>
                           </td>
@@ -1139,7 +1140,7 @@
                             <a (click)="removeItemCart(item)" class="fa fa-times fa-delete"></a>
                           </td>
                         </tr>
-                      
+
                       </tbody>
                     </table>
                   </li>
@@ -1167,7 +1168,8 @@
                           </tr>
                           <tr>
                             <td class="text-left"><strong>Total</strong></td>
-                            <td class="text-right">{{totalCart*(20/100)}}</td>
+                             <!-- Chưa có discount -->
+                            <td class="text-right">{{totalCart}}</td>
                           </tr>
                         </tbody>
                       </table>
