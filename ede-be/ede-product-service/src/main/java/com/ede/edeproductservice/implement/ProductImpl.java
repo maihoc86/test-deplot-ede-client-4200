@@ -137,4 +137,14 @@ public class ProductImpl implements ProductService {
 		return dao.filterProductShopByCustomerLocationAndBrand(names, brand, id, of);
 	}
 
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public List<Product> listAll() {
+		return dao.findAll();
+	}
+
 }
