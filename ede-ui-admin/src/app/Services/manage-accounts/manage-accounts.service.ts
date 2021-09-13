@@ -16,7 +16,7 @@ export class ManageAccountsService {
     }),
   };
 
-  private REST_API_SERVER = 'http://localhost:8080/ede-customer';
+  private REST_API_SERVER = 'http://localhost:8080/ede-customer/admin';
   constructor(private httpClient: HttpClient) { }
   public addNewUser(data: User) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/admin/add-new-user', data, this.httpOptions);

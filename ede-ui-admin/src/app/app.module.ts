@@ -12,6 +12,7 @@ import { ManagerAccountsComponent } from './manager-accounts/manager-accounts.co
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ManagerCategoryComponent } from './manager-category/manager-category.component';
+import { ManagerProductComponent } from './manager-product/manager-product.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { ManagerCategoryComponent } from './manager-category/manager-category.co
     SidebarComponent,
     ManagerAccountsComponent,
     ManagerCategoryComponent,
+    ManagerProductComponent,
   ],
   imports: [
     BrowserModule,
