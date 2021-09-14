@@ -112,7 +112,6 @@ public class ReadProductRestController {
 		Page<Product_option> pages = product_option_service.finAllByShop(keyword, shop, PageRequest.of(page, size));
 		return ResponseEntity.ok(pages);
 	}
-
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/quantity0")
 	public ResponseEntity getAllProductOptionQuantity0(@RequestParam(name = "keyword") String keyword,
@@ -353,24 +352,16 @@ public class ReadProductRestController {
 
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
 	@SuppressWarnings("rawtypes")
-	@GetMapping("/view/customer/shop/all/product/discount")
-	public ResponseEntity getAllListProductDiscountByCustomer() {
-
-		Shop shop = new Shop();
-		try {
-			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
-		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
-		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId());
-		return ResponseEntity.ok(pageF);
+	@GetMapping("/view/customer/shop/product/discount/{id}")
+	public ResponseEntity getProductDiscountByCustomer(@PathVariable("id") String id) {
+		Product_discount findByIdProduct = product_discount_service.findByIdProduct(id);
+		return ResponseEntity.ok(findByIdProduct);
 	}
-	
+
 	@GetMapping("/view/shoplogin/category")
-	public ResponseEntity<List<Product_child_category>> getallCategoryByShop(){
-		List<Product_child_category> list = child_category_service.findAllByShop(auservice.getShopLogin(req.getHeader("Authorization")).getId());
-	
+	public ResponseEntity<List<Product_child_category>> getallCategoryByShop() {
+		List<Product_child_category> list = child_category_service
+				.findAllByShop(auservice.getShopLogin(req.getHeader("Authorization")).getId());
 		return ResponseEntity.ok(list);
 	}
 }

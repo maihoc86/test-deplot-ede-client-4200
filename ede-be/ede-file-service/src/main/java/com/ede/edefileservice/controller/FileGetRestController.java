@@ -58,7 +58,6 @@ public class FileGetRestController {
 		String url = "http://localhost:8080/ede-product/view/getProductOptionImage/only/" + idProductOption;
 		ResponseEntity<JsonNode> respone = restTemplate.getForEntity(url, JsonNode.class);
 		String fileName = respone.getBody().get("image").asText();
-		System.err.println(fileName);
 		return this.getFile(fileName, FTP.BINARY_FILE_TYPE);
 
 	}

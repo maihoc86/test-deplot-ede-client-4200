@@ -9,6 +9,7 @@ import { ManageProductService } from '../Services/manage-product/manage-product.
 export class ManagerProductComponent implements OnInit {
   constructor(private service: ManageProductService) {}
   public items: any = [];
+  public p: any;
   ngOnInit(): void {
     this.loadAllData();
   }

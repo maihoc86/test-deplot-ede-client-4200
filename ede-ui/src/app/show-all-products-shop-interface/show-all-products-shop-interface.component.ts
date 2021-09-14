@@ -28,8 +28,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public page: any = [];
   public p: number = 1;
   public count: any;
-  hiddenLocation: boolean = true;
-  hiddenShowLocationMore: boolean = true;
+  public hiddenLocation: boolean = true;
+  public hiddenShowLocationMore: boolean = true;
   ngOnInit(): void {
     this.getCities();
     this.getBrands();
@@ -43,6 +43,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.location = params['location'] ? params['location'].split(',') : [];
       this.brand = params['brand'] ? params['brand'].split(',') : [];
       this.page = params['page'];
+      // ! FIX ME
       if (this.page != undefined) {
         this.page = this.page - 1;
         if (this.category != "" && this.location == "" && this.brand == "") {
@@ -144,7 +145,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.routeParams();
   }
   clickFilterLocation(event: any, location: any) {
-    console.log(location);
     if (event.currentTarget.checked) {
       this.location.push(location);
     } else {
@@ -152,7 +152,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       if (this.location.length == 0) {
         this.location = [];
       }
-      console.log(this.location);
     }
     this.routeParams();
   }
