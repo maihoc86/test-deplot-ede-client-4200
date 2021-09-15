@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ede.edeproductservice.entity.Product_option;
+import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_option_service;
 
@@ -26,16 +26,16 @@ import com.ede.edeproductservice.service.Product_option_service;
 @SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/ede-product")
-public class ReadProductRestControllerAdmin {
+public class ReadProductByAdminRestControllerAdmin {
 	@Autowired
 	ProductService service;
 	@Autowired
 	Product_option_service product_option_service;
 
-	@GetMapping("/admin/getAll")
+	@GetMapping("/product/getAll")
 	public ResponseEntity getList(@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
-		Page<Product_option> pages = product_option_service.listAll(PageRequest.of(page, size));
-		return ResponseEntity.ok(pages);
+		Page<ProductSearch> pageF = service.listAllProductSearch(PageRequest.of(page, size));
+		return ResponseEntity.ok(pageF);
 	}
 }

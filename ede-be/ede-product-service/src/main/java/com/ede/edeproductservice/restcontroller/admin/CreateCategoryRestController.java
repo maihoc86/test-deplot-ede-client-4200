@@ -24,7 +24,7 @@ import com.ede.edeproductservice.service.Product_parent_category_service;
  *
  */
 @RestController
-@RequestMapping("/ede-product")
+@RequestMapping("/ede-product/admin/")
 @SuppressWarnings("rawtypes")
 public class CreateCategoryRestController {
 

@@ -126,14 +126,14 @@ public class ProductImpl implements ProductService {
 	 * 
 	 */
 	@Override
-	public Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> valueBrand, String id,
-			Pageable of) {
+	public Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> valueBrand,
+			String id, Pageable of) {
 		return dao.filterProductShopByCustomerCategoryAndBrand(category, valueBrand, id, of);
 	}
 
 	@Override
-	public Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names, List<String> brand, String id,
-			Pageable of) {
+	public Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names, List<String> brand,
+			String id, Pageable of) {
 		return dao.filterProductShopByCustomerLocationAndBrand(names, brand, id, of);
 	}
 
@@ -145,6 +145,29 @@ public class ProductImpl implements ProductService {
 	@Override
 	public List<Product> listAll() {
 		return dao.findAll();
+	}
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Page<ProductSearch> listAllProductSearch(Pageable page) {
+		return dao.listAllProductSearch(page);
+	}
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Override
+	public Product deleteById(String id) {
+		Product pr = dao.findById(id).get();
+		pr.setDeleted(true);
+		dao.save(pr);
+		return pr;
 	}
 
 }

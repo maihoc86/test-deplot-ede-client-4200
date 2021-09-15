@@ -49,6 +49,20 @@ public interface ProductService {
 	 * 
 	 */
 	List<Product> listAll();
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	Page<ProductSearch> listAllProductSearch(Pageable page);
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	Product deleteById(String id);
 	
 
 

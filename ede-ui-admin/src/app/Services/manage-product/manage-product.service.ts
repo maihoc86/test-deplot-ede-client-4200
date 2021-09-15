@@ -16,10 +16,16 @@ export class ManageProductService {
       Authorization: this.cookieService.get('auth'),
     }),
   };
-  private REST_API_SERVER = 'http://localhost:8080/ede-product/admin';
-  public getAll() {
+  private REST_API_SERVER = 'http://localhost:8080/ede-product';
+  public getAll(page: any, size: any) {
     return this.httpClient.get<any>(
-      this.REST_API_SERVER + '/getAll',
+      this.REST_API_SERVER + '/product/getAll?page=' + page + '&size=' + size,
+      this.httpOptions
+    );
+  }
+  public deleteById(id: string) {
+    return this.httpClient.delete<any>(
+      this.REST_API_SERVER + '/product/delete/' + id,
       this.httpOptions
     );
   }

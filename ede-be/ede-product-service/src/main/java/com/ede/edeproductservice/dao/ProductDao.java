@@ -39,16 +39,16 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	Page<ProductSearch> filterProductShopByCustomerBrand(List<String> brand, String id, Pageable of);
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.name =:category and p.shop.id=:id")
-	Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> location, String category, String id,
-			Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> location, String category,
+			String id, Pageable of);
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.name =:category and p.brand.name IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> brand, String id,
 			Pageable of);
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.brand.name IN (:brand) and p.shop.id=:id")
-	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> location, List<String> brand, String id,
-			Pageable of);
+	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> location, List<String> brand,
+			String id, Pageable of);
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.name =:category and p.brand.name IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> location, String category,
@@ -65,5 +65,21 @@ public interface ProductDao extends JpaRepository<Product, String> {
 
 	@Query("SELECT o from Product o where o.shop.id =:id")
 	List<Product> findByShop(String id);
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Query("SELECT p FROM ProductSearch p WHERE p.deleted = false")
+	Page<ProductSearch> listAllProductSearch(Pageable page);
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	@Query("UPDATE Product p SET p.deleted = true where id=:id")
+	Product updateStatus(String id);
 
 }

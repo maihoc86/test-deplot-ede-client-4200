@@ -20,7 +20,7 @@ export class ManageCategotyService {
   };
 
 
-  private REST_API_SERVER = 'http://localhost:8080/ede-product/admin';
+  private REST_API_SERVER = 'http://localhost:8080/ede-product';
   private REST_API_IMAGE_SERVER = 'http://localhost:8080/ede-file';
 
   constructor(private httpClient: HttpClient) { }
