@@ -16,7 +16,7 @@ public class DeleteCustomerRestController {
 	@Autowired
 	CustomerService service;
 	
-	@DeleteMapping("/delete/users/{username}")
+	@DeleteMapping("/admin/delete/users/{username}")
 	public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
 		System.err.println("Detele username :" + username);
 		try {

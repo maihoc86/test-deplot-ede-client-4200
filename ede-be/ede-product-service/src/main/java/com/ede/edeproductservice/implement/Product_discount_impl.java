@@ -32,7 +32,7 @@ public class Product_discount_impl implements Product_discount_service {
 	 * 
 	 */
 	@Override
-	public List<Product_discount> findByIdProduct(String id) {
+	public Product_discount findByIdProduct(String id) {
 		return dao.findAllByShop(id);
 	}
 

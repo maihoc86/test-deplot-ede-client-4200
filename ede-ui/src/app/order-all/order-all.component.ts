@@ -37,7 +37,6 @@ export class OrderAllComponent implements OnInit {
   ngOnInit(): void {
     this.loadOrderAll(this.keywordAll, this.status, this.pAll, this.size);
   }
-
   public loadOrderAll(
     keyword: string,
     status: string,

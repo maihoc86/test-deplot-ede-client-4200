@@ -15,7 +15,7 @@ public interface Product_discount_service {
 	 * @param id
 	 * @return
 	 */
-	List<Product_discount> findByIdProduct(String id);
+	Product_discount findByIdProduct(String id);
 
 	
 

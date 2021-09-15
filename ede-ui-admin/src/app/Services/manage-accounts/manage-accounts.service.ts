@@ -16,7 +16,7 @@ export class ManageAccountsService {
     }),
   };
 
-  private REST_API_SERVER = 'http://localhost:8080/ede-customer/admin';
+  private REST_API_SERVER = 'http://localhost:8080/ede-customer';
   constructor(private httpClient: HttpClient) { }
   public addNewUser(data: User) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/admin/add-new-user', data, this.httpOptions);
@@ -44,7 +44,7 @@ export class ManageAccountsService {
 
 
   public deleteUser(username:string) {
-    return this.httpClient.delete<any>(this.REST_API_SERVER + '/delete/users/'+username, this.httpOptions);
+    return this.httpClient.delete<any>(this.REST_API_SERVER + '/admin/delete/users/'+username, this.httpOptions);
   }
 
   public updateUser(user: User) {

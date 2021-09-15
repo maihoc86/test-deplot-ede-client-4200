@@ -10,7 +10,6 @@ import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Shop;
-import com.ede.edeproductservice.entity.extend.ProductSearch;
 
 public interface Product_option_service {
 
@@ -56,6 +55,13 @@ public interface Product_option_service {
 
 	Page<Product_option> listAll(String id_shop, Pageable of);
 		//	Page<Product_option> listAll(PageRequest of);
+
+	/**
+	 * @author thái học
+	 *
+	 * 
+	 */
+	Page<Product_option> listAll(Pageable of);
 
 
 
