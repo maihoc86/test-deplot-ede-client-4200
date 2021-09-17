@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router:Router
     ) {
-
     this.u={} as User;
     this.headerService.myMethod$.subscribe(data=>{
       this.cart=data;

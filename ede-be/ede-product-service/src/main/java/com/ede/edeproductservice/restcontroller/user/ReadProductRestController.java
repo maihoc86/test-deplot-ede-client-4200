@@ -11,7 +11,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +45,9 @@ import com.ede.edeproductservice.service.ShopService;
 @RequestMapping("/ede-product")
 public class ReadProductRestController {
 
+	/**
+	 * this is ProdutService
+	 */
 	@Autowired
 	ProductService service;
 
@@ -188,9 +190,8 @@ public class ReadProductRestController {
 	 * @param keysearch từ khóa tìm kiếm
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
-	@CrossOrigin(allowedHeaders = "*")
 	@GetMapping("/view/get-products")
-	public ResponseEntity<?> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
+	public ResponseEntity<Page<ProductSearch>> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
@@ -198,6 +199,20 @@ public class ReadProductRestController {
 			npage = 0;
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
+	}
+	
+	/**
+	 * Lấy 1 sản phẩm (trả về entity Product Search)
+	 * <strong>Phục vụ quá trình xem chi tiết sản phẩm</strong>
+	 * 
+	 * @author Vinh
+	 * @param id Id của sản phẩm
+	 * @return Một sản phẩm search
+	 */
+	@GetMapping("/view/get-product-search/{id}")
+	public ResponseEntity<ProductSearch> getProducts(@PathVariable("id") String id){
+		ProductSearch productSearch = this.service.findByProductSearchId(id);
+		return ResponseEntity.ok(productSearch);
 	}
 
 	@GetMapping("/view/listBrand")

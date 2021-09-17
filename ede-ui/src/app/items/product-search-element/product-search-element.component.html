@@ -1,7 +1,7 @@
 <div class="product-item-container" style="border: 1px solid #ccf; box-shadow: 0 0 .25em #ccc;">
     <div class="left-block">
         <div class="product-image-container second_img">
-            <a href="javascript:alert('Chờ phiên bản sau: product-search-element.component.html: mã search: vivi01')" target="_self" title="{{product.name}}">
+            <a [routerLink]="['/product/detail', product.idProduct]" target="_self" title="{{product.name}}">
                 <img [src]="'http://localhost:8080/ede-file/get/image/'+product.optionDef.optionImageDef.image" class="img-1 img-responsive" alt="{{product.name}}" style="height: 12em; object-fit: contain; background-color: #fff;">
                 <img [src]="'http://localhost:8080/ede-file/get/image/'+product.optionDef.optionImageDef.image" class="img-2 img-responsive" alt="{{product.name}}" style="height: 12em; object-fit: cover; background-color: #f2f2f2;">
             </a>
@@ -16,7 +16,9 @@
             <button type="button" class="compare btn-button" title="Compare this Product "  onclick="alert('Chờ phiên bản sau: mã search: product-search-element.component.html: tn03')"><i class="fa fa-refresh"></i><span>Compare this Product</span>
             </button>
             <!--quickview-->                                                      
-            <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="javascript:alert('Chờ phiên bản sau: mã search: product-search-element.component.html: vivi02')" title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick view</span></a>                                                        
+            <a class="iframe-link btn-button quickview quickview_handler visible-lg" [routerLink]="['/product/detail', product.idProduct]" title="Quick view" data-fancybox-type="iframe">
+                <i class="fa fa-eye"></i><span>Quick view</span>
+            </a>                                                        
             <!--end quickview-->
         </div>
     </div>
@@ -27,9 +29,11 @@
                 <br/>
                 <span class="price-new">{{product.optionDef.price | number: '0.0-0'}}₫</span>
             </div>
-            <h4 style="height: 2.5em;"><a  style="height: 100%; display: block;" href="javascript:alert('Chờ phiên bản sau: mã search: product-search-element.component.html: vivi03')" title="{{product.name}}" target="_self">
+            <h4 style="height: 2.5em;">
+                <a  style="height: 100%; display: block;" title="{{product.name}}" target="_self" [routerLink]="['/product/detail', product.idProduct]">
                 {{product.name}}
-            </a></h4>
+                </a>
+            </h4>
             
         </div>
     </div>
