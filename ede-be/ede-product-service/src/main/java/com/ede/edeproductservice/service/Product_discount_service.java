@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.ede.edeproductservice.entity.Product_discount;
@@ -15,7 +16,7 @@ public interface Product_discount_service {
 	 * @param id
 	 * @return
 	 */
-	List<Product_discount> findByIdProduct(String id);
+	List<Product_discount> findByIdProduct(String id,Date date);
 
 	
 

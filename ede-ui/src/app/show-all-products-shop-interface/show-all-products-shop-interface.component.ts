@@ -83,6 +83,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.listAllProducts = data.content.map(function (obj: { idProduct: any; name: any; }) {
           return obj;
         });
+        console.log(this.listAllProducts)
         this.page = data;
         this.count = this.page.totalElements;
       }, error => {
@@ -101,7 +102,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public getAllDiscountProduct() {
     this.ProductService.getAllProductDiscountShopByCustomer().subscribe(
       (data) => {
-        this.listAllProductsDiscount = data
+        this.listAllProductsDiscount = data;
+        console.log(this.listAllProductsDiscount);
       }, error => {
         console.log(error);
       })
