@@ -187,7 +187,11 @@ export class ManagerCategoryComponent implements OnInit {
             },
             (err) => {
               console.log(err);
-              this.erros(err);
+              Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: err.error.message,
+              });
             }
           );
       }
@@ -228,7 +232,11 @@ export class ManagerCategoryComponent implements OnInit {
                   });
                 },
                 (err) => {
-                  this.erros(err);
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: err.error.message,
+                  });
                 }
               );
           });
@@ -265,7 +273,11 @@ export class ManagerCategoryComponent implements OnInit {
                 });
               },
               (err) => {
-                this.erros(err);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Lỗi',
+                  text: err.error.message,
+                });
               }
             );
         });
@@ -360,7 +372,11 @@ export class ManagerCategoryComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        this.erros(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error,
+        });
       }
     );
   }
@@ -379,7 +395,11 @@ export class ManagerCategoryComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        this.erros(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error,
+        });
       }
     );
   }
@@ -398,7 +418,11 @@ export class ManagerCategoryComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        this.erros(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error,
+        });
       }
     );
   }
@@ -542,8 +566,13 @@ export class ManagerCategoryComponent implements OnInit {
           this.reset(this.parent);
         })
       },
-      err => {
-        this.erros(err);
+      error => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
       }
     );
   }
@@ -565,8 +594,13 @@ export class ManagerCategoryComponent implements OnInit {
           this.reset(this.parent_child_category);
         })
       },
-      err => {
-        this.erros(err);
+      error => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
       }
     )
   }
@@ -588,8 +622,13 @@ export class ManagerCategoryComponent implements OnInit {
           this.reset(this.child_category);
         })
       },
-      err => {
-        this.erros(err);
+      error => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
       }
     );
   }
@@ -607,29 +646,4 @@ export class ManagerCategoryComponent implements OnInit {
     return obj as T;
   }
   //>>>>>>>>>>>>>>>>>>>>>>>>  update end in here: vinh
-  erros(err:any){
-    if(err.status==401){
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi xác thực đăng nhập',
-        text: err.error.message,
-      }).then(()=>{
-        document.location.href='http://localhost:4200/login'
-      });
-     }else if(err.status==403){
-      Swal.fire({
-        icon: 'error',
-        title: 'Không có quyền admin',
-        text: err.error.message,
-      }).then(()=>{
-        document.location.href='http://localhost:4200'
-      });
-     }else{
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: err.error.message,
-      });
-     }
-  }
 }

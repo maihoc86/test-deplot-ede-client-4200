@@ -31,17 +31,17 @@ public class DeleteCategoryRestController {
 	@Autowired
 	Product_child_category_service product_child_category_service;
 
-	@DeleteMapping("/admin/delete/parent_category/{id}")
+	@DeleteMapping("/delete/parent_category/{id}")
 	public Product_parent_category deleteParent_category(@PathVariable("id") String id) {
 		return product_parent_categoryService.deleteParent(id);
 	}
 	
-	@DeleteMapping("/admin/delete/parent_child_category/{id}")
+	@DeleteMapping("/delete/parent_child_category/{id}")
 	public Product_parent_child_category deleteparent_child_category(@PathVariable("id") String id) {
 		return product_child_parent_category_service.deleteParent_Child(id);
 	}
 	
-	@DeleteMapping("/admin/delete/child_category/{id}")
+	@DeleteMapping("/delete/child_category/{id}")
 	public Product_child_category deletechild_category(@PathVariable("id") String id) {
 		return product_child_category_service.deleteChild(id);
 	}

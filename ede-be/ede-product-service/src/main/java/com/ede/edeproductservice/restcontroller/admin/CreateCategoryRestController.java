@@ -38,7 +38,7 @@ public class CreateCategoryRestController {
 	Product_child_category_service product_child_category_service;
 
 	/*thêm parent_category */
-	@PostMapping("/admin/create/parent_category")
+	@PostMapping("/create/parent_category")
 	public ResponseEntity create_parent_category(@RequestBody Product_parent_category parent_category) {
 		UUID uuid = UUID.randomUUID();
 		System.out.println(uuid.toString());

@@ -38,7 +38,7 @@ public class UpdateCategoryRestController {
 	 * Update parent_category 
 	 * @author vinh
 	 */
-	@PutMapping("/admin/update/parent-category")
+	@PutMapping("update/parent-category")
 	ResponseEntity<Product_parent_category> updateParentCategory(@RequestBody Product_parent_category parentCategory){
 		if (!this.product_parent_categoryService.existsById(parentCategory.getId())) {
 			parentCategory = this.product_parent_categoryService.save(parentCategory);
@@ -52,7 +52,7 @@ public class UpdateCategoryRestController {
 	 * Update parent child category
 	 * @author vinh
 	 */
-	@PutMapping("/admin/update/parent-child-category")
+	@PutMapping("update/parent-child-category")
 	ResponseEntity<Product_parent_child_category> updateParentChildCategory(@RequestBody Product_parent_child_category parentChildCategory){
 		if (!this.product_child_parent_category_service.existsById(parentChildCategory.getId())) {
 			parentChildCategory = this.product_child_parent_category_service.save(parentChildCategory);
@@ -66,7 +66,7 @@ public class UpdateCategoryRestController {
 	 * Update child category 
 	 * @author vinh
 	 */
-	@PutMapping("/admin/update/child-category")
+	@PutMapping("update/child-category")
 	ResponseEntity<Product_child_category> updateChildCategory(@RequestBody Product_child_category childCategory){
 		if (!this.product_child_category_service.existsById(childCategory.getId())) {
 			childCategory = this.product_child_category_service.save(childCategory);

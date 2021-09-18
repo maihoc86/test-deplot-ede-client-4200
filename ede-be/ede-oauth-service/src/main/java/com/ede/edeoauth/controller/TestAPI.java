@@ -36,11 +36,9 @@ public class TestAPI {
 		return "Moderator Board.";
 	}
 
-	@GetMapping("/admin/")
+	@GetMapping("/admin")
 	@PreAuthorize("hasRole('ADMIN')")
-	public  ResponseEntity<?> adminAccess(HttpServletRequest req) {
-		String token = req.getHeader("Authorization");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return ResponseEntity.ok(new JwtResponse(token, req.getRemoteUser(), "Bearer ",200 , auth.getAuthorities()));
+	public String adminAccess() {
+		return "Admin Board.";
 	}
 }
