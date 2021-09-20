@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  Event,
+} from '@angular/router';
 import { OrderShopService } from '../Services/order-shop/order-shop.service';
 import Swal from 'sweetalert2';
 @Component({
@@ -28,12 +35,49 @@ export class OrderAllComponent implements OnInit {
   public keywordTrue: string = '';
   public keywordFalse: string = '';
   public keywordDetail: string = '';
-
+  public activeTab = 'all';
   constructor(
     private orderShopService: OrderShopService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        // Show loading indicator
+      }
+      if (event instanceof NavigationEnd) {
+        this.route.queryParams.subscribe((params) => {
+          let getSize = params['size'];
+          let getPage = params['page'];
+          let getKeyword = params['keyword'];
+          let getStatus = params['status'];
+          if (getKeyword !== undefined) {
+            this.keywordAll = getKeyword;
+          }
+          if (getPage !== undefined) {
+            this.pAll = getPage;
+          }
+          if (getSize !== undefined) {
+            this.size = getSize;
+          }
+          if (getStatus !== undefined && getStatus !== '') {
+            this.status = getStatus;
+            this.activeTab = getStatus;
+          } else {
+            this.status = '';
+            this.activeTab = 'all';
+          }
+        });
+      }
+
+      if (event instanceof NavigationError) {
+        // Hide loading indicator
+
+        // Present error to user
+        console.log(event.error);
+      }
+    });
+  }
   ngOnInit(): void {
     this.loadOrderAll(this.keywordAll, this.status, this.pAll, this.size);
   }
