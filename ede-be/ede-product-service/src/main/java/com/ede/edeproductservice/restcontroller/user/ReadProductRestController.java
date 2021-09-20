@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.restcontroller.user;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -360,7 +361,6 @@ public class ReadProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 		System.err.println(shop.getId());
-		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
 		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(shop.getId(),
 				PageRequest.of(page.orElse(0), 10));
 		return ResponseEntity.ok(pageF);
@@ -370,15 +370,25 @@ public class ReadProductRestController {
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product/discount")
 	public ResponseEntity getAllListProductDiscountByCustomer() {
-
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
-		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId());
+
+		long millis = System.currentTimeMillis();
+		Date date = new java.sql.Date(millis);
+		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
 		return ResponseEntity.ok(pageF);
 	}
+
+	@GetMapping("/view/shoplogin/category")
+	public ResponseEntity<List<Product_child_category>> getallCategoryByShop() {
+		List<Product_child_category> list = child_category_service
+				.findAllByShop(auservice.getShopLogin(req.getHeader("Authorization")).getId());
+
+		return ResponseEntity.ok(list);
+	}
+
 }

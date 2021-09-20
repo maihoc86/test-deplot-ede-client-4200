@@ -36,7 +36,7 @@ public interface Order_service {
 	 *
 	 * 
 	 */
-	Page<Order> findAllOrderByShop(String id, Pageable page);
+	Page<Order> findAllOrderByShop(String keyword, String id, Pageable page);
 
 	/**
 	 * @author thái học
@@ -44,6 +44,6 @@ public interface Order_service {
 	 *
 	 * 
 	 */
-	Page<Order> findAllOrderShopByStatus(String string, String status, Pageable page);
+	Page<Order> findAllOrderShopByStatus(String keyword, String string, String status, Pageable page);
 
 }

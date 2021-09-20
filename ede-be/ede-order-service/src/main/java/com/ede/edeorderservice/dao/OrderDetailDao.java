@@ -28,7 +28,7 @@ public interface OrderDetailDao extends JpaRepository<Orderdetail, String>{
 	 *
 	 * 
 	 */
-	@Query("SELECT o FROM Orderdetail o where o.order.id=:idOrder")
-	Page<Orderdetail> listAll(String idOrder, Pageable page);
+	@Query("SELECT o FROM Orderdetail o where o.order.id= ?1 and ( o.productOption.product.name like %?2% or o.productOption.display_name like %?2%)")
+	Page<Orderdetail> listAll(String idOrder,String keyword, Pageable page);
 
 }

@@ -59,7 +59,7 @@ public class ReadOrderRestController {
 	}
 
 	@GetMapping("/view/order/shop/getAll")
-	public ResponseEntity getAllOrder(@RequestParam("status") Optional<String> status,
+	public ResponseEntity getAllOrder(@RequestParam(name = "keyword") String keyword, @RequestParam("status") Optional<String> status,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Page<Order> pageLoad;
@@ -71,9 +71,9 @@ public class ReadOrderRestController {
 			return ResponseEntity.notFound().build();
 		}
 		if (status.isPresent() && !status.get().isEmpty()) {
-			pageLoad = order_service.findAllOrderShopByStatus(shop.getId(), status.get(), PageRequest.of(page, size));
+			pageLoad = order_service.findAllOrderShopByStatus(keyword,shop.getId(), status.get(), PageRequest.of(page, size));
 		} else {
-			pageLoad = order_service.findAllOrderByShop(shop.getId(), PageRequest.of(page, size));
+			pageLoad = order_service.findAllOrderByShop(keyword, shop.getId(), PageRequest.of(page, size));
 		}
 		pageLoad.stream().forEach(e -> {
 			System.out.println(e);
@@ -83,9 +83,10 @@ public class ReadOrderRestController {
 
 	@GetMapping("/view/orderDetail/shop/getAll/{id}")
 	public ResponseEntity getAll(@PathVariable("id") String idOrder,
+			@RequestParam(name = "keyword") String keyword,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
-		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder, PageRequest.of(page, size));
+		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder,keyword, PageRequest.of(page, size));
 		return ResponseEntity.ok(pageLoad);
 	}
 }

@@ -13,7 +13,9 @@ import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductDetailComponent } from './product-detail/product-detail.
+import { CategoryShopComponent } from './category-shop/category-shop.
+
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -31,6 +33,7 @@ const routes: Routes = [
   { path: 'search', component: ProductSearchComponent },
   { path: 'shop/revenue', component:RevenueShopComponent},
   { path: 'product/detail/:idProduct', component: ProductDetailComponent},
+  { path: 'shop/category',component:CategoryShopComponent}
 ];
 
 @NgModule({

@@ -140,5 +140,7 @@ export class AddProductService {
   // public getAllProductShowInterfaceFilterByLocation(location: any, page: any) {
   //   return this.httpClient.get<any>(this.REST_API_SERVER + '/view/customer/shop/all/product/filterLocation?page=' + page + '&location=' + location, this.httpOptions);
   // }
-
+  public getAllCategoryShop() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/shoplogin/category' , this.httpOptions);
+  }
 }
