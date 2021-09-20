@@ -51,10 +51,10 @@ public class Auth_impl implements Auth_Service {
 		HttpEntity<Object> entity = new HttpEntity<Object>(null, header);
 		RestTemplate restTemplate = new RestTemplate();
 		String url ="";
-		if(requestURL.toString().contains("admin")) {
+		if(requestURL.toString().contains("/admin")) {
 		 url = "http://localhost:8080/ede-oauth-service/api/test/admin/";
 		 ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
-		}else if(requestURL.toString().contains("user")) {
+		}else if(requestURL.toString().contains("/user")) {
 		 url = "http://localhost:8080/ede-oauth-service/api/test/user/";
 		 ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
 		}
