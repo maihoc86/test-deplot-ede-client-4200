@@ -81,5 +81,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	 */
 	@Query("UPDATE Product p SET p.deleted = true where id=:id")
 	Product updateStatus(String id);
+	@Query("SELECT ps from ProductSearch ps where ps.id = :id")
+	ProductSearch findByProductSearchId(@Param("id") String id);
 
 }

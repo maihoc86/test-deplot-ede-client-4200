@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.restcontroller.user;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +46,9 @@ import com.ede.edeproductservice.service.ShopService;
 @RequestMapping("/ede-product")
 public class ReadProductRestController {
 
+	/**
+	 * this is ProdutService
+	 */
 	@Autowired
 	ProductService service;
 
@@ -187,9 +190,8 @@ public class ReadProductRestController {
 	 * @param keysearch từ khóa tìm kiếm
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
-	@CrossOrigin(allowedHeaders = "*")
 	@GetMapping("/view/get-products")
-	public ResponseEntity<?> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
+	public ResponseEntity<Page<ProductSearch>> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
@@ -197,6 +199,20 @@ public class ReadProductRestController {
 			npage = 0;
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
+	}
+	
+	/**
+	 * Lấy 1 sản phẩm (trả về entity Product Search)
+	 * <strong>Phục vụ quá trình xem chi tiết sản phẩm</strong>
+	 * 
+	 * @author Vinh
+	 * @param id Id của sản phẩm
+	 * @return Một sản phẩm search
+	 */
+	@GetMapping("/view/get-product-search/{id}")
+	public ResponseEntity<ProductSearch> getProducts(@PathVariable("id") String id){
+		ProductSearch productSearch = this.service.findByProductSearchId(id);
+		return ResponseEntity.ok(productSearch);
 	}
 
 	@GetMapping("/view/listBrand")
@@ -344,7 +360,6 @@ public class ReadProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 		System.err.println(shop.getId());
-		// TODO: Sửa 1 page 20 item, mỗi item product bắt buộc phải có option
 		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(shop.getId(),
 				PageRequest.of(page.orElse(0), 10));
 		return ResponseEntity.ok(pageF);
@@ -352,16 +367,27 @@ public class ReadProductRestController {
 
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
 	@SuppressWarnings("rawtypes")
-	@GetMapping("/view/customer/shop/product/discount/{id}")
-	public ResponseEntity getProductDiscountByCustomer(@PathVariable("id") String id) {
-		Product_discount findByIdProduct = product_discount_service.findByIdProduct(id);
-		return ResponseEntity.ok(findByIdProduct);
+	@GetMapping("/view/customer/shop/all/product/discount")
+	public ResponseEntity getAllListProductDiscountByCustomer() {
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+
+		long millis = System.currentTimeMillis();
+		Date date = new java.sql.Date(millis);
+		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
+		return ResponseEntity.ok(pageF);
 	}
 
 	@GetMapping("/view/shoplogin/category")
 	public ResponseEntity<List<Product_child_category>> getallCategoryByShop() {
 		List<Product_child_category> list = child_category_service
 				.findAllByShop(auservice.getShopLogin(req.getHeader("Authorization")).getId());
+
 		return ResponseEntity.ok(list);
 	}
+
 }

@@ -24,7 +24,7 @@ import com.ede.edefileservice.service.FTPClientManager;
 public class FileUpdateRestController {
 
 	@Autowired
-	FTPClientManager myFtp;
+	private FTPClientManager myFtp;
 	
 	@PutMapping("update/binary/{filename}")
 	ResponseEntity<String> putFile(@PathVariable("filename") String filename, @RequestPart("file") MultipartFile partFile) throws IOException{

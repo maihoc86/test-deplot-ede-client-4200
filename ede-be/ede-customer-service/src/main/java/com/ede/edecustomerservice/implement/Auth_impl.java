@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ede.edecustomerservice.dao.ShopDao;
@@ -41,5 +42,24 @@ public class Auth_impl implements Auth_Service {
 		return shopdao.findByUser(getUserLogin(header));
 	}
 	
-
+	@Override
+	public void Security(String token, StringBuffer requestURL) throws HttpClientErrorException {
+		System.err.println("security");
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json");
+		header.add("Authorization", "Bearer " + token);
+		HttpEntity<Object> entity = new HttpEntity<Object>(null, header);
+		RestTemplate restTemplate = new RestTemplate();
+		String url ="";
+		if(requestURL.toString().contains("admin")) {
+		 url = "http://localhost:8080/ede-oauth-service/api/test/admin/";
+		 ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+		}else if(requestURL.toString().contains("user")) {
+		 url = "http://localhost:8080/ede-oauth-service/api/test/user/";
+		 ResponseEntity<JsonNode> respone = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+		}
+		System.err.println(requestURL+"url");
+		
+		
+	}
 }
