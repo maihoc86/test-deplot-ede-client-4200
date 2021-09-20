@@ -30,6 +30,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     	  
         System.err.println(request.getHeader("Authorization"));
         String token = request.getHeader("Authorization");
+        System.out.println(token);
 
         try {
 
