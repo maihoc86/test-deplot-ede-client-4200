@@ -12,7 +12,7 @@ import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.CustomerService;
 
 @RestController
-@RequestMapping("/ede-customer/admin")
+@RequestMapping("/ede-customer")
 public class ReadCustomerRestController {
 
 	
