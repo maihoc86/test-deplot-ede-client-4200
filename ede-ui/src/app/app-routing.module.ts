@@ -13,8 +13,9 @@ import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
-import { ProductDetailComponent } from './product-detail/product-detail.
-import { CategoryShopComponent } from './category-shop/category-shop.
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CategoryShopComponent } from './category-shop/category-shop.component';
+
 
 
 const routes: Routes = [
