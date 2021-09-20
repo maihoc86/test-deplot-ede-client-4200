@@ -16,7 +16,6 @@ import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CategoryShopComponent } from './category-shop/category-shop.component';
 
-
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent },
