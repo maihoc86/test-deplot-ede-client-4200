@@ -12,9 +12,9 @@ import { ShopInterfaceComponent } from './shop-interface/shop-interface.componen
 import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
 import { ShopProfileComponent } from './shop-profile/shop-profile.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
-import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
-import { ProductDetailComponent } from './product-detail/product-detail.
-import { CategoryShopComponent } from './category-shop/category-shop.
+import { RevenueShopComponent } from './revenue-shop/revenue-shop.component'
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CategoryShopComponent } from './category-shop/category-shop.component';
 
 
 const routes: Routes = [
