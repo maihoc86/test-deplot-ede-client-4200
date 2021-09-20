@@ -17,6 +17,9 @@ import com.ede.edeproductservice.service.ProductService;
 @Service
 public class ProductImpl implements ProductService {
 
+	/**
+	 * This is ProductDao
+	 */
 	@Autowired
 	ProductDao dao;
 
@@ -168,6 +171,9 @@ public class ProductImpl implements ProductService {
 		pr.setDeleted(true);
 		dao.save(pr);
 		return pr;
+	@Override
+	public ProductSearch findByProductSearchId(String id) {
+		return dao.findByProductSearchId(id);
 	}
 
 }

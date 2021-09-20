@@ -63,6 +63,7 @@ public interface ProductService {
 	 * 
 	 */
 	Product deleteById(String id);
+	ProductSearch findByProductSearchId(String id);
 	
 
 

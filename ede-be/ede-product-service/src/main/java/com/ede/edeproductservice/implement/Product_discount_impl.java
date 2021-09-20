@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.implement;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,14 @@ public class Product_discount_impl implements Product_discount_service {
 		return dao.findAll();
 	}
 
-	
 	/**
 	 * @author thái học
 	 *
 	 * 
 	 */
 	@Override
-	public Product_discount findByIdProduct(String id) {
-		return dao.findAllByShop(id);
+	public List<Product_discount> findByIdProduct(String id, Date date) {
+		return dao.findAllByShop(id, date);
 	}
-
-
 
 }
