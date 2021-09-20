@@ -171,6 +171,7 @@ public class ProductImpl implements ProductService {
 		pr.setDeleted(true);
 		dao.save(pr);
 		return pr;
+	}
 	@Override
 	public ProductSearch findByProductSearchId(String id) {
 		return dao.findByProductSearchId(id);
