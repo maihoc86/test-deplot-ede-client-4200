@@ -17,6 +17,9 @@ import com.ede.edeproductservice.service.ProductService;
 @Service
 public class ProductImpl implements ProductService {
 
+	/**
+	 * This is ProductDao
+	 */
 	@Autowired
 	ProductDao dao;
 
@@ -135,6 +138,11 @@ public class ProductImpl implements ProductService {
 	public Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names, List<String> brand, String id,
 			Pageable of) {
 		return dao.filterProductShopByCustomerLocationAndBrand(names, brand, id, of);
+	}
+
+	@Override
+	public ProductSearch findByProductSearchId(String id) {
+		return dao.findByProductSearchId(id);
 	}
 
 }

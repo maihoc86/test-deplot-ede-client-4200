@@ -66,4 +66,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	@Query("SELECT o from Product o where o.shop.id =:id")
 	List<Product> findByShop(String id);
 
+	@Query("SELECT ps from ProductSearch ps where ps.id = :id")
+	ProductSearch findByProductSearchId(@Param("id") String id);
+
 }

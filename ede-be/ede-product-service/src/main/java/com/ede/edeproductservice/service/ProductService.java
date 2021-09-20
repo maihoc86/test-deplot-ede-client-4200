@@ -42,6 +42,8 @@ public interface ProductService {
 	Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category,List<String> valueBrand, String id, Pageable of);
 	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names,List<String> valueBrand, String id, Pageable of);
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> names,String category,List<String> brand, String id, Pageable of);
+
+	ProductSearch findByProductSearchId(String id);
 	
 
 

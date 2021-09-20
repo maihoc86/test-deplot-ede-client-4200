@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_discount;
+import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,26 +49,32 @@ public class ProductSearch {
 	Boolean deleted;
 	@Column(table = "product")
 	String location;
+	
 	// ------------------------
 	@ManyToOne
 	@JoinColumn(name = "id_shop", table = "product")
 	Shop shop;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_brand", table = "product")
 	Product_brand brand;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_category", table = "product")
 	Product_child_category childCategory;
 	// ------------------------
-	@JsonIgnore
+
+
 	@OneToMany(mappedBy = "product")
 	List<ProductOptionView> productOptions;
-	@JsonIgnore
+
+
 	@OneToMany(mappedBy = "productdiscount")
 	List<Product_discount> productDiscount;
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "producttag")
-//	List<Product_tag> producTags;
+
+
+	@OneToMany(mappedBy = "producttag")
+	List<Product_tag> producTags;
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	@Transient

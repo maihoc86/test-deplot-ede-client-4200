@@ -21,4 +21,8 @@ export class ProductSearchService {
     )
   }
 
+  public getProductSearchById(id: string) {
+    return this.httpClient.get<any>(`${this.URL_ORIGIN}/ede-product/view/get-product-search/${id}`)
+  }
+
 }
