@@ -12,7 +12,7 @@ import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.CustomerService;
 
 @RestController
-@RequestMapping("/ede-customer/admin")
+@RequestMapping("/ede-customer")
 public class ReadCustomerRestController {
 
 	
@@ -38,7 +38,6 @@ public class ReadCustomerRestController {
 	public List<User> search(@PathVariable("username") String username){
 		System.out.println("username: "+username);
 		if(username == "") {
-			System.out.println("ahihi lala ");
 			return this.getAccounts();
 			
 		}

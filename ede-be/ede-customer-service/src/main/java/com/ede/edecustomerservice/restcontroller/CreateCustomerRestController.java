@@ -292,6 +292,7 @@ public class CreateCustomerRestController {
 			ResponseEntity<User> user = restTemplate.exchange(url2, HttpMethod.GET, entity, User.class);
 			return user.getBody();
 		} catch (Exception e) {
+			System.out.print(e);
 			return null;
 		}
 	}
