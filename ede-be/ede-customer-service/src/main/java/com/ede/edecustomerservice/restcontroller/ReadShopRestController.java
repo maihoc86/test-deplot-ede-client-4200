@@ -14,7 +14,7 @@ import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.ShopService;
-
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/ede-customer/shop")
 public class ReadShopRestController {
@@ -27,7 +27,6 @@ public class ReadShopRestController {
 	CustomerService customerService;
 
 	
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/info/{id}/view")
 	public ResponseEntity getInfoShopbyIduser(@PathVariable("id")String id) {
 		Shop shop = new Shop();
@@ -38,14 +37,12 @@ public class ReadShopRestController {
 		}
 		return	ResponseEntity.ok(shop);
 	}
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/viewall")
 	public ResponseEntity<?> getAllShop() {
 		List<Shop> list = shopService.findAll();
 		return	ResponseEntity.ok(list);
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/viewallbyname")
 	public ResponseEntity<?> getAllShopbyName(@RequestParam("name")String name) {
 		List<Shop> list = shopService.findAllByName(name);
