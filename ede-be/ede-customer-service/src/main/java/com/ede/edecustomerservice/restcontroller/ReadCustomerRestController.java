@@ -50,7 +50,6 @@ public class ReadCustomerRestController {
 	@GetMapping("/findbyusername/{username}")
 	public User findbyusername(@PathVariable("username") String username) {
 		String u =	username.substring(1, username.length()-1);
-		System.err.println("in api :" +service.findByUsername(u)+" id la " +username);
 		return service.findByUsername(u);
 	}
 }
