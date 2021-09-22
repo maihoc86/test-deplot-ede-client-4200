@@ -46,9 +46,11 @@ public class UpdateShopRestController {
 			if (shopLogin.getImage() == null || shopLogin.getImage().equals("")) {
 				shopLogin.setImage(shop.getImage());
 			}
+		
 			if (shopLogin.getImage_sub() == null || shopLogin.getImage_sub().equals("")) {
 				shopLogin.setImage_sub(shop.getImage_sub());
 			}
+			System.err.println(shopLogin.getImage_sub());
 			return ResponseEntity.status(HttpStatus.OK).body(shopService.save(shop));
 		} else {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,

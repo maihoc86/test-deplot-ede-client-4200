@@ -13,6 +13,7 @@ import { User } from '../models/user.model';
 import { Shop } from '../models/shop.model';
 import { MyShopService } from '../Services/my-shop/my-shop.service';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
+import { ImagesService } from '../Services/images/images.service';
 
 @Component({
   selector: 'app-shop-profile',
@@ -28,45 +29,67 @@ export class ShopProfileComponent implements OnInit {
     private cookieService: CookieService,
     private router: Router,
     private shopService: MyShopService,
-    private apiAddressService: ApiAddressService
+    private apiAddressService: ApiAddressService,
+    private imageService: ImagesService
   ) {
     this.shop = {} as Shop;
   }
+
+  ngOnInit(): void {
+    this.getApiCity();
+    this.loadProfileShopByUserLogin();
+  }
+
   isHiddenAddress: boolean = true;
   isHiddenWards: boolean = true;
   isHiddenDistrict: boolean = true;
-  urlImageLoad = '/assets/img/ba.jpg';
-  ImageUrl = '';
+  urlImageLoad_Sub = '';
+  urlImageLoad = '';
+  imageArray_Sub!: File;
+  imageArray!: File;
+
   public listCitys: any = [];
   public listDistricts: any = [];
   public listWards: any = [];
+
+  onselectFile_Sub(e: any) {
+    if (e.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      this.imageArray_Sub = e.target.files[0];
+      reader.onload = (e: any) => {
+        this.urlImageLoad_Sub = e.target.result;
+      };
+    }
+  }
+
   onselectFile(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrl = e.target.files[0].name;
       reader.readAsDataURL(e.target.files[0]);
+      this.imageArray = e.target.files[0];
       reader.onload = (e: any) => {
         this.urlImageLoad = e.target.result;
       };
     }
   }
+
   showSelectionAddress() {
     this.formShop.controls['address'].setValue('');
     this.isHiddenAddress = !this.isHiddenAddress;
   }
+
   getDistricts() {
     this.isHiddenDistrict = false;
     this.getApiDistricts(this.formShop.controls['city'].value.id);
   }
+
   getWards() {
     this.isHiddenWards = false;
 
     this.getApiWards(this.formShop.controls['district'].value.id);
   }
-  getUrl_sub(image_sub: string) {
-    this.urlImageLoad = 'http://localhost:8080/ede-file/get/image/' + image_sub;
-    return 'url(' + this.urlImageLoad + ')';
-  }
+
   public formShop = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [
@@ -75,6 +98,8 @@ export class ShopProfileComponent implements OnInit {
         "^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){3,150}$"
       ),
     ]),
+
+    image_sub: new FormControl(''),
     image: new FormControl(''),
     city: new FormControl(''),
     district: new FormControl(''),
@@ -89,10 +114,7 @@ export class ShopProfileComponent implements OnInit {
     user: new FormControl(''),
     create_date: new FormControl(''),
   });
-  ngOnInit(): void {
-    this.getApiCity();
-    this.loadProfileShopByUserLogin();
-  }
+
   private createNewDataSop() {
     const newShop: any = {};
     for (const controlName in this.formShop.controls) {
@@ -102,10 +124,11 @@ export class ShopProfileComponent implements OnInit {
     }
     return newShop as Shop;
   }
-  updateInfoShop() {
+
+  async updateInfoShop() {
     this.headerService
       .getShopByToken(this.cookieService.get('auth'))
-      .subscribe((data) => {
+      .subscribe(async (data) => {
         this.shop = data;
         if (
           this.formShop.controls['wards'].value.name !== undefined &&
@@ -123,9 +146,7 @@ export class ShopProfileComponent implements OnInit {
           this.formShop.controls['address'].setValue(newAddress);
         }
         this.formShop.controls['user'].setValue(data.user);
-        if (this.ImageUrl !== '') {
-          this.formShop.controls['image'].setValue(this.ImageUrl);
-        }
+        await this.addImage();
         this.shopService
           .updateInfoShop(this.createNewDataSop())
           .subscribe((data) => {
@@ -190,5 +211,73 @@ export class ShopProfileComponent implements OnInit {
       });
       this.listWards = listWard;
     });
+  }
+
+  public async addImage() {
+    //!Important Optimize code
+    if (
+      (this.imageArray_Sub != undefined || this.imageArray_Sub != null) &&
+      (this.imageArray == undefined || this.imageArray == null)
+    ) {
+      const formData = new FormData();
+      formData.append('file', this.imageArray_Sub);
+      await this.imageService
+        .createImage_Sub_Shop(formData)
+        .toPromise()
+        .then((valueFile) => {
+          this.formShop.controls['image_sub'].setValue(
+            valueFile.text.toString()
+          );
+        }),
+        (error: any) => {
+          alert('Lỗi thêm Image FTP');
+        };
+    } else if (
+      (this.imageArray != undefined || this.imageArray != null) &&
+      (this.imageArray_Sub == undefined || this.imageArray_Sub == null)
+    ) {
+      const formData = new FormData();
+      formData.append('file', this.imageArray);
+      await this.imageService
+        .createImage_Sub_Shop(formData)
+        .toPromise()
+        .then((valueFile) => {
+          this.formShop.controls['image'].setValue(valueFile.text.toString());
+        }),
+        (error: any) => {
+          alert('Lỗi thêm Image FTP');
+        };
+    } else if (
+      (this.imageArray != undefined || this.imageArray != null) &&
+      (this.imageArray_Sub != undefined || this.imageArray_Sub != null)
+    ) {
+      const formData = new FormData();
+      formData.append('file', this.imageArray);
+
+      const formData_Sub = new FormData();
+      formData_Sub.append('file', this.imageArray_Sub);
+
+      await this.imageService
+        .createImage_Sub_Shop(formData)
+        .toPromise()
+        .then((valueFile) => {
+          this.formShop.controls['image'].setValue(valueFile.text.toString());
+        }),
+        (error: any) => {
+          alert('Lỗi thêm Image FTP');
+        };
+
+      await this.imageService
+        .createImage_Sub_Shop(formData_Sub)
+        .toPromise()
+        .then((valueFile) => {
+          this.formShop.controls['image_sub'].setValue(
+            valueFile.text.toString()
+          );
+        }),
+        (error: any) => {
+          alert('Lỗi thêm Image FTP');
+        };
+    }
   }
 }
