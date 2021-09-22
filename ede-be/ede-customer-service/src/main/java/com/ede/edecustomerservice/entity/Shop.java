@@ -25,6 +25,7 @@ public class Shop implements Serializable {
 	String id;
 	String name;
 	String image;
+	String image_sub;
 	Date create_date = new Date();
 	String address;
 	String description;

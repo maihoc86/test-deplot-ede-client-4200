@@ -22,6 +22,11 @@ export class ImagesService {
   public createMultiImageProductOption(files: any) {
     return this.httpClient.post<any>(this.API + '/create-multi/binary', files, this.httpOptionsFile);
   }
+
+  public createImage_Sub_Shop(file: any) {
+    return this.httpClient.post<any>(this.API + '/create/binary', file, this.httpOptionsFile);
+  }
+
   getData(name: string): Observable<string> {
     return this.httpClient.get(this.API + '/get/image/' + name, { responseType: 'blob' })
       .pipe(
