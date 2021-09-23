@@ -24,7 +24,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	 *
 	 * 
 	 */
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id_shop and p.childCategory.name=:valueCate")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id_shop and p.childCategory.id=:valueCate")
 	Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of);
 
 	/**
@@ -38,11 +38,11 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id and p.brand.name IN (:brand)")
 	Page<ProductSearch> filterProductShopByCustomerBrand(List<String> brand, String id, Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.name =:category and p.shop.id=:id")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.id =:category and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> location, String category,
 			String id, Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.name =:category and p.brand.name IN (:brand) and p.shop.id=:id")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.id =:category and p.brand.name IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> brand, String id,
 			Pageable of);
 
@@ -50,7 +50,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> location, List<String> brand,
 			String id, Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.name =:category and p.brand.name IN (:brand) and p.shop.id=:id")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.id =:category and p.brand.name IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> location, String category,
 			List<String> brand, String id, Pageable of);
 
