@@ -398,7 +398,7 @@
                     <div class="option quantity">
                       <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
                         <label>Qty</label>
-                        <input class="form-control" type="text" name="quantity" value="1">
+                        <input class="form-control" type="number" name="quantity" value="1">
                         <input type="hidden" name="product_id" value="50">
                         <span class="input-group-addon product_quantity_down">−</span>
                         <span class="input-group-addon product_quantity_up">+</span>
@@ -407,7 +407,7 @@
                     <div class="cart">
                       <input type="button" data-toggle="tooltip" title="" value="Add to Cart"
                         data-loading-text="Loading..." id="button-cart" class="btn btn-mega btn-lg"
-                        onclick="cart.add('42', '1');" data-original-title="Add to Cart">
+                        onclick="cart.add(this.id, '1');"  id="{{product.name}}" (click)="addToCart(product,1)" data-original-title="Add to Cart">
                     </div>
                     <div class="add-to-links wish_comp">
                       <ul class="blank list-inline">

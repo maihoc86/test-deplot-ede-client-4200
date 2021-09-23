@@ -389,5 +389,13 @@ public class ReadProductRestController {
 
 		return ResponseEntity.ok(list);
 	}
-
+	
+	@GetMapping("/view/get-product-related-shop/{id}")
+	public ResponseEntity<?> getProductRelatedShop(@PathVariable("id") String id,@RequestParam("idcate")String idcate){
+		System.err.println(idcate);
+		System.err.println(id);
+		PageRequest pageRequest = PageRequest.of(0, 10);
+		Page<ProductSearch> listPage  = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
 }

@@ -25,4 +25,13 @@ export class ProductSearchService {
     return this.httpClient.get<any>(`${this.URL_ORIGIN}/ede-product/view/get-product-search/${id}`)
   }
 
+  public loadListProductRelatedShop(id: string,idcate:string) {
+    return this.httpClient.get<any>(`${this.URL_ORIGIN}/ede-product/view/get-product-related-shop/${id}?idcate=${idcate}`)
+  }
+  public loadListProductRelatedProduct(id: string) {
+    return this.httpClient.get<any>(`${this.URL_ORIGIN}/ede-product/view/get-product-related-product/${id}`)
+  }
+  public loadListProductRelatedCategory(id: string) {
+    return this.httpClient.get<any>(`${this.URL_ORIGIN}/ede-product/view/get-product-related-category/${id}`)
+  }
 }
