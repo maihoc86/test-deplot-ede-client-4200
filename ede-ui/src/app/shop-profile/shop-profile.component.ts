@@ -48,6 +48,7 @@ export class ShopProfileComponent implements OnInit {
   imageArray_Sub!: File;
   imageArray!: File;
 
+  public shop: Shop;
   public listCitys: any = [];
   public listDistricts: any = [];
   public listWards: any = [];
@@ -83,7 +84,6 @@ export class ShopProfileComponent implements OnInit {
     this.isHiddenDistrict = false;
     this.getApiDistricts(this.formShop.controls['city'].value.id);
   }
-
   getWards() {
     this.isHiddenWards = false;
 
@@ -125,6 +125,10 @@ export class ShopProfileComponent implements OnInit {
     return newShop as Shop;
   }
 
+  /**
+   * Hàm dùng để cập nhật thông tin shop
+   * @returns thông tin sau khi cập nhật
+   */
   async updateInfoShop() {
     this.headerService
       .getShopByToken(this.cookieService.get('auth'))
@@ -160,7 +164,6 @@ export class ShopProfileComponent implements OnInit {
           });
       });
   }
-  public shop: Shop;
   public loadProfileShopByUserLogin() {
     this.headerService.getShopByToken(this.cookieService.get('auth')).subscribe(
       (data) => {
@@ -183,6 +186,11 @@ export class ShopProfileComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Hàm lấy ra tất cả các thành phố
+   * @returns {obj} danh sách thành phố
+   */
   public getApiCity() {
     this.apiAddressService.getApiCity().subscribe((data) => {
       const listCity = data.map(function (obj: {
@@ -195,6 +203,12 @@ export class ShopProfileComponent implements OnInit {
       this.listCitys = listCity;
     });
   }
+
+  /**
+   * Hàm lấy ra tất cả các quận theo id của thành phố
+   * @param {string} id id của thành phố
+   * @returns {obj} danh sách quận
+   */
   public getApiDistricts(id: any) {
     this.apiAddressService.getApiDistricts(id).subscribe((data) => {
       const listDistrict = data.map(function (obj: { id: any; name: any }) {
@@ -204,6 +218,11 @@ export class ShopProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Hàm lấy ra tất cả các phường theo id của quận
+   * @param {string} id id của quận
+   * @returns {obj} danh sách phường
+   */
   public getApiWards(id: any) {
     this.apiAddressService.getApiWards(id).subscribe((data) => {
       const listWard = data.map(function (obj: { id: any; name: any }) {
