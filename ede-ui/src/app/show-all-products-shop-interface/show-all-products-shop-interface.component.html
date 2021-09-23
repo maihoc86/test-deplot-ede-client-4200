@@ -21,7 +21,7 @@
         <li class="list-group-item target hover" *ngFor="let item of listCategories" [value]="item.name">
           <a class="clearfix">
 
-            <span (click)="clickFilterCategory(item.name)">{{item.name}}</span>
+            <span (click)="clickFilterCategory(item.id)">{{item.name}}</span>
           </a>
         </li>
         <br><br>

@@ -42,7 +42,11 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   }
 
   /**
-   * Truy vấn sản phẩm theo điều kiện param truyền vàoF
+   * Hàm thực hiện load sản phẩm theo param trên url
+   * @param page trang số
+   * @param category loại sản phẩm
+   * @param location địa chỉ sản phẩm []
+   * @param brand nhãn hàng []
    */
   public listProduct() {
     this.route.queryParams.subscribe((params) => {
@@ -121,10 +125,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           name: any;
           productDiscount: any;
         }) {
-          console.log(obj.productDiscount[0] != undefined ? obj.productDiscount[0].discount : 0);
           return obj;
         });
-        console.log(this.listAllProducts);
         this.page = data;
         this.count = this.page.totalElements;
       },
@@ -140,9 +142,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
 
   /**
    *
-   * @param category loại sản phẩm []
+   * @param category loại sản phẩm
    * @param location địa chỉ sản phẩm []
-   * @param brand nhãn hàng
+   * @param brand nhãn hàng []
    * @param page trang số
    */
   public filter(category: any, location: any, brand: any, page: any) {
