@@ -41,7 +41,6 @@ public class CreateCategoryRestController {
 	@PostMapping("/admin/create/parent_category")
 	public ResponseEntity create_parent_category(@RequestBody Product_parent_category parent_category) {
 		UUID uuid = UUID.randomUUID();
-		System.out.println(uuid.toString());
 		Optional<Product_parent_category> findCategory = product_parent_categoryService.findById(uuid.toString());
 		if (findCategory.isPresent() && findCategory != null) {
 			UUID uuid2 = UUID.randomUUID();
