@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeorderservice.dao.OrderDao;
 import com.ede.edeorderservice.entity.Order;
-import com.ede.edeorderservice.entity.Shop;
 import com.ede.edeorderservice.service.Order_service;
 
 @Service

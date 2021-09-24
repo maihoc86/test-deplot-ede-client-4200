@@ -14,6 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ManagerCategoryComponent } from './manager-category/manager-category.component';
 import { ManagerProductComponent } from './manager-product/manager-product.component';
 import { ManagerShopComponent } from './manager-shop/manager-shop.component';
+import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-order-discount.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ManagerShopComponent } from './manager-shop/manager-shop.component';
     ManagerCategoryComponent,
     ManagerProductComponent,
     ManagerShopComponent,
+    ManagerOrderDiscountComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +38,9 @@ import { ManagerShopComponent } from './manager-shop/manager-shop.component';
     AppRoutingModule,
     HttpClientModule,
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

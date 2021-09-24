@@ -23,7 +23,6 @@ export class HeaderComponent implements OnInit {
       .getUserByToken()
       .toPromise()
       .then((data) => {
-        console.log(data)
         this.userLogin=data.id;
       })
       .catch((err) => {
