@@ -13,10 +13,14 @@ import { ManageOrderDiscountService } from '../Services/manage-order-discount/ma
 export class ManagerOrderDiscountComponent implements OnInit {
   constructor(private service: ManageOrderDiscountService) {}
   public listOrderDiscount: any = [];
+  public page: any = [];
+  public size: number = 5;
+  public p: number = 1;
+  public count: any;
   minDate = moment(new Date()).format('YYYY-MM-DD');
   maxDate = moment(new Date(2023, 1, 1)).format('YYYY-MM-DD');
   ngOnInit(): void {
-    this.getAll();
+    this.getAll(1, this.size);
   }
 
   /**
@@ -58,7 +62,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
           title: 'Thêm mới thành công',
           text: '',
         }).then(() => {
-          this.getAll();
+          this.getAll(1, this.size);
           window.location.reload();
         });
       },
@@ -74,10 +78,24 @@ export class ManagerOrderDiscountComponent implements OnInit {
   /**
    * Hàm lấy ra tất cả giảm giá hóa đơn
    */
-  public getAll() {
-    this.service.getAll().subscribe(
+  public getAll(page: any, size: any) {
+    page = page - 1;
+    this.service.getAll(page, size).subscribe(
       (data) => {
-        this.listOrderDiscount = data;
+        const item = data.content.map(function (obj: {
+          id: string;
+          total: number;
+          discount: number;
+          todate: Date;
+          enddate: Date;
+          status: boolean;
+        }) {
+          return obj;
+        });
+        this.listOrderDiscount = item;
+        this.page = data;
+        this.count = this.page.totalElements;
+        console.log(data);
       },
       (error) => {
         Swal.fire({
@@ -135,7 +153,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
           title: 'Cập nhật thành công',
           text: '',
         }).then(() => {
-          this.getAll();
+          this.getAll(1, this.size);
           window.location.reload();
         });
       },
@@ -171,7 +189,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
               title: 'Xóa thành công',
               text: '',
             }).then(() => {
-              this.getAll();
+              this.getAll(1, this.size);
               window.location.reload();
             });
           },

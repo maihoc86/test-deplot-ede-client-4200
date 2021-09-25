@@ -1,6 +1,6 @@
 package com.ede.edeorderservice.restcontroller.admin;
 
-import java.util.List;
+import java.text.ParseException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +29,16 @@ public class CreateOrderAdminRestController {
 
 	/**
 	 * Hàm thêm giảm giá cho tổng giá trị hóa đơn (toàn hệ thống)
+	 * 
+	 * @throws ParseException
 	 */
 	@PostMapping("/create/discount/order")
-	public ResponseEntity createDiscountOrder(@RequestBody Order_Discount order_Discount) {
+	public ResponseEntity createDiscountOrder(@RequestBody Order_Discount order_Discount) throws ParseException {
 		order_Discount.setId(generateUUID());
-		List<Order_Discount> findOrderDiscountDate = service.findOrderDiscountDate(order_Discount.getTodate(),order_Discount.getEnddate());	
-		if(findOrderDiscountDate != null) {
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Trong thời gian này, đã có giảm giá trên hệ thống", "", null);
+		Order_Discount findOrderDiscountDate = service.findOrderDiscountDate(order_Discount.getTodate());
+		if (findOrderDiscountDate != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+					"Trong thời gian này, đã có giảm giá trên hệ thống", "", null);
 		}
 		return ResponseEntity.ok(service.save(order_Discount));
 	}

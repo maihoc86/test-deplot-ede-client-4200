@@ -1,12 +1,16 @@
 package com.ede.edeorderservice.restcontroller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ede.edeorderservice.entity.Order_Discount;
 import com.ede.edeorderservice.service.Order_discount_service;
 
 @RestController
@@ -22,8 +26,10 @@ public class ReadOrderAdminRestController {
 	 * @return {listObj}
 	 */
 	@GetMapping("/getAll/discount/order")
-	public ResponseEntity getAllDiscountOrder() {
-		return ResponseEntity.ok(service.listAllStatusTrue());
+	public ResponseEntity getAllDiscountOrder(@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) {
+		Page<Order_Discount> pageF = service.listAllStatusTrue(PageRequest.of(page, size));
+		return ResponseEntity.ok(pageF);
 	}
 
 	/**
