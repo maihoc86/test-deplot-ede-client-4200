@@ -113,7 +113,7 @@ export class ProductShopComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private Addservice: AddProductService,
-    private AddresseService: ApiAddressService,
+    private AddressService: ApiAddressService,
     private cookieService: CookieService,
     private headerService: HeaderService,
     private imageService: ImagesService
@@ -478,7 +478,7 @@ export class ProductShopComponent implements OnInit {
    * @returns danh sách thành phố
    */
   public getCities() {
-    this.AddresseService.getApiCity().subscribe((data) => {
+    this.AddressService.getApiCity().subscribe((data) => {
       const listCities = data.map(function (obj: { name: any }) {
         return obj;
       });
@@ -491,7 +491,7 @@ export class ProductShopComponent implements OnInit {
    * @returns danh sách quốc gia
    */
   public getCountry() {
-    this.AddresseService.getCountry().subscribe((data) => {
+    this.AddressService.getCountry().subscribe((data) => {
       const listCountry = data.map(function (obj: { name: any }) {
         return obj;
       });

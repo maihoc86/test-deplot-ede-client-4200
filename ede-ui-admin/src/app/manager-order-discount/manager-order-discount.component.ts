@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { Order_discount } from '../models/Order_discount.model';
 import { ManageOrderDiscountService } from '../Services/manage-order-discount/manage-order-discount.service';
@@ -12,6 +13,8 @@ import { ManageOrderDiscountService } from '../Services/manage-order-discount/ma
 export class ManagerOrderDiscountComponent implements OnInit {
   constructor(private service: ManageOrderDiscountService) {}
   public listOrderDiscount: any = [];
+  minDate = moment(new Date()).format('YYYY-MM-DD');
+  maxDate = moment(new Date(2023, 1, 1)).format('YYYY-MM-DD');
   ngOnInit(): void {
     this.getAll();
   }
@@ -21,10 +24,14 @@ export class ManagerOrderDiscountComponent implements OnInit {
    */
   public orderDiscount = new FormGroup({
     id: new FormControl(''),
-    discount: new FormControl(''),
-    total: new FormControl(''),
-    todate: new FormControl(''),
-    enddate: new FormControl(''),
+    discount: new FormControl('', [Validators.required]),
+    total: new FormControl('', [
+      Validators.required,
+      Validators.pattern('([0-9]{0,9})\\b'),
+    ]),
+    todate: new FormControl('', [Validators.required]),
+    enddate: new FormControl('', [Validators.required]),
+    status: new FormControl(true, [Validators.required]),
   });
 
   /**
@@ -80,6 +87,17 @@ export class ManagerOrderDiscountComponent implements OnInit {
         });
       }
     );
+  }
+
+  /**
+   * Hàm chỉ cho phép nhập số
+   */
+  numberOnly(event: any) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
   /**

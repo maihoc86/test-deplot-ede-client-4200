@@ -361,7 +361,6 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.println(shop.getId());
 		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(shop.getId(),
 				PageRequest.of(page.orElse(0), 10));
 		return ResponseEntity.ok(pageF);
