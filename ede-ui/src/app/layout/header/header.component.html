@@ -76,19 +76,9 @@
               </li>
               <li class="language">
                 <div class="btn-group languages-block">
-                  <form
-                    action="index.html"
-                    method="post"
-                    enctype="multipart/form-data"
-                    id="bt-language"
-                  >
-                    <a
-                      class="btn btn-link dropdown-toggle"
-                      data-toggle="dropdown"
-                      routerLink="shop/product/all"
-                      [routerLinkActive]="'active-link'"
-
-                    >
+                  <form action="index.html" method="post" enctype="multipart/form-data" id="bt-language">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" routerLink="shop/product/all"
+                      [routerLinkActive]="'active-link'">
                       <span class="">Kênh người bán</span>
                     </a>
                   </form>
@@ -492,8 +482,8 @@
           <!-- //end Main menu -->
 
 
-<!-- --------------------Tài khoản đã đăng nhập-------------------------------- -->
-          <div class="middle-right col-lg-4 col-md-3 col-sm-6 col-xs-8" >
+          <!-- --------------------Tài khoản đã đăng nhập-------------------------------- -->
+          <div class="middle-right col-lg-4 col-md-3 col-sm-6 col-xs-8">
             <li class="currency" *ngIf="login">
               <div class="btn-group currencies-block">
 
@@ -1079,7 +1069,7 @@
                     </div>
 
                     <input [(ngModel)]="txtKeysearch" class="autosearch-input form-control" type="text" size="50"
-                      autocomplete="off" placeholder="Keyword here..." name="search"/>
+                      autocomplete="off" placeholder="Keyword here..." name="search" />
                     <span class="input-group-btn">
                       <button type="submit" class="button-search btn btn-primary" routerLink="/search"
                         [queryParams]="{search: txtKeysearch}" name="submit_search">
@@ -1123,16 +1113,19 @@
                         <tr *ngFor="let item of cart">
                           <td class="text-center" style="width: 70px">
                             <a href="product.html">
-                              <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{item.id}}" style="width: 70px"
-                                alt="Yutculpa ullamcon" title="Yutculpa ullamco" class="preview" />
+                              <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{item.id}}"
+                                style="width: 70px" alt="Yutculpa ullamcon" title="Yutculpa ullamco" class="preview" />
                             </a>
                           </td>
                           <td class="text-left">
                             <a class="cart_product_name limit" href="product.html">{{item.name}}</a>
                           </td>
-                          <td class="text-center">
-                            <input type="number" value={{item.qty}} #qty style="width:35px" (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)"></td>
-                          <td class="text-center">{{item.qty*item.price}} VND</td>
+                          <td class="text-left">
+                            <input type="number" value={{item.qty}} #qty style="width:35px"
+                              (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)">
+                          </td>
+                          <td> <span>{{item.discount==0?item.qty*item.price:(item.price*item.qty)-((item.discount/100)*item.price)| currency :'VND'}}</span></td>
+
                           <td class="text-right">
                             <a href="product.html" class="fa fa-edit"></a>
                           </td>
@@ -1168,7 +1161,7 @@
                           </tr>
                           <tr>
                             <td class="text-left"><strong>Total</strong></td>
-                             <!-- Chưa có discount -->
+                            <!-- Chưa có discount -->
                             <td class="text-right">{{totalCart}}</td>
                           </tr>
                         </tbody>
