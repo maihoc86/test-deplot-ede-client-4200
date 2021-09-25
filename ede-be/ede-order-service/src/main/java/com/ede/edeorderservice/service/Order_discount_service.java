@@ -22,5 +22,7 @@ public interface Order_discount_service {
 
 	Page<Order_Discount> listAllStatusTrue(PageRequest of);
 
+	Page<Order_Discount> listAllFilter(String searchTuNgayDate, String searchDenNgayDate, PageRequest of);
+
 	
 }

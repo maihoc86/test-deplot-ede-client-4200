@@ -1,5 +1,7 @@
 package com.ede.edeorderservice.restcontroller.admin;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,11 +26,20 @@ public class ReadOrderAdminRestController {
 	 * Hàm lấy tất cả giảm giá hóa đơn
 	 * 
 	 * @return {listObj}
+	 * @throws ParseException
 	 */
 	@GetMapping("/getAll/discount/order")
-	public ResponseEntity getAllDiscountOrder(@RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "size", defaultValue = "5") int size) {
-		Page<Order_Discount> pageF = service.listAllStatusTrue(PageRequest.of(page, size));
+	public ResponseEntity getAllDiscountOrder(@RequestParam(name = "searchTuNgay") String searchTuNgay,
+			@RequestParam(name = "searchDenNgay") String searchDenNgay,
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) throws ParseException {
+
+		Page<Order_Discount> pageF = null;
+		if ((!searchDenNgay.isEmpty() || searchTuNgay != "") && (!searchDenNgay.isEmpty() || searchDenNgay != "")) {
+			pageF = service.listAllFilter(searchTuNgay,searchDenNgay,PageRequest.of(page, size));
+		}else {
+			pageF = service.listAllStatusTrue(PageRequest.of(page, size));
+		}
 		return ResponseEntity.ok(pageF);
 	}
 
