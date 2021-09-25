@@ -17,10 +17,11 @@ export class ManagerOrderDiscountComponent implements OnInit {
   public size: number = 5;
   public p: number = 1;
   public count: any;
+
   minDate = moment(new Date()).format('YYYY-MM-DD');
   maxDate = moment(new Date(2023, 1, 1)).format('YYYY-MM-DD');
   ngOnInit(): void {
-    this.getAll(1, this.size);
+    this.getAll('', '', 1, this.size);
   }
 
   /**
@@ -36,6 +37,13 @@ export class ManagerOrderDiscountComponent implements OnInit {
     todate: new FormControl('', [Validators.required]),
     enddate: new FormControl('', [Validators.required]),
     status: new FormControl(true, [Validators.required]),
+  });
+  /**
+   * Hàm lưu trữ dữ liệu người dùng nhập từ search
+   */
+  public searchGroup = new FormGroup({
+    searchTuNgay: new FormControl(''),
+    searchDenNgay: new FormControl(''),
   });
 
   /**
@@ -62,7 +70,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
           title: 'Thêm mới thành công',
           text: '',
         }).then(() => {
-          this.getAll(1, this.size);
+          this.getAll('', '', 1, this.size);
           window.location.reload();
         });
       },
@@ -78,9 +86,9 @@ export class ManagerOrderDiscountComponent implements OnInit {
   /**
    * Hàm lấy ra tất cả giảm giá hóa đơn
    */
-  public getAll(page: any, size: any) {
+  public getAll(searchTuNgay: any, searchDenNgay: any, page: any, size: any) {
     page = page - 1;
-    this.service.getAll(page, size).subscribe(
+    this.service.getAll(searchTuNgay,searchDenNgay,page, size).subscribe(
       (data) => {
         const item = data.content.map(function (obj: {
           id: string;
@@ -95,7 +103,6 @@ export class ManagerOrderDiscountComponent implements OnInit {
         this.listOrderDiscount = item;
         this.page = data;
         this.count = this.page.totalElements;
-        console.log(data);
       },
       (error) => {
         Swal.fire({
@@ -153,7 +160,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
           title: 'Cập nhật thành công',
           text: '',
         }).then(() => {
-          this.getAll(1, this.size);
+          this.getAll('', '', 1, this.size);
           window.location.reload();
         });
       },
@@ -189,7 +196,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
               title: 'Xóa thành công',
               text: '',
             }).then(() => {
-              this.getAll(1, this.size);
+              this.getAll('', '', 1, this.size);
               window.location.reload();
             });
           },
@@ -204,7 +211,14 @@ export class ManagerOrderDiscountComponent implements OnInit {
       }
     });
   }
-
+  /**
+   * Hàm tìm kiếm
+   * @param event sự kiện nhập trên bàn phím
+   */
+  search() {
+    this.getAll(this.searchGroup.value.searchTuNgay, this.searchGroup.value.searchDenNgay, 1, this.size);
+    console.log(this.listOrderDiscount);
+  }
   /**
    * Hàm làm mới
    */

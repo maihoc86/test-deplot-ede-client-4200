@@ -200,7 +200,6 @@ public loadUser() {
     this.items = item;
     console.log(item)
   });
-  
 }
 
 

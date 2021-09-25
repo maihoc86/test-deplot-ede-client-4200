@@ -51,4 +51,9 @@ public class Order_discount_impl implements Order_discount_service {
 		return dao.listAllStatusTrue(of);
 	}
 
+	@Override
+	public Page<Order_Discount> listAllFilter(String searchTuNgayDate, String searchDenNgayDate, PageRequest of) {
+		return dao.listAllFilter(searchTuNgayDate, searchDenNgayDate, of);
+	}
+
 }

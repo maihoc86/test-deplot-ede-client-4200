@@ -291,17 +291,36 @@
     <div class="row">
       <div class="col-md-6">Dữ liệu các hóa đơn được giảm</div>
       <div class="col-md-6">
-        <form class="app-search d-none d-lg-block">
+        <form class="app-search d-none d-lg-block" [formGroup]="searchGroup">
           <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search..."
-              name="searchBar"
-              id="searchBar"
-              #myInput
-            />
-            <span class="mdi mdi-magnify"></span>
+            <div class="row">
+              <div class="col-md-4">
+                <label>Từ ngày</label>
+                <input
+                  type="date"
+                  formControlName="searchTuNgay"
+                  class="form-control"
+                />
+              </div>
+              <div class="col-md-4">
+                <label>Đến ngày</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="searchDenNgay"
+                />
+              </div>
+              <div class="col-md-4">
+                <br />
+                <button
+                  type="button"
+                  (click)="search()"
+                  class="btn btn-outline-primary px-5 radius-30"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -326,7 +345,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of listOrderDiscount | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
+              <tr
+                *ngFor="
+                  let item of listOrderDiscount
+                    | paginate
+                      : {
+                          itemsPerPage: size,
+                          currentPage: p,
+                          totalItems: count
+                        }
+                "
+              >
                 <td>{{ item.id }}</td>
                 <td>{{ item.discount }}</td>
                 <td>{{ item.total | number }}đ</td>
