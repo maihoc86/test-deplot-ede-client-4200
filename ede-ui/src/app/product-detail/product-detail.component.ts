@@ -19,13 +19,13 @@ export class ProductDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(({idProduct}) => {
       this.productSearchSrv.getProductSearchById(idProduct).subscribe(result => {
         this.product = result
-        console.log(result)
+  
         this.loadListProductRelatedShop(result.shop.id,result.childCategory.id);
       })
     })
   }
   public  qty:number=1;
-  public product: any = {}
+  public product: any = {};
   public cart: Array<any> = [];
   public listProductRelatedShop: any = { };
   public listProductRelatedProduct: any = { };
@@ -34,6 +34,7 @@ export class ProductDetailComponent implements OnInit {
     
   }
   addToCart(product: any,qty:any) {
+    
     var json = localStorage.getItem('cart');
     this.cart = json ? JSON.parse(json) : [];
     var item: any;
@@ -43,16 +44,17 @@ export class ProductDetailComponent implements OnInit {
       }
     });
     if (item) {
-      item.qty+=qty;
+      item.qty+=qty as number;
     } else {
       this.cart.push({
         qty: 1,
         name: product.name,
         id: product.optionDef.id,
         price: product.optionDef.price,
+        discount: product.productDiscount[0]?product.productDiscount[0].discount:0,
       });
     }
-   
+  
     console.log(this.cart);
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
@@ -60,6 +62,7 @@ export class ProductDetailComponent implements OnInit {
   public loadListProductRelatedShop(idShop:string,idcate:string){
     this.productSearchSrv.loadListProductRelatedShop(idShop,idcate).subscribe(data=>{
       console.log(data)
+      this.listProductRelatedShop=data.content;
     })
   }
   public loadListProductRelatedProduct(id:string){

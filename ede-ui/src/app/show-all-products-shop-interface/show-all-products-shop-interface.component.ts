@@ -353,8 +353,10 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         name: product.name,
         id: product.optionDef.id,
         price: product.optionDef.price,
+        discount: product.productDiscount[0]?product.productDiscount[0]?.discount:0,
       });
     }
+    console.log(product);
     console.log(this.cart);
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
