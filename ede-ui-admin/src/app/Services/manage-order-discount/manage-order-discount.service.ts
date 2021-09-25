@@ -23,9 +23,14 @@ export class ManageOrderDiscountService {
    * Hàm lấy tất cả giảm giá của hóa đơn được áp dụng
    * @returns {listObj} danh sách tất cả các giảm giá dánh cho hóa đơn
    */
-  public getAll() {
+  public getAll(page: any, size: any) {
     return this.httpClient.get<any>(
-      this.REST_API_SERVER + '/getAll/discount/order',
+      this.REST_API_SERVER +
+        '/getAll/discount/order?' +
+        'page=' +
+        page +
+        '&size=' +
+        size,
       this.httpOptions
     );
   }

@@ -326,7 +326,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of listOrderDiscount">
+              <tr *ngFor="let item of listOrderDiscount | paginate: {itemsPerPage: size, currentPage: p, totalItems: count}">
                 <td>{{ item.id }}</td>
                 <td>{{ item.discount }}</td>
                 <td>{{ item.total | number }}đ</td>
@@ -390,7 +390,7 @@
             </tbody>
           </table>
 
-          <pagination-controls></pagination-controls>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </div>
       </div>
     </div>

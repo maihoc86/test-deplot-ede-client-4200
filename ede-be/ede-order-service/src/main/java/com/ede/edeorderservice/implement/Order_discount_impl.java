@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeorderservice.dao.OrderDiscountDao;
@@ -40,13 +42,13 @@ public class Order_discount_impl implements Order_discount_service {
 	}
 
 	@Override
-	public List<Order_Discount> listAllStatusTrue() {
-		return dao.listAllStatusTrue();
+	public Order_Discount findOrderDiscountDate(Date todate) {
+		return dao.findOrderDiscountDate(todate);
 	}
 
 	@Override
-	public List<Order_Discount> findOrderDiscountDate(Date todate, Date enddate) {
-		return dao.findOrderDiscountDate(todate,enddate);
+	public Page<Order_Discount> listAllStatusTrue(PageRequest of) {
+		return dao.listAllStatusTrue(of);
 	}
 
 }

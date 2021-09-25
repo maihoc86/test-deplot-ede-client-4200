@@ -3,6 +3,9 @@ package com.ede.edeorderservice.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import com.ede.edeorderservice.entity.Order_Discount;
 
 public interface Order_discount_service {
@@ -15,8 +18,9 @@ public interface Order_discount_service {
 
 	Order_Discount deleteById(String id);
 
-	List<Order_Discount> listAllStatusTrue();
+	Order_Discount findOrderDiscountDate(Date todate);
 
-	List<Order_Discount> findOrderDiscountDate(Date todate, Date enddate);
+	Page<Order_Discount> listAllStatusTrue(PageRequest of);
+
 	
 }
