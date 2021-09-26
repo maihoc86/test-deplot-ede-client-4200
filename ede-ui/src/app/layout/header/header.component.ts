@@ -72,14 +72,10 @@ export class HeaderComponent implements OnInit {
     this.loadTotal();
   }
   public removeItemCart(e: any) {
-    if (e.qty <= 1) {
-      this.cart.splice(
-        this.cart.findIndex((es) => es.id == e.id),
-        1
-      );
-    } else {
-      e.qty--;
-    }
+    this.cart.splice(
+      this.cart.findIndex((es) => es.id == e.id),
+      1
+    );
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
   }
@@ -103,7 +99,9 @@ export class HeaderComponent implements OnInit {
   loadTotal() {
     this.totalCart = 0;
     this.cart.forEach((e) => {
-      this.totalCart += e.qty * (e.discount==0?e.price:(e.price-e.price*(e.discount/100)));
+      this.totalCart +=
+        e.qty *
+        (e.discount == 0 ? e.price : e.price - e.price * (e.discount / 100));
     });
   }
 }

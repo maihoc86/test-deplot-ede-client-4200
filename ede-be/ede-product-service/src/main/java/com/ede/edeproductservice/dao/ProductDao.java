@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.extend.ProductSearch;
 
@@ -83,5 +84,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	Product updateStatus(String id);
 	@Query("SELECT ps from ProductSearch ps where ps.id = :id")
 	ProductSearch findByProductSearchId(@Param("id") String id);
+	@Query("SELECT DISTINCT o.brand FROM Product o where o.shop.id=:valueIdShop")
+	List<Product_brand> selectAllBrandInShop(String valueIdShop);
 
 }

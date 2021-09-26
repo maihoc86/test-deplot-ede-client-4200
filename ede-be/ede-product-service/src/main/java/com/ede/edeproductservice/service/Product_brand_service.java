@@ -8,5 +8,6 @@ public interface Product_brand_service {
 
 
 	List<Product_brand> findAll();
+	
 
 }
