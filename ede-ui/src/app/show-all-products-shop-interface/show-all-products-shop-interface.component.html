@@ -10,22 +10,22 @@
         </li>
       </ul>
       <ul class="list-group">
-        <li class="list-group-item" style="color: white; text-align: center">
-          <div
-            style="
-              background-image: url('/assets/img/ba.jpg');
-              background-size: 200px;
-            "
-          >
-            <img
-              src="/assets/img/nen.jpg"
-              style="width: 50px; height: 50px; margin-top: 20px"
-            />
-            <h5>KimThanh.vn</h5>
-            <h6>Online 10 phút trước</h6>
-            <br />
-          </div>
-        </li>
+        <form action="" [formGroup]="shopForm">
+          <li class="list-group-item" style="color: white; text-align: center">
+            <div
+              formControlName="image_sub"
+               [ngStyle]="{'background-image': 'url(' + 'http://localhost:8080/ede-file/get/image/' + this.shopForm.controls.image_sub.value + ')'}"
+            >
+              <img formControlName="image"
+                src="http://localhost:8080/ede-file/get/image/{{this.shopForm.controls.image.value}}"
+                style="width: 50px; height: 50px; margin-top: 20px"
+              />
+              <h5 formControlName="name">{{this.shopForm.controls.name.value}}</h5>
+              <h6>Online 10 phút trước</h6>
+              <br />
+            </div>
+          </li>
+        </form>
         <li class="list-group-item title">Danh mục shop</li>
         <li class="list-group-item">
           <a href="http://localhost:4200/shop/showall/interface">Tất cả</a>

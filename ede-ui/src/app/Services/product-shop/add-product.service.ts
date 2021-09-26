@@ -7,6 +7,7 @@ import { ProductOptionsImage } from 'src/app/models/product-options-image.model'
 import { ProductTag } from '../../models/product-tag.model';
 import { ProductDiscount } from 'src/app/models/product-discount.model';
 import { Observable } from 'rxjs';
+import { Shop } from 'src/app/models/shop.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -317,4 +318,5 @@ export class AddProductService {
       this.httpOptions
     );
   }
+
 }

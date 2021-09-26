@@ -48,4 +48,12 @@ public class ReadShopRestController {
 		List<Shop> list = shopService.findAllByName(name);
 		return	ResponseEntity.ok(list);
 	}
+	
+	// Lấy ra thông tin cửa hàng bằng ID
+	@GetMapping("/view/info/{id}")
+	public ResponseEntity<?> getShopById(@PathVariable("id") String id) {
+		Shop shop = shopService.findById(id).get();
+		return	ResponseEntity.ok(shop);
+	}
+	
 }

@@ -1,3 +1,4 @@
+import { Shop } from './../models/shop.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
@@ -5,6 +6,8 @@ import { AddProductService } from '../Services/product-shop/add-product.service'
 import { HeaderService } from '../Services/header/header.service';
 import Swal from 'sweetalert2';
 import { ProductDiscount } from '../models/product-discount.model';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MyShopService } from '../Services/my-shop/my-shop.service';
 @Component({
   selector: 'app-show-all-products-shop-interface',
   templateUrl: './show-all-products-shop-interface.component.html',
@@ -16,7 +19,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     private router: Router,
     private ProductService: AddProductService,
     private route: ActivatedRoute,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private shopService: MyShopService
   ) {}
   public totalCart: any = 0;
   public cart: Array<any> = [];
@@ -36,11 +40,38 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public idShop: any;
   ngOnInit(): void {
     this.getCities();
-
     this.getAllDiscountProduct();
     this.listProduct();
     this.getBrands(this.idShop);
+    this.showShopInfo(this.idShop);
     this.getChildCategory(this.idShop);
+  }
+
+  /**
+   * Hàm chưa biến hiển thị thông tin cửa hàng
+   */
+  public shopForm = new FormGroup({
+    id: new FormControl(''),
+    name: new FormControl(''),
+    user: new FormControl(''),
+    image: new FormControl(''),
+    image_sub: new FormControl(''),
+    create_date: new FormControl(''),
+    description: new FormControl(''),
+    address: new FormControl(''),
+  });
+
+  /**
+   * Hàm gán giá trị mới cho thuộc tính thông tin cửa hàng
+   */
+  private createDataShop() {
+    const newProduct: any = {};
+    for (const controlName in this.shopForm.controls) {
+      if (controlName) {
+        newProduct[controlName] = this.shopForm.controls[controlName].value;
+      }
+    }
+    return newProduct as Shop;
   }
 
   /**
@@ -140,10 +171,13 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.count = this.page.totalElements;
       },
       (error) => {
+        if (error.error.message == 'Của hàng không tồn tại') {
+          this.router.navigate(['/']);
+        }
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
-          text: 'Không thể truy vấn sản phẩm!',
+          text: error.error.message,
         });
       }
     );
@@ -169,19 +203,28 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       location,
       brand,
       page
-    ).subscribe((data) => {
-      this.listAllProducts = data.content.map(function (obj: {
-        idProduct: any;
-        name: any;
-      }) {
-        return obj;
-      });
-      this.page = data;
-      this.count = this.page.totalElements;
-    }, (error) => {
-      console.log(error);
-      this.router.navigate(['/']);
-    });
+    ).subscribe(
+      (data) => {
+        this.listAllProducts = data.content.map(function (obj: {
+          idProduct: any;
+          name: any;
+        }) {
+          return obj;
+        });
+        this.page = data;
+        this.count = this.page.totalElements;
+      },
+      (error) => {
+        if (error.error.message == 'Của hàng không tồn tại') {
+          this.router.navigate(['/']);
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
+      }
+    );
   }
 
   /**
@@ -397,5 +440,23 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   showDetailProduct(product: any) {
     console.log(product);
     this.router.navigate([`/product/detail/${product}`]);
+  }
+
+  /**
+   * Hàm hiển thị thông tin shop
+   */
+  showShopInfo(idShop: any) {
+    this.shopService.getShopInfo(idShop).subscribe((res) => {
+      this.shopForm.patchValue({
+        id: res.id,
+        name: res.name,
+        user: res.user,
+        image: res.image,
+        image_sub: res.image_sub,
+        create_date: res.create_date,
+        description: res.description,
+        address: res.address,
+      });
+    });
   }
 }
