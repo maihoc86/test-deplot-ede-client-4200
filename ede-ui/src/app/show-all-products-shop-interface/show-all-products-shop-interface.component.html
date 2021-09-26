@@ -21,7 +21,7 @@
         <li class="list-group-item target hover" *ngFor="let item of listCategories" [value]="item.name">
           <a class="clearfix">
 
-            <span (click)="clickFilterCategory(item.name)">{{item.name}}</span>
+            <span (click)="clickFilterCategory(item.id)">{{item.name}}</span>
           </a>
         </li>
         <br><br>
@@ -80,8 +80,8 @@
         *ngFor="let product of listAllProducts | paginate: {itemsPerPage: 10, currentPage: p, totalItems: count}; let i = index">
 
         <div class="product-item-container" style="height:300px">
-          <div class="left-block">
-            <div class="product-image-container second_img" style="height:150px">
+          <div class="left-block" >
+            <div class="product-image-container second_img" style="height:150px"  (click)='showDetailProduct(product.idProduct)'>
               <a target="_self" title="Chicken swinesha">
                 <img src="http://localhost:8080/ede-file/get/image/{{product.optionDef.optionImageDef.image}}"
                   class="img-1 img-responsive" alt="image">
@@ -90,8 +90,9 @@
               </a>
             </div>
 
-            <div class="box-label" *ngFor="let discount of listAllProductsDiscount">
-              <span class="label-product label-sale" *ngIf="discount.productdiscount.id == product.idProduct"> {{discount.discount}} </span>
+            <div class="box-label">
+              <span class="label-product label-sale" *ngIf="product.productDiscount[0] != undefined">
+                {{product.productDiscount[0].discount}} </span>
             </div>
             <div style="margin-top: 30px;">
               <div class="button-group so-quickview cartinfo--left">
@@ -122,13 +123,19 @@
                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
               </div>
-              <h4><a href="product.html" title="Chicken swinesha" target="_self"></a>{{product.name}}
-
+              <h4><a href="product.html" title="Chicken swinesha" target="_self"></a>
+                {{product.name}}
               </h4>
-              <div class="price"> <span class="price-new">{{product.optionDef.price | number}}
-                  VNĐ</span>
-                <span class="price-old">$55.00</span>
+              <div class="price">
+                <div *ngIf="product.productDiscount[0] != undefined">
+                  <span class="price-new">{{product.optionDef.price *
+                    (100 - product.productDiscount[0].discount) / 100 | number}}đ</span>
+                  <span class="price-old">{{product.optionDef.price | number}}đ</span>
+                </div>
+                <span class="price-new" *ngIf="product.productDiscount[0] == undefined">{{product.optionDef.price |
+                  number}}đ</span>
               </div>
+
             </div>
           </div>
         </div>

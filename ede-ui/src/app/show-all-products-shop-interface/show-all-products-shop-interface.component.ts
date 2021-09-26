@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { HeaderService } from '../Services/header/header.service';
+import Swal from 'sweetalert2';
+import { ProductDiscount } from '../models/product-discount.model';
 @Component({
   selector: 'app-show-all-products-shop-interface',
   templateUrl: './show-all-products-shop-interface.component.html',
@@ -38,6 +40,14 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.getAllDiscountProduct();
     this.listProduct();
   }
+
+  /**
+   * Hàm thực hiện load sản phẩm theo param trên url
+   * @param page trang số
+   * @param category loại sản phẩm
+   * @param location địa chỉ sản phẩm []
+   * @param brand nhãn hàng []
+   */
   public listProduct() {
     this.route.queryParams.subscribe((params) => {
       this.category = params['category'] ? params['category'] : '';
@@ -102,22 +112,41 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       }
     });
   }
+
+  /**
+   * Hàm lấy ra tất cả sản phẩm của shop
+   * @param page trang số
+   */
   public getAllProductDefault(page: any) {
     this.ProductService.getAllProductShopByCustomer(page).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
           name: any;
+          productDiscount: any;
         }) {
           return obj;
         });
-        console.log(this.listAllProducts);
         this.page = data;
         this.count = this.page.totalElements;
       },
-      (error) => {}
+      (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Không thể truy vấn sản phẩm!',
+        });
+      }
     );
   }
+
+  /**
+   *
+   * @param category loại sản phẩm
+   * @param location địa chỉ sản phẩm []
+   * @param brand nhãn hàng []
+   * @param page trang số
+   */
   public filter(category: any, location: any, brand: any, page: any) {
     this.ProductService.getAllProductShowInterfaceFilter(
       category,
@@ -135,17 +164,28 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.count = this.page.totalElements;
     });
   }
+
+  /**
+   * Hàm lấy ra sản phẩm được giảm giá
+   */
   public getAllDiscountProduct() {
     this.ProductService.getAllProductDiscountShopByCustomer().subscribe(
       (data) => {
         this.listAllProductsDiscount = data;
-        console.log(this.listAllProductsDiscount);
       },
       (error) => {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Không thể truy vấn giảm giá!',
+        });
       }
     );
   }
+
+  /**
+   * Hàm lấy ra địa điểm
+   */
   public getCities() {
     this.AddressService.getApiCity().subscribe((data) => {
       const listCities = data.map(function (obj: { name: any }) {
@@ -154,6 +194,10 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.listCities = listCities;
     });
   }
+
+  /**
+   * Hàm lấy ra nhãn hàng của shop
+   */
   public getBrands() {
     this.ProductService.getBrand().subscribe((data) => {
       const listBrands = data.map(function (obj: {
@@ -166,6 +210,10 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.listBrands = listBrands;
     });
   }
+
+  /**
+   * Hàm lấy ra loại sản phẩm của shop (child_category)
+   */
   public getChildCategory() {
     this.ProductService.getChildCategoriesShop().subscribe(
       (data) => {
@@ -179,14 +227,29 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Hàm hiển thị các địa chỉ còn lại bị ẩn
+   */
   showHiddenLocation() {
     this.hiddenShowLocationMore = !this.hiddenShowLocationMore;
     this.hiddenLocation = !this.hiddenLocation;
   }
+
+  /**
+   * Hàm lọc sản phẩm theo loại
+   * @param category loại sản phẩm
+   */
   clickFilterCategory(category: any) {
     this.category = category;
     this.routeParams();
   }
+
+  /**
+   * Hàm lọc sản phẩm theo địa chỉ
+   * @param event sự kiện click vào location
+   * @param location tên location
+   */
   clickFilterLocation(event: any, location: any) {
     if (event.currentTarget.checked) {
       this.location.push(location);
@@ -198,6 +261,12 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     }
     this.routeParams();
   }
+
+  /**
+   * Hàm lọc sản phẩm theo nhãn hàng
+   * @param event sự kiện click vào checkbox brand
+   * @param brand tên nhãn hàng được check
+   */
   clickFilterBrand(event: any, brand: any) {
     if (event.currentTarget.checked) {
       this.brand.push(brand);
@@ -206,10 +275,19 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     }
     this.routeParams();
   }
+
+  /**
+   * Hàm chuyển trang
+   * @param event số trang cần đến
+   */
   public handlePageChange(event: number) {
     this.p = event;
     this.routeParams();
   }
+
+  /**
+   * Hàm đưa dữ liệu lên param url
+   */
   routeParams() {
     this.router.navigate([], {
       relativeTo: this.route,
@@ -223,6 +301,15 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     });
     this.listProduct();
   }
+
+  /**
+   * Hàm lấy các tham số truyền vào
+   * @param category loại sản phẩm
+   * @param location mảng địa chỉ sản phẩm
+   * @param brand mảng nhãn hàng
+   * @param page trang số ?
+   * @returns
+   */
   getRequestParams(
     category: string,
     location: [] = [],
@@ -266,10 +353,21 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         name: product.name,
         id: product.optionDef.id,
         price: product.optionDef.price,
+        discount: product.productDiscount[0]?product.productDiscount[0]?.discount:0,
       });
     }
+    console.log(product);
     console.log(this.cart);
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
+  }
+
+  /**
+   * Hàm xem chi tiết sản phẩm từ cửa hàng
+   * @param product id product truyền vào
+   */
+  showDetailProduct(product: any) {
+    console.log(product);
+    this.router.navigate([`/product/detail/${product}`]);
   }
 }

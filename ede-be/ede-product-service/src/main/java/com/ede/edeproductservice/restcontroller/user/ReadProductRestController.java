@@ -115,6 +115,7 @@ public class ReadProductRestController {
 		Page<Product_option> pages = product_option_service.finAllByShop(keyword, shop, PageRequest.of(page, size));
 		return ResponseEntity.ok(pages);
 	}
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/quantity0")
 	public ResponseEntity getAllProductOptionQuantity0(@RequestParam(name = "keyword") String keyword,
@@ -191,7 +192,8 @@ public class ReadProductRestController {
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
 	@GetMapping("/view/get-products")
-	public ResponseEntity<Page<ProductSearch>> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
+	public ResponseEntity<Page<ProductSearch>> getProducts(
+			@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
@@ -200,17 +202,17 @@ public class ReadProductRestController {
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
 	}
-	
+
 	/**
-	 * Lấy 1 sản phẩm (trả về entity Product Search)
-	 * <strong>Phục vụ quá trình xem chi tiết sản phẩm</strong>
+	 * Lấy 1 sản phẩm (trả về entity Product Search) <strong>Phục vụ quá trình xem
+	 * chi tiết sản phẩm</strong>
 	 * 
 	 * @author Vinh
 	 * @param id Id của sản phẩm
 	 * @return Một sản phẩm search
 	 */
 	@GetMapping("/view/get-product-search/{id}")
-	public ResponseEntity<ProductSearch> getProducts(@PathVariable("id") String id){
+	public ResponseEntity<ProductSearch> getProducts(@PathVariable("id") String id) {
 		ProductSearch productSearch = this.service.findByProductSearchId(id);
 		return ResponseEntity.ok(productSearch);
 	}
@@ -359,7 +361,6 @@ public class ReadProductRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.println(shop.getId());
 		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(shop.getId(),
 				PageRequest.of(page.orElse(0), 10));
 		return ResponseEntity.ok(pageF);
@@ -390,4 +391,13 @@ public class ReadProductRestController {
 		return ResponseEntity.ok(list);
 	}
 
+	@GetMapping("/view/get-product-related-shop/{id}")
+	public ResponseEntity<?> getProductRelatedShop(@PathVariable("id") String id,
+			@RequestParam("idcate") String idcate) {
+		System.err.println(idcate);
+		System.err.println(id);
+		PageRequest pageRequest = PageRequest.of(0, 10);
+		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
 }

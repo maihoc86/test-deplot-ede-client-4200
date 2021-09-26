@@ -198,6 +198,7 @@ public loadUser() {
       return obj;
     });
     this.items = item;
+    console.log(item)
   });
 }
 

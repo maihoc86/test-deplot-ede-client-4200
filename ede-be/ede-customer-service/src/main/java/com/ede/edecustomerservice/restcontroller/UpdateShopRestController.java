@@ -26,8 +26,12 @@ public class UpdateShopRestController {
 
 	@Autowired
 	CustomerService customerService;
-	// Chỉnh sửa thông tin của hàng by Thái Học
 
+	/**
+	 * @author Thái học
+	 * @param
+	 * 
+	 */
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/info/update/")
 	public ResponseEntity updateInfoShop(@RequestBody Shop shop, HttpServletRequest req) {
@@ -35,12 +39,16 @@ public class UpdateShopRestController {
 		try {
 			shopLogin = auth_service.getShopLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
-		return ResponseEntity.notFound().build();
+			return ResponseEntity.notFound().build();
 		}
-		
+
 		if (shop.getUser().getId().equals(shopLogin.getUser().getId())) {
-			if(shopLogin.getImage() == null || shopLogin.getImage().equals("")) {
+			if (shopLogin.getImage() == null || shopLogin.getImage().equals("")) {
 				shopLogin.setImage(shop.getImage());
+			}
+		
+			if (shopLogin.getImage_sub() == null || shopLogin.getImage_sub().equals("")) {
+				shopLogin.setImage_sub(shop.getImage_sub());
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(shopService.save(shop));
 		} else {

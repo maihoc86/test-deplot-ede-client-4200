@@ -103,7 +103,7 @@ export class HeaderComponent implements OnInit {
   loadTotal() {
     this.totalCart = 0;
     this.cart.forEach((e) => {
-      this.totalCart += e.qty * e.price;
+      this.totalCart += e.qty * (e.discount==0?e.price:(e.price-e.price*(e.discount/100)));
     });
   }
 }
