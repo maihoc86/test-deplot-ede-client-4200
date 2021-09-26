@@ -11,5 +11,7 @@ export class ShopInterfaceComponent implements OnInit {
 
   ngOnInit(): void {
   }
+ public array: any = [7,6,5,4,3];
+
 
 }
