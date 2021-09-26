@@ -77,8 +77,8 @@
               <li class="language">
                 <div class="btn-group languages-block">
                   <form action="index.html" method="post" enctype="multipart/form-data" id="bt-language">
-                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" routerLink="shop/product/all"
-                      [routerLinkActive]="'active-link'">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown"
+                      (click)="openShop()">
                       <span class="">Kênh người bán</span>
                     </a>
                   </form>
@@ -1124,7 +1124,7 @@
                             <input type="number" value={{item.qty}} #qty style="width:35px"
                               (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)">
                           </td>
-                          <td> <span>{{item.discount==0?item.qty*item.price:(item.price*item.qty)-((item.discount/100)*item.price)| currency :'VND'}}</span></td>
+                          <td> <span>{{(item.discount==0?item.qty*item.price:(item.price*item.qty)-((item.discount/100)*item.price))| currency :'VND'}}</span></td>
 
                           <td class="text-right">
                             <a href="product.html" class="fa fa-edit"></a>
