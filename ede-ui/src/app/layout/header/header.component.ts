@@ -79,12 +79,23 @@ export class HeaderComponent implements OnInit {
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
   }
+  /**
+   * Hàm thay đổi số lượng
+   */
   changeQty(qtyCurrent: any, qtyChange: any) {
-    qtyChange > qtyCurrent.qty ? qtyCurrent.qty++ : qtyCurrent.qty--;
+    qtyCurrent.qty = qtyChange;
+    qtyChange > qtyCurrent.qty
+      ? qtyCurrent.qty++
+      : qtyCurrent.qty == qtyChange
+      ? (qtyCurrent.qty = qtyChange)
+      : qtyCurrent.qty--;
     qtyCurrent.qty == 0 ? this.removeItemCart(qtyCurrent) : '';
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
   }
+  /**
+   * Hàm chỉ được dùng số
+   */
   numberOnly(event: any, qtyCurrent: any, qtyChange: any) {
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
