@@ -1,10 +1,10 @@
 /* -------------------------------------------------------------------------------- /
-	
+
 	Magentech jQuery
 	Created by Magentech
 	v1.0 - 20.9.2016
 	All rights reserved.
-	
+
 / -------------------------------------------------------------------------------- */
 
 
@@ -34,10 +34,10 @@
 		//Stop jGrowl
 		//$.jGrowl.defaults.sticky = true;
 		var tpl = thumb + '<h3>'+text+'</h3>';
-		$.jGrowl(tpl, {		
-			life: 4000,
+		$.jGrowl(tpl, {
+			life: 1000,
 			header: title,
-			speed: 'slow',
+			speed: 'speed',
 			theme: type
 		});
 	}

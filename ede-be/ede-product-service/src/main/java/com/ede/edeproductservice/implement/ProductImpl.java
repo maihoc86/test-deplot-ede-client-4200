@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.ProductDao;
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.ProductService;
@@ -175,6 +176,11 @@ public class ProductImpl implements ProductService {
 	@Override
 	public ProductSearch findByProductSearchId(String id) {
 		return dao.findByProductSearchId(id);
+	}
+
+	@Override
+	public List<Product_brand> selectAllBrandInShop(String valueIdShop) {
+		return dao.selectAllBrandInShop(valueIdShop);
 	}
 
 }

@@ -30,15 +30,17 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public category: any;
   public page: any = [];
   public p: number = 1;
-  public count: any;
+  public count: number = 0;
   public hiddenLocation: boolean = true;
   public hiddenShowLocationMore: boolean = true;
+  public idShop: any;
   ngOnInit(): void {
     this.getCities();
-    this.getBrands();
-    this.getChildCategory();
+
     this.getAllDiscountProduct();
     this.listProduct();
+    this.getBrands(this.idShop);
+    this.getChildCategory(this.idShop);
   }
 
   /**
@@ -52,6 +54,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.category = params['category'] ? params['category'] : '';
       this.location = params['location'] ? params['location'].split(',') : [];
+      this.idShop = params['idShop'] ? params['idShop'] : '';
       this.brand = params['brand'] ? params['brand'].split(',') : [];
       this.page = params['page'];
       // ! FIX ME
@@ -59,56 +62,62 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.page = this.page - 1;
         if (this.category != '' && this.location == '' && this.brand == '') {
           // CATEGORY
-          this.filter(this.category, '', '', this.page);
+          this.filter(this.idShop, this.category, '', '', this.page);
         } else if (
           this.category == '' &&
           this.location != '' &&
           this.brand == ''
         ) {
           // LOCATION
-          this.filter('', this.location, '', this.page);
+          this.filter(this.idShop, '', this.location, '', this.page);
         } else if (
           this.brand != '' &&
           this.location == '' &&
           this.category == ''
         ) {
           // BRAND
-          this.filter('', '', this.brand, this.page);
+          this.filter(this.idShop, '', '', this.brand, this.page);
         } else if (
           this.category != '' &&
           this.location != '' &&
           this.brand == ''
         ) {
           // CATEGORY AND LOCATION
-          this.filter(this.category, this.location, '', this.page);
+          this.filter(this.idShop, this.category, this.location, '', this.page);
         } else if (
           this.category != '' &&
           this.brand != '' &&
           this.location == ''
         ) {
           // CATEGORY AND BRAND
-          this.filter(this.category, '', this.brand, this.page);
+          this.filter(this.idShop, this.category, '', this.brand, this.page);
         } else if (
           this.location != '' &&
           this.brand != '' &&
           this.category == ''
         ) {
           // LOCATION AND BRAND
-          this.filter('', this.location, this.brand, this.page);
+          this.filter(this.idShop, '', this.location, this.brand, this.page);
         } else if (
           this.category != '' &&
           this.location != '' &&
           this.brand != ''
         ) {
           // CATEGORY AND LOCATION AND BRAND
-          this.filter(this.category, this.location, this.brand, this.page);
+          this.filter(
+            this.idShop,
+            this.category,
+            this.location,
+            this.brand,
+            this.page
+          );
         } else {
           // DEFAULT IF PRESENT PAGE
-          this.getAllProductDefault(this.page);
+          this.getAllProductDefault(this.idShop, this.page);
         }
       } else {
         // DEFAULT IF NO PRESENT PAGE
-        this.getAllProductDefault(0);
+        this.getAllProductDefault(this.idShop, 0);
       }
     });
   }
@@ -117,8 +126,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * Hàm lấy ra tất cả sản phẩm của shop
    * @param page trang số
    */
-  public getAllProductDefault(page: any) {
-    this.ProductService.getAllProductShopByCustomer(page).subscribe(
+  public getAllProductDefault(idShop: any, page: any) {
+    this.ProductService.getAllProductShopByCustomer(idShop, page).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
@@ -147,8 +156,15 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param brand nhãn hàng []
    * @param page trang số
    */
-  public filter(category: any, location: any, brand: any, page: any) {
+  public filter(
+    idShop: any,
+    category: any,
+    location: any,
+    brand: any,
+    page: any
+  ) {
     this.ProductService.getAllProductShowInterfaceFilter(
+      idShop,
       category,
       location,
       brand,
@@ -162,6 +178,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
       this.page = data;
       this.count = this.page.totalElements;
+    }, (error) => {
+      console.log(error);
+      this.router.navigate(['/']);
     });
   }
 
@@ -198,24 +217,33 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   /**
    * Hàm lấy ra nhãn hàng của shop
    */
-  public getBrands() {
-    this.ProductService.getBrand().subscribe((data) => {
-      const listBrands = data.map(function (obj: {
-        id: any;
-        name: any;
-        avatar: any;
-      }) {
-        return obj;
-      });
-      this.listBrands = listBrands;
-    });
+  public getBrands(idShop: any) {
+    this.ProductService.getBrandByShop(idShop).subscribe(
+      (data) => {
+        const listBrands = data.map(function (obj: {
+          id: any;
+          name: any;
+          avatar: any;
+        }) {
+          return obj;
+        });
+        this.listBrands = listBrands;
+      },
+      (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Không thể truy vấn sản phẩm!',
+        });
+      }
+    );
   }
 
   /**
    * Hàm lấy ra loại sản phẩm của shop (child_category)
    */
-  public getChildCategory() {
-    this.ProductService.getChildCategoriesShop().subscribe(
+  public getChildCategory(idShop: any) {
+    this.ProductService.getChildCategoriesShop(idShop).subscribe(
       (data) => {
         const listCategories = data.map(function (obj: { id: any; name: any }) {
           return obj;
@@ -353,11 +381,11 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         name: product.name,
         id: product.optionDef.id,
         price: product.optionDef.price,
-        discount: product.productDiscount[0]?product.productDiscount[0]?.discount:0,
+        discount: product.productDiscount[0]
+          ? product.productDiscount[0]?.discount
+          : 0,
       });
     }
-    console.log(product);
-    console.log(this.cart);
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
   }
