@@ -281,8 +281,8 @@ public class ReadProductRestController {
 		String valueBrand = brand.orElse("");
 		String valueLocation = location.orElse("");
 		String valueIdShop = idShop.orElse("");
-		Shop findShop = shopService.findById(valueIdShop);
-		if (findShop == null) {
+		Optional<Shop> shop = shopService.findByIdOptional(idShop.get());
+		if (shop.isEmpty()) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Của hàng không tồn tại", "idShop",
 					null);
 		}
@@ -352,11 +352,15 @@ public class ReadProductRestController {
 	@GetMapping("/view/customer/shop/all/product")
 	public ResponseEntity getAllListProductByCustomer(@RequestParam("idShop") Optional<String> idShop,
 			@RequestParam("page") Optional<Integer> page) {
+		Page<ProductSearch> pageF = null;
+		Optional<Shop> shop = shopService.findByIdOptional(idShop.get());
+		if (shop.isEmpty()) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Của hàng không tồn tại", "idShop",
+					null);
+		} else {
+			pageF = service.listAllProductShopByCustomer(shop.get().getId(), PageRequest.of(page.orElse(0), 10));
+		}
 
-		String valueIdShop = idShop.orElse("");
-
-		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(valueIdShop,
-				PageRequest.of(page.orElse(0), 10));
 		return ResponseEntity.ok(pageF);
 	}
 
