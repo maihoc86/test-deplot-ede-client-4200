@@ -30,7 +30,7 @@ export class MyShopService {
   /**
    * Hàm lấy ra thông tin shop theo ID
    */
-  public getShopInfo(idShop: Shop) {
+  public getShopInfo(idShop: any) {
     return this.httpClient.get<any>(
       this.REST_API_SERVER + '/view/info/' + idShop,
       this.httpOptions

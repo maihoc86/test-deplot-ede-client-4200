@@ -113,6 +113,7 @@ export class ShopProfileComponent implements OnInit {
     description: new FormControl(''),
     user: new FormControl(''),
     create_date: new FormControl(''),
+    status: new FormControl(true)
   });
 
   private createNewDataSop() {
@@ -298,5 +299,8 @@ export class ShopProfileComponent implements OnInit {
           alert('Lỗi thêm Image FTP');
         };
     }
+  }
+  public toInterfaceShop(){
+    this.router.navigate(['/shop/interface/'+this.shop.id]);
   }
 }

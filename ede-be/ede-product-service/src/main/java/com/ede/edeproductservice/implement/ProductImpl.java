@@ -183,4 +183,16 @@ public class ProductImpl implements ProductService {
 		return dao.selectAllBrandInShop(valueIdShop);
 	}
 
+	@Override
+	public Page<Product> findByCategory(String id, PageRequest pageRequest) {
+		
+		return dao.findByCategory(id,pageRequest);
+	}
+
+	@Override
+	public Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest) {
+		
+		return dao.filterProductShopByCustomerCategory2(id,pageRequest);
+	}
+
 }

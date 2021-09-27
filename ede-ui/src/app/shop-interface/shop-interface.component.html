@@ -1,13 +1,13 @@
 <div class="container" style="margin-top: 50px; margin-bottom: 30px;">
   <div class="row">
     <div class="col-sm-4"
-      style="background-image: url('/assets/img/ba.jpg'); background-size: 400px auto; border-radius: 4px 4px;">
+      style="background-image: url('http://localhost:8080/ede-file/get/image/{{shopInfor.image_sub}}'); background-size: 400px auto; border-radius: 4px 4px;">
       <div class="row">
-        <div class="col-sm-4"><img src="/assets/img/nen.jpg" alt="banner1"
+        <div class="col-sm-4"><img  src="http://localhost:8080/ede-file/get/image/{{shopInfor.image}}" alt="banner1"
             style=" width: 100px; height: 100px; margin-top: 15px;">
         </div>
         <div class="col-sm-8" style="color: white;">
-          <h3>KimThanh.vn</h3>
+          <h3>{{shopInfor.name}}</h3>
           <p>Online 10 phút trước</p>
         </div>
       </div>
@@ -23,14 +23,13 @@
     <div class="col-sm-4" style="margin-top: 30px;">
       <i class="glyphicon glyphicon-gift"> Sản Phẩm: <strong style="color: red;">9987</strong> </i><br><br>
       <i class="glyphicon glyphicon-plus-sign"> Đang Theo Dõi: <strong style="color: red;">987</strong></i><br><br>
-      <i class="glyphicon glyphicon-comment"> Tỉ Lệ Phản Hồi Chat:<strong style="color: red;"> 100% (trong vài
-          giây)</strong> </i>
+      <i class="glyphicon glyphicon-comment"> Tỉ Lệ Phản Hồi Chat:<strong style="color: red;"> 100% (Hen xui)</strong> </i>
     </div>
     <div class="col-sm-4" style="margin-top: 30px;">
       <i class="glyphicon glyphicon-user"> Người theo dõi: <strong style="color: red;">65785</strong></i><br><br>
       <i class="glyphicon glyphicon-star"> Đánh giá: <strong style="color: red;">5.0 (8986 Đánh
           giá)</strong></i><br><br>
-      <i class="glyphicon glyphicon-calendar"> Tham gia: <strong style="color: red;">2 năm trước</strong></i>
+      <i class="glyphicon glyphicon-calendar"> Tham gia: <strong style="color: red;">{{shopInfor.create_date| date :'dd-MM-yyyy'}}</strong></i>
     </div>
   </div>
 </div>
@@ -40,7 +39,7 @@
   <div class="container">
     <div class="title-category">
       <h3><strong style="margin-left: 40px;">Dạo</strong> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-        &nbsp;&nbsp; &nbsp;&nbsp; <strong><a routerLink="/shop/showall/interface">Tất cả sản phẩm</a></strong></h3>
+        &nbsp;&nbsp; &nbsp;&nbsp; <strong><a (click)="ToAllProductInterfaceShop()">Tất cả sản phẩm</a></strong></h3>
     </div>
 
     <div class="category-desc" style="margin-top: 20px;">
@@ -95,26 +94,7 @@
             <div class="modcontent clearfix">
               <div class="banners banners1">
                 <textarea class="form-control" rows="12" style="border: none;">
-                  SẴN🎀Đầm maxi voan công chúa cổ yếm cam xoè dài hở lưng hoa
-                  sexy
-                  🌸🌸🌸🌸🌸🌸🌸🌸🌸🤡🤡
-                  Các bạn chú ý đọc Thông tin sp trước khi đặt hàng
-                  Shop chỉ chuyển đơn theo đúng phân loại khách chọn trong đơn .
-                  🌺🌺🌺
-
-                  🎀 Chuyên sỉ lẻ các loại quần áo 4 mùa
-                  🎀 Giá tại xưởng không qua trung gian
-                  🎀 Mẫu mã đa dạng ,hợp thời trang
-                  🎀 Các loại sản phẩm từ chất cotton,citi,lanh,thun....
-                  🎁🎁
-                  🎊🎊🎊Cảm ơn khách đã tin dùng sản phẩm của phuongmyt
-                  📞Contact me:
-                  Fb: @Nguyen Thi Huong Ly
-                  Ig: @lynn.nn24
-                  Sdt: 0935.320.676
-                  https://www.facebook.com/lyy.huong.5
-                  ‼️Nhận oder taobao, tìm hàng theo hình ảnh, theo link. Hàng oder không cọc
-                  ❓Cam kết chọn hàng chất lượng. Hàng về sau 7-15 ngày
+                  {{shopInfor.description}}
                   </textarea>
 
 

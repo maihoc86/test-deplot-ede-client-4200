@@ -394,8 +394,18 @@ public class ReadProductRestController {
 			@RequestParam("idcate") String idcate) {
 		System.err.println(idcate);
 		System.err.println(id);
-		PageRequest pageRequest = PageRequest.of(0, 10);
+		PageRequest pageRequest = PageRequest.of(0, 5);
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
+	
+	@GetMapping("/view/get-product-related-category/{id}")
+	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id
+			) {
+	
+		System.err.println(id);
+		PageRequest pageRequest = PageRequest.of(0, 5);
+		Page<ProductSearch>	listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
 }
