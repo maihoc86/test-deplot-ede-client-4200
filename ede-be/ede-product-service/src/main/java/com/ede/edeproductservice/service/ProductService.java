@@ -67,6 +67,10 @@ public interface ProductService {
 	ProductSearch findByProductSearchId(String id);
 
 	List<Product_brand> selectAllBrandInShop(String valueIdShop);
+
+	Page<Product> findByCategory(String id, PageRequest pageRequest);
+
+	Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest);
 	
 
 

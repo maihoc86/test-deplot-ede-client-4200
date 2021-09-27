@@ -318,5 +318,10 @@ export class AddProductService {
       this.httpOptions
     );
   }
-
+  public getAllProductByCategory(id:any){
+    return this.httpClient.get<any>(
+      this.REST_API_SERVER + '/view/get-product-related-category/' + id,
+      this.httpOptions
+    );
+  }
 }
