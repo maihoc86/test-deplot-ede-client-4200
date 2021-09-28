@@ -319,10 +319,12 @@
                     itemtype="http://data-vocabulary.org/Offer">
 
                     <div *ngIf="product.productDiscount.length!=0">
-                      <span class="price-new" itemprop="price">{{product.optionDef.price * (100 - product.productDiscount[0].discount) / 100 | number}}đ</span>
+                      <span class="price-new" itemprop="price">{{product.optionDef.price * (100 -
+                        product.productDiscount[0].discount) / 100 | number}}đ</span>
                       <span class="price-old">{{product.optionDef.price | number}}đ</span>
                     </div>
-                    <span class="price-new" itemprop="price" *ngIf="product.productDiscount!=[]">{{product.optionDef.price | number}}đ</span>
+                    <span class="price-new" itemprop="price"
+                      *ngIf="product.productDiscount!=[]">{{product.optionDef.price | number}}đ</span>
                   </div>
                   <div class="stock"><span>Availability:</span> <span class="status-stock">In Stock</span></div>
                 </div>
@@ -398,7 +400,7 @@
                     <div class="option quantity">
                       <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
                         <label>Qty</label>
-                        <input class="form-control"  name="quantity" value="1" #qty>
+                        <input class="form-control" name="quantity" value="1" #qty>
                         <input type="hidden" name="product_id" value="50">
                         <span class="input-group-addon product_quantity_down">−</span>
                         <span class="input-group-addon product_quantity_up">+</span>
@@ -407,7 +409,8 @@
                     <div class="cart">
                       <input type="button" data-toggle="tooltip" title="" value="Add to Cart"
                         data-loading-text="Loading..." id="button-cart" class="btn btn-mega btn-lg"
-                        onclick="cart.add(this.id, '1');"  id="{{product.name}}" (click)="addToCart(product,qty.value)" data-original-title="Add to Cart">
+                        onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(product,qty.value)"
+                        data-original-title="Add to Cart">
                     </div>
                     <div class="add-to-links wish_comp">
                       <ul class="blank list-inline">
@@ -432,307 +435,77 @@
 
             </div>
           </div>
+
+
+
+          <div class="banners banners6" style="border: 1px solid rgb(218, 218, 218);">
+            <div class="container" style="margin-top: 50px; margin-bottom: 30px;">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="row">
+                    <div class="col-sm-4"><img src="http://localhost:8080/ede-file/get/image/{{product.shop.image}}" alt="banner1"
+                        style=" width: 100px; height: 100px; margin-top: 15px;">
+                    </div>
+                    <div class="col-sm-8">
+                      <h3>{{product.shop.name}}</h3>
+                      <p>Online 10 phút trước</p>
+                      <div class="row">
+                        <div class="col-sm-5"><button
+                            style="border:1px solid rgb(241, 241, 241) ; background-color: rgb(255, 233, 223);  color: rgb(255, 73, 7); width: 100px; height: 37px;"><i
+                              class="glyphicon glyphicon-comment"></i> Chat Ngay</button></div>
+                        <div (click)="toInterfaceShop(product.shop.id)" class="col-sm-5" style="margin-left: 5px;"><button
+                            style=" margin-left: 10px;border:1px solid rgb(241, 241, 241) ; background-color: rgb(255, 233, 223); color: rgb(255, 73, 7); width: 100px; height: 37px;"><i
+                              class="glyphicon glyphicon-calendar"></i> Xem Shop</button></div>
+                        <div class="col-sm-2"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-sm-8" style="margin-top: 30px;">
+                  <div class="row">
+
+                    <!-- <i class="glyphicon glyphicon-comment"> Tỉ Lệ Phản Hồi Chat:<strong style="color: red;"> 100% (trong vài
+                          giây)</strong> </i> -->
+                    <div class="col-sm-3"> Đánh Giá: <strong style="color: red;">5,3K</strong> <br><br>
+                      Sản Phẩm: <strong style="color: red;">987</strong><br><br>
+                    </div>
+                    <div class="col-sm-5"> Tỉ Lệ Phản Hồi: <strong style="color: red;">92%</strong> <br><br>
+                      Thời Gian Phản Hồi: <strong style="color: red;">Trong vài giờ</strong><br><br>
+                    </div>
+                    <div class="col-sm-4">Tham Gia: <strong style="color: red;">{{product.shop.create_date|date:'dd-MM-yyyy'}}</strong><br><br>
+                      Người Theo Dõi: <strong style="color: red;">98,9k</strong><br><br>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-4" style="margin-top: 30px;">
+                    <i class="glyphicon glyphicon-user"> Người theo dõi: <strong style="color: red;">65785</strong></i><br><br>
+                    <i class="glyphicon glyphicon-star"> Đánh giá: <strong style="color: red;">5.0 (8986 Đánh
+                        giá)</strong></i><br><br>
+                    <i class="glyphicon glyphicon-calendar"> Tham gia: <strong style="color: red;">2 năm trước</strong></i>
+                  </div> -->
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
           <!-- Product Tabs -->
           <div class="producttab ">
             <div class="tabsslider  vertical-tabs col-xs-12">
               <ul class="nav nav-tabs col-lg-2 col-sm-3">
-                <li class="active"><a data-toggle="tab" href="#tab-1">Description</a></li>
-                <li class="item_nonactive"><a data-toggle="tab" href="#tab-review">Reviews (1)</a></li>
+                <li class="active"><a data-toggle="tab" href="#tab-1">Mô tả sản phẩm</a></li>
+                <li class="item_nonactive"><a data-toggle="tab" href="#tab-review">Đánh giá (1)</a></li>
                 <li class="item_nonactive"><a data-toggle="tab" href="#tab-4">Tags</a></li>
-                <li class="item_nonactive"><a data-toggle="tab" href="#tab-5">Custom Tab</a></li>
+
               </ul>
               <div class="tab-content col-lg-10 col-sm-9 col-xs-12">
                 <div id="tab-1" class="tab-pane fade active in">
-                  <p>
-                    The 30-inch Apple Cinema HD Display delivers an amazing 2560 x 1600 pixel resolution. Designed
-                    specifically for the creative professional, this display provides more space for easier access to
-                    all the tools and palettes needed to edit, format and composite your work. Combine this display
-                    with a Mac Pro, MacBook Pro, or PowerMac G5 and there's no limit to what you can achieve. <br>
-                    <br>
-                    The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images
-                    that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical
-                    CRT display. Unlike other flat panels, it's designed with a pure digital interface to deliver
-                    distortion-free images that never need adjusting. With over 4 million digital pixels, the display
-                    is uniquely suited for scientific and technical applications such as visualizing molecular
-                    structures or analyzing geological data. <br>
-                    <br>
-                    Offering accurate, brilliant color performance, the Cinema HD delivers up to 16.7 million colors
-                    across a wide gamut allowing you to see subtle nuances between colors from soft pastels to rich
-                    jewel tones. A wide viewing angle ensures uniform color from edge to edge. Apple's ColorSync
-                    technology allows you to create custom profiles to maintain consistent color onscreen and in
-                    print. The result: You can confidently use this display in all your color-critical applications.
-                    <br>
-                    <br>
-                    Housed in a new aluminum design, the display has a very thin bezel that enhances visual accuracy.
-                    Each display features two FireWire 400 ports and two USB 2.0 ports, making attachment of desktop
-                    peripherals, such as iSight, iPod, digital and still cameras, hard drives, printers and scanners,
-                    even more accessible and convenient. Taking advantage of the much thinner and lighter footprint of
-                    an LCD, the new displays support the VESA (Video Electronics Standards Association) mounting
-                    interface standard. Customers with the optional Cinema Display VESA Mount Adapter kit gain the
-                    flexibility to mount their display in locations most appropriate for their work environment. <br>
-                    <br>
-                    The Cinema HD features a single cable design with elegant breakout for the USB 2.0, FireWire 400
-                    and a pure digital connection using the industry standard Digital Video Interface (DVI) interface.
-                    The DVI connection allows for a direct pure-digital connection.<br>
-                  </p>
-                  <h3>
-                    Features:</h3>
-                  <p>
-                    Unrivaled display performance</p>
-                  <ul>
-                    <li>
-                      30-inch (viewable) active-matrix liquid crystal display provides breathtaking image quality and
-                      vivid, richly saturated color.</li>
-                    <li>
-                      Support for 2560-by-1600 pixel resolution for display of high definition still and video
-                      imagery.</li>
-                    <li>
-                      Wide-format design for simultaneous display of two full pages of text and graphics.</li>
-                    <li>
-                      Industry standard DVI connector for direct attachment to Mac- and Windows-based desktops and
-                      notebooks</li>
-                    <li>
-                      Incredibly wide (170 degree) horizontal and vertical viewing angle for maximum visibility and
-                      color performance.</li>
-                    <li>
-                      Lightning-fast pixel response for full-motion digital video playback.</li>
-                    <li>
-                      Support for 16.7 million saturated colors, for use in all graphics-intensive applications.</li>
-                  </ul>
-                  <p>
-                    Simple setup and operation</p>
-                  <ul>
-                    <li>
-                      Single cable with elegant breakout for connection to DVI, USB and FireWire ports</li>
-                    <li>
-                      Built-in two-port USB 2.0 hub for easy connection of desktop peripheral devices.</li>
-                    <li>
-                      Two FireWire 400 ports to support iSight and other desktop peripherals</li>
-                  </ul>
-                  <p>
-                    Sleek, elegant design</p>
-                  <ul>
-                    <li>
-                      Huge virtual workspace, very small footprint.</li>
-                    <li>
-                      Narrow Bezel design to minimize visual impact of using dual displays</li>
-                    <li>
-                      Unique hinge design for effortless adjustment</li>
-                    <li>
-                      Support for VESA mounting solutions (Apple Cinema Display VESA Mount Adapter sold separately)
-                    </li>
-                  </ul>
-                  <h3>
-                    Technical specifications</h3>
-                  <p>
-                    <b>Screen size (diagonal viewable image size)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      Apple Cinema HD Display: 30 inches (29.7-inch viewable)</li>
-                  </ul>
-                  <p>
-                    <b>Screen type</b>
-                  </p>
-                  <ul>
-                    <li>
-                      Thin film transistor (TFT) active-matrix liquid crystal display (AMLCD)</li>
-                  </ul>
-                  <p>
-                    <b>Resolutions</b>
-                  </p>
-                  <ul>
-                    <li>
-                      2560 x 1600 pixels (optimum resolution)</li>
-                    <li>
-                      2048 x 1280</li>
-                    <li>
-                      1920 x 1200</li>
-                    <li>
-                      1280 x 800</li>
-                    <li>
-                      1024 x 640</li>
-                  </ul>
-                  <p>
-                    <b>Display colors (maximum)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      16.7 million</li>
-                  </ul>
-                  <p>
-                    <b>Viewing angle (typical)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      170° horizontal; 170° vertical</li>
-                  </ul>
-                  <p>
-                    <b>Brightness (typical)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      30-inch Cinema HD Display: 400 cd/m2</li>
-                  </ul>
-                  <p>
-                    <b>Contrast ratio (typical)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      700:1</li>
-                  </ul>
-                  <p>
-                    <b>Response time (typical)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      16 ms</li>
-                  </ul>
-                  <p>
-                    <b>Pixel pitch</b>
-                  </p>
-                  <ul>
-                    <li>
-                      30-inch Cinema HD Display: 0.250 mm</li>
-                  </ul>
-                  <p>
-                    <b>Screen treatment</b>
-                  </p>
-                  <ul>
-                    <li>
-                      Antiglare hardcoat</li>
-                  </ul>
-                  <p>
-                    <b>User controls (hardware and software)</b>
-                  </p>
-                  <ul>
-                    <li>
-                      Display Power,</li>
-                    <li>
-                      System sleep, wake</li>
-                    <li>
-                      Brightness</li>
-                    <li>
-                      Monitor tilt</li>
-                  </ul>
-                  <p>
-                    <b>Connectors and cables</b><br>
-                    Cable
-                  </p>
-                  <ul>
-                    <li>
-                      DVI (Digital Visual Interface)</li>
-                    <li>
-                      FireWire 400</li>
-                    <li>
-                      USB 2.0</li>
-                    <li>
-                      DC power (24 V)</li>
-                  </ul>
-                  <!-- <p>
-									Connectors</p>
-								<ul>
-									<li>
-										Two-port, self-powered USB 2.0 hub</li>
-									<li>
-										Two FireWire 400 ports</li>
-									<li>
-										Kensington security port</li>
-								</ul>
-								<p>
-									<b>VESA mount adapter</b><br>
-									Requires optional Cinema Display VESA Mount Adapter (M9649G/A)</p>
-								<ul>
-									<li>
-										Compatible with VESA FDMI (MIS-D, 100, C) compliant mounting solutions</li>
-								</ul>
-								<p>
-									<b>Electrical requirements</b></p>
-								<ul>
-									<li>
-										Input voltage: 100-240 VAC 50-60Hz</li>
-									<li>
-										Maximum power when operating: 150W</li>
-									<li>
-										Energy saver mode: 3W or less</li>
-								</ul>
-								<p>
-									<b>Environmental requirements</b></p>
-								<ul>
-									<li>
-										Operating temperature: 50° to 95° F (10° to 35° C)</li>
-									<li>
-										Storage temperature: -40° to 116° F (-40° to 47° C)</li>
-									<li>
-										Operating humidity: 20% to 80% noncondensing</li>
-									<li>
-										Maximum operating altitude: 10,000 feet</li>
-								</ul>
-								<p>
-									<b>Agency approvals</b></p>
-								<ul>
-									<li>
-										FCC Part 15 Class B</li>
-									<li>
-										EN55022 Class B</li>
-									<li>
-										EN55024</li>
-									<li>
-										VCCI Class B</li>
-									<li>
-										AS/NZS 3548 Class B</li>
-									<li>
-										CNS 13438 Class B</li>
-									<li>
-										ICES-003 Class B</li>
-									<li>
-										ISO 13406 part 2</li>
-									<li>
-										MPR II</li>
-									<li>
-										IEC 60950</li>
-									<li>
-										UL 60950</li>
-									<li>
-										CSA 60950</li>
-									<li>
-										EN60950</li>
-									<li>
-										ENERGY STAR</li>
-									<li>
-										TCO '03</li>
-								</ul>
-								<p>
-									<b>Size and weight</b><br>
-									30-inch Apple Cinema HD Display</p>
-								<ul>
-									<li>
-										Height: 21.3 inches (54.3 cm)</li>
-									<li>
-										Width: 27.2 inches (68.8 cm)</li>
-									<li>
-										Depth: 8.46 inches (21.5 cm)</li>
-									<li>
-										Weight: 27.5 pounds (12.5 kg)</li>
-								</ul>
-								<p>
-									<b>System Requirements</b></p>
-								<ul>
-									<li>
-										Mac Pro, all graphic options</li>
-									<li>
-										MacBook Pro</li>
-									<li>
-										Power Mac G5 (PCI-X) with ATI Radeon 9650 or better or NVIDIA GeForce 6800 GT DDL or better</li>
-									<li>
-										Power Mac G5 (PCI Express), all graphics options</li>
-									<li>
-										PowerBook G4 with dual-link DVI support</li>
-									<li>
-										Windows PC and graphics card that supports DVI ports with dual-link digital bandwidth and VESA DDC standard for plug-and-play setup</li>
-								</ul> -->
-
-
+                  <textarea rows="25"
+                    style="width: 100%; height: 100%; border: none;">{{product.description==''?'Không có mô tả':product.description}}</textarea>
                 </div>
                 <div id="tab-review" class="tab-pane fade">
                   <form>
@@ -797,77 +570,60 @@
                   <a href="#">Monitor</a>,
                   <a href="#">Apple</a>
                 </div>
-                <div id="tab-5" class="tab-pane fade">
-                  <h3 class="custom-color">Take a trivial example which of us ever undertakes</h3>
-                  <p>Lorem ipsum dolor sit amet, consetetur
-                    sadipscing elitr, sed diam nonumy eirmod
-                    tempor invidunt ut labore et dolore
-                    magna aliquyam erat, sed diam voluptua.
-                    At vero eos et accusam et justo duo
-                    dolores et ea rebum. Stet clita kasd
-                    gubergren, no sea takimata sanctus est
-                    Lorem ipsum dolor sit amet. Lorem ipsum
-                    dolor sit amet, consetetur sadipscing
-                    elitr, sed diam nonumy eirmod tempor
-                    invidunt ut labore et dolore magna aliquyam
-                    erat, sed diam voluptua. </p>
-                  <p>At vero eos et accusam et justo duo dolores
-                    et ea rebum. Stet clita kasd gubergren,
-                    no sea takimata sanctus est Lorem ipsum
-                    dolor sit amet. Lorem ipsum dolor sit
-                    amet, consetetur sadipscing elitr.</p>
-                  <ul class="marker-simple-list two-columns">
-                    <li>Nam liberempore</li>
-                    <li>Cumsoluta nobisest</li>
-                    <li>Eligendptio cumque</li>
-                    <li>Nam liberempore</li>
-                    <li>Cumsoluta nobisest</li>
-                    <li>Eligendptio cumque</li>
-                  </ul>
-                  <p>Sed diam nonumy eirmod tempor invidunt
-                    ut labore et dolore magna aliquyam erat,
-                    sed diam voluptua. At vero eos et accusam
-                    et justo duo dolores et ea rebum. Stet
-                    clita kasd gubergren, no sea takimata
-                    sanctus est Lorem ipsum dolor sit amet.</p>
-                </div>
+
               </div>
             </div>
           </div>
           <!-- //Product Tabs -->
 
           <!-- Related Products -->
-          <div class="related titleLine products-list grid module ">
-            <h3 class="modtitle">Related Products </h3>
 
-            <div class="releate-products yt-content-slider products-list" data-rtl="no" data-loop="yes"
-              data-autoplay="no" data-autoheight="no" data-autowidth="no" data-delay="4" data-speed="0.6"
-              data-margin="30" data-items_column0="5" data-items_column1="3" data-items_column2="3"
-              data-items_column3="2" data-items_column4="1" data-arrows="yes" data-pagination="no" data-lazyload="yes"
-              data-hoverpause="yes">
-              <div class="item">
-                <div class="item-inner product-layout transition product-grid">
-                  <div class="product-item-container">
-                    <div class="left-block">
-                      <div class="product-image-container second_img">
-                        <a href="product.html" target="_self" title="Pastrami bacon">
-                          <img src="./../../assets/image/catalog/demo/product/320/9.jpg" class="img-1 img-responsive"
-                            alt="Pastrami bacon">
-                          <img src="./../../assets/image/catalog/demo/product/320/2.jpg" class="img-2 img-responsive"
-                            alt="Pastrami bacon">
-                        </a>
-                      </div>
 
+          <div class="related titleLine products-list grid module " *ngIf="listProductRelatedShop.length>1" >
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="modtitle">SẢN PHẨM LIÊN QUAN SHOP</h3>
+              </div>
+              <div class="col-sm-6" (click)="toInterfaceShop(product.shop.id)">
+                <h4 style="margin-left: 80%;"><a>Xem tất cả ></a></h4>
+              </div>
+            </div>
+            <div *ngFor="let item of listProductRelatedShop">
+              <div class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12"
+                *ngIf="item.idProduct!=product.idProduct">
+
+                <div class="product-item-container" style="height:300px">
+                  <div class="left-block">
+                    <div class="product-image-container second_img" style="height:150px">
+                      <a (click)="openDetailByRelated(item.idProduct)" target="_self" title="Chicken swinesha">
+                        <img src="http://localhost:8080/ede-file/get/image/{{
+                        item.optionDef.optionImageDef.image
+                      }}" class="img-1 img-responsive" alt="image">
+                        <img src="http://localhost:8080/ede-file/get/image/{{
+                        item.optionDef.optionImageDef.image
+                      }}" class="img-2 img-responsive" alt="image">
+                      </a>
+                    </div>
+                    <div class="box-label">
+                      <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
+                        -{{ item.productDiscount[0].discount}}%
+                      </span>
+
+                    </div>
+                    <div style="margin-top: 30px;">
                       <div class="button-group so-quickview cartinfo--left">
-                        <button type="button" class="addToCart btn-button" title="Add to cart"
-                          onclick="cart.add('60 ');"> <i class="fa fa-shopping-basket"></i>
-                          <span>Add to cart </span>
+                        <button type="button" class="addToCart btn-button" title="Add to cart"> <i
+                            class="fa fa-shopping-basket"></i>
+                          <span>Add to cart</span>
                         </button>
-                        <button type="button" class="wishlist btn-button" title="Add to Wish List"
-                          onclick="wishlist.add('60');"><i class="fa fa-heart"></i><span>Add to Wish List</span>
+                        <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
+                            class="fa fa-heart"></i><span>Add to Wish
+                            List</span>
                         </button>
-                        <button type="button" class="compare btn-button" title="Compare this Product "
-                          onclick="compare.add('60');"><i class="fa fa-refresh"></i><span>Compare this Product</span>
+                        <button type="button" class="compare btn-button" title="Compare this Product "><i
+                            class="fa fa-refresh"></i><span>Compare this
+                            Product</span>
                         </button>
                         <!--quickview-->
                         <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
@@ -876,84 +632,112 @@
                         <!--end quickview-->
                       </div>
                     </div>
-                    <div class="right-block">
-                      <div class="caption">
-
-                        <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                          <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                          <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-                          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-                        </div>
-                        <h4><a href="product.html" title="Pastrami bacon" target="_self">Pastrami bacon</a></h4>
-                        <div class="price">$42.00</div>
+                  </div>
+                  <div class="right-block">
+                    <div class="caption">
+                      <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                       </div>
+                      <h4><a href="product.html" title="Chicken swinesha" target="_self"></a>
+                        {{item.name}}
+                      </h4>
+                      <div class="price">
+                        <div>
+                          <span class="price-new">$46.00</span>
+                          <span class="price-old">$55.00</span>
+                        </div>
+                        <span class="price-new"></span>
+                      </div>
+
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div *ngFor="let item of listProductRelatedShop">
-
-                  
-
-                <div class="item" >
-                  <div class="item-inner product-layout transition product-grid">
-                    <div class="product-item-container">
-                      <div class="left-block">
-                        <div class="product-image-container second_img">
-                          <a href="product.html" target="_self" title="Lamboudin ribeye">
-                            <img src="./../../assets/image/catalog/demo/product/320/3.jpg" class="img-1 img-responsive"
-                              alt="image">
-                            <img src="./../../assets/image/catalog/demo/product/320/9.jpg" class="img-2 img-responsive"
-                              alt="image">
-                          </a>
-                        </div>
-  
-                        <div class="button-group so-quickview cartinfo--left">
-                          <button type="button" class="addToCart btn-button" title="Add to cart"
-                            onclick="cart.add('60 ');"> <i class="fa fa-shopping-basket"></i>
-                            <span>Add to cart </span>
-                          </button>
-                          <button type="button" class="wishlist btn-button" title="Add to Wish List"
-                            onclick="wishlist.add('60');"><i class="fa fa-heart"></i><span>Add to Wish List</span>
-                          </button>
-                          <button type="button" class="compare btn-button" title="Compare this Product "
-                            onclick="compare.add('60');"><i class="fa fa-refresh"></i><span>Compare this Product</span>
-                          </button>
-                          <!--quickview-->
-                          <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
-                            title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick
-                              view</span></a>
-                          <!--end quickview-->
-                        </div>
-                      </div>
-                      <div class="right-block">
-                        <div class="caption">
-                          <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                            <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                            <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                            <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-                            <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-                          </div>
-  
-                          <h4><a href="product.html" title="Lamboudin ribeye" target="_self">Lamboudin ribeye</a></h4>
-                          <div class="price">$63.00</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
-
-              
-
-
             </div>
           </div>
 
+          <div class="related titleLine products-list grid module ">
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="modtitle">SẢN PHẨM LIÊN QUAN</h3>
+              </div>
+              <div class="col-sm-6">
+
+              </div>
+            </div>
+
+            <div *ngFor="let item of listProductRelatedCategory"
+              class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
+
+              <div class="product-item-container" style="height:300px">
+                <div class="left-block">
+                  <div class="product-image-container second_img" style="height:150px">
+                    <a (click)="openDetailByRelated(item.idProduct)" target="_self" title="Chicken swinesha">
+                      <img src="http://localhost:8080/ede-file/get/image/{{
+                        item.optionDef.optionImageDef.image
+                      }}" class="img-1 img-responsive" alt="image">
+                      <img src="http://localhost:8080/ede-file/get/image/{{
+                        item.optionDef.optionImageDef.image
+                      }}" class="img-2 img-responsive" alt="image">
+                    </a>
+                  </div>
+                  <div class="box-label">
+                    <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
+                      -{{ item.productDiscount[0].discount}}%
+                    </span>
+
+                  </div>
+                  <div style="margin-top: 30px;">
+                    <div class="button-group so-quickview cartinfo--left">
+                      <button type="button" class="addToCart btn-button" title="Add to cart"> <i
+                          class="fa fa-shopping-basket"></i>
+                        <span>Add to cart</span>
+                      </button>
+                      <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
+                          class="fa fa-heart"></i><span>Add to Wish
+                          List</span>
+                      </button>
+                      <button type="button" class="compare btn-button" title="Compare this Product "><i
+                          class="fa fa-refresh"></i><span>Compare this
+                          Product</span>
+                      </button>
+                      <!--quickview-->
+                      <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
+                        title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick
+                          view</span></a>
+                      <!--end quickview-->
+                    </div>
+                  </div>
+                </div>
+                <div class="right-block">
+                  <div class="caption">
+                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                      <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                      <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                      <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                      <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                    </div>
+                    <h4><a href="product.html" title="Chicken swinesha" target="_self"></a>
+                      {{item.name}}
+                    </h4>
+                    <div class="price">
+                      <div>
+                        <span class="price-new">$46.00</span>
+                        <span class="price-old">$55.00</span>
+                      </div>
+                      <span class="price-new"></span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
           <!-- end Related  Products-->
         </div>
 

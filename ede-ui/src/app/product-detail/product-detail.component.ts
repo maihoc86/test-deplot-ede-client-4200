@@ -2,6 +2,8 @@ import { ProductSearchService } from './../Services/product-search/product-searc
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../Services/header/header.service';
+import { AddProductService } from '../Services/product-shop/add-product.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -13,6 +15,8 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private productService:AddProductService,
+    private router:Router,
     private productSearchSrv: ProductSearchService,
     private headerService: HeaderService
   ) { 
@@ -21,15 +25,16 @@ export class ProductDetailComponent implements OnInit {
         this.product = result
   
         this.loadListProductRelatedShop(result.shop.id,result.childCategory.id);
+        this.loadListProductRelatedCategory(result.childCategory.id)
       })
     })
   }
   public  qty:number=1;
   public product: any = {};
   public cart: Array<any> = [];
-  public listProductRelatedShop: any = { };
-  public listProductRelatedProduct: any = { };
-  public listProductRelatedCategory: any = { };
+  public listProductRelatedShop: any = [];
+  public listProductRelatedProduct: any = [];
+  public listProductRelatedCategory: any = [];
   ngOnInit(): void {
     
   }
@@ -65,10 +70,16 @@ export class ProductDetailComponent implements OnInit {
       this.listProductRelatedShop=data.content;
     })
   }
-  public loadListProductRelatedProduct(id:string){
-    
-  }
   public loadListProductRelatedCategory(idCategory:string){
-    
+     this.productService.getAllProductByCategory(idCategory).subscribe(data=>{
+      this.listProductRelatedCategory=data.content;
+     })
+  }
+
+  public openDetailByRelated(id:string){
+    document.location.href='http://localhost:4200/product/detail/'+id;
+  }
+  public toInterfaceShop(id:any){
+    this.router.navigate(['/shop/interface/'+id]);
   }
 }

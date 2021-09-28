@@ -9,4 +9,5 @@ export interface Shop {
   create_date: string;
   description: string;
   address: string;
+  status:boolean;
 }

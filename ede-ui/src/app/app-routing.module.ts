@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'shop/product/manager', component: ProductShopComponent },
   { path: 'shop/product/all', component: ProductAllComponent},
   { path: 'shop/order/all', component:OrderAllComponent},
-  { path: 'shop/interface', component: ShopInterfaceComponent},
+  { path: 'shop/interface/:id', component: ShopInterfaceComponent},
   { path: 'shop/showall/interface', component: ShowAllProductsShopInterfaceComponent},
   { path: 'shop/profile', component: ShopProfileComponent},
   { path: 'shop/product/manager/:id', component:ProductShopComponent, pathMatch: 'full'},
