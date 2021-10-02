@@ -1,4 +1,4 @@
-package com.ede.edeorderservice.entity;
+package com.ede.edeproductservice.entity;
 
 import java.io.Serializable;
 import java.util.List;

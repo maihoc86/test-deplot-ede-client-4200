@@ -443,8 +443,8 @@
               <div class="row">
                 <div class="col-sm-4">
                   <div class="row">
-                    <div class="col-sm-4"><img src="http://localhost:8080/ede-file/get/image/{{product.shop.image}}" alt="banner1"
-                        style=" width: 100px; height: 100px; margin-top: 15px;">
+                    <div class="col-sm-4"><img src="http://localhost:8080/ede-file/get/image/{{product.shop.image}}"
+                        alt="banner1" style=" width: 100px; height: 100px; margin-top: 15px;">
                     </div>
                     <div class="col-sm-8">
                       <h3>{{product.shop.name}}</h3>
@@ -453,9 +453,11 @@
                         <div class="col-sm-5"><button
                             style="border:1px solid rgb(241, 241, 241) ; background-color: rgb(255, 233, 223);  color: rgb(255, 73, 7); width: 100px; height: 37px;"><i
                               class="glyphicon glyphicon-comment"></i> Chat Ngay</button></div>
-                        <div (click)="toInterfaceShop(product.shop.id)" class="col-sm-5" style="margin-left: 5px;"><button
+                        <div (click)="toInterfaceShop(product.shop.id)" class="col-sm-5" style="margin-left: 5px;">
+                          <button
                             style=" margin-left: 10px;border:1px solid rgb(241, 241, 241) ; background-color: rgb(255, 233, 223); color: rgb(255, 73, 7); width: 100px; height: 37px;"><i
-                              class="glyphicon glyphicon-calendar"></i> Xem Shop</button></div>
+                              class="glyphicon glyphicon-calendar"></i> Xem Shop</button>
+                        </div>
                         <div class="col-sm-2"></div>
                       </div>
                     </div>
@@ -473,7 +475,8 @@
                     <div class="col-sm-5"> Tỉ Lệ Phản Hồi: <strong style="color: red;">92%</strong> <br><br>
                       Thời Gian Phản Hồi: <strong style="color: red;">Trong vài giờ</strong><br><br>
                     </div>
-                    <div class="col-sm-4">Tham Gia: <strong style="color: red;">{{product.shop.create_date|date:'dd-MM-yyyy'}}</strong><br><br>
+                    <div class="col-sm-4">Tham Gia: <strong
+                        style="color: red;">{{product.shop.create_date|date:'dd-MM-yyyy'}}</strong><br><br>
                       Người Theo Dõi: <strong style="color: red;">98,9k</strong><br><br>
                     </div>
                   </div>
@@ -498,7 +501,8 @@
             <div class="tabsslider  vertical-tabs col-xs-12">
               <ul class="nav nav-tabs col-lg-2 col-sm-3">
                 <li class="active"><a data-toggle="tab" href="#tab-1">Mô tả sản phẩm</a></li>
-                <li class="item_nonactive"><a data-toggle="tab" href="#tab-review">Đánh giá (1)</a></li>
+                <li class="item_nonactive"><a data-toggle="tab" href="#tab-review">Đánh giá
+                    SP({{listComment.length}})</a></li>
                 <li class="item_nonactive"><a data-toggle="tab" href="#tab-4">Tags</a></li>
 
               </ul>
@@ -510,59 +514,43 @@
                 <div id="tab-review" class="tab-pane fade">
                   <form>
                     <div id="review">
-                      <table class="table table-striped table-bordered">
-                        <tbody>
-                          <tr>
-                            <td style="width: 50%;"><strong>Super Administrator</strong></td>
-                            <td class="text-right">29/07/2015</td>
-                          </tr>
-                          <tr>
-                            <td colspan="2">
-                              <p>Best this product opencart</p>
-                              <div class="ratings">
-                                <div class="rating-box">
-                                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i
-                                      class="fa fa-star-o fa-stack-1x"></i></span>
-                                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i
-                                      class="fa fa-star-o fa-stack-1x"></i></span>
-                                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i
-                                      class="fa fa-star-o fa-stack-1x"></i></span>
-                                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i
-                                      class="fa fa-star-o fa-stack-1x"></i></span>
-                                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class="text-right"></div>
-                    </div>
-                    <h2 id="review-title">Write a review</h2>
-                    <div class="contacts-form">
-                      <div class="form-group"> <span class="icon icon-user"></span>
-                        <input type="text" name="name" class="form-control" value="Your Name"
-                          onblur="if (this.value == '') {this.value = 'Your Name';}"
-                          onfocus="if(this.value == 'Your Name') {this.value = '';}">
+                      <div class="row" *ngFor="let item of listComment">
+                        <div class class="col-sm-1">
+                          <img src="../../assets/img/2.jpg" />
+                        </div>
+                        <div class="col-sm-11">
+                          <p>{{item.user.username}}</p>
+                          <div class="rating">
+                            <span *ngFor='let item2 of fakeArray(item.rate)' class="fa fa-stack"><i
+                                class="fa fa-star fa-stack-2x"></i></span>
+                            <span *ngFor='let item2 of  fakeArray(5 - item.rate )' class="fa fa-stack"><i
+                                *ngIf='item.rate <5' class="fa fa-star-o fa-stack-2x"></i></span>
+                          </div>
+                          <p style="color: gray;">Phân loại hàng:{{item.product.name}}</p>
+                          <p>{{item.content}}</p>
+                          <p>{{item.date | date: 'dd-MM-yyyy'}}</p>
+                        </div>
                       </div>
-                      <div class="form-group"> <span class="icon icon-bubbles-2"></span>
-                        <textarea class="form-control" name="text"
-                          onblur="if (this.value == '') {this.value = 'Your Review';}"
-                          onfocus="if(this.value == 'Your Review') {this.value = '';}">Your Review</textarea>
-                      </div>
-                      <span style="font-size: 11px;"><span class="text-danger">Note:</span> HTML is not
-                        translated!</span>
 
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-1"><img src="../../assets/img/2.jpg" /></div>
+                        <div class="col-sm-11">
+                          <p>Thanh cute</p>
+                          <textarea style="border: 1px solid rgb(218, 218, 218);  " rows="7" cols="110%"
+                            placeholder="Nhập bình luận của bạn..."></textarea>
+                        </div>
+                      </div>
                       <div class="form-group">
-                        <b>Rating</b> <span>Bad</span>&nbsp;
+                        <b>Đánh giá: </b> <span>Tệ</span>&nbsp;
                         <input type="radio" name="rating" value="1"> &nbsp;
                         <input type="radio" name="rating" value="2"> &nbsp;
                         <input type="radio" name="rating" value="3"> &nbsp;
                         <input type="radio" name="rating" value="4"> &nbsp;
-                        <input type="radio" name="rating" value="5"> &nbsp;<span>Good</span>
+                        <input type="radio" name="rating" value="5"> &nbsp;<span>Tốt</span>
 
                       </div>
-                      <div class="buttons clearfix"><a id="button-review" class="btn buttonGray">Continue</a></div>
+                      <div class="buttons clearfix"><a id="button-review" class="btn buttonGray">Gửi đánh giá</a></div>
                     </div>
                   </form>
                 </div>
@@ -579,7 +567,7 @@
           <!-- Related Products -->
 
 
-          <div class="related titleLine products-list grid module " *ngIf="listProductRelatedShop.length>1" >
+          <div class="related titleLine products-list grid module " *ngIf="listProductRelatedShop.length>1">
 
             <div class="row">
               <div class="col-sm-6">
