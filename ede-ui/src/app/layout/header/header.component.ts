@@ -5,6 +5,7 @@ import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -52,6 +53,7 @@ export class HeaderComponent implements OnInit {
       .then((data) => {
         this.login = true;
         this.u = data;
+
       })
       .catch((err) => {
         console.log(err);
@@ -72,23 +74,30 @@ export class HeaderComponent implements OnInit {
     this.loadTotal();
   }
   public removeItemCart(e: any) {
-    if (e.qty <= 1) {
-      this.cart.splice(
-        this.cart.findIndex((es) => es.id == e.id),
-        1
-      );
-    } else {
-      e.qty--;
-    }
+    this.cart.splice(
+      this.cart.findIndex((es) => es.id == e.id),
+      1
+    );
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
   }
+  /**
+   * Hàm thay đổi số lượng
+   */
   changeQty(qtyCurrent: any, qtyChange: any) {
-    qtyChange > qtyCurrent.qty ? qtyCurrent.qty++ : qtyCurrent.qty--;
+    qtyCurrent.qty = qtyChange;
+    qtyChange > qtyCurrent.qty
+      ? qtyCurrent.qty++
+      : qtyCurrent.qty == qtyChange
+      ? (qtyCurrent.qty = qtyChange)
+      : qtyCurrent.qty--;
     qtyCurrent.qty == 0 ? this.removeItemCart(qtyCurrent) : '';
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
   }
+  /**
+   * Hàm chỉ được dùng số
+   */
   numberOnly(event: any, qtyCurrent: any, qtyChange: any) {
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -103,7 +112,31 @@ export class HeaderComponent implements OnInit {
   loadTotal() {
     this.totalCart = 0;
     this.cart.forEach((e) => {
-      this.totalCart += e.qty * e.price;
+      this.totalCart +=
+        e.qty *
+        (e.discount == 0 ? e.price : e.price - e.price * (e.discount / 100));
     });
+  }
+
+  openShop(){
+    this.headerService.getShopByToken(this.cookieService.get('auth')).subscribe(
+      data => {
+        console.log(data);
+        if(data.status){
+          this.router.navigate(['shop/product/all']);
+        }
+        else{
+          Swal.fire({
+            title:'Thông báo',
+            text: 'Shop của bạn đã bị tạm khoá',
+            showConfirmButton:true,
+            showCancelButton:true,
+            confirmButtonText: 'Liên hệ hỗ trợ?',
+            cancelButtonText:'Trở lại'
+          })
+        }
+      }
+    )
+    //
   }
 }

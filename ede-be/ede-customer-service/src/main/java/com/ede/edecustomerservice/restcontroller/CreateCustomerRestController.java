@@ -113,6 +113,7 @@ public class CreateCustomerRestController {
 			shop.setImage("bia.jpg");
 			shop.setName(user.getUsername());
 			shop.setUser(service.findById(user.getId()).get());
+			shop.setStatus(true);
 			this.shopservice.save(shop);
 			Authorities addAuthorities = new Authorities();
 			addAuthorities.setUser(user);
@@ -148,7 +149,8 @@ public class CreateCustomerRestController {
 			otp += rand.nextInt(10);
 		}
 		// create and save token
-		User userOri = this.service.findByEmailLike(email);;
+		User userOri = this.service.findByEmailLike(email);
+		;
 		if (null == userOri) {
 			return ResponseEntity.ok(false);
 		}
@@ -173,12 +175,15 @@ public class CreateCustomerRestController {
 	public ResponseEntity checkActiveAccount(@RequestParam String email, @RequestParam String token) {
 		User active = service.findByEmail(email);
 		if (active == null) {
-			return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Hệ thống không có Email này", "email", null);
+			return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Hệ thống không có Email này", "email",
+					null);
 		} else {
 			if (active.getOtp() == null && active.getIs_active() == true) {
-				return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Tài khoản này đã được kích hoạt", "email", null);
+				return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, true, "Tài khoản này đã được kích hoạt",
+						"email", null);
 			} else if (!active.getOtp().equals(token)) {
-				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token không chính xác", "email", null);
+				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token không chính xác", "email",
+						null);
 			} else {
 				if (jwtService.checkToken(token)) {
 					active.setIs_active(true);
@@ -188,7 +193,8 @@ public class CreateCustomerRestController {
 					active.setIs_active(false);
 					active.setOtp(null);
 					this.service.saveUser(active);
-					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token đã hết hạn", "email", null);
+					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Token đã hết hạn", "email",
+							null);
 				}
 			}
 		}
@@ -270,7 +276,7 @@ public class CreateCustomerRestController {
 	/**
 	 * Create search account admin
 	 * 
-	 * @author Thanh
+	 * @author Việt
 	 */
 
 	@GetMapping("/getuserlogin/{token}")
@@ -295,6 +301,21 @@ public class CreateCustomerRestController {
 			System.out.print(e);
 			return null;
 		}
+	}
+
+	/**
+	 * disable status shop (admin)
+	 * 
+	 * @author Kim Thanh
+	 */
+
+	@GetMapping("/updateStatus/shop/{id}")
+	public Shop updateStatusShop(@PathVariable("id") String id, @RequestParam("status") Boolean status) {
+		Shop shop = shopservice.findById(id).get();
+		shop.setStatus(status);
+		shopservice.save(shop);
+		return shop;
+
 	}
 
 }

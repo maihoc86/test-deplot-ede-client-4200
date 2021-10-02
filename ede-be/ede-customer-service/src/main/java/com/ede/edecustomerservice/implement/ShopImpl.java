@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.implement;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,16 @@ public class ShopImpl implements ShopService {
 	@Override
 	public Shop findByUser(User us) {
 		return dao.findByUser(us);
+	}
+
+	@Override
+	public List<Shop> findAll() {
+		return dao.findAll();
+	}
+
+	@Override
+	public List<Shop> findAllByName(String name) {
+		return dao.findAllByName("%"+name+"%");
 	}
 
 }

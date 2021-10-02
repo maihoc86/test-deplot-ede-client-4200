@@ -113,7 +113,7 @@ export class ProductShopComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private Addservice: AddProductService,
-    private AddresseService: ApiAddressService,
+    private AddressService: ApiAddressService,
     private cookieService: CookieService,
     private headerService: HeaderService,
     private imageService: ImagesService
@@ -376,8 +376,15 @@ export class ProductShopComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Hàm thêm sản phẩm
+   * @return sản phẩm đã thêm cùng với sản phẩm options, image, discount...
+   */
   public addProduct() {
     this.product.controls['deleted'].setValue('false');
+
+    // Thêm sản phẩm
     this.Addservice.addProductShop(this.createDataProduct()).subscribe(
       (data) => {
         Swal.fire({
@@ -391,6 +398,8 @@ export class ProductShopComponent implements OnInit {
         }).then((result) => {
           if (this.tagArray.length > 0) {
             this.product_tags.controls['producttag'].setValue(data);
+
+            // Nếu có chèn #Tag, thì thêm #Tag vào sản phẩm
             this.Addservice.addProductTags(this.createDataTag()).subscribe(
               (data: any) => {}
             ),
@@ -404,11 +413,14 @@ export class ProductShopComponent implements OnInit {
           }
 
           this.product_discount.controls['productdiscount'].setValue(data);
+          // Thêm giảm giá
           this.Addservice.addProductDiscount(this.createNewDataDiscount())
             .toPromise()
             .then((data) => {}),
             (error: any) => {};
           this.product_options.controls['product'].setValue(data);
+
+          // Thêm product option
           this.Addservice.addProductOption(this.createNewOption())
             .toPromise()
             .then(
@@ -421,6 +433,7 @@ export class ProductShopComponent implements OnInit {
               }
             );
           if (result.isConfirmed) {
+            // Nếu đăng bán sản phẩm thì chuyển trạng thái sản phẩm thành đã đăng bán
             this.Addservice.enableProductShop(data).subscribe(
               (data) => {
                 console.log(data);
@@ -434,7 +447,6 @@ export class ProductShopComponent implements OnInit {
               },
               (error) => {
                 alert(error);
-                console.log(error);
               }
             );
           } else {
@@ -460,22 +472,41 @@ export class ProductShopComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Hàm lấy danh sách thành phố
+   * @returns danh sách thành phố
+   */
   public getCities() {
-    this.AddresseService.getApiCity().subscribe((data) => {
+    this.AddressService.getApiCity().subscribe((data) => {
       const listCities = data.map(function (obj: { name: any }) {
         return obj;
       });
       this.listCities = listCities;
     });
   }
+
+  /**
+   * Hàm lấy danh sách quốc gia
+   * @returns danh sách quốc gia
+   */
   public getCountry() {
-    this.AddresseService.getCountry().subscribe((data) => {
-      const listCountry = data.map(function (obj: { name: any }) {
+    try {
+      const listCountry = this.AddressService.getCountry().map(function (obj: {
+        name: any;
+      }) {
         return obj;
       });
       this.listCountry = listCountry;
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  /**
+   * Hàm lấy danh sách các nhãn hàng thương hiệu có trong DB
+   * @returns danh sách các nhãn hàng thương hiệu
+   */
   public getBrands() {
     this.Addservice.getBrand().subscribe((data) => {
       const listBrands = data.map(function (obj: {
@@ -488,21 +519,11 @@ export class ProductShopComponent implements OnInit {
       this.listBrands = listBrands;
     });
   }
-  public getParentChildCategory(id: any) {
-    this.Addservice.getChildParentCategoriesByIdParent(id).subscribe((data) => {
-      const listCategories = data.map(function (obj: {
-        id: any;
-        name: any;
-        image_url: any;
-        is_enable: boolean;
-        is_deleted: boolean;
-        child_parentCategory: any;
-      }) {
-        return obj;
-      });
-      this.listParent_ChildCategory = listCategories;
-    });
-  }
+
+  /**
+   *  Hàm lấy danh sách các thể loại (1) sản phẩm
+   *  @returns danh sách các thể loại (1)
+   */
   public getParentCategory() {
     this.Addservice.getParentCategories().subscribe((data) => {
       const listCategories = data.map(function (obj: {
@@ -518,6 +539,31 @@ export class ProductShopComponent implements OnInit {
       this.listParentCategory = listCategories;
     });
   }
+
+  /**
+   *  Hàm lấy danh sách các thể loại (2) sản phẩm
+   *  @returns danh sách các thể loại (2)
+   */
+  public getParentChildCategory(id: any) {
+    this.Addservice.getChildParentCategoriesByIdParent(id).subscribe((data) => {
+      const listCategories = data.map(function (obj: {
+        id: any;
+        name: any;
+        image_url: any;
+        is_enable: boolean;
+        is_deleted: boolean;
+        child_parentCategory: any;
+      }) {
+        return obj;
+      });
+      this.listParent_ChildCategory = listCategories;
+    });
+  }
+
+  /**
+   *  Hàm lấy danh sách các thể loại (3) sản phẩm
+   *  @returns danh sách các thể loại (3)
+   */
   public getChildCategory(id: any) {
     this.Addservice.getChildCategoriesByChildParent(id).subscribe((data) => {
       const listCategories = data.map(function (obj: {
@@ -534,6 +580,8 @@ export class ProductShopComponent implements OnInit {
       this.listChildCategory = listCategories;
     });
   }
+
+  //! important create new database
   sizeGroups: sizegroup[] = [
     {
       name: 'Size số',
@@ -695,6 +743,7 @@ export class ProductShopComponent implements OnInit {
       );
     }
   }
+
   public blobToFile = (theBlob: Blob, fileName: string): File => {
     var b: any = theBlob;
     //A Blob() is almost a File() - it's just missing the two properties below which we will add
@@ -741,6 +790,11 @@ export class ProductShopComponent implements OnInit {
     return option.id === value.id;
   };
 
+  /**
+   * Hàm thêm nhiều hình ảnh cho option
+   *  @param {productOption} productOption
+   * @returns {obj} danh sách hình ảnh sẽ được thêm vào DB
+   */
   public addMultiImage(data: any) {
     const formData = new FormData();
     for (var i = 0; i < this.imageArray.length; i++) {
@@ -753,16 +807,13 @@ export class ProductShopComponent implements OnInit {
         this.product_options_image.patchValue({
           image: valueFile.toString(),
         });
-        console.log(valueFile);
         this.product_options_image.controls['productoption'].setValue(data);
         console.log(this.product_options_image.value);
         if (valueFile.length > 0) {
           this.Addservice.addProductOptionImage(this.createNewOptionImage())
             .toPromise()
             .then(
-              (data) => {
-                console.log(data);
-              },
+              (data) => {},
               (error) => {
                 alert(error);
               }
@@ -773,6 +824,12 @@ export class ProductShopComponent implements OnInit {
         alert('Lỗi thêm Image FTP');
       };
   }
+
+  /**
+   * Hàm cập nhật nhiều hình ảnh cho option
+   *  @param {productOption} productOption
+   * @returns {obj} danh sách hình ảnh sẽ được cập nhật DB
+   */
   public updateMultiImage(data: any) {
     const formData = new FormData();
     for (var i = 0; i < this.imageArray.length; i++) {

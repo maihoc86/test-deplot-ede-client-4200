@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private manageAccountService: ManageAccountsService) {  }
-  public userLogin:any={}
+  public userLogin:any="";
   ngOnInit(): void {
     this.getUserLogin()
   }
@@ -23,8 +23,7 @@ export class HeaderComponent implements OnInit {
       .getUserByToken()
       .toPromise()
       .then((data) => {
-        this.userLogin = data;
-        console.log(this.userLogin)
+        this.userLogin=data.id;
       })
       .catch((err) => {
         console.log(err);

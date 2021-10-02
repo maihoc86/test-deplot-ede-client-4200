@@ -20,10 +20,17 @@
             <aside class=" content-aside" id="column-left">
               <ul class="list-group">
                 <li class="list-group-item" style="color: white; text-align: center; ">
-                  <div formControlName="image" [ngStyle]="{'background-image': getUrl()}">
+                  <div formControlName="image_sub"
+                    [ngStyle]="{'background-image': urlImageLoad_Sub == '' ? 'url(' + 'http://localhost:8080/ede-file/get/image/' + shop.image_sub + ')' :  'url(' + urlImageLoad_Sub + ')'}">
                     <div class="row">
-                      <div class="col-sm-4"> <img src="/assets/img/nen.jpg"
-                          style="width: 50px; height: 50px; margin-top: 40px; margin-bottom: 70px;">
+                      <div class="col-sm-4">
+                        <div *ngIf="urlImageLoad == ''"><img
+                            src="http://localhost:8080/ede-file/get/image/{{shop.image}}"
+                            style="width: 50px; height: 50px; margin-top: 40px; margin-bottom: 70px;"></div>
+                        <div *ngIf="urlImageLoad != ''">
+                          <img src="{{urlImageLoad}}"
+                            style="width: 50px; height: 50px; margin-top: 40px; margin-bottom: 70px;">
+                        </div>
                       </div>
                       <div class="col-sm-8" style="margin-top: 30px;">
                         <h4 class="pull-left">{{shop.user.username}}</h4>
@@ -33,15 +40,25 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-sm-12"> <input type="file" #InputImage (change)="onselectFile($event)"
-                          style="border:1px solid rgb(56, 56, 56); background-color: rgb(112, 112, 112); color: white; width: 338px;"
-                          accept=".jpg, .png, image/jpeg, image/png">
+                      <div class="col-sm-6">
+                        <label class="custom-file-upload">
+                          <input type="file" #InputImage (change)="onselectFile($event)"
+                            accept=".jpg, .png, image/jpeg, image/png" /> Tải ảnh
+                          đại diện
+                        </label>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="custom-file-upload">
+                          <input type="file" #InputImage (change)="onselectFile_Sub($event)"
+                            accept=".jpg, .png, image/jpeg, image/png" /> Tải ảnh
+                          bìa
+                        </label>
                       </div>
                     </div>
 
                   </div>
                 </li>
-                <li class="list-group-item"><a routerLink="/shop/interface"><span><i
+                <li class="list-group-item"><a (click)="toInterfaceShop()"><span><i
                         class="glyphicon glyphicon-modal-window"></i> Giao diện Shop trên máy tính</span> <span
                       class="pull-right" style="color: red;">Xem <i
                         class="glyphicon glyphicon-chevron-right"></i></span>

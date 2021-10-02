@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ede.edeproductservice.ResponseHandler;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
@@ -115,6 +117,7 @@ public class ReadProductRestController {
 		Page<Product_option> pages = product_option_service.finAllByShop(keyword, shop, PageRequest.of(page, size));
 		return ResponseEntity.ok(pages);
 	}
+
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/quantity0")
 	public ResponseEntity getAllProductOptionQuantity0(@RequestParam(name = "keyword") String keyword,
@@ -191,7 +194,8 @@ public class ReadProductRestController {
 	 * @return Đối tượng page chứa các sản phẩm giống với từ khóa nhất
 	 */
 	@GetMapping("/view/get-products")
-	public ResponseEntity<Page<ProductSearch>> getProducts(@RequestParam(value = "search", required = false) Optional<String> keysearch,
+	public ResponseEntity<Page<ProductSearch>> getProducts(
+			@RequestParam(value = "search", required = false) Optional<String> keysearch,
 			@RequestParam(value = "page", required = false) Optional<Integer> page) {
 		Page<ProductSearch> result;
 		int npage = page.orElse(1) - 1; // cover page to index page
@@ -200,24 +204,31 @@ public class ReadProductRestController {
 		result = this.service.searchByKeysearch(keysearch.orElse(""), PageRequest.of(npage, 12));
 		return ResponseEntity.ok(result);
 	}
-	
+
 	/**
-	 * Lấy 1 sản phẩm (trả về entity Product Search)
-	 * <strong>Phục vụ quá trình xem chi tiết sản phẩm</strong>
+	 * Lấy 1 sản phẩm (trả về entity Product Search) <strong>Phục vụ quá trình xem
+	 * chi tiết sản phẩm</strong>
 	 * 
 	 * @author Vinh
 	 * @param id Id của sản phẩm
 	 * @return Một sản phẩm search
 	 */
 	@GetMapping("/view/get-product-search/{id}")
-	public ResponseEntity<ProductSearch> getProducts(@PathVariable("id") String id){
+	public ResponseEntity<ProductSearch> getProducts(@PathVariable("id") String id) {
 		ProductSearch productSearch = this.service.findByProductSearchId(id);
 		return ResponseEntity.ok(productSearch);
 	}
 
+	/* Lấy ra tất cả brand */
 	@GetMapping("/view/listBrand")
 	public List<Product_brand> getBrands() {
 		return brandService.findAll();
+	}
+
+	@GetMapping("/view/listBrandByShop")
+	public List<Product_brand> getBrands(@RequestParam("idShop") Optional<String> idShop) {
+		String valueIdShop = idShop.orElse("");
+		return service.selectAllBrandInShop(valueIdShop);
 	}
 
 	@GetMapping("/view/list_parent_category")
@@ -263,14 +274,19 @@ public class ReadProductRestController {
 	// TODO: NEED OPTIMIZE IF ELSE
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product/filter")
-	public ResponseEntity getListProductShopFilterCategory(@RequestParam("category") Optional<String> category,
-			@RequestParam("location") Optional<String> location, @RequestParam("brand") Optional<String> brand,
-			@RequestParam("page") Optional<Integer> page) {
+	public ResponseEntity getListProductShopFilterCategory(@RequestParam("idShop") Optional<String> idShop,
+			@RequestParam("category") Optional<String> category, @RequestParam("location") Optional<String> location,
+			@RequestParam("brand") Optional<String> brand, @RequestParam("page") Optional<Integer> page) {
 		String valueCategory = category.orElse("");
 		String valueBrand = brand.orElse("");
 		String valueLocation = location.orElse("");
+		String valueIdShop = idShop.orElse("");
+		Optional<Shop> shop = shopService.findByIdOptional(idShop.get());
+		if (shop.isEmpty()) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Của hàng không tồn tại", "idShop",
+					null);
+		}
 		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
-		Shop shop = new Shop();
 		Page<ProductSearch> listPage = null;
 		String[] splitLocation = null;
 		String[] splitBrand = null;
@@ -292,44 +308,31 @@ public class ReadProductRestController {
 				brandList.add(splitBrand[i]);
 			}
 		}
-		// CHECKLOGIN SHOP
-		try {
-			// TODO: LẤY ID SHOP TRÊN URL CHỨ KHÔNG LẤY THẰNG ĐÃ LOGIN
-			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
 		if (category.isPresent() && valueLocation.equals("") && valueBrand.equals("")) {
 			// CATEGORY
-			System.err.println(1);
-			listPage = service.filterProductShopByCustomerCategory(valueCategory, shop.getId(), pageRequest);
+			listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest);
 		} else if (location.isPresent() && valueCategory.equals("") && valueBrand.equals("")) {
 			// LOCATION
-			System.err.println(2);
-			listPage = service.filterProductShopByCustomerLocation(locationList, shop.getId(), pageRequest);
+			listPage = service.filterProductShopByCustomerLocation(locationList, valueIdShop, pageRequest);
 		} else if (brand.isPresent() && valueLocation.equals("") && valueCategory.equals("")) {
 			// BRAND
-			System.err.println(3 + valueBrand);
-			listPage = service.filterProductShopByCustomerBrand(brandList, shop.getId(), pageRequest);
+			listPage = service.filterProductShopByCustomerBrand(brandList, valueIdShop, pageRequest);
 		} else if (category.isPresent() && location.isPresent() && valueBrand.equals("")) {
 			// CATEGORY AND LOCATION
-			System.err.println(4 + valueBrand);
-			listPage = service.filterProductShopByCustomerLocationAndCategory(locationList, valueCategory, shop.getId(),
+			listPage = service.filterProductShopByCustomerLocationAndCategory(locationList, valueCategory, valueIdShop,
 					pageRequest);
 		} else if (location.isPresent() && brand.isPresent() && valueCategory.equals("")) {
 			// LOCATION AND BRAND
-			System.err.println(5);
-			listPage = service.filterProductShopByCustomerLocationAndBrand(locationList, brandList, shop.getId(),
+			listPage = service.filterProductShopByCustomerLocationAndBrand(locationList, brandList, valueIdShop,
 					pageRequest);
 		} else if (category.isPresent() && brand.isPresent() && valueLocation.equals("")) {
 			// CATEGORY AND BRAND
-			System.err.println(6);
-			listPage = service.filterProductShopByCustomerCategoryAndBrand(valueCategory, brandList, shop.getId(),
+			listPage = service.filterProductShopByCustomerCategoryAndBrand(valueCategory, brandList, valueIdShop,
 					pageRequest);
 		} else {
 			// ALL
 			listPage = service.filterProductShopByCustomerLocationAndCategoryAndBrand(locationList, valueCategory,
-					brandList, shop.getId(), pageRequest);
+					brandList, valueIdShop, pageRequest);
 		}
 
 		return ResponseEntity.ok(listPage);
@@ -338,30 +341,26 @@ public class ReadProductRestController {
 	/* GET CATEGORY SHOP */
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/category")
-	public ResponseEntity getListCategoryShop() {
-		Shop shop = new Shop();
-		try {
-			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(child_category_service.findAllByShop(shop.getId()));
+	public ResponseEntity getListCategoryShop(@RequestParam("idShop") Optional<String> idShop) {
+		String valueIdShop = idShop.orElse("");
+		return ResponseEntity.ok(child_category_service.findAllByShop(valueIdShop));
 	}
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
 
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product")
-	public ResponseEntity getAllListProductByCustomer(@RequestParam("page") Optional<Integer> page) {
-		Shop shop = new Shop();
-		try {
-			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity getAllListProductByCustomer(@RequestParam("idShop") Optional<String> idShop,
+			@RequestParam("page") Optional<Integer> page) {
+		Page<ProductSearch> pageF = null;
+		Optional<Shop> shop = shopService.findByIdOptional(idShop.get());
+		if (shop.isEmpty()) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Của hàng không tồn tại", "idShop",
+					null);
+		} else {
+			pageF = service.listAllProductShopByCustomer(shop.get().getId(), PageRequest.of(page.orElse(0), 10));
 		}
-		System.err.println(shop.getId());
-		Page<ProductSearch> pageF = service.listAllProductShopByCustomer(shop.getId(),
-				PageRequest.of(page.orElse(0), 10));
+
 		return ResponseEntity.ok(pageF);
 	}
 
@@ -390,4 +389,23 @@ public class ReadProductRestController {
 		return ResponseEntity.ok(list);
 	}
 
+	@GetMapping("/view/get-product-related-shop/{id}")
+	public ResponseEntity<?> getProductRelatedShop(@PathVariable("id") String id,
+			@RequestParam("idcate") String idcate) {
+		System.err.println(idcate);
+		System.err.println(id);
+		PageRequest pageRequest = PageRequest.of(0, 5);
+		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
+	
+	@GetMapping("/view/get-product-related-category/{id}")
+	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id
+			) {
+	
+		System.err.println(id);
+		PageRequest pageRequest = PageRequest.of(0, 5);
+		Page<ProductSearch>	listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
 }

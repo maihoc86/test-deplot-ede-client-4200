@@ -1,0 +1,427 @@
+<div class="page-wrapper">
+  <div class="page-content">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">Quản lý</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item">
+              <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Quản lý giảm giá hóa đơn
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <div class="ms-auto">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary">Settings</button>
+          <button
+            type="button"
+            class="
+              btn btn-primary
+              split-bg-primary
+              dropdown-toggle dropdown-toggle-split
+            "
+            data-bs-toggle="dropdown"
+          >
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+            <a class="dropdown-item" href="javascript:;">Action</a>
+            <a class="dropdown-item" href="javascript:;">Another action</a>
+            <a class="dropdown-item" href="javascript:;">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:;">Separated link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols-2">
+      <div class="col-md-12">
+        <h6 class="mb-0 text-uppercase">Quản lý giảm giá hóa đơn</h6>
+        <hr />
+        <div class="card border-top border-0 border-4 border-danger">
+          <div class="card-body p-5">
+            <div class="card-title d-flex align-items-center">
+              <div><i class="bx bxs-user me-1 font-22 text-danger"></i></div>
+              <h5 class="mb-0 text-danger">Quản lý giảm giá hóa đơn</h5>
+            </div>
+            <hr />
+            <form class="row g-3" [formGroup]="orderDiscount">
+              <div class="col-md-6">
+                <label for="inputLastName1" class="form-label"
+                  >Giảm giá (%)</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bx bxs-discount"></i
+                  ></span>
+                  <input
+                    type="number"
+                    max="100"
+                    min="1"
+                    maxLength="3"
+                    (keypress)="numberOnly($event)"
+                    min="1"
+                    max="100"
+                    formControlName="discount"
+                    class="form-control border-start-0"
+                    id="inputLastName1"
+                    placeholder="Giảm giá"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    orderDiscount.controls['discount'].invalid &&
+                    (orderDiscount.controls['discount'].dirty ||
+                      orderDiscount.controls['discount'].touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['discount'].errors &&
+                      orderDiscount.controls['discount'].errors.required
+                    "
+                    >Giảm giá là bắt buộc.</span
+                  >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['discount'].errors &&
+                      orderDiscount.controls['discount'].errors.max
+                    "
+                    >Giảm giá % phải bé hơn 100</span
+                  >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['discount'].errors &&
+                      orderDiscount.controls['discount'].errors.min
+                    "
+                    >Giảm giá % phải lớn hơn 0</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="inputLastName2" class="form-label"
+                  >Tổng giá trị hóa đơn</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bx bx-dollar-circle"></i
+                  ></span>
+                  <input
+                    type="number"
+                    (keypress)="numberOnly($event)"
+                    formControlName="total"
+                    class="form-control border-start-0"
+                    id="inputLastName2"
+                    placeholder="Giá trị hóa đơn"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    orderDiscount.controls['total'].invalid &&
+                    (orderDiscount.controls['total'].dirty ||
+                      orderDiscount.controls['total'].touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['total'].errors &&
+                      orderDiscount.controls['total'].errors.required
+                    "
+                    >Giá là bắt buộc.</span
+                  >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['total'].errors &&
+                      orderDiscount.controls['total'].errors.pattern
+                    "
+                    >Giá không đúng định dạng.</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="inputTodate" class="form-label">Giảm từ ngày</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bx bxs-time"></i
+                  ></span>
+                  <input
+                    type="date"
+                    onkeydown="return false"
+                    [min]="minDate"
+                    [max]="maxDate"
+                    formControlName="todate"
+                    class="form-control border-start-0"
+                    id="inputTodate"
+                    placeholder="Từ ngày"
+                  />
+                </div>
+                {{
+                  this.orderDiscount.value.enddate
+                    ? this.orderDiscount.value.todate >
+                      this.orderDiscount.value.enddate
+                      ? orderDiscount.controls["todate"].setValue(minDate)
+                      : ""
+                    : ""
+                }}
+                <div
+                  *ngIf="
+                    orderDiscount.controls['todate'].invalid &&
+                    (orderDiscount.controls['todate'].dirty ||
+                      orderDiscount.controls['todate'].touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['todate'].errors &&
+                      orderDiscount.controls['todate'].errors.required
+                    "
+                    >Ngày bắt đầu là bắt buộc.</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="inputEnddate" class="form-label"
+                  >Giảm đến ngày</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bx bxs-time"></i
+                  ></span>
+                  <input
+                    type="date"
+                    [min]="
+                      orderDiscount.controls['todate'].value
+                        ? orderDiscount.controls['todate'].value
+                        : minDate
+                    "
+                    [max]="maxDate"
+                    onkeydown="return false"
+                    formControlName="enddate"
+                    class="form-control border-start-0"
+                    id="inputEnddate"
+                    placeholder="Đến ngày"
+                  />
+                </div>
+                {{
+                  this.orderDiscount.value.enddate > maxDate
+                    ? orderDiscount.controls["enddate"].setValue(minDate)
+                    : ""
+                }}
+                <div
+                  *ngIf="
+                    orderDiscount.controls['enddate'].invalid &&
+                    (orderDiscount.controls['enddate'].dirty ||
+                      orderDiscount.controls['enddate'].touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <span
+                    *ngIf="
+                      orderDiscount.controls['enddate'].errors &&
+                      orderDiscount.controls['enddate'].errors.required
+                    "
+                    >Ngày kết thúc là bắt buộc.</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <button
+                  type="submit"
+                  [disabled]="
+                    orderDiscount.controls.id.value != '' ||
+                    orderDiscount.invalid
+                      ? 'disabled'
+                      : null
+                  "
+                  class="btn btn-success px-5"
+                  (click)="create()"
+                >
+                  Thêm
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="
+                    orderDiscount.controls.id.value == '' ||
+                    orderDiscount.invalid
+                      ? 'disabled'
+                      : null
+                  "
+                  class="btn btn-primary px-5"
+                  (click)="update()"
+                  style="margin-left: 10px"
+                >
+                  Sửa
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="
+                    orderDiscount.controls.id.value == '' ||
+                    orderDiscount.invalid
+                      ? 'disabled'
+                      : null
+                  "
+                  (click)="deleteOrderDiscount(orderDiscount.controls.id.value)"
+                  class="btn btn-danger px-5"
+                  style="margin-left: 10px"
+                >
+                  Xóa
+                </button>
+                <button
+                  type="reset"
+                  (click)="resetForm()"
+                  class="btn btn-secondary px-5"
+                  style="margin-left: 10px"
+                >
+                  Làm mới
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">Dữ liệu các hóa đơn được giảm</div>
+      <div class="col-md-6">
+        <form class="app-search d-none d-lg-block" [formGroup]="searchGroup">
+          <div class="position-relative">
+            <div class="row">
+              <div class="col-md-4">
+                <label>Từ ngày</label>
+                <input
+                  type="date"
+                  formControlName="searchTuNgay"
+                  class="form-control"
+                />
+              </div>
+              <div class="col-md-4">
+                <label>Đến ngày</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="searchDenNgay"
+                />
+              </div>
+              <div class="col-md-4">
+                <br />
+                <button
+                  type="button"
+                  (click)="search()"
+                  class="btn btn-outline-primary px-5 radius-30"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <hr />
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            id="example"
+            class="table table-striped table-bordered"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Giảm giá</th>
+                <th>Tổng giá trị hóa đơn phải bằng</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of listOrderDiscount
+                    | paginate
+                      : {
+                          itemsPerPage: size,
+                          currentPage: p,
+                          totalItems: count
+                        }
+                "
+              >
+                <td>{{ item.id }}</td>
+                <td>{{ item.discount }}</td>
+                <td>{{ item.total | number }}đ</td>
+                <td>{{ item.todate | date: "dd-MM-yyyy" }}</td>
+                <td>{{ item.enddate | date: "dd-MM-yyyy" }}</td>
+                <td>
+                  <div
+                    *ngIf="item.status"
+                    class="
+                      badge
+                      rounded-pill
+                      text-success
+                      bg-light-success
+                      p-2
+                      text-uppercase
+                      px-3
+                    "
+                  >
+                    <i class="bx bxs-circle me-1"></i>Kích hoạt
+                  </div>
+                  <div
+                    *ngIf="!item.status"
+                    class="
+                      badge
+                      rounded-pill
+                      text-danger
+                      bg-light-danger
+                      p-2
+                      text-uppercase
+                      px-3
+                    "
+                  >
+                    <i class="bx bxs-circle me-1"></i>Không kích hoạt
+                  </div>
+                </td>
+                <td>
+                  <i
+                    *ngIf="item"
+                    (click)="editOrderDiscount(item.id)"
+                    class="bx bx-edit-alt btn-success btn"
+                    style="margin-right: 10px"
+                  ></i>
+                  <i
+                    *ngIf="item"
+                    (click)="deleteOrderDiscount(item.id)"
+                    class="bx bx-delete-alt btn-danger btn"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-trash-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                      /></svg
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

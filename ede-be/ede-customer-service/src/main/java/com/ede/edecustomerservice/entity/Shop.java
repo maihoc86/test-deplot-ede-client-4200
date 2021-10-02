@@ -25,9 +25,11 @@ public class Shop implements Serializable {
 	String id;
 	String name;
 	String image;
+	String image_sub;
 	Date create_date = new Date();
 	String address;
 	String description;
+	Boolean status;
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
