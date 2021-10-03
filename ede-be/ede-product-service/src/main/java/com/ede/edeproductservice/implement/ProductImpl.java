@@ -195,4 +195,11 @@ public class ProductImpl implements ProductService {
 		return dao.filterProductShopByCustomerCategory2(id,pageRequest);
 	}
 
+	@Override
+	public Page<ProductSearch> filterProductShopNewByCustomerCategory(String valueCate, String id_shop, Pageable of) {
+		return dao.filterProductShopNewByCustomerCategory(valueCate,id_shop,of);
+	}
+
+	
+
 }

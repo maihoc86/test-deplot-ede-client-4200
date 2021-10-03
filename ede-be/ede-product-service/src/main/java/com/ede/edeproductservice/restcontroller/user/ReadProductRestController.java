@@ -276,7 +276,8 @@ public class ReadProductRestController {
 	@GetMapping("/view/customer/shop/all/product/filter")
 	public ResponseEntity getListProductShopFilterCategory(@RequestParam("idShop") Optional<String> idShop,
 			@RequestParam("category") Optional<String> category, @RequestParam("location") Optional<String> location,
-			@RequestParam("brand") Optional<String> brand, @RequestParam("page") Optional<Integer> page) {
+			@RequestParam("brand") Optional<String> brand, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("new") Optional<Boolean> selling) {
 		String valueCategory = category.orElse("");
 		String valueBrand = brand.orElse("");
 		String valueLocation = location.orElse("");
@@ -310,6 +311,9 @@ public class ReadProductRestController {
 		}
 		if (category.isPresent() && valueLocation.equals("") && valueBrand.equals("")) {
 			// CATEGORY
+			listPage = selling.get()
+					? listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest)
+					: null;
 			listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest);
 		} else if (location.isPresent() && valueCategory.equals("") && valueBrand.equals("")) {
 			// LOCATION
@@ -398,14 +402,13 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-	
+
 	@GetMapping("/view/get-product-related-category/{id}")
-	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id
-			) {
-	
+	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id) {
+
 		System.err.println(id);
 		PageRequest pageRequest = PageRequest.of(0, 5);
-		Page<ProductSearch>	listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
+		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
 }
