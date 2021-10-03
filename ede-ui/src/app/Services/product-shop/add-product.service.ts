@@ -324,4 +324,21 @@ export class AddProductService {
       this.httpOptions
     );
   }
+
+  public getAllCommentByIdPeoduct(id: any){
+    return this.httpClient.get<any>(
+      this.REST_API_SERVER + '/view/comment/'+id,
+      this.httpOptions
+    );
+  }
+
+  public getOptionProduct(idUser: any, id: any){
+    return this.httpClient.get<any>(
+      this.REST_API_SERVER + '/view/comment/optionProduct/'+ idUser +"/" +id,
+      this.httpOptions
+    )
+  }
+
+
+
 }

@@ -1,13 +1,12 @@
-package com.ede.edeorderservice.entity;
+package com.ede.edeproductservice.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,26 +21,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
+@SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "order_detail")
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Orderdetail implements Serializable {
+public class Order implements Serializable {
 
 	@Id
 	String id;
-	double price;
-	int quantity;
-
-	@ManyToOne
-	@JoinColumn(name = "id_product_option")
-	Product_option productOption;
-
-	@ManyToOne
-	@JoinColumn(name = "orderid")
-	Order order;
+	String phone;
+	String status;
+	Date create_date;
+	double total_amount;
+	String note;
 	
-
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	@Fetch(value = FetchMode.SUBSELECT)
+	List<Orderdetail> order_detail;
+	
+	@ManyToOne
+	@JoinColumn(name="id_user")
+	User user;
+	
+	
+	@Override
+	public String toString() {
+		return "";
+	}
+	
+	
+	
 }
