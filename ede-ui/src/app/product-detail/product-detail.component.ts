@@ -3,7 +3,12 @@ import { ActivatedRoute } from '@angular/router'
 import { Component, OnInit } from '@angular/core'
 import { HeaderService } from '../Services/header/header.service'
 import { AddProductService } from '../Services/product-shop/add-product.service'
+import { CookieService } from 'ngx-cookie-service'
 import { Router } from '@angular/router'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import Swal from 'sweetalert2'
+import { error } from '@angular/compiler/src/util'
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -18,6 +23,7 @@ export class ProductDetailComponent implements OnInit {
     private router: Router,
     private productSearchSrv: ProductSearchService,
     private headerService: HeaderService,
+    private cookieService: CookieService,
   ) {
     this.activatedRoute.params.subscribe(({ idProduct }) => {
       this.productSearchSrv
@@ -34,6 +40,17 @@ export class ProductDetailComponent implements OnInit {
         })
     })
   }
+
+  public fromComment = new FormGroup({
+    id: new FormControl(''),
+    rate: new FormControl('5'),
+    content: new FormControl('', [Validators.required]),
+    date: new FormControl(new Date()),
+    id_user: new FormControl(''),
+    id_product: new FormControl(''),
+  })
+
+  public userLogin: any = null
   public qty: number = 1
   public product: any = {}
   public cart: Array<any> = []
@@ -43,7 +60,9 @@ export class ProductDetailComponent implements OnInit {
   public listComment: Array<any> = []
   public fakeArrayRate: any = []
   public nameOption: any = 'nameOption'
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUserLogin()
+  }
   addToCart(product: any, qty: any) {
     var json = localStorage.getItem('cart')
     this.cart = json ? JSON.parse(json) : []
@@ -129,5 +148,73 @@ export class ProductDetailComponent implements OnInit {
     this.productService.getOptionProduct(idUser, id).subscribe((data) => {
       return this.nameOption
     })
+  }
+
+  public CreateComment() {
+    console.log(this.fromComment)
+    console.log(this.product)
+    this.headerService.getUserByToken(this.cookieService.get('auth')).subscribe(
+      (data) => {
+        if (!this.fromComment.valid) {
+          alert('Bạn chưa nhập bình luận')
+        } else {
+          this.fromComment.controls['id_product'] = this.product.idProduct
+          this.productService
+            .createCommentProductByIdUser(
+              this.userLogin.id,
+              this.product.idProduct,
+              this.fromComment,
+            )
+            .subscribe(
+              (data) => {
+                this.ShowAllComment(this.product.idProduct)
+              },
+              (error) => {
+                if (error.status == 403) {
+                  Swal.fire({
+                    title: 'Thông báo',
+                    icon: 'warning',
+                    text: error.error.message,
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Cập nhật lại bình luận trước?',
+                    cancelButtonText: 'Hủy',
+                  })
+                } else {
+                  Swal.fire({
+                    title: 'Thông báo',
+                    icon: 'error',
+                    text: error.error.message,
+                  })
+                }
+              },
+            )
+          //console.log(this.product)
+        }
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Thông báo',
+          icon: 'warning',
+          text: 'Bạn chưa đăng nhập',
+          showConfirmButton: true,
+          showCancelButton: true,
+          confirmButtonText: 'Đăng nhập ngay?',
+          cancelButtonText: 'Để sau',
+        }).then((rs) => {
+          if (rs.isConfirmed) {
+            this.router.navigate(['/login'])
+          }
+        })
+      },
+    )
+  }
+
+  public getUserLogin() {
+    this.headerService
+      .getUserByToken(this.cookieService.get('auth'))
+      .subscribe((data) => {
+        this.userLogin = data
+      })
   }
 }

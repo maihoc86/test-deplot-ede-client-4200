@@ -533,25 +533,30 @@
                       </div>
 
                       <hr>
-                      <div class="row">
-                        <div class="col-sm-1"><img src="../../assets/img/2.jpg" /></div>
-                        <div class="col-sm-11">
-                          <p>Thanh cute</p>
-                          <textarea style="border: 1px solid rgb(218, 218, 218);  " rows="7" cols="110%"
-                            placeholder="Nhập bình luận của bạn..."></textarea>
+                      <form [formGroup]='fromComment'>
+                        <div class="row">
+                          <div class="col-sm-1"><img src="../../assets/img/2.jpg" /></div>
+                          <div class="col-sm-11">
+                            <p>{{userLogin!=null?userLogin.username:'GUEST'}}</p>
+                            <textarea formControlName='content' style="border: 1px solid rgb(218, 218, 218);  " rows="7" cols="110%"
+                              placeholder="Nhập bình luận của bạn..."></textarea>
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-group">
-                        <b>Đánh giá: </b> <span>Tệ</span>&nbsp;
-                        <input type="radio" name="rating" value="1"> &nbsp;
-                        <input type="radio" name="rating" value="2"> &nbsp;
-                        <input type="radio" name="rating" value="3"> &nbsp;
-                        <input type="radio" name="rating" value="4"> &nbsp;
-                        <input type="radio" name="rating" value="5"> &nbsp;<span>Tốt</span>
+                        <div class="form-group">
+                          <b>Đánh giá: </b> <span>Tệ</span>&nbsp;
+                          <input formControlName='rate' type="radio" name="rating" value="1"> &nbsp;
+                          <input formControlName='rate' type="radio" name="rating" value="2"> &nbsp;
+                          <input formControlName='rate' type="radio" name="rating" value="3"> &nbsp;
+                          <input formControlName='rate' type="radio" name="rating" value="4"> &nbsp;
+                          <input formControlName='rate' type="radio" name="rating" value="5"> &nbsp;<span>Tốt</span>
 
-                      </div>
-                      <div class="buttons clearfix"><a id="button-review" class="btn buttonGray">Gửi đánh giá</a></div>
+                        </div>
+                        <div class="buttons clearfix"><a (click)='CreateComment()' id="button-review"
+                            class="btn buttonGray">Gửi đánh giá</a>
+                        </div>
+                      </form>
                     </div>
+
                   </form>
                 </div>
                 <div id="tab-4" class="tab-pane fade">
