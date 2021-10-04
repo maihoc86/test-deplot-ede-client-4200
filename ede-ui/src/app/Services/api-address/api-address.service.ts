@@ -4,10 +4,9 @@ import {
   HttpClient,
   HttpErrorResponse,
 } from '@angular/common/http';
-import country from '../../../app/country.json';
 import { User } from '../../models/user.model';
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApiAddressService {
   private httpOptions = {
@@ -15,12 +14,13 @@ export class ApiAddressService {
       'Content-Type': 'application/json',
     }),
   };
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   private REST_API_SERVER = 'https://api-location-vn.herokuapp.com/';
 
   public getCountry() {
-    return JSON.parse(JSON.stringify(country));
+    const url = `${this.REST_API_SERVER}country/`;
+    return this.httpClient.get<any>(url, this.httpOptions);
   }
 
   public getApiCity() {
@@ -33,8 +33,11 @@ export class ApiAddressService {
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 
+
   public getApiWards(id: any) {
     const url = `${this.REST_API_SERVER}wards/district/` + id;
     return this.httpClient.get<any>(url, this.httpOptions);
   }
+
+
 }

@@ -1,6 +1,5 @@
 package com.ede.edeproductservice.implement;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,17 +194,5 @@ public class ProductImpl implements ProductService {
 		
 		return dao.filterProductShopByCustomerCategory2(id,pageRequest);
 	}
-
-	@Override
-	public Page<ProductSearch> filterProductShopNewByCustomerCategory(String valueCate, String id_shop, Pageable of) {
-		return dao.filterProductShopNewByCustomerCategory(valueCate,id_shop,of);
-	}
-
-	@Override
-	public Page<ProductSearch> testFilterProductNew(Pageable of) {
-		return dao.testFilterProductNew(of);
-	}
-
-	
 
 }

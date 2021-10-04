@@ -14,24 +14,13 @@
           <li class="list-group-item" style="color: white; text-align: center">
             <div
               formControlName="image_sub"
-              [ngStyle]="{
-                'background-image':
-                  'url(' +
-                  'http://localhost:8080/ede-file/get/image/' +
-                  this.shopForm.controls.image_sub.value +
-                  ')'
-              }"
+               [ngStyle]="{'background-image': 'url(' + 'http://localhost:8080/ede-file/get/image/' + this.shopForm.controls.image_sub.value + ')'}"
             >
-              <img
-                formControlName="image"
-                src="http://localhost:8080/ede-file/get/image/{{
-                  this.shopForm.controls.image.value
-                }}"
+              <img formControlName="image"
+                src="http://localhost:8080/ede-file/get/image/{{this.shopForm.controls.image.value}}"
                 style="width: 50px; height: 50px; margin-top: 20px"
               />
-              <h5 formControlName="name">
-                {{ this.shopForm.controls.name.value }}
-              </h5>
+              <h5 formControlName="name">{{this.shopForm.controls.name.value}}</h5>
               <h6>Online 10 phút trước</h6>
               <br />
             </div>
@@ -90,13 +79,13 @@
         <li
           class="list-group-item target hover hover"
           *ngFor="let item of listBrands; let i = index"
-          [value]="item.id"
+          [value]="item.name"
         >
           <a class="clearfix">
             <input
               type="checkbox"
-              [checked]="brand.indexOf(item.id) > -1"
-              (change)="clickFilterBrand($event, item.id)"
+              [checked]="brand.indexOf(item.name) > -1"
+              (change)="clickFilterBrand($event, item.name)"
             />&nbsp;
             <span>{{ item.name }}</span>
           </a>
