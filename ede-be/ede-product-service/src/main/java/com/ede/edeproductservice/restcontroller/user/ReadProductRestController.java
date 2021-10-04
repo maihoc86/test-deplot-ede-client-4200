@@ -312,6 +312,9 @@ public class ReadProductRestController {
 		}
 		if (category.isPresent() && valueLocation.equals("") && valueBrand.equals("")) {
 			// CATEGORY
+			listPage = selling.get()
+					? listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest)
+					: null;
 			listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest);
 		} else if (location.isPresent() && valueCategory.equals("") && valueBrand.equals("")) {
 			// LOCATION

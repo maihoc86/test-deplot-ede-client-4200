@@ -102,5 +102,4 @@ public interface ProductDao extends JpaRepository<Product, String> {
 
 	@Query("Select p FROM ProductSearch p")
 	Page<ProductSearch> testFilterProductNew(Pageable of);
-
 }
