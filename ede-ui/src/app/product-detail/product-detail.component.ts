@@ -170,6 +170,7 @@ export class ProductDetailComponent implements OnInit {
                 this.ShowAllComment(this.product.idProduct)
               },
               (error) => {
+                // console.log(error)
                 if (error.status == 403) {
                   Swal.fire({
                     title: 'Thông báo',
@@ -179,6 +180,16 @@ export class ProductDetailComponent implements OnInit {
                     showCancelButton: true,
                     confirmButtonText: 'Cập nhật lại bình luận trước?',
                     cancelButtonText: 'Hủy',
+                  }).then((rs) => {
+                    if (rs.isConfirmed) {
+                      this.productService.updateCommentProductByIdUser(
+                        this.userLogin.id,
+                        this.product.idProduct,
+                        this.fromComment,
+                      ).subscribe(() => {
+                        this.ShowAllComment(this.product.idProduct)
+                      })
+                    }
                   })
                 } else {
                   Swal.fire({

@@ -345,4 +345,11 @@ export class AddProductService {
       this.httpOptions
     )
   }
+
+  public updateCommentProductByIdUser(idUser: any, id: any, data: any) {
+    return this.httpClient.put<any>(
+      this.REST_API_SERVER + '/update/comment/user/' + idUser + '/' + id, data.value,
+      this.httpOptions
+    )
+  }
 }
