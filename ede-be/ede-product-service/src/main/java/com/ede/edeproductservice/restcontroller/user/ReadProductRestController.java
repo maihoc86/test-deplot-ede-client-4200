@@ -2,6 +2,7 @@ package com.ede.edeproductservice.restcontroller.user;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -276,12 +277,13 @@ public class ReadProductRestController {
 	@GetMapping("/view/customer/shop/all/product/filter")
 	public ResponseEntity getListProductShopFilterCategory(@RequestParam("idShop") Optional<String> idShop,
 			@RequestParam("category") Optional<String> category, @RequestParam("location") Optional<String> location,
-			@RequestParam("brand") Optional<String> brand, @RequestParam("page") Optional<Integer> page) {
+			@RequestParam("brand") Optional<String> brand, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("new") Optional<Boolean> selling) {
 		String valueCategory = category.orElse("");
 		String valueBrand = brand.orElse("");
 		String valueLocation = location.orElse("");
 		String valueIdShop = idShop.orElse("");
-		Optional<Shop> shop = shopService.findByIdOptional(idShop.get());
+		Optional<Shop> shop = shopService.findByIdOptional(idShop.orElse(""));
 		if (shop.isEmpty()) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Của hàng không tồn tại", "idShop",
 					null);
@@ -398,14 +400,14 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-	
+
 	@GetMapping("/view/get-product-related-category/{id}")
-	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id
-			) {
-	
+	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id) {
+
 		System.err.println(id);
 		PageRequest pageRequest = PageRequest.of(0, 5);
-		Page<ProductSearch>	listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
+		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
+
 }

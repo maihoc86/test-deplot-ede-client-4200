@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	 */
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id_shop and p.childCategory.id=:valueCate")
 	Page<ProductSearch> filterProductShopByCustomerCategory(String valueCate, String id_shop, Pageable of);
+
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.id=:valueCate")
 	Page<ProductSearch> filterProductShopByCustomerCategory2(String valueCate, Pageable of);
 
@@ -39,22 +41,22 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:names) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocation(List<String> names, String id, Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id and p.brand.name IN (:brand)")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id and p.brand.id IN (:brand)")
 	Page<ProductSearch> filterProductShopByCustomerBrand(List<String> brand, String id, Pageable of);
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.id =:category and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategory(List<String> location, String category,
 			String id, Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.id =:category and p.brand.name IN (:brand) and p.shop.id=:id")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.childCategory.id =:category and p.brand.id IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerCategoryAndBrand(String category, List<String> brand, String id,
 			Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.brand.name IN (:brand) and p.shop.id=:id")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.brand.id IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> location, List<String> brand,
 			String id, Pageable of);
 
-	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.id =:category and p.brand.name IN (:brand) and p.shop.id=:id")
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.location IN (:location) and p.childCategory.id =:category and p.brand.id IN (:brand) and p.shop.id=:id")
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> location, String category,
 			List<String> brand, String id, Pageable of);
 
@@ -85,11 +87,20 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	 */
 	@Query("UPDATE Product p SET p.deleted = true where id=:id")
 	Product updateStatus(String id);
+
 	@Query("SELECT ps from ProductSearch ps where ps.id = :id")
 	ProductSearch findByProductSearchId(@Param("id") String id);
+
 	@Query("SELECT DISTINCT o.brand FROM Product o where o.shop.id=:valueIdShop")
 	List<Product_brand> selectAllBrandInShop(String valueIdShop);
+
 	@Query("select o from Product o where o.child_category.id=?1")
 	Page<Product> findByCategory(String id, PageRequest pageRequest);
+
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=:id_shop and p.childCategory.id=:valueCate")
+	Page<ProductSearch> filterProductShopNewByCustomerCategory(String valueCate, String id_shop, Pageable of);
+
+	@Query("Select p FROM ProductSearch p")
+	Page<ProductSearch> testFilterProductNew(Pageable of);
 
 }
