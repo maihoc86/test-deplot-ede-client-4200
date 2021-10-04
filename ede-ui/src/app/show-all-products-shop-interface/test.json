@@ -1,0 +1,32 @@
+{
+  "name": "actuator",
+  "profiles": ["info"],
+  "label": null,
+  "version": "aaa0cda41797d0738e44b086fd22f0fd201b809c",
+  "state": null,
+  "propertySources": [
+    {
+      "name": "https://gitlab.com/group-poly/ede.git/file:C:\\Users\\ASUS\\AppData\\Local\\Temp\\config-repo-17287482983994863939\\ede-be\\config-cloud-file\\application.yml",
+      "source": {
+        "eureka.client.register-with-eureka": true,
+        "eureka.client.fetch-registry": true,
+        "eureka.client.service-url.defaultZone": "http://localhost:8761/eureka",
+        "eureka.instance.hostname": "localhost",
+        "spring.datasource.url": "jdbc:sqlserver://localhost;database=EDE",
+        "spring.datasource.username": "sa",
+        "spring.datasource.password": 123,
+        "spring.datasource.driverClassName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+        "spring.jpa.show-sql": true,
+        "spring.jpa.hibernate.ddl-auto": "none",
+        "spring.jpa.hibernate.dialect": "org.hibernate.dialect.SQLServer2012Dialect",
+        "spring.mail.host": "smtp.gmail.com",
+        "spring.mail.port": 587,
+        "spring.mail.username": "teamsdarkeyes2021@gmail.com",
+        "spring.mail.password": "teamsdarkeyes123",
+        "spring.mail.properties.mail.smtp.auth": true,
+        "spring.mail.properties.mail.smtp.starttls.enable": true,
+        "spring.cloud.config.uri[0]": "http://localhost:8888"
+      }
+    }
+  ]
+}
