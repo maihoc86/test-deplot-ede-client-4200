@@ -39,7 +39,7 @@
         </form>
         <li class="list-group-item title">Danh mục shop</li>
         <li class="list-group-item">
-          <a href="http://localhost:4200/shop/showall/interface">Tất cả</a>
+          <a href="http://localhost:4200/shop/showall/interface?idShop={{shopForm.controls.id.value}}">Tất cả</a>
         </li>
         <li
           class="list-group-item target hover"
@@ -118,7 +118,7 @@
       <button style="margin-left: 10px" class="btn btn-default">
         Phổ biến
       </button>
-      <button style="margin-left: 10px" class="btn btn-default">
+      <button style="margin-left: 10px" class="btn btn-default" (click)="sortNewProduct()">
         Mới nhất
       </button>
       <button style="margin-left: 10px" class="btn btn-default">Bán chạy</button
