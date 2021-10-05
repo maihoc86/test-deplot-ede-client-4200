@@ -88,7 +88,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.idShop = params['idShop'] ? params['idShop'] : '';
       this.brand = params['brand'] ? params['brand'].split(',') : [];
       this.page = params['page'];
-      // ! FIX ME
       if (this.page != undefined) {
         this.page = this.page - 1;
         if (this.category != '' && this.location == '' && this.brand == '') {
@@ -169,6 +168,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         });
         this.page = data;
         this.count = this.page.totalElements;
+        console.log(this.listAllProducts);
       },
       (error) => {
         if (error.error.message == 'Của hàng không tồn tại') {
@@ -457,6 +457,12 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         description: res.description,
         address: res.address,
       });
+    });
+  }
+  sortNewProduct() {
+    this.listAllProducts.sort((a: any, b: any) => {
+      console.log(a.createdate);
+      return a == null || b == null ? 0 : a.createdate > b.createdate ? -1 : 1;
     });
   }
 }

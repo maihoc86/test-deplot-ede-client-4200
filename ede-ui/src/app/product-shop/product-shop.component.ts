@@ -491,12 +491,16 @@ export class ProductShopComponent implements OnInit {
    * @returns danh sách quốc gia
    */
   public getCountry() {
-    this.AddressService.getCountry().subscribe((data) => {
-      const listCountry = data.map(function (obj: { name: any }) {
+    try {
+      const listCountry = this.AddressService.getCountry().map(function (obj: {
+        name: any;
+      }) {
         return obj;
       });
       this.listCountry = listCountry;
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /**
