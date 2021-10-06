@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.extend.ProductSearch;
 
@@ -64,6 +65,12 @@ public interface ProductService {
 	 */
 	Product deleteById(String id);
 	ProductSearch findByProductSearchId(String id);
+
+	List<Product_brand> selectAllBrandInShop(String valueIdShop);
+
+	Page<Product> findByCategory(String id, PageRequest pageRequest);
+
+	Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest);
 	
 
 

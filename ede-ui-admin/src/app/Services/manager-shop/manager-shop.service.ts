@@ -14,4 +14,9 @@ export class ManagerShopService {
   public loadAllShopByName(name:string){
     return this.http.get<any>(this.REST_API_SERVER+'/shop/viewallbyname?name='+name)
   }
+
+  public updateStatusShop(id:string, status: any){
+    console.log("updateStatusShop lala")
+    return this.http.get<any>(this.REST_API_SERVER +'/updateStatus/shop/'+id+"?status="+status)
+  }
 }
