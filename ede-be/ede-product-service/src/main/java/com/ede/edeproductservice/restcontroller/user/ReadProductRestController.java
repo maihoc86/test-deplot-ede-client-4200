@@ -2,7 +2,6 @@ package com.ede.edeproductservice.restcontroller.user;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -312,10 +311,8 @@ public class ReadProductRestController {
 		}
 		if (category.isPresent() && valueLocation.equals("") && valueBrand.equals("")) {
 			// CATEGORY
-			listPage = selling.get()
-					? listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest)
-					: null;
 			listPage = service.filterProductShopByCustomerCategory(valueCategory, valueIdShop, pageRequest);
+
 		} else if (location.isPresent() && valueCategory.equals("") && valueBrand.equals("")) {
 			// LOCATION
 			listPage = service.filterProductShopByCustomerLocation(locationList, valueIdShop, pageRequest);

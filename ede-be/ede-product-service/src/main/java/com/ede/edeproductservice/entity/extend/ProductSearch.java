@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.entity.extend;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,14 +12,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,6 +53,10 @@ public class ProductSearch {
 	Boolean deleted;
 	@Column(table = "product")
 	String location;
+	@Column(table = "product")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date createdate;
 	
 	// ------------------------
 	@ManyToOne
