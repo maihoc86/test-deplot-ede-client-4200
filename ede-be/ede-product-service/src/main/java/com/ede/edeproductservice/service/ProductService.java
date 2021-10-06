@@ -44,6 +44,20 @@ public interface ProductService {
 	Page<ProductSearch> filterProductShopByCustomerLocationAndBrand(List<String> names,List<String> valueBrand, String id, Pageable of);
 	Page<ProductSearch> filterProductShopByCustomerLocationAndCategoryAndBrand(List<String> names,String category,List<String> brand, String id, Pageable of);
 
+	
+	/**
+	 * Hàm filter sản phẩm mới
+	 * @author Thái Học
+	 */
+	Page<ProductSearch> filterProductShopNewByCustomerCategory(String valueCate, String id_shop, Pageable of);
+//	Page<ProductSearch> filterProductShopNewByCustomerLocation(List<String> names, String id, Pageable of);
+//	Page<ProductSearch> filterProductShopNewByCustomerBrand(List<String> valueBrand, String id, Pageable of);
+//	Page<ProductSearch> filterProductShopNewByCustomerLocationAndCategory(List<String> names,String category, String id, Pageable of);
+//	Page<ProductSearch> filterProductShopNewByCustomerCategoryAndBrand(String category,List<String> valueBrand, String id, Pageable of);
+//	Page<ProductSearch> filterProductShopNewByCustomerLocationAndBrand(List<String> names,List<String> valueBrand, String id, Pageable of);
+//	Page<ProductSearch> filterProductShopNewByCustomerLocationAndCategoryAndBrand(List<String> names,String category,List<String> brand, String id, Pageable of);
+
+	
 	/**
 	 * @author thái học
 	 *
@@ -71,6 +85,8 @@ public interface ProductService {
 	Page<Product> findByCategory(String id, PageRequest pageRequest);
 
 	Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest);
+
+	Page<ProductSearch> testFilterProductNew(Pageable of);
 	
 
 
