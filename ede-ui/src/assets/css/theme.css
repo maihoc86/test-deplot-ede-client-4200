@@ -263,11 +263,7 @@
  [5] NO RESPONSIVE BOOTSTRAP
  [6] PRELOADING SCREEN
  [7] BANNER EFFECT
-<<<<<<< HEAD
  [8] POPUP ADDED TO CART
-=======
- [8] POPUP ADDED TO CART
->>>>>>> 46-framework-initialize
  [9] PAGE COMINGSOON
  ==============================================*/
 /*============BACK TO TOP ==================*/
@@ -4260,7 +4256,13 @@ ul, ol {
   margin: 0; }
 
 .btn.active, .btn:active {
-  box-shadow: none !important; }
+  box-shadow: none !important;
+
+ }
+ button.btn.btn-default.active{
+  background: #ff3c20;
+  color: #fff;
+ }
 
 .input-group-btn > .btn {
   border-top-left-radius: 0;
@@ -4621,11 +4623,7 @@ table.table-bordered thead > * {
  [1]		Page Faq
  [2]		Page About us
  [3]		Page Contact
-<<<<<<< HEAD
  [4]		page 404
-=======
- [4]		page 404
->>>>>>> 46-framework-initialize
  */
 #map-canvas {
   height: 600px; }
@@ -5479,6 +5477,10 @@ span.fa-stack {
     background: transparent;
     border-radius: 0px;
     background-color: #fff; }
+       .filters-panel .form-control, .filters-panel .btn:active {
+    background-color: #ff3c20;
+    border-color: #ff3c20;
+    color: #fff; }
   .filters-panel .form-group {
     margin-left: 10px; }
   .filters-panel .form-group select.form-control {
@@ -7333,11 +7335,7 @@ footer .copyright a {
  margin-bottom: 30px;
  }*/
 /************************************************************************************************
-<<<<<<< HEAD
  MODULE HOME SLIDER
-=======
- MODULE HOME SLIDER
->>>>>>> 46-framework-initialize
  *************************************************************************************************/
 .sohomepage-slider .so-homeslider .owl2-nav div::before, .sohomepage-slider .so-homeslider .owl2-nav div:hover:before {
   background-color: transparent; }
@@ -7425,11 +7423,7 @@ footer .copyright a {
       -webkit-box-shadow: none;
       background: #ff3c20; }
 /************************************************************************************************
-<<<<<<< HEAD
  SHORTCODE HTML
-=======
- SHORTCODE HTML
->>>>>>> 46-framework-initialize
  *************************************************************************************************/
 .banners1 .b-img {
   margin-bottom: 30px; }

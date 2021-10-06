@@ -118,7 +118,7 @@
       <button style="margin-left: 10px" class="btn btn-default">
         Phổ biến
       </button>
-      <button style="margin-left: 10px" class="btn btn-default" (click)="sortNewProduct()">
+      <button style="margin-left: 10px"  [ngClass]="sortBy == 'ctime' ? 'btn btn-default active' : 'btn btn-default'" (click)="sortNewProduct()">
         Mới nhất
       </button>
       <button style="margin-left: 10px" class="btn btn-default">Bán chạy</button

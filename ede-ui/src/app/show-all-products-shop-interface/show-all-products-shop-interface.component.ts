@@ -1,11 +1,9 @@
-import { Shop } from './../models/shop.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { AddProductService } from '../Services/product-shop/add-product.service';
 import { HeaderService } from '../Services/header/header.service';
 import Swal from 'sweetalert2';
-import { ProductDiscount } from '../models/product-discount.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MyShopService } from '../Services/my-shop/my-shop.service';
 @Component({
@@ -24,17 +22,21 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   ) {}
   public totalCart: any = 0;
   public cart: Array<any> = [];
+
   public listCities: any = [];
   public listBrands: any = [];
   public listCategories: any = [];
   public listAllProducts: any = [];
   public listAllProductsDiscount: any = [];
+
   public location: any = [];
   public brand: any = [];
   public category: any;
   public page: any = [];
   public p: number = 1;
   public count: number = 0;
+
+  public sortBy: any;
   public hiddenLocation: boolean = true;
   public hiddenShowLocationMore: boolean = true;
   public idShop: any;
@@ -62,19 +64,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   });
 
   /**
-   * Hàm gán giá trị mới cho thuộc tính thông tin cửa hàng
-   */
-  private createDataShop() {
-    const newProduct: any = {};
-    for (const controlName in this.shopForm.controls) {
-      if (controlName) {
-        newProduct[controlName] = this.shopForm.controls[controlName].value;
-      }
-    }
-    return newProduct as Shop;
-  }
-
-  /**
    * Hàm thực hiện load sản phẩm theo param trên url
    * @param page trang số
    * @param category loại sản phẩm
@@ -82,58 +71,26 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param brand nhãn hàng []
    */
   public listProduct() {
+    //! FIX ME bị lặp route
     this.route.queryParams.subscribe((params) => {
       this.category = params['category'] ? params['category'] : '';
       this.location = params['location'] ? params['location'].split(',') : [];
       this.idShop = params['idShop'] ? params['idShop'] : '';
       this.brand = params['brand'] ? params['brand'].split(',') : [];
       this.page = params['page'];
+      this.sortBy = params['sortBy'] ? params['sortBy'] : '';
+
       if (this.page != undefined) {
         this.page = this.page - 1;
-        if (this.category != '' && this.location == '' && this.brand == '') {
-          // CATEGORY
-          this.filter(this.idShop, this.category, '', '', this.page);
-        } else if (
+        if (
+          this.idShop != undefined &&
+          this.idShop != '' &&
           this.category == '' &&
-          this.location != '' &&
-          this.brand == ''
-        ) {
-          // LOCATION
-          this.filter(this.idShop, '', this.location, '', this.page);
-        } else if (
-          this.brand != '' &&
           this.location == '' &&
-          this.category == ''
-        ) {
-          // BRAND
-          this.filter(this.idShop, '', '', this.brand, this.page);
-        } else if (
-          this.category != '' &&
-          this.location != '' &&
           this.brand == ''
         ) {
-          // CATEGORY AND LOCATION
-          this.filter(this.idShop, this.category, this.location, '', this.page);
-        } else if (
-          this.category != '' &&
-          this.brand != '' &&
-          this.location == ''
-        ) {
-          // CATEGORY AND BRAND
-          this.filter(this.idShop, this.category, '', this.brand, this.page);
-        } else if (
-          this.location != '' &&
-          this.brand != '' &&
-          this.category == ''
-        ) {
-          // LOCATION AND BRAND
-          this.filter(this.idShop, '', this.location, this.brand, this.page);
-        } else if (
-          this.category != '' &&
-          this.location != '' &&
-          this.brand != ''
-        ) {
-          // CATEGORY AND LOCATION AND BRAND
+          this.getAllProductDefault(this.idShop, this.page);
+        } else {
           this.filter(
             this.idShop,
             this.category,
@@ -141,9 +98,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
             this.brand,
             this.page
           );
-        } else {
-          // DEFAULT IF PRESENT PAGE
-          this.getAllProductDefault(this.idShop, this.page);
         }
       } else {
         // DEFAULT IF NO PRESENT PAGE
@@ -166,9 +120,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
+        this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
-        console.log(this.listAllProducts);
       },
       (error) => {
         if (error.error.message == 'Của hàng không tồn tại') {
@@ -208,9 +162,12 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
           name: any;
+          productDiscount: any;
         }) {
           return obj;
         });
+        console.log(this.listAllProducts);
+        this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
       },
@@ -366,7 +323,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.category,
         this.location,
         this.brand,
-        this.p
+        this.p,
+        this.sortBy
       ),
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
@@ -385,7 +343,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     category: string,
     location: [] = [],
     brand: [] = [],
-    page: number
+    page: number,
+    sortBy: string
   ): any {
     let params: any = {};
     if (category) {
@@ -393,6 +352,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     }
     if (page) {
       params[`page`] = page;
+    }
+    if (sortBy) {
+      params[`sortBy`] = sortBy;
     }
     if (location != undefined && location.length > 0) {
       params[`location`] = location.toString();
@@ -459,10 +421,21 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
     });
   }
-  sortNewProduct() {
-    this.listAllProducts.sort((a: any, b: any) => {
-      console.log(a.createdate);
-      return a == null || b == null ? 0 : a.createdate > b.createdate ? -1 : 1;
-    });
+  async sortNewProduct() {
+    this.sortBy = 'ctime';
+    this.routeParams();
+  }
+
+  sortHandler() {
+    console.log(this.listAllProducts);
+    if (this.sortBy === 'ctime') {
+      this.listAllProducts.sort((a: any, b: any) => {
+        return a == null || b == null
+          ? 0
+          : a.createdate > b.createdate
+          ? -1
+          : 1;
+      });
+    }
   }
 }
