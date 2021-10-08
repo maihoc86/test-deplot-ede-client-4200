@@ -71,39 +71,38 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param brand nhãn hàng []
    */
   public listProduct() {
-    //! FIX ME bị lặp route
-    this.route.queryParams.subscribe((params) => {
-      this.category = params['category'] ? params['category'] : '';
-      this.location = params['location'] ? params['location'].split(',') : [];
-      this.idShop = params['idShop'] ? params['idShop'] : '';
-      this.brand = params['brand'] ? params['brand'].split(',') : [];
-      this.page = params['page'];
-      this.sortBy = params['sortBy'] ? params['sortBy'] : '';
+    var param = this.route.snapshot.queryParamMap;
 
-      if (this.page != undefined) {
-        this.page = this.page - 1;
-        if (
-          this.idShop != undefined &&
-          this.idShop != '' &&
-          this.category == '' &&
-          this.location == '' &&
-          this.brand == ''
-        ) {
-          this.getAllProductDefault(this.idShop, this.page);
-        } else {
-          this.filter(
-            this.idShop,
-            this.category,
-            this.location,
-            this.brand,
-            this.page
-          );
-        }
+    this.category = param.get('category') ? param.get('category') : '';
+    this.location = param.get('location')? param.get('location')?.split(','): [];
+    this.idShop = param.get('idShop') ? param.get('idShop') : '';
+    this.brand = param.get('brand') ? param.get('brand')?.split(',') : [];
+    this.page = param.get('page');
+    this.sortBy = param.get('sortBy') ? param.get('sortBy') : '';
+
+    if (this.page != undefined) {
+      this.page = this.page - 1;
+      if (
+        this.idShop != undefined &&
+        this.idShop != '' &&
+        this.category == '' &&
+        this.location == '' &&
+        this.brand == ''
+      ) {
+        this.getAllProductDefault(this.idShop, this.page);
       } else {
-        // DEFAULT IF NO PRESENT PAGE
-        this.getAllProductDefault(this.idShop, 0);
+        this.filter(
+          this.idShop,
+          this.category,
+          this.location,
+          this.brand,
+          this.page
+        );
       }
-    });
+    } else {
+      // DEFAULT IF NO PRESENT PAGE
+      this.getAllProductDefault(this.idShop, 0);
+    }
   }
 
   /**
@@ -166,7 +165,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
-        console.log(this.listAllProducts);
         this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
@@ -317,18 +315,21 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * Hàm đưa dữ liệu lên param url
    */
   routeParams() {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: this.getRequestParams(
-        this.category,
-        this.location,
-        this.brand,
-        this.p,
-        this.sortBy
-      ),
-      queryParamsHandling: 'merge', // remove to replace all query params by provided
-    });
-    this.listProduct();
+    this.router
+      .navigate([], {
+        relativeTo: this.route,
+        queryParams: this.getRequestParams(
+          this.category,
+          this.location,
+          this.brand,
+          this.p,
+          this.sortBy
+        ),
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      })
+      .then(() => {
+        this.listProduct();
+      });
   }
 
   /**
@@ -426,8 +427,12 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.routeParams();
   }
 
+  async sortDiscountProduct() {
+    this.sortBy = 'discount';
+    this.routeParams();
+  }
+
   sortHandler() {
-    console.log(this.listAllProducts);
     if (this.sortBy === 'ctime') {
       this.listAllProducts.sort((a: any, b: any) => {
         return a == null || b == null
@@ -436,6 +441,22 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           ? -1
           : 1;
       });
+    } else if (this.sortBy === 'discount') {
+      this.listAllProducts.sort((a: any, b: any) => {
+        // 0 có nghĩa là giống nhau
+        // -1 có nghĩa là a < b
+        // 1 có nghĩa là a > b
+        return a.productDiscount.length == 0 && b.productDiscount.length == 0
+          ? 0
+          : a.productDiscount.length == 0
+          ? 1
+          : b.productDiscount.length == 0
+          ? -1
+          : a.productDiscount[0].discount > b.productDiscount[0].discount
+          ? -1
+          : 1;
+      });
     }
+    console.log(this.listAllProducts);
   }
 }
