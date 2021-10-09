@@ -44,6 +44,9 @@ public interface OrderDao extends JpaRepository<Order, String> {
 	 * 
 	 */
 	@Query("SELECT distinct o FROM Order o join o.order_detail orderdetail where ( o.user.first_name like %?1% or o.user.last_name like %?1% ) and orderdetail.productOption.product.shop.id= ?2 and o.status= ?3")
-	Page<Order> findAllOrderShopByStatus(String keyword,String shop, String status, Pageable page);
+	Page<Order> findAllOrderShopByStatus(String keyword, String shop, String status, Pageable page);
+
+	@Query("SELECT o FROM Order o where o.discount.id =:id")
+	Order findDiscount(String id);
 
 }

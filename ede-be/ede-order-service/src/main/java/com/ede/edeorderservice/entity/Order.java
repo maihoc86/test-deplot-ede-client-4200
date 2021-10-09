@@ -48,6 +48,9 @@ public class Order implements Serializable {
 	@JoinColumn(name="id_user")
 	User user;
 	
+	@ManyToOne
+	@JoinColumn(name="id_discount")
+	Order_Discount discount;
 	
 	@Override
 	public String toString() {
