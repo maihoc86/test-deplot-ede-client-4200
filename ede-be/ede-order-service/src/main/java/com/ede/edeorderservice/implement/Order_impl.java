@@ -67,4 +67,9 @@ public class Order_impl implements Order_service {
 		return dao.findAllOrderShopByStatus(keyword, shop, status, page);
 	}
 
+	@Override
+	public Order findDiscount(String id) {
+		return dao.findDiscount(id);
+	}
+
 }

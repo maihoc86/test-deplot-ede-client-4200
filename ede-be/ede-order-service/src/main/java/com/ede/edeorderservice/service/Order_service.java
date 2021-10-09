@@ -46,4 +46,6 @@ public interface Order_service {
 	 */
 	Page<Order> findAllOrderShopByStatus(String keyword, String string, String status, Pageable page);
 
+	Order findDiscount(String id);
+
 }
