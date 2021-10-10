@@ -72,7 +72,7 @@ public interface ProductService {
 	Page<Product> findByCategory(String id, PageRequest pageRequest);
 
 	Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest);
-	
+	Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest);
 
 	/**
 	 * @author Kim Thanh
@@ -80,6 +80,8 @@ public interface ProductService {
 	 * 
 	 */
 	List<Evaluate> findAllCommnentByIdProduct(String id);
+
+	Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest);
 	
 
 

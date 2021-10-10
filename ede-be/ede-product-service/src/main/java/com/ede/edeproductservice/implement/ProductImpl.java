@@ -206,5 +206,14 @@ public class ProductImpl implements ProductService {
 	public List<Evaluate> findAllCommnentByIdProduct(String id) {
 		return dao.findAllCommnentByIdProduct(id);
 	}
+	@Override
+	public Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest) {
+		return dao.getProductSaleByIdShop(id, pageRequest);
+	}
+
+	@Override
+	public Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest) {
+		return dao.getProductNewByIdShop(id,pageRequest);
+	}
 
 }
