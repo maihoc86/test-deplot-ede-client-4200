@@ -164,6 +164,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getAllproductDiscount")
 	public List<Product_discount> getAllProductDiscount() {
+		// TODO: Sửa product discount
 		return product_discount_service.findAll();
 	}
 
@@ -269,6 +270,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/list_product_discount")
 	public List<Product_discount> getListProduct_discount() {
+		// TODO: Sửa product discount
 		return product_discount_service.findAll();
 	}
 
@@ -380,6 +382,7 @@ public class ReadProductRestController {
 
 		long millis = System.currentTimeMillis();
 		Date date = new java.sql.Date(millis);
+		// TODO: Sửa product discount
 		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
 		return ResponseEntity.ok(pageF);
 	}

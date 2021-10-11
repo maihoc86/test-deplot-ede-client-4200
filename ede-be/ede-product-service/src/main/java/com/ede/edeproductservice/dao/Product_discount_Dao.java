@@ -15,7 +15,7 @@ public interface Product_discount_Dao extends JpaRepository<Product_discount, St
 	 *
 	 * 
 	 */
-	@Query("SELECT o FROM Product_discount o where o.productdiscount.shop.id =:id and o.status = true and o.enddate > :date")
+	@Query("SELECT o FROM Product_discount o where o.productdiscount.product.shop.id =:id and o.status = true and o.enddate > :date")
 	List<Product_discount> findAllByShop(String id, Date date);
 
 }

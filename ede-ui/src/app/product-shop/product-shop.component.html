@@ -630,7 +630,11 @@
           <div class="pull-right">
             <input
               [disabled]="
-                product.invalid || images.length == 0 || product_options.invalid
+                product.invalid ||
+                images.length == 0 ||
+                product_options.invalid ||
+                (product_discount.controls['discount'].value != '' &&
+                  product_discount.invalid)
                   ? 'disabled'
                   : null
               "
@@ -642,7 +646,11 @@
             />
             <input
               [disabled]="
-                product.invalid || images.length == 0 || product_options.invalid
+                product.invalid ||
+                images.length == 0 ||
+                product_options.invalid ||
+                (product_discount.controls['discount'].value != '' &&
+                  product_discount.invalid)
                   ? 'disabled'
                   : null
               "
