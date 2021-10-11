@@ -74,7 +74,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     var param = this.route.snapshot.queryParamMap;
 
     this.category = param.get('category') ? param.get('category') : '';
-    this.location = param.get('location')? param.get('location')?.split(','): [];
+    this.location = param.get('location')
+      ? param.get('location')?.split(',')
+      : [];
     this.idShop = param.get('idShop') ? param.get('idShop') : '';
     this.brand = param.get('brand') ? param.get('brand')?.split(',') : [];
     this.page = param.get('page');
@@ -446,17 +448,18 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         // 0 có nghĩa là giống nhau
         // -1 có nghĩa là a < b
         // 1 có nghĩa là a > b
-        return a.productDiscount.length == 0 && b.productDiscount.length == 0
+        return a.optionDef.productDiscount.length == 0 &&
+          b.optionDef.productDiscount.length == 0
           ? 0
-          : a.productDiscount.length == 0
+          : a.optionDef.productDiscount.length == 0
           ? 1
-          : b.productDiscount.length == 0
+          : b.optionDef.productDiscount.length == 0
           ? -1
-          : a.productDiscount[0].discount > b.productDiscount[0].discount
+          : a.optionDef.productDiscount[0].discount >
+            b.optionDef.productDiscount[0].discount
           ? -1
           : 1;
       });
     }
-    console.log(this.listAllProducts);
   }
 }

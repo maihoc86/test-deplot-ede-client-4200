@@ -224,9 +224,9 @@
                 <div class="box-label">
                   <span
                     class="label-product label-sale"
-                    *ngIf="product.productDiscount[0] != undefined"
+                    *ngIf="product.optionDef.productDiscount[0] != undefined"
                   >
-                    {{ product.productDiscount[0].discount }}
+                    {{ product.optionDef.productDiscount[0].discount }}
                   </span>
                 </div>
                 <div style="margin-top: 30px">
@@ -304,11 +304,14 @@
                     {{ product.name }}
                   </h4>
                   <div class="price">
-                    <div *ngIf="product.productDiscount[0] != undefined">
+                    <div
+                      *ngIf="product.optionDef.productDiscount[0] != undefined"
+                    >
                       <span class="price-new"
                         >{{
                           (product.optionDef.price *
-                            (100 - product.productDiscount[0].discount)) /
+                            (100 -
+                              product.optionDef.productDiscount[0].discount)) /
                             100 | number
                         }}đ</span
                       >
@@ -318,7 +321,7 @@
                     </div>
                     <span
                       class="price-new"
-                      *ngIf="product.productDiscount[0] == undefined"
+                      *ngIf="product.optionDef.productDiscount[0] == undefined"
                       >{{ product.optionDef.price | number }}đ</span
                     >
                   </div>

@@ -48,9 +48,8 @@ public class Product_option implements Serializable {
 	List<Product_option_image> product_option_images;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productdiscount")
-	@Fetch(value = FetchMode.SUBSELECT)
-	List<Product_discount> product_discounts;
+	@OneToMany(mappedBy = "productdiscount")
+	List<Product_discount> productDiscount;
 
 	@Override
 	public String toString() {
