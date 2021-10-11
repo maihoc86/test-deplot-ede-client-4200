@@ -138,10 +138,13 @@
       </button>
       <button style="margin-left: 10px" class="btn btn-default">Bán chạy</button
       >&nbsp;&nbsp;
-      <select name="cars" id="cars" style="width: 200px; height: 30px">
-        <option hidden value="volvo">Giá</option>
-        <option value="saab">Giá: Thấp đến cao</option>
-        <option value="opel">Giá: Cao đến thấp</option>
+      <select
+        style="width: 200px; height: 30px"
+        (change)="sortPriceProduct($event)"
+      >
+        <option hidden>Giá</option>
+        <option value="ASC">Giá: Thấp đến cao</option>
+        <option value="DSC">Giá: Cao đến thấp</option>
       </select>
     </div>
     <!-------------------------------------------------------------------------------------------------- -->
