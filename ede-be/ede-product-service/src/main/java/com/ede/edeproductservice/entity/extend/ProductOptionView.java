@@ -23,6 +23,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.ede.edeproductservice.entity.Product;
+import com.ede.edeproductservice.entity.Product_discount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -57,6 +58,9 @@ public class ProductOptionView {
 	@ManyToOne
 	@JoinColumn(name = "id_product", table = "product_option")
 	Product product;
+	
+	@OneToMany( mappedBy = "productdiscount")
+	List<Product_discount> productDiscount;
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productoption")
