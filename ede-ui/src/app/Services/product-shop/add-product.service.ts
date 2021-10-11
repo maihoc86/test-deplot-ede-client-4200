@@ -54,11 +54,11 @@ export class AddProductService {
     );
   }
   public addProductTags(data: ProductTag) {
-    return this.httpClient.post<any>(
-      this.REST_API_SERVER + '/user/create/product-shop/tag',
-      data,
-      this.httpOptions
-    );
+     return this.httpClient.post<any>(
+       this.REST_API_SERVER + '/user/create/product-shop/tag',
+       data,
+       this.httpOptions
+     );
   }
   public updateProduct(data: Product) {
     return this.httpClient.put<any>(

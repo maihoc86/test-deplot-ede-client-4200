@@ -106,8 +106,8 @@ export class ProductShopComponent implements OnInit {
   });
   public product_tags = new FormGroup({
     id: new FormControl(''),
-    producttag: new FormControl(''),
     tag: new FormControl(''),
+    producttag: new FormControl(''),
   });
   constructor(
     private router: Router,
@@ -262,6 +262,7 @@ export class ProductShopComponent implements OnInit {
             .toPromise()
             .then((data) => {}),
             (error: any) => {
+              console.log(error);
               Swal.fire({
                 title: 'Thông báo!',
                 text: 'Cập nhật giảm giá bại !!!',
@@ -348,22 +349,34 @@ export class ProductShopComponent implements OnInit {
           });
         };
     }
-    this.product_discount.controls['productdiscount'].setValue(
-      this.product.value
-    );
-    this.Addservice.addProductDiscount(this.createNewDataDiscount())
-      .toPromise()
-      .then((data) => {}),
-      (error: any) => {};
+
     this.product_options.controls['product'].setValue(this.product.value);
     this.Addservice.addProductOption(this.createNewOption()).subscribe(
       (data) => {
         this.addMultiImage(data);
-        Swal.fire({
-          title: 'Thông báo!',
-          text: 'Thêm thuộc tính sản phẩm thành công',
-          icon: 'success',
-        });
+        if (
+          this.product_discount.controls['discount'].value != null &&
+          this.product_discount.controls['discount'].value > 0
+        ) {
+          // Thêm Product_discount
+          this.product_discount.controls['productdiscount'].setValue(data);
+          this.Addservice.addProductDiscount(this.createNewDataDiscount())
+            .toPromise()
+            .then((data) => {}),
+            (error: any) => {
+              Swal.fire({
+                title: 'Thông báo!',
+                text: error.error.errors[0].defaultMessage,
+                icon: 'error',
+              });
+            };
+        }
+          Swal.fire({
+            title: 'Thông báo!',
+            text: 'Thêm thuộc tính sản phẩm thành công',
+            icon: 'success',
+          });
+
       },
       (error) => {
         if (error.status == 400) {
@@ -398,40 +411,49 @@ export class ProductShopComponent implements OnInit {
         }).then((result) => {
           if (this.tagArray.length > 0) {
             this.product_tags.controls['producttag'].setValue(data);
-
-            // Nếu có chèn #Tag, thì thêm #Tag vào sản phẩm
             this.Addservice.addProductTags(this.createDataTag()).subscribe(
               (data: any) => {}
             ),
               (error: any) => {
                 Swal.fire({
                   title: 'Thông báo!',
-                  text: 'Thêm thẻ sản phẩm thất bại !!!',
+                  text: error.error.errors[0].defaultMessage,
                   icon: 'error',
                 });
               };
           }
 
-          this.product_discount.controls['productdiscount'].setValue(data);
-          // Thêm giảm giá
-          this.Addservice.addProductDiscount(this.createNewDataDiscount())
-            .toPromise()
-            .then((data) => {}),
-            (error: any) => {};
-          this.product_options.controls['product'].setValue(data);
-
           // Thêm product option
-          this.Addservice.addProductOption(this.createNewOption())
-            .toPromise()
-            .then(
-              (data) => {
-                console.log(data);
-                this.addMultiImage(data);
-              },
-              (error) => {
-                console.log(error);
+          this.product_options.controls['product'].setValue(data);
+          this.Addservice.addProductOption(this.createNewOption()).subscribe(
+            (data) => {
+              if (
+                this.product_discount.controls['discount'].value != null &&
+                this.product_discount.controls['discount'].value > 0
+              ) {
+                // Thêm Product_discount
+                this.product_discount.controls['productdiscount'].setValue(
+                  data
+                );
+                this.Addservice.addProductDiscount(this.createNewDataDiscount())
+                  .toPromise()
+                  .then((data) => {}),
+                  (error: any) => {
+                    Swal.fire({
+                      title: 'Thông báo!',
+                      text: error.error.errors[0].defaultMessage,
+                      icon: 'error',
+                    });
+                  };
               }
-            );
+              this.addMultiImage(data);
+            },
+
+            (error) => {
+              console.log(error);
+            }
+          );
+
           if (result.isConfirmed) {
             // Nếu đăng bán sản phẩm thì chuyển trạng thái sản phẩm thành đã đăng bán
             this.Addservice.enableProductShop(data).subscribe(
@@ -441,9 +463,10 @@ export class ProductShopComponent implements OnInit {
                   title: 'Thông báo!',
                   text: 'Sản phẩm đã được đăng bán',
                   icon: 'success',
-                }).then(() => {
-                  window.location.reload();
                 });
+                // .then(() => {
+                //   window.location.reload();
+                // });
               },
               (error) => {
                 alert(error);

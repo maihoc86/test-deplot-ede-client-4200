@@ -2,18 +2,18 @@ package com.ede.edeproductservice.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,23 +22,23 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "product_discount")
+@Table(name = "order_discount")
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Product_discount implements Serializable {
+public class Order_Discount implements Serializable {
 	@Id
 	String id;
-	Double discount;
+	double total;
+	double discount;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date startdate;
+	Date todate;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date enddate;
-	Boolean status;
+	boolean status;
+	@JsonIgnore
+	@OneToMany(mappedBy = "discount")
+	List<Order> order;
 
-	@ManyToOne
-	@JoinColumn(name = "id_product_option")
-	Product_option productdiscount;
 }

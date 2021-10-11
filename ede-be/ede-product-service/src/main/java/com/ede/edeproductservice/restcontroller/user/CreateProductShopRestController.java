@@ -89,14 +89,15 @@ public class CreateProductShopRestController {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/")
-	public ResponseEntity addProductOptions(@RequestBody Product_option product_option) {
+	public ResponseEntity addProductOptions(@RequestBody Product_option product_option,HttpServletRequest req) {
+		
 		if (product_option_service.countItemByProductID(product_option.getProduct().getId()) == 10) {
-			System.out.println(product_option_service.countItemByProductID(product_option.getProduct().getId()));
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 					"Bạn đã có 10 thuộc tính sản phẩm, vui lòng xóa bớt !", "", null);
 		} else {
-		product_option.setId(generateUUID().toString());
-		return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
+			product_option.setId(generateUUID().toString());
+
+			return ResponseEntity.status(HttpStatus.OK).body(product_option_service.save(product_option));
 		}
 	}
 
@@ -125,6 +126,7 @@ public class CreateProductShopRestController {
 		try {
 			product_discount.setId(generateUUID().toString());
 			product_discount.setStatus(true);
+			// TODO: Sửa product discount
 			return ResponseEntity.status(HttpStatus.OK).body(product_discount_service.save(product_discount));
 		} catch (Exception e) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
@@ -136,7 +138,7 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/tag")
 	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
-		System.err.println(product_tag);
+		
 		String[] words = product_tag.getTag().split(",");
 		for (int i = 0; i < words.length; i++) {
 			Optional<Product_tag> findTag = product_Tag_service.findById(generateUUID().toString());
@@ -151,8 +153,8 @@ public class CreateProductShopRestController {
 			}
 		}
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm tag thành công", "", null);
-	}
 
+	}
 
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/user/enable/product-shop/{id}")
