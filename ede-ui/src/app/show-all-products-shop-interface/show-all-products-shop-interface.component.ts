@@ -434,6 +434,12 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.routeParams();
   }
 
+  async sortPriceProduct(event: any) {
+    console.log(event.target.value);
+    this.sortBy = event.target.value;
+    this.routeParams();
+  }
+
   sortHandler() {
     if (this.sortBy === 'ctime') {
       this.listAllProducts.sort((a: any, b: any) => {
@@ -459,6 +465,14 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
             b.optionDef.productDiscount[0].discount
           ? -1
           : 1;
+      });
+    } else if (this.sortBy == 'DSC') {
+      this.listAllProducts.sort((a: any, b: any) => {
+        return a.optionDef.price > b.optionDef.price ? -1 : 1;
+      });
+    } else if (this.sortBy == 'ASC') {
+      this.listAllProducts.sort((a: any, b: any) => {
+        return a.optionDef.price < b.optionDef.price ? -1 : 1;
       });
     }
   }
