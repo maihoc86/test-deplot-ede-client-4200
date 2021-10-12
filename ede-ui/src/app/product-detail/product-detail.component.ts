@@ -56,7 +56,9 @@ export class ProductDetailComponent implements OnInit {
         name: product.name,
         id: product.optionDef.id,
         price: product.optionDef.price,
-        discount: product.productDiscount[0]?product.productDiscount[0].discount:0,
+        discount: product.optionDef.productDiscount[0]
+        ? product.optionDef.productDiscount[0]?.discount
+        : 0,
       });
     }
   
