@@ -20,7 +20,6 @@ export class ManagerProductComponent implements OnInit {
     page = page - 1;
     this.service.getAll(page, size).subscribe(
       (data) => {
-        console.log(data);
         const item = data.content.map(function (obj: {
           idProduct: any;
           name: any;
@@ -36,7 +35,6 @@ export class ManagerProductComponent implements OnInit {
         // this.arrays = [];
         this.page = data;
         this.count = this.page.totalElements;
-        console.log(this.items.content.content);
       },
       (err) => {
         console.log(err);

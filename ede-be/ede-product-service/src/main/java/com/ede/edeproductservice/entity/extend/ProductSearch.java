@@ -77,10 +77,6 @@ public class ProductSearch {
 	List<ProductOptionView> productOptions;
 
 
-	@OneToMany(mappedBy = "productdiscount")
-	List<Product_discount> productDiscount;
-
-
 	@OneToMany(mappedBy = "producttag")
 	List<Product_tag> producTags;
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

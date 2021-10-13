@@ -22,7 +22,7 @@ public class Product_tag {
 	@Id
 	String id;
 	String tag;
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product producttag;

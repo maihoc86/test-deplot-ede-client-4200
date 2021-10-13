@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 public class Product_discount implements Serializable {
 	@Id
 	String id;
-	Double discount;
+	Double discount= 0.0;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date startdate;
@@ -39,6 +39,6 @@ public class Product_discount implements Serializable {
 	Boolean status;
 
 	@ManyToOne
-	@JoinColumn(name = "id_product")
-	Product productdiscount;
+	@JoinColumn(name = "id_product_option")
+	Product_option productdiscount;
 }

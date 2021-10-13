@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,6 +164,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getAllproductDiscount")
 	public List<Product_discount> getAllProductDiscount() {
+		// TODO: Sửa product discount
 		return product_discount_service.findAll();
 	}
 
@@ -268,6 +270,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/list_product_discount")
 	public List<Product_discount> getListProduct_discount() {
+		// TODO: Sửa product discount
 		return product_discount_service.findAll();
 	}
 
@@ -379,6 +382,7 @@ public class ReadProductRestController {
 
 		long millis = System.currentTimeMillis();
 		Date date = new java.sql.Date(millis);
+		// TODO: Sửa product discount
 		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
 		return ResponseEntity.ok(pageF);
 	}
@@ -394,8 +398,6 @@ public class ReadProductRestController {
 	@GetMapping("/view/get-product-related-shop/{id}")
 	public ResponseEntity<?> getProductRelatedShop(@PathVariable("id") String id,
 			@RequestParam("idcate") String idcate) {
-		System.err.println(idcate);
-		System.err.println(id);
 		PageRequest pageRequest = PageRequest.of(0, 5);
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
 		return ResponseEntity.ok(listPage);
@@ -404,10 +406,21 @@ public class ReadProductRestController {
 	@GetMapping("/view/get-product-related-category/{id}")
 	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id) {
 
-		System.err.println(id);
+
 		PageRequest pageRequest = PageRequest.of(0, 5);
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-
+	@GetMapping("/view/productsale/byshop/{id}")
+	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+		Page<ProductSearch>	listPage = service.getProductSaleByIdShop(id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
+	@GetMapping("/view/productnew/byshop/{id}")
+	public ResponseEntity<?> getProductNewByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+		Page<ProductSearch>	listPage = service.getProductNewByIdShop(id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
 }
