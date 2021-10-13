@@ -1,7 +1,9 @@
 package com.ede.edeproductservice.service;
 
+import com.ede.edeproductservice.entity.Orderdetail;
+
 public interface Order_detail_service {
 
-	Order_detail_service findProductOption(String id);
+	Orderdetail findProductOption(String id);
 
 }
