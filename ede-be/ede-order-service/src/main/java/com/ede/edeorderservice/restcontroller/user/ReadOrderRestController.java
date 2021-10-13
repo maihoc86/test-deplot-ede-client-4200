@@ -80,7 +80,10 @@ public class ReadOrderRestController {
 		});
 		return ResponseEntity.ok(pageLoad);
 	}
-
+	@GetMapping("/view/order/getAll")
+	public ResponseEntity getAllOrder() {
+		return ResponseEntity.ok(order_service.findAll());
+	}
 	@GetMapping("/view/orderDetail/shop/getAll/{id}")
 	public ResponseEntity getAll(@PathVariable("id") String idOrder,
 			@RequestParam(name = "keyword") String keyword,

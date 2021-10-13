@@ -394,8 +394,6 @@ public class ReadProductRestController {
 	@GetMapping("/view/get-product-related-shop/{id}")
 	public ResponseEntity<?> getProductRelatedShop(@PathVariable("id") String id,
 			@RequestParam("idcate") String idcate) {
-		System.err.println(idcate);
-		System.err.println(id);
 		PageRequest pageRequest = PageRequest.of(0, 5);
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory(idcate, id, pageRequest);
 		return ResponseEntity.ok(listPage);
@@ -404,10 +402,21 @@ public class ReadProductRestController {
 	@GetMapping("/view/get-product-related-category/{id}")
 	public ResponseEntity<?> getProductRelatedCategory(@PathVariable("id") String id) {
 
-		System.err.println(id);
+
 		PageRequest pageRequest = PageRequest.of(0, 5);
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-
+	@GetMapping("/view/productsale/byshop/{id}")
+	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+		Page<ProductSearch>	listPage = service.getProductSaleByIdShop(id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
+	@GetMapping("/view/productnew/byshop/{id}")
+	public ResponseEntity<?> getProductNewByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+		Page<ProductSearch>	listPage = service.getProductNewByIdShop(id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
 }
