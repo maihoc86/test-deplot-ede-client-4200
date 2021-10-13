@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HeaderService } from '../Services/header/header.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MyShopService } from '../Services/my-shop/my-shop.service';
-
 @Component({
   selector: 'app-shop-interface',
   templateUrl: './shop-interface.component.html',
@@ -18,19 +17,7 @@ export class ShopInterfaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInterfaceShop(this.getParam());
-    this.loadProductSale(1);
   }
-  public toBot(){
-    document.getElementById('table')?.scrollIntoView({behavior:"smooth"});
-  }
-  public cart: Array<any> = [];
-  public load:any='sale';
-  public count: number = 0;
-  public page:number=0;
-  public listProduct:any=[];
-  public listNew:any=[];
-  public listSelling:any=[];
-
   public shopInfor: any = {};
   public array: any = [7, 6, 5, 4, 3];
   public getParam() {
@@ -50,75 +37,5 @@ export class ShopInterfaceComponent implements OnInit {
   }
   public ToAllProductInterfaceShop(){
     document.location.href='/shop/showall/interface?idShop='+this.getParam();
-  }
-  public LoadProductTable(){
-
-    if(this.load=='sale'){
-      this.loadProductSale(1);
-    }else if(this.load=='Selling'){
-
-    }else if(this.load=='new'){
-      
-    }
-  }
-  public loadProductSale(p:any){
-    this.route.queryParams.subscribe((params) => {
-    this.page = params['page'];
-    })
-      this.shopService.getProductSale(this.getParam(),p-1).subscribe(data=>{
-        this.listProduct=data.content;
-        console.log(data)
-        this.count=data.totalElements;
-      },err=>{
-        console.log(err)
-      })
-  }
-  public handlePageChange(event: number) {
-    this.page = event;
-    this.routeParams();
-  }
-  routeParams() {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: this.getRequestParams(
-        this.page
-      ),
-      queryParamsHandling: 'merge', // remove to replace all query params by provided
-    });
-    this.loadProductSale(this.page);
-  }
-  getRequestParams(
-    page: number
-  ): any {
-    let params: any = {};
-    if (page) {
-      params[`page`] = page;
-    }
-    return params;
-  }
-  addToCart(product: any) {
-    var json = localStorage.getItem('cart');
-    this.cart = json ? JSON.parse(json) : [];
-    var item: any;
-    this.cart.forEach((e) => {
-      if (e.id == product.optionDef.id) {
-        item = e;
-      }
-    });
-    if (item) {
-      item.qty++;
-    } else {
-      this.cart.push({
-        qty: 1,
-        name: product.name,
-        id: product.optionDef.id,
-        price: product.optionDef.price,
-        discount: product.productDiscount[0]
-          ? product.productDiscount[0]?.discount
-          : 0,
-      });
-    }
-    localStorage.setItem('cart', JSON.stringify(this.cart));
-    this.headerService.myMethod(this.cart);
   }
 }

@@ -1,13 +1,7 @@
 package com.ede.edeproductservice.service;
 
-import java.util.List;
+public interface Order_detail_service {
 
-import com.ede.edeproductservice.entity.Product_option;
-
-public interface Order_Detail_service {
-
-	List<Product_option> findAllOptionProductByIduser(String idUser, String id);
-
-
+	Order_detail_service findProductOption(String id);
 
 }
