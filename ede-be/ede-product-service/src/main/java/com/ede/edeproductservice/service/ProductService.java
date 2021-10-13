@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.ede.edeproductservice.entity.Evaluate;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
@@ -71,6 +72,16 @@ public interface ProductService {
 	Page<Product> findByCategory(String id, PageRequest pageRequest);
 
 	Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest);
+	Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest);
+
+	/**
+	 * @author Kim Thanh
+	 *
+	 * 
+	 */
+	List<Evaluate> findAllCommnentByIdProduct(String id);
+
+	Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest);
 	
 
 

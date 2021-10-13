@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ede.edeproductservice.dao.ProductDao;
+import com.ede.edeproductservice.entity.Evaluate;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
@@ -193,6 +194,26 @@ public class ProductImpl implements ProductService {
 	public Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest) {
 		
 		return dao.filterProductShopByCustomerCategory2(id,pageRequest);
+	}
+
+	
+	/**
+	 * @author Kim Thanh
+	 *
+	 * 
+	 */
+	@Override
+	public List<Evaluate> findAllCommnentByIdProduct(String id) {
+		return dao.findAllCommnentByIdProduct(id);
+	}
+	@Override
+	public Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest) {
+		return dao.getProductSaleByIdShop(id, pageRequest);
+	}
+
+	@Override
+	public Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest) {
+		return dao.getProductNewByIdShop(id,pageRequest);
 	}
 
 }
