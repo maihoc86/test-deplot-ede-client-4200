@@ -32,9 +32,5 @@ public class Orderdetail {
 	@ManyToOne
 	@JoinColumn(name = "orderid")
 	Order order;
-<<<<<<< HEAD
-=======
-	
->>>>>>> SP0004-ST02
 
 }
