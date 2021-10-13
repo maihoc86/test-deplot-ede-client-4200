@@ -61,6 +61,11 @@ public class Product implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "producttag")
 	List<Product_tag> product_tags;
+	
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "product")
+	List<Evaluate> evaluate;
 
 	@Override
 	public String toString() {

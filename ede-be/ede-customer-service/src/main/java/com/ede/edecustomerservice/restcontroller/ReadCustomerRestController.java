@@ -38,7 +38,6 @@ public class ReadCustomerRestController {
 	public List<User> search(@PathVariable("username") String username){
 		System.out.println("username: "+username);
 		if(username == "") {
-			System.out.println("ahihi lala ");
 			return this.getAccounts();
 			
 		}
