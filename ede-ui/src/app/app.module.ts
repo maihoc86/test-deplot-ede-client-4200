@@ -21,6 +21,19 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductAllComponent } from './product-all/product-all.component';
+import { OrderAllComponent } from './order-all/order-all.component';
+import { ShopInterfaceComponent } from './shop-interface/shop-interface.component';
+import { ShowAllProductsShopInterfaceComponent } from './show-all-products-shop-interface/show-all-products-shop-interface.component';
+import { ShopProfileComponent } from './shop-profile/shop-profile.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ProductSearchElementComponent } from './items/product-search-element/product-search-element.component';
+import { ProductSearchComponent } from './product-search/product-search.component';
+import { NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CategoryShopComponent } from './category-shop/category-shop.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +47,15 @@ import { ProductAllComponent } from './product-all/product-all.component';
     ProductShopComponent,
     AsideShopComponent,
     ProductAllComponent,
+    OrderAllComponent,
+    ShopInterfaceComponent,
+    ShowAllProductsShopInterfaceComponent,
+    ShopProfileComponent,
+    ProductSearchElementComponent,
+    ProductSearchComponent,
+    RevenueShopComponent,
+    ProductDetailComponent,
+    CategoryShopComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +70,11 @@ import { ProductAllComponent } from './product-all/product-all.component';
     MatSelectModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    NgxPaginationModule,
+    MatProgressBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

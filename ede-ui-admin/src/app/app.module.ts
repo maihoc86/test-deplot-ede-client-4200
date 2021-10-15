@@ -12,6 +12,9 @@ import { ManagerAccountsComponent } from './manager-accounts/manager-accounts.co
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ManagerCategoryComponent } from './manager-category/manager-category.component';
+import { ManagerProductComponent } from './manager-product/manager-product.component';
+import { ManagerShopComponent } from './manager-shop/manager-shop.component';
+import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-order-discount.component';
 
 
 @NgModule({
@@ -23,6 +26,9 @@ import { ManagerCategoryComponent } from './manager-category/manager-category.co
     SidebarComponent,
     ManagerAccountsComponent,
     ManagerCategoryComponent,
+    ManagerProductComponent,
+    ManagerShopComponent,
+    ManagerOrderDiscountComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +38,9 @@ import { ManagerCategoryComponent } from './manager-category/manager-category.co
     AppRoutingModule,
     HttpClientModule,
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

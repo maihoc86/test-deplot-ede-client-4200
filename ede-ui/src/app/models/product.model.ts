@@ -1,7 +1,9 @@
 export interface Product {
+    id: string;
     origin: string;
     description: string;
-    name: String;
+    location: string;
+    name: string;
     enable: boolean;
     delete: boolean;
     shop:  string;

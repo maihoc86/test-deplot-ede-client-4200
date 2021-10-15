@@ -7,14 +7,19 @@ import {
   AbstractControl,
   FormBuilder,
 } from '@angular/forms';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Parent_Category } from '../models/Parent_category.model';
 import { Parent_Child_Category } from '../models/Parent_Child_category.model';
 import { Child_Category } from '../models/Child_category.model';
 import { ManageCategotyService } from '../Services/manage-category/manage-categoty.service';
+import { ImagesService } from '../Services/images/images.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-manager-category',
   templateUrl: './manager-category.component.html',
-  styleUrls: ['./manager-category.component.css']
+  styleUrls: ['./manager-category.component.css'],
 })
 export class ManagerCategoryComponent implements OnInit {
   @ViewChild('parentInputImage_Parent', { static: false })
@@ -23,40 +28,42 @@ export class ManagerCategoryComponent implements OnInit {
   InputVarParentChild!: ElementRef;
   @ViewChild('parentInputImage_Child', { static: false })
   InputVarChild!: ElementRef;
-  urlParent = "assets/images/fancy_upload.png";
-  urlParent_child = "assets/images/fancy_upload.png";
-  urlChild = "assets/images/fancy_upload.png";
-  ImageUrlParent = "";
-  ImageUrlParent_Child = "";
-  ImageUrlChild = "";
+  urlParent = '';
+  urlParent_child = '';
+  urlChild = '';
+  imageParent = '';
+  imageParent_Child = '';
+  imageChild = '';
+  public images: File[] = [];
+  public HOST_EDE_FILE = 'http://localhost:8080/ede-file'
   onselectFileParent(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrlParent = e.target.files[0].name;
+      this.imageParent = e.target.files[0];
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (e: any) => {
         this.urlParent = e.target.result;
-      }
+      };
     }
   }
   onselectFileParent_Child(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrlParent_Child = e.target.files[0].name;
+      this.imageParent_Child = e.target.files[0];
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (e: any) => {
         this.urlParent_child = e.target.result;
-      }
+      };
     }
   }
   onselectFile_Child(e: any) {
     if (e.target.files) {
       var reader = new FileReader();
-      this.ImageUrlChild = e.target.files[0].name;
+      this.imageChild = e.target.files[0];
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (e: any) => {
         this.urlChild = e.target.result;
-      }
+      };
     }
   }
   public listParentFilterOption: any = [];
@@ -64,7 +71,9 @@ export class ManagerCategoryComponent implements OnInit {
   public parent = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"),
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"
+      ),
     ]),
     image_url: new FormControl(''),
     is_delete: new FormControl(false),
@@ -73,7 +82,9 @@ export class ManagerCategoryComponent implements OnInit {
   public parent_child_category = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"),
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"
+      ),
     ]),
     image_url: new FormControl(''),
     parentcategory: new FormControl('', Validators.required),
@@ -83,10 +94,12 @@ export class ManagerCategoryComponent implements OnInit {
   public child_category = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.pattern("^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"),
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF]{1,128}[ \\-\\']{0,}){1,128}$"
+      ),
     ]),
     image_url: new FormControl(''),
-    parentcategory: new FormControl('', Validators.required),
+    parentcategory: new FormControl(''),
     is_delete: new FormControl(false),
     is_enable: new FormControl('true'),
   });
@@ -94,9 +107,12 @@ export class ManagerCategoryComponent implements OnInit {
     formGroup.reset();
     formGroup.controls['is_delete'].setValue(false)
     formGroup.controls['is_enable'].setValue('true')
-    this.ImageUrlParent = "";
-    this.ImageUrlParent_Child = "";
-    this.ImageUrlChild = "";
+    this.imageParent = "";
+    this.urlParent = ''
+    this.imageParent_Child = "";
+    this.urlParent_child = ''
+    this.imageChild = "";
+    this.urlChild = ''
     this.InputVarParent.nativeElement.value = "";
     this.InputVarParentChild.nativeElement.value = "";
     this.InputVarChild.nativeElement.value = "";
@@ -107,8 +123,9 @@ export class ManagerCategoryComponent implements OnInit {
 
   constructor(
     private manageCategoryService: ManageCategotyService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private imageService: ImagesService
+  ) {}
 
   ngOnInit(): void {
     this.listParentFilterOption;
@@ -117,9 +134,8 @@ export class ManagerCategoryComponent implements OnInit {
     this.loadParent_Child_Category();
     this.load_Child_Category();
   }
-  private createNewData(formGroup: FormGroup, url: string) {
-    const stringReturn: any = {}
-    formGroup.controls['image_url'].setValue(url);
+  private createNewData(formGroup: FormGroup) {
+    const stringReturn: any = {};
     for (const controlName in formGroup.controls) {
       if (controlName) {
         stringReturn[controlName] = formGroup.controls[controlName].value;
@@ -127,108 +143,160 @@ export class ManagerCategoryComponent implements OnInit {
     }
     return stringReturn as Parent_Category;
   }
+  private createNewDataChildParent(formGroup: FormGroup) {
+    const stringReturn: any = {};
+    for (const controlName in formGroup.controls) {
+      if (controlName) {
+        stringReturn[controlName] = formGroup.controls[controlName].value;
+      }
+    }
+    return stringReturn as Parent_Child_Category;
+  }
+  private createNewDataChild(formGroup: FormGroup) {
+    const stringReturn: any = {};
+    for (const controlName in formGroup.controls) {
+      if (controlName) {
+        stringReturn[controlName] = formGroup.controls[controlName].value;
+      }
+    }
+    return stringReturn as Child_Category;
+  }
   /*---------------------- Parent ------------------ */
   // thêm mới Parent_Category
   public addNewParentCategory() {
-    console.log(this.parent);
-    console.log(this.parent.controls['is_delete']);
-    this.manageCategoryService.addNewParentCategory(this.createNewData(this.parent, this.ImageUrlParent)).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm loại danh mục thành công',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.reset(this.parent);
-            this.urlParent = "assets/images/fancy_upload.png";
-          } else {
-            this.reset(this.parent);
-            this.urlParent = "assets/images/fancy_upload.png";
-          }
-        })
-      },
-      (err) => {
-        console.log(err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
+    this.addImage(this.parent, 'Parent').subscribe((data) => {
+      if (data == true) {
+        this.manageCategoryService
+          .addNewParentCategory(this.createNewData(this.parent))
+          .subscribe(
+            (data) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Thêm loại danh mục thành công',
+                confirmButtonText: `OK`,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.reset(this.parent);
+                  this.urlParent = 'assets/images/fancy_upload.png';
+                } else {
+                  this.reset(this.parent);
+                  this.urlParent = 'assets/images/fancy_upload.png';
+                }
+              });
+            },
+            (err) => {
+              console.log(err);
+              this.erros(err);
+            }
+          );
       }
-    );
+    });
   }
   /******************************* Child Parent **************************** */
   // thêm mới Parent_Child_Category
   public addNewParent_child_Category() {
-    console.log(this.parent_child_category);
-    console.log(this.parent_child_category.controls['id_parent']);
-    this.manageCategoryService.addNewParent_child_Category(this.createNewData(this.parent_child_category, this.ImageUrlParent_Child)).subscribe(
+    this.addImage(this.parent_child_category, 'Parent_Child').subscribe(
       (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm loại danh mục thành công',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.reset(this.parent_child_category);
-            this.urlParent_child = "assets/images/fancy_upload.png";
-          } else {
-            this.reset(this.parent_child_category);
-            this.urlParent_child = "assets/images/fancy_upload.png";
-          }
-        })
-      },
-      (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
-        });
+        this.manageCategoryService
+          .getParentCategory(
+            this.parent_child_category.controls['parentcategory'].value
+          )
+          .subscribe((data) => {
+            this.parent_child_category.controls['parentcategory'].setValue(
+              data
+            );
+            this.manageCategoryService
+              .addNewParent_child_Category(
+                this.createNewDataChildParent(this.parent_child_category)
+              )
+              .subscribe(
+                (data) => {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: 'Thêm loại danh mục thành công',
+                    confirmButtonText: `OK`,
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      this.reset(this.parent_child_category);
+                      this.urlParent_child = 'assets/images/fancy_upload.png';
+                    } else {
+                      this.reset(this.parent_child_category);
+                      this.urlParent_child = 'assets/images/fancy_upload.png';
+                    }
+                  });
+                },
+                (err) => {
+                  this.erros(err);
+                }
+              );
+          });
       }
     );
   }
   /******************************* Child **************************** */
   // thêm mới Child_Category
   public addNew_child_Category() {
-    console.log(this.child_category);
-    console.log(this.child_category.controls['child_parentCategory']);
-    this.manageCategoryService.addNewchild_Category(this.createNewData(this.child_category, this.ImageUrlChild)).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Thêm loại danh mục thành công',
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.reset(this.child_category);
-            this.urlChild = "assets/images/fancy_upload.png";
-          } else {
-            this.reset(this.child_category);
-            this.urlChild = "assets/images/fancy_upload.png";
-          }
-        })
-      },
-      (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: err.error.message,
+    this.addImage(this.child_category, 'Child').subscribe((data) => {
+      this.manageCategoryService
+        .getParentChildCategory(
+          this.child_category.controls['parentcategory'].value
+        )
+        .subscribe((data) => {
+          this.child_category.controls['parentcategory'].setValue(data);
+          this.manageCategoryService
+            .addNewchild_Category(this.createNewData(this.child_category))
+            .subscribe(
+              (data) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Thành công!',
+                  text: 'Thêm loại danh mục thành công',
+                  confirmButtonText: `OK`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    this.reset(this.child_category);
+                    this.urlChild = 'assets/images/fancy_upload.png';
+                  } else {
+                    this.reset(this.child_category);
+                    this.urlChild = 'assets/images/fancy_upload.png';
+                  }
+                });
+              },
+              (err) => {
+                this.erros(err);
+              }
+            );
         });
-      }
+    });
+  }
+
+  addImage(form: FormGroup, nameFormGroup: string): Observable<boolean> {
+    console.log(nameFormGroup);
+    const formData = new FormData();
+
+    nameFormGroup == 'Parent'
+      ? formData.append('file', this.imageParent)
+      : nameFormGroup == 'Parent_Child'
+      ? formData.append('file', this.imageParent_Child)
+      : formData.append('file', this.imageChild);
+
+    return this.imageService.createImageCategory(formData).pipe(
+      switchMap((response) => {
+        form.patchValue({
+          image_url: response.text,
+        });
+        return of(true);
+      })
     );
   }
 
-
-
   public p: number = 1;
-  public items:any=[];
-  public loadParentCategory(){
-    this.manageCategoryService.loadParentCategory().subscribe((data) =>{
-      const item = data.map(function(obj: {
+  public items: any = [];
+  public loadParentCategory() {
+    this.manageCategoryService.loadParentCategory().subscribe((data) => {
+      const item = data.map(function (obj: {
         id: any;
         name: any;
         image_url: any;
@@ -239,15 +307,14 @@ export class ManagerCategoryComponent implements OnInit {
       });
       this.listParentFilterOption = item;
       this.items = item;
-    })
+    });
   }
 
-
   public pc: number = 1;
-  public itemP:any=[];
-  public loadParent_Child_Category(){
-    this.manageCategoryService.loadParent_Child_Category().subscribe((data) =>{
-      const item = data.map(function(obj: {
+  public itemP: any = [];
+  public loadParent_Child_Category() {
+    this.manageCategoryService.loadParent_Child_Category().subscribe((data) => {
+      const item = data.map(function (obj: {
         id: any;
         name: any;
         id_parent: any;
@@ -259,13 +326,13 @@ export class ManagerCategoryComponent implements OnInit {
       });
       this.listParent_Child_FilterOption = item;
       this.itemP = item;
-    })
+    });
   }
   public c: number = 1;
-  public itemC:any=[];
-  public load_Child_Category(){
-    this.manageCategoryService.load_Child_Category().subscribe((data) =>{
-      const item = data.map(function(obj: {
+  public itemC: any = [];
+  public load_Child_Category() {
+    this.manageCategoryService.load_Child_Category().subscribe((data) => {
+      const item = data.map(function (obj: {
         id: any;
         name: any;
         id_parent_Child: any;
@@ -276,236 +343,293 @@ export class ManagerCategoryComponent implements OnInit {
         return obj;
       });
       this.itemC = item;
-    })
+    });
   }
-
 
   public DeleteParent_Category(id: string) {
-
-    this.manageCategoryService.DeleteParent_Category(id).subscribe(data => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Xóa danh mục ',
-        text: 'Xóa thành công'
-      }).then(respone => {
-        this.loadParentCategory();
-        this.reset(this.parent);
-      })
-
-    }, (err) => {
-      console.log(err)
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: err.error,
-      });
-    })
+    this.manageCategoryService.DeleteParent_Category(id).subscribe(
+      (data) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Xóa danh mục ',
+          text: 'Xóa thành công',
+        }).then((respone) => {
+          this.loadParentCategory();
+          this.reset(this.parent);
+        });
+      },
+      (err) => {
+        console.log(err);
+        this.erros(err);
+      }
+    );
   }
-
 
   public DeleteParent_Child_Category(id: string) {
-
-    this.manageCategoryService.DeleteParent_Child_Category(id).subscribe(data => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Xóa danh mục ',
-        text: 'Xóa thành công'
-      }).then(respone => {
-        this.loadParent_Child_Category();
-        this.reset(this.parent_child_category);
-      })
-
-    }, (err) => {
-      console.log(err)
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: err.error,
-      });
-    })
+    this.manageCategoryService.DeleteParent_Child_Category(id).subscribe(
+      (data) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Xóa danh mục ',
+          text: 'Xóa thành công',
+        }).then((respone) => {
+          this.loadParent_Child_Category();
+          this.reset(this.parent_child_category);
+        });
+      },
+      (err) => {
+        console.log(err);
+        this.erros(err);
+      }
+    );
   }
 
-  
   public DeleteChild_Category(id: string) {
-
-    this.manageCategoryService.DeleteChild_Category(id).subscribe(data => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Xóa danh mục ',
-        text: 'Xóa thành công'
-      }).then(respone => {
-        this.load_Child_Category();
-        this.reset(this.child_category);
-      })
-
-    }, (err) => {
-      console.log(err)
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: err.error,
-      });
-    })
+    this.manageCategoryService.DeleteChild_Category(id).subscribe(
+      (data) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Xóa danh mục ',
+          text: 'Xóa thành công',
+        }).then((respone) => {
+          this.load_Child_Category();
+          this.reset(this.child_category);
+        });
+      },
+      (err) => {
+        console.log(err);
+        this.erros(err);
+      }
+    );
   }
 
   public editP(e: any) {
     const newP: any = {};
     for (const controlName in this.parent.controls) {
       if (controlName) {
-        this.parent.controls[controlName].setValue(e[controlName])
-      } 
-    
+        this.parent.controls[controlName].setValue(e[controlName]);
+      }
     }
-    if(e['is_enable']){
-      this.parent.controls['is_enable'].setValue('true')
-    }else{
-      this.parent.controls['is_enable'].setValue('false')
+    if (e['is_enable']) {
+      this.parent.controls['is_enable'].setValue('true');
+    } else {
+      this.parent.controls['is_enable'].setValue('false');
     }
     this.idParentCategory = e.id
+    this.urlParent = `${this.HOST_EDE_FILE}/get/image/${e.image_url}`
+    this.imageOfP = this.urlParent
     return newP as Parent_Category;
   }
   public editPC(e: any) {
     const newP: any = {};
+
     for (const controlName in this.parent_child_category.controls) {
       if (controlName) {
-        this.parent_child_category.controls[controlName].setValue(e[controlName])
-      } 
-    
+        this.parent_child_category.controls[controlName].setValue(
+          e[controlName]
+        );
+      }
     }
-    if(e['is_enable']){
-      this.parent_child_category.controls['is_enable'].setValue('true')
-    }else{
-      this.parent_child_category.controls['is_enable'].setValue('false')
+    if (e['parentcategory']) {
+      console.log(e);
+      this.parent_child_category.controls['parentcategory'].setValue(
+        e['parentcategory'].id
+      );
+    }
+    if (e['is_enable']) {
+      this.parent_child_category.controls['is_enable'].setValue('true');
+    } else {
+      this.parent_child_category.controls['is_enable'].setValue('false');
     }
     this.idParentChildCategory = e.id
+    this.urlParent_child = `${this.HOST_EDE_FILE}/get/image/${e.image_url}`
+    this.imageOfPC = this.urlParent_child
     return newP as Parent_Child_Category;
   }
   public editC(e: any) {
     const newP: any = {};
     for (const controlName in this.child_category.controls) {
       if (controlName) {
-        this.child_category.controls[controlName].setValue(e[controlName])
-      } 
-    
+        this.child_category.controls[controlName].setValue(e[controlName]);
+      }
     }
-    if(e['is_enable']){
-      this.child_category.controls['is_enable'].setValue('true')
-    }else{
-      this.child_category.controls['is_enable'].setValue('false')
+    if (e['parentcategory']) {
+      this.child_category.controls['parentcategory'].setValue(
+        e['parentcategory'].id
+      );
+    }
+    if (e['is_enable']) {
+      this.child_category.controls['is_enable'].setValue('true');
+    } else {
+      this.child_category.controls['is_enable'].setValue('false');
     }
     this.idChildCategory = e.id
+    this.urlChild = `${this.HOST_EDE_FILE}/get/image/${e.image_url}`
+    this.imageOfC = this.urlChild
     return newP as Child_Category;
   }
-  public SearchP(tem:string){
-    this.manageCategoryService.SearchP(tem).subscribe((data:any) =>{
-      const itemP = data.map(function(obj: {
+  public SearchP(tem: string) {
+    this.manageCategoryService.SearchP(tem).subscribe((data: any) => {
+      const itemP = data.map(function (obj: {
         id: any;
         name: any;
         image_url: any;
         is_enable: any;
         is_delete: any;
-      }){
+      }) {
         return obj;
       });
       this.items = itemP;
-    })
+    });
   }
 
-
-  public SearchPC(tem:string){
-    this.manageCategoryService.SearchPC(tem).subscribe((data:any) =>{
-      const it = data.map(function(obj: {
+  public SearchPC(tem: string) {
+    this.manageCategoryService.SearchPC(tem).subscribe((data: any) => {
+      const it = data.map(function (obj: {
         id: any;
         name: any;
         id_parent: any;
         image_url: any;
         is_enable: any;
         is_delete: any;
-      }){
+      }) {
         return obj;
       });
       this.itemP = it;
-    })
+    });
   }
 
-
-
-  public SearchC(tem:string){
-    this.manageCategoryService.SearchC(tem).subscribe((data:any) =>{
-      const itema = data.map(function(obj: {
+  public SearchC(tem: string) {
+    this.manageCategoryService.SearchC(tem).subscribe((data: any) => {
+      const itema = data.map(function (obj: {
         id: any;
         name: any;
         id_parent_Child: any;
         image_url: any;
         is_enable: any;
         is_delete: any;
-      }){
+      }) {
         return obj;
       });
       this.itemC = itema;
-    })
+    });
   }
-
 
   //<<<<<<<<<<<<<<<<<<<<<<<< update start in here: vinh
   public idParentCategory: string = ''
+  public imageOfP: string = ''
   public idParentChildCategory: string = ''
+  public imageOfPC: string = ''
   public idChildCategory: string = ''
+  public imageOfC: string = ''
 
   public updateParentCategory() {
-    this.parent.controls['image_url'].setValue(this.ImageUrlParent)
+    const nameOfUrl = this.imageOfP.substring(this.imageOfP.lastIndexOf('/') + 1)
+    console.log(nameOfUrl, this.imageOfP)
+    this.parent.controls['image_url'].setValue(nameOfUrl)
     let categoryUpdate: Parent_Category = this.coverFormGroupToObject<Parent_Category>(this.parent)
     categoryUpdate.id = this.idParentCategory
 
-    this.manageCategoryService.updateParentCategory(categoryUpdate).subscribe(
+    this.manageCategoryService.updateParentCategory(categoryUpdate, this.imageParent).then(
       response => {
-        console.log(response)
         this.loadParentCategory();
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thêm loại danh mục thành công',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.reset(this.parent);
+        })
       },
-      error => {
-        console.log(error)
+      err => {
+        this.erros(err);
       }
-    )
+    );
   }
   public updateParentChildCategory() {
-    this.parent_child_category.controls['image_url'].setValue(this.ImageUrlParent_Child)
+    const nameOfUrl = this.imageOfPC.substring(this.imageOfPC.lastIndexOf('/') + 1)
+    this.parent.controls['image_url'].setValue(nameOfUrl)
     let categoryUpdate: Parent_Child_Category = this.coverFormGroupToObject<Parent_Child_Category>(this.parent_child_category)
     categoryUpdate.id = this.idParentChildCategory
 
-    this.manageCategoryService.updateParentChildCategory(categoryUpdate).subscribe(
+    this.manageCategoryService.updateParentChildCategory(categoryUpdate, this.imageParent_Child).then(
       response => {
-        console.log(response)
         this.loadParent_Child_Category();
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thêm loại danh mục thành công',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.reset(this.parent_child_category);
+        })
       },
-      error => {
-        console.log(error)
+      err => {
+        this.erros(err);
       }
     )
   }
   public updateChildCategory() {
-    this.child_category.controls['image_url'].setValue(this.ImageUrlChild)
+    const nameOfUrl = this.imageOfC.substring(this.imageOfC.lastIndexOf('/') + 1)
+    this.parent.controls['image_url'].setValue(nameOfUrl)
     let categoryUpdate: Child_Category = this.coverFormGroupToObject<Child_Category>(this.child_category)
     categoryUpdate.id = this.idChildCategory
 
-    this.manageCategoryService.updateChildCategory(categoryUpdate).subscribe (
+    this.manageCategoryService.updateChildCategory(categoryUpdate, this.imageChild).then(
       response => {
-        console.log(response)
         this.load_Child_Category();
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thêm loại danh mục thành công',
+          confirmButtonText: `OK`,
+        }).then((result) => {
+          this.reset(this.child_category);
+        })
       },
-      error => {
-        console.log(error)
+      err => {
+        this.erros(err);
       }
-    )
+    );
   }
   private coverFormGroupToObject<T>(formGroup: FormGroup) {
-    let obj :any = {}
+    let obj: any = {};
     for (const controlName in formGroup.controls) {
       if (controlName) {
+        if ('parentcategory' == controlName) {
+          obj[controlName] = { id:  formGroup.controls[controlName].value}
+          continue
+        }
         obj[controlName] = formGroup.controls[controlName].value
       }
     }
-    return obj as T
+    return obj as T;
   }
   //>>>>>>>>>>>>>>>>>>>>>>>>  update end in here: vinh
-
+  erros(err:any){
+    if(err.status==401){
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi xác thực đăng nhập',
+        text: err.error.message,
+      }).then(()=>{
+        document.location.href='http://localhost:4200/login'
+      });
+     }else if(err.status==403){
+      Swal.fire({
+        icon: 'error',
+        title: 'Không có quyền admin',
+        text: err.error.message,
+      }).then(()=>{
+        document.location.href='http://localhost:4200'
+      });
+     }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: err.error.message,
+      });
+     }
+  }
 }

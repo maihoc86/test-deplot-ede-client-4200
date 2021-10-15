@@ -1,17 +1,17 @@
 /* -------------------------------------------------------------------------------- /
-	
+
 	Magentech jQuery
 	Created by Magentech
 	v1.0 - 20.9.2016
 	All rights reserved.
-	
+
 / -------------------------------------------------------------------------------- */
 
 
 	// Cart add remove functions
 	var cart = {
 		'add': function(product_id, quantity) {
-			addProductNotice('Product added to Cart', '<img src="image/demo/shop/product/e11.jpg" alt="">', '<h3><a href="#">Apple Cinema 30"</a> added to <a href="#">shopping cart</a>!</h3>', 'success');
+			addProductNotice('Product added to Cart', '<img src="image/demo/shop/product/e11.jpg" alt="">', '<h3><a href="#">'+product_id+ '</a> added to <a href="#">shopping cart</a>!</h3>', 'success');
 		}
 	}
 
@@ -34,10 +34,10 @@
 		//Stop jGrowl
 		//$.jGrowl.defaults.sticky = true;
 		var tpl = thumb + '<h3>'+text+'</h3>';
-		$.jGrowl(tpl, {		
-			life: 4000,
+		$.jGrowl(tpl, {
+			life: 1000,
 			header: title,
-			speed: 'slow',
+			speed: 'speed',
 			theme: type
 		});
 	}

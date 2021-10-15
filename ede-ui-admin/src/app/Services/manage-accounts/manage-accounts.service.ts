@@ -5,7 +5,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { User } from 'src/app/models/user.model';
-
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,11 +13,22 @@ export class ManageAccountsService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
+      'Authorization': this.cookieService.get('auth')
     }),
   };
-
+  private httpOptions2= {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+this.cookieService.get('auth')
+    }),
+  };
   private REST_API_SERVER = 'http://localhost:8080/ede-customer';
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,private cookieService:CookieService) { }
+
+
+  public getUserByToken() {
+    return this.httpClient.get<any>(`http://localhost:8080/ede-oauth-service/api/test/admin/`,this.httpOptions2);
+  }
   public addNewUser(data: User) {
     return this.httpClient.post<any>(this.REST_API_SERVER + '/admin/add-new-user', data, this.httpOptions);
   }
@@ -44,7 +55,7 @@ export class ManageAccountsService {
 
 
   public deleteUser(username:string) {
-    return this.httpClient.delete<any>(this.REST_API_SERVER + '/delete/users/'+username, this.httpOptions);
+    return this.httpClient.delete<any>(this.REST_API_SERVER + '/admin/delete/users/'+username, this.httpOptions);
   }
 
   public updateUser(user: User) {

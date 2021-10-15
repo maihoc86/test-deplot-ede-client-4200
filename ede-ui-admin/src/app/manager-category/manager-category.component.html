@@ -2,14 +2,14 @@
 <div class="page-wrapper">
   <div class="page-content">
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-      <div class="breadcrumb-title pe-3">Forms</div>
+      <div class="breadcrumb-title pe-3">Quản lý</div>
       <div class="ps-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0 p-0">
             <li class="breadcrumb-item">
               <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Select2</li>
+            <li class="breadcrumb-item active" aria-current="page">Quản lý danh mục</li>
           </ol>
         </nav>
       </div>
@@ -35,7 +35,7 @@
     </div>
     <div class="row row-cols-2">
       <div class="col-md-12">
-        <h6 class="mb-0 text-uppercase">Form with icons</h6>
+        <h6 class="mb-0 text-uppercase">Quản lý danh mục</h6>
         <hr />
         <div class="card border-top border-0 border-4 border-danger">
           <div class="card-body p-5">
@@ -93,7 +93,7 @@
                               <img [src]="urlParent" height="100%" width="100%" formControlName="image_url">
                             </div>
                             <input type="file" #parentInputImage_Parent (change)="onselectFileParent($event)"
-                              accept=".jpg, .png, image/jpeg, image/png">
+                              accept=".png, .jpg, .jpeg, .gif">
                           </div>
                         </div>
                       </div>
@@ -138,17 +138,22 @@
                       </div>
                     </div>
                     <div class="col">
-                      <button type="submit" [disabled]="parent.invalid ? 'disabled': null" class="btn btn-success px-5"
-                        (click)="addNewParentCategory()">
+                      <button type="submit" [disabled]="parent.invalid || urlParent == '' ? 'disabled': null "
+                        class="btn btn-success px-5" (click)="addNewParentCategory()">
                         Create
                       </button>
-                      <button [disabled]="!idParentCategory" (click)="updateParentCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idParentCategory ? 'disabled' : null "
+                        (click)="updateParentCategory()" type="submit" class="btn btn-primary px-5"
+                        style="margin-left: 10px">
                         Update
                       </button>
-                      <button type="submit" [disabled]="!idParentCategory" (click)="DeleteParent_Category(idParentCategory)" class="btn btn-danger px-5" style="margin-left: 10px">
+                      <button type="submit" [disabled]="!idParentCategory"
+                        (click)="DeleteParent_Category(idParentCategory)" class="btn btn-danger px-5"
+                        style="margin-left: 10px">
                         Delete
                       </button>
-                      <button (click)="idParentCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                      <button (click)="idParentCategory = ''" type="reset" class="btn btn-secondary px-5"
+                        style="margin-left: 10px">
                         Reset
                       </button>
                     </div>
@@ -179,7 +184,7 @@
                               <th>#Name</th>
                               <th>Image</th>
                               <th>Is enable</th>
-                             
+
                               <th>Acctions</th>
                             </tr>
                           </thead>
@@ -190,25 +195,22 @@
                               <td>
                                 <div *ngIf="e.is_enable"
                                   class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
-                                    class='bx bxs-circle me-1' ></i>Hoạt động</div>
+                                    class='bx bxs-circle me-1'></i>Hoạt động</div>
                                 <div *ngIf="!e.is_enable"
                                   class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3"><i
                                     class='bx bxs-circle me-1'></i>Không hoạt động</div>
                               </td>
-
-
-                            
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" (click)="editP(e)" class="ms-3 btn-success" style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" (click)="DeleteParent_Category(e.id)" class="ms-3 btn-danger"  style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" (click)="editP(e)" class="ms-3 btn-success"
+                                    style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" (click)="DeleteParent_Category(e.id)" class="ms-3 btn-danger"
+                                    style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
-
                           </tbody>
                         </table>
-
                       </div>
                     </div>
                     <div style="text-align: center;">
@@ -266,7 +268,7 @@
                           <select class="form-select" formControlName="parentcategory">
                             <option [ngValue]="null" disabled>
                             </option>
-                            <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf">
+                            <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf.id">
                               {{ prf.name }}
                             </option>
                           </select>
@@ -303,13 +305,17 @@
                         class="btn btn-success px-5" (click)="addNewParent_child_Category()">
                         Create
                       </button>
-                      <button [disabled]="!idParentChildCategory" (click)="updateParentChildCategory()" type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idParentChildCategory" (click)="updateParentChildCategory()" type="submit"
+                        class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
-                      <button type="submit" [disabled]="!idParentChildCategory"   (click)="DeleteParent_Child_Category(idParentChildCategory)" class="btn btn-danger px-5" style="margin-left: 10px">
+                      <button type="submit" [disabled]="!idParentChildCategory"
+                        (click)="DeleteParent_Child_Category(idParentChildCategory)" class="btn btn-danger px-5"
+                        style="margin-left: 10px">
                         Delete
                       </button>
-                      <button (click)="idParentChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                      <button (click)="idParentChildCategory = ''" type="reset" class="btn btn-secondary px-5"
+                        style="margin-left: 10px">
                         Reset
                       </button>
                     </div>
@@ -359,11 +365,14 @@
                               </td>
 
 
-                            
+
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editPC(e)" style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteParent_Child_Category(e.id)" style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editPC(e)"
+                                    style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger"
+                                    (click)="DeleteParent_Child_Category(e.id)"
+                                    style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>
@@ -428,17 +437,17 @@
                           <select class="form-select" formControlName="parentcategory">
                             <option [ngValue]="null" disabled>
                             </option>
-                            <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf">
+                            <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf.id">
                               {{ prf ? prf.name : 'Không có' }}
                             </option>
                           </select>
                           <div
-                          *ngIf=" child_category.controls['parentcategory'].invalid && child_category.controls['parentcategory'].touched"
-                          class="alert alert-danger">
-                          <span
-                            *ngIf="child_category.controls['parentcategory'].errors && child_category.controls['parentcategory'].errors.required">
-                            Category Parent Child là bắt buộc</span>
-                        </div>
+                            *ngIf=" child_category.controls['parentcategory'].invalid && child_category.controls['parentcategory'].touched"
+                            class="alert alert-danger">
+                            <span
+                              *ngIf="child_category.controls['parentcategory'].errors && child_category.controls['parentcategory'].errors.required">
+                              Category Parent Child là bắt buộc</span>
+                          </div>
                         </div>
                       </div>
                       <br>
@@ -465,13 +474,16 @@
                         class="btn btn-success px-5" (click)="addNew_child_Category()">
                         Create
                       </button>
-                      <button [disabled]="!idChildCategory" (click)="updateChildCategory()"  type="submit" class="btn btn-primary px-5" style="margin-left: 10px">
+                      <button [disabled]="!idChildCategory" (click)="updateChildCategory()" type="submit"
+                        class="btn btn-primary px-5" style="margin-left: 10px">
                         Update
                       </button>
-                      <button type="submit" class="btn btn-danger px-5" [disabled]="!idChildCategory" (click)="DeleteChild_Category(idChildCategory)" style="margin-left: 10px">
+                      <button type="submit" class="btn btn-danger px-5" [disabled]="!idChildCategory"
+                        (click)="DeleteChild_Category(idChildCategory)" style="margin-left: 10px">
                         Delete
                       </button>
-                      <button (click)="idChildCategory = ''" type="reset" class="btn btn-secondary px-5" style="margin-left: 10px">
+                      <button (click)="idChildCategory = ''" type="reset" class="btn btn-secondary px-5"
+                        style="margin-left: 10px">
                         Reset
                       </button>
                     </div>
@@ -503,7 +515,7 @@
                               <th>Name Parent Child</th>
                               <th>Image</th>
                               <th>Is enable</th>
-                            
+
                               <th>Acctions</th>
                             </tr>
                           </thead>
@@ -522,11 +534,13 @@
                               </td>
 
 
-                           
+
                               <td>
                                 <div class="d-flex order-actions">
-                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editC(e)" style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
-                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteChild_Category(e.id)" style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-success" (click)="editC(e)"
+                                    style="background-color: #29cc39; color: white;"><i class='bx bxs-edit'></i></a>
+                                  <a href="javascript:;" class="ms-3 btn-danger" (click)="DeleteChild_Category(e.id)"
+                                    style="background-color: #d10b1e; color: white;"><i class='bx bxs-trash'></i></a>
                                 </div>
                               </td>
                             </tr>

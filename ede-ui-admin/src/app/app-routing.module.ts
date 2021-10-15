@@ -3,15 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './index/index.component';
 import { ManagerAccountsComponent } from './manager-accounts/manager-accounts.component';
 import { ManagerCategoryComponent } from './manager-category/manager-category.component';
+import { ManagerProductComponent } from './manager-product/manager-product.component';
+import { ManagerShopComponent } from './manager-shop/manager-shop.component';
+import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-order-discount.component';
 
 const routes: Routes = [
-  {path: '', component: IndexComponent},
-  {path: 'manage-account', component: ManagerAccountsComponent},
-  {path: 'manage-category', component: ManagerCategoryComponent},
+  { path: '', component: IndexComponent },
+  { path: 'manage-account', component: ManagerAccountsComponent },
+  { path: 'manage-category', component: ManagerCategoryComponent },
+  { path: 'manage-product', component: ManagerProductComponent },
+  { path: 'manage-shop', component: ManagerShopComponent },
+  { path: 'manage-order-discount', component: ManagerOrderDiscountComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

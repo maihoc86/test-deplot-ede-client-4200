@@ -1,5 +1,5 @@
 package com.ede.edeoauth.controller;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,27 +43,31 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-		System.err.println("authenticateUser");
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-		return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername(), "Bearer ", 200, userDetails.getAuthorities()));
+		return ResponseEntity
+				.ok(new JwtResponse(jwt, userDetails.getUsername(), "Bearer ", 200, userDetails.getAuthorities()));
 	}
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/check/login")
-	public ResponseEntity<?> checkLogin(HttpServletRequest req) {
+	//@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity checkLogin(HttpServletRequest req) {
 		System.err.println("Check login...");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		/// new token
-		try {
-			String jwt = createNewToken(req.getRemoteUser());
-			return ResponseEntity.ok(new JwtResponse(jwt,req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
-	
+//		try {
+//			String jwt = createNewToken(req.getRemoteUser());
+//			return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
+//		} catch (Exception e) {
+//			return ResponseEntity.notFound().build();
+//		}
+		System.err.println(req.getRemoteUser());
+		String jwt = createNewToken(req.getRemoteUser());
+		return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
 	}
 
 	@RequestMapping("/check/admin")
@@ -75,9 +79,9 @@ public class AuthController {
 		if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
 			String jwt = createNewToken(req.getRemoteUser());
 
-			return ResponseEntity.ok(new JwtResponse(jwt,req.getRemoteUser() ,"Bearer ", 200, auth.getAuthorities()));
+			return ResponseEntity.ok(new JwtResponse(jwt, req.getRemoteUser(), "Bearer ", 200, auth.getAuthorities()));
 		} else {
-			return ResponseEntity.ok(new JwtResponse("", req.getRemoteUser(),"Bearer ", 403, auth.getAuthorities()));
+			return ResponseEntity.ok(new JwtResponse("", req.getRemoteUser(), "Bearer ", 403, auth.getAuthorities()));
 		}
 
 	}

@@ -1,4 +1,5 @@
 export interface ProductTag{
+    id: string;
     tag: string;
-    id_product: string;
+    producttag: string;
 }
