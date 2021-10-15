@@ -45,23 +45,16 @@ export class LoginComponent implements OnInit {
           confirmButtonText: `OK`,
         }).then((result) => {
           this.cookieService.set('auth',data.token);
-          document.location.href='';
+
+          this.router.navigate(['']);
         })
     },
     (err) => {
-      if(err.status==503){
-         Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: "Máy chủ không hoạt động",
-      });
-      }else{
-         Swal.fire({
+      Swal.fire({
         icon: 'error',
         title: 'Lỗi',
         text: "Sai thông tin đăng nhập",
       });
-      }
     })
 
   }

@@ -1,8 +1,6 @@
 package com.ede.edecustomerservice.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import com.ede.edecustomerservice.entity.User;
 
 public interface CustomerService {
@@ -33,7 +31,7 @@ public interface CustomerService {
 
 	boolean existsUsername(String username);
 
-	Optional<User> findById(String id);
+	User findById(String id);
 	List<User> findByUsernameContaining(String username);
 
 	User findByUsername2(String id);

@@ -20,6 +20,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		System.err.println(user);
 		return UserDetailsImpl.build(user);
 
+//		 if ("admin".equals(username)) {
+//	            return org.springframework.security.core.userdetails.User.withUsername("admin").password("admin").roles("USER").build();
+//	        } else {
+//	            throw new UsernameNotFoundException(username);
+//	        }
 	}
 
 }

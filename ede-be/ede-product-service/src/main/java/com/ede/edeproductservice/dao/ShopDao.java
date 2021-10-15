@@ -7,8 +7,6 @@ import com.ede.edeproductservice.entity.User;
 
 public interface ShopDao extends JpaRepository<Shop, String> {
 	//@Query("select o from Shop where o.user.id=?1")
-	Shop findByUser(User us);
-
-//	Shop finByIdUser(String id);	
+	Shop findByUser(User us);	
 
 }

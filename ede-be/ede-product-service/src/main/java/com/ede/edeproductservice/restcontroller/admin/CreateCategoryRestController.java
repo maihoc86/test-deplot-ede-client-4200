@@ -38,9 +38,10 @@ public class CreateCategoryRestController {
 	Product_child_category_service product_child_category_service;
 
 	/*thêm parent_category */
-	@PostMapping("/admin/create/parent_category")
+	@PostMapping("/create/parent_category")
 	public ResponseEntity create_parent_category(@RequestBody Product_parent_category parent_category) {
 		UUID uuid = UUID.randomUUID();
+		System.out.println(uuid.toString());
 		Optional<Product_parent_category> findCategory = product_parent_categoryService.findById(uuid.toString());
 		if (findCategory.isPresent() && findCategory != null) {
 			UUID uuid2 = UUID.randomUUID();
@@ -50,7 +51,7 @@ public class CreateCategoryRestController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(product_parent_categoryService.save(parent_category));
 	}
-	
+
 	/*thêm child_parent_category */
 	@PostMapping("/create/child_parent_category")
 	public ResponseEntity create_parent_child(@RequestBody Product_parent_child_category child_parent_category) {

@@ -35,7 +35,6 @@ public class Shop implements Serializable {
 	String image;
 	Date create_date;
 	String address;
-	Boolean status;
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "shop")

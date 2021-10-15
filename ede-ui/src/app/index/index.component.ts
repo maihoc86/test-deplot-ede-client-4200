@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../models/product.model';
-import { ProductSearchService } from '../Services/product-search/product-search.service';
 
 @Component({
   selector: 'app-index',
@@ -10,8 +8,6 @@ import { ProductSearchService } from '../Services/product-search/product-search.
 export class IndexComponent implements OnInit {
 
   constructor() { }
-
-  public productValue: Product = {} as Product;
 
   ngOnInit(): void {
   }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ede.edeproductservice.dao.Product_parent_child_category_Dao;
-import com.ede.edeproductservice.entity.Product_parent_category;
 import com.ede.edeproductservice.entity.Product_parent_child_category;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
 
@@ -72,13 +71,6 @@ public class Product_parent_child_category_impl implements Product_child_parent_
 	public List<Product_parent_child_category> findByIdParent(String id) {
 		return dao.findByIdParent(id);
 	}
-
-	@Override
-	public Product_parent_category findParent(String id) {
-		return dao.findParent(id);
-	}
-
-
 
 
 	

@@ -1,17 +1,16 @@
 spring:
    application:
-      name: ede-cloud-config
-   jmx:
-    default_domain: cloud.config.server
+      name: CONFIG-SERVER
    cloud:
       config:
          server:
             git:
                uri: https://gitlab.com/group-poly/ede.git
                skipSslValidation: true
+               clone-on-start: true
                username: teamsdarkeyes2021
                password: teamsdarkeyes2021
-               default-label: SP0002-ST01
+               default-label: SP0001-ST02
                search-paths: /ede-be/config-cloud-file 
 management:
    endpoints:

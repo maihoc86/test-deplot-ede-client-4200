@@ -15,9 +15,4 @@ public interface Product_option_image_service {
 
 	Optional<Product_option_image> findById(String string);
 
-	List<Product_option_image> findImageByIdOption(String id);
-
-	void deleteAllImage(String id);
-
-
 }

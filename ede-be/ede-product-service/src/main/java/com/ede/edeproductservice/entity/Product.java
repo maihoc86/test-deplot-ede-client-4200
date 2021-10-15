@@ -1,6 +1,5 @@
 package com.ede.edeproductservice.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -19,14 +18,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "product")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Product implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Product {
+	
 	@Id
 	String id;
 	String origin;
@@ -34,7 +33,6 @@ public class Product implements Serializable {
 	String name;
 	Boolean enable;
 	Boolean deleted;
-	String location;
 
 	@ManyToOne
 	@JoinColumn(name = "id_shop")
@@ -48,36 +46,16 @@ public class Product implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+//	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option> product_options;
 
 	@JsonIgnore
-	@OneToMany( mappedBy = "productdiscount")
-	List<Product_discount> product_discount;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "producttag")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	List<Product_tag> product_tags;
-	
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<Evaluate> evaluate;
 
 	@Override
 	public String toString() {
-		return "";
+		return String.format("%s | %s | %s | %s | %s | %s", this.id, this.origin, this.description, this.name,
+				this.enable, this.deleted);
 	}
-//
-//	@Transient
-//	public Product_option optionDef;
-//
-//	@Transient
-//	public Product_option getOptionDef() {
-//		if (this.getProduct_options() != null) {
-//			return this.getProduct_options().get(0);
-//		} else {
-//			return null;
-//		}
-//	}
-
 }

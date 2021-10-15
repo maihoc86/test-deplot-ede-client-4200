@@ -1,5 +1,3 @@
-import { Shop } from "./shop.model";
-
 export interface User {
   id?: string;
   username: string;
@@ -14,5 +12,4 @@ export interface User {
   is_deleted: boolean;
   role: boolean;
   otp?: string;
-  shop: Shop;
 }

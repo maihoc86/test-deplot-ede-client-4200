@@ -1,7 +1,6 @@
 package com.ede.edecustomerservice.implement;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,8 +112,8 @@ public class CustomerImpl implements CustomerService {
 	}
 
 	@Override
-	public Optional<User> findById(String id) {
-		return dao.findById(id);
+	public User findById(String id) {
+		return dao.findById(id).get();
 	}
 
 	public List<User> findByUsernameContaining(String username) {

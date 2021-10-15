@@ -19,5 +19,4 @@ public class Product_brand_impl implements Product_brand_service {
 		return dao.findAll();
 	}
 
-
 }
