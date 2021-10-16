@@ -283,9 +283,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.location.push(location);
     } else {
       this.location.splice(this.location.indexOf(location), 1);
-      if (this.location.length == 0) {
-        this.location = [];
-      }
+      if (this.location.length == 0) this.location = [];
     }
     this.routeParams();
   }
@@ -403,7 +401,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param product id product truyền vào
    */
   showDetailProduct(product: any) {
-    console.log(product);
     this.router.navigate([`/product/detail/${product}`]);
   }
 
@@ -435,7 +432,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   }
 
   async sortPriceProduct(event: any) {
-    console.log(event.target.value);
     this.sortBy = event.target.value;
     this.routeParams();
   }
@@ -466,7 +462,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           ? -1
           : 1;
       });
-    } else if (this.sortBy == 'DSC') {
+    } else if (this.sortBy == 'DESC') {
       this.listAllProducts.sort((a: any, b: any) => {
         return a.optionDef.price > b.optionDef.price ? -1 : 1;
       });
