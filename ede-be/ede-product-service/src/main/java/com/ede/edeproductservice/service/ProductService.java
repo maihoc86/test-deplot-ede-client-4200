@@ -88,7 +88,7 @@ public interface ProductService {
 	Page<ProductSearch> filterProductShopByCustomerCategory2(String id, PageRequest pageRequest);
 
 	Page<ProductSearch> testFilterProductNew(Pageable of);
-	Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest);
+//	Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest);
 
 	/**
 	 * @author Kim Thanh

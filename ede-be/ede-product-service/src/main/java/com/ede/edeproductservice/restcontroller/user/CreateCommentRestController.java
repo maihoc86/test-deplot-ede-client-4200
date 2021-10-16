@@ -22,7 +22,7 @@ import com.ede.edeproductservice.entity.Evaluate;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.service.Auth_Service;
 import com.ede.edeproductservice.service.Evaluate_service;
-import com.ede.edeproductservice.service.Order_Detail_service;
+import com.ede.edeproductservice.service.Order_detail_service;
 import com.ede.edeproductservice.service.Order_Service;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.User_Service;
@@ -39,7 +39,7 @@ public class CreateCommentRestController {
 	Order_Service order_service;
 	
 	@Autowired
-	Order_Detail_service order_detail_service;
+	Order_detail_service order_detail_service;
 
 	@Autowired
 	ProductService product_service;
