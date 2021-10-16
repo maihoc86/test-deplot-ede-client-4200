@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edeproductservice.ResponseHandler;
+import com.ede.edeproductservice.entity.Orderdetail;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_discount;
 import com.ede.edeproductservice.entity.Product_option;
@@ -87,8 +88,7 @@ public class UpdateProductRestController {
 	public ResponseEntity updateProductDiscount(@RequestBody Product_discount discount) {
 		// TODO sửa lại discount trên option
 		// TODO tách hàm
-		Order_detail_service findProductOption = order_detail_service
-				.findProductOption(discount.getProductdiscount().getId());
+		Orderdetail findProductOption = order_detail_service.findProductOption(discount.getProductdiscount().getId());
 		if (findProductOption != null) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 					"Sản phẩm này đã được bán, không được sửa giảm giá !", "id", null);
@@ -124,8 +124,7 @@ public class UpdateProductRestController {
 				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 						"Bạn không được chỉnh sửa sản phẩm cửa hàng khác !", "id", null);
 			} else {
-				Order_detail_service findProductOptionOrder = order_detail_service
-						.findProductOption(product_option.getId());
+				Orderdetail findProductOptionOrder = order_detail_service.findProductOption(product_option.getId());
 				if (findProductOptionOrder != null && product_option.getPrice() != findProductOption.getPrice()) {
 					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 							"Sản phẩm này đã được bán, không được sửa giá !", "id", null);

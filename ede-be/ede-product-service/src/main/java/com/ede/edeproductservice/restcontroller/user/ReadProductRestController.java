@@ -411,12 +411,12 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.filterProductShopByCustomerCategory2(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-	@GetMapping("/view/productsale/byshop/{id}")
-	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
-		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
-		Page<ProductSearch>	listPage = service.getProductSaleByIdShop(id, pageRequest);
-		return ResponseEntity.ok(listPage);
-	}
+//	@GetMapping("/view/productsale/byshop/{id}")
+//	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+//		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+//		Page<ProductSearch>	listPage = service.getProductSaleByIdShop(id, pageRequest);
+//		return ResponseEntity.ok(listPage);
+//	}
 	@GetMapping("/view/productnew/byshop/{id}")
 	public ResponseEntity<?> getProductNewByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
 		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
