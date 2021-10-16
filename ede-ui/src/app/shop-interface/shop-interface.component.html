@@ -205,74 +205,94 @@
         <div class="col-sm-6">
           <h3 class="modtitle">DEAL HOT, MUA NGAY KẺO LỠ!</h3>
         </div>
-        <div class="col-sm-6">
-          <h4 style="margin-left: 80%; font-weight: bold;">Xem Tất Cả ></h4>
+        <div (click)="toBot()" class="col-sm-6">
+          <a style="margin-left: 80%; font-weight: bold;">Xem Tất Cả ></a>
         </div>
       </div>
 
-      <div *ngFor="let item of array" class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
+      <div *ngFor="let item of fakeArrayDiscount5" class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
 
-        <div class="product-item-container" style="height:300px">
+        <div class="product-item-container" style="height: 300px">
           <div class="left-block">
-            <div class="product-image-container second_img" style="height:150px">
+            <div class="product-image-container second_img" style="height: 150px"
+             >
               <a target="_self" title="Chicken swinesha">
-                <img src="/assets/img/8.jpg" class="img-1 img-responsive" alt="image">
-                <img src="/assets/img/6.jpg" class="img-2 img-responsive" alt="image">
+                <img src="http://localhost:8080/ede-file/get/image/{{
+                  item.optionDef.optionImageDef.image
+                  }}" class="img-1 img-responsive" alt="image" />
+                <img src="http://localhost:8080/ede-file/get/image/{{
+                    item.optionDef.optionImageDef.image
+                  }}" class="img-2 img-responsive" alt="image" />
               </a>
             </div>
 
             <div class="box-label">
-              <span class="label-product label-sale">50%
+              <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
+                {{ item.optionDef.productDiscount[0].discount }}%
               </span>
             </div>
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 30px">
               <div class="button-group so-quickview cartinfo--left">
-                <button type="button" class="addToCart btn-button" title="Add to cart"> <i
-                    class="fa fa-shopping-basket"></i>
+                <button  (click)="addToCart(item)" type="button" class="addToCart btn-button" title="Add to cart" onclick="cart.add(this.id)"
+                id="{{ item.name }}"                   >
+                  <i class="fa fa-shopping-basket"></i>
                   <span>Add to cart</span>
                 </button>
-                <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
-                    class="fa fa-heart"></i><span>Add to Wish
-                    List</span>
+                <button type="button" class="wishlist btn-button" title="Add to Wish List"
+                  onclick="wishlist.add('60');">
+                  <i class="fa fa-heart"></i><span>Add to Wish List</span>
                 </button>
-                <button type="button" class="compare btn-button" title="Compare this Product "><i
-                    class="fa fa-refresh"></i><span>Compare this
-                    Product</span>
+                <button type="button" class="compare btn-button" title="Compare this Product "
+                  onclick="compare.add('60');">
+                  <i class="fa fa-refresh"></i><span>Compare this Product</span>
                 </button>
                 <!--quickview-->
-                <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
-                  title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick view</span></a>
+                <a class="
+                    iframe-link
+                    btn-button
+                    quickview quickview_handler
+                    visible-lg
+                  " href="quickview.html" title="Quick view" data-fancybox-type="iframe"><i
+                    class="fa fa-eye"></i><span>Quick view</span></a>
                 <!--end quickview-->
               </div>
             </div>
           </div>
           <div class="right-block">
             <div class="caption">
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+              <div class="rating">
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
               </div>
-              <h4><a href="product.html" title="Chicken swinesha" target="_self"></a>
-                Áo thun thời trang
+              <h4>
+                <a href="product.html" title="Chicken swinesha" target="_self"></a>
+                {{ item.name }}
               </h4>
               <div class="price">
-                <div>
-                  <span class="price-new">$46.00</span>
-                  <span class="price-old">$55.00</span>
+                <div *ngIf="item.optionDef.productDiscount[0] != undefined">
+                  <span class="price-new">{{
+                    (item.optionDef.price *
+                    (100 - item.optionDef.productDiscount[0].discount)) /
+                    100 | number
+                    }}đ</span>
+                  <span class="price-old">{{ item.optionDef.price | number }}đ</span>
                 </div>
-                <span class="price-new"></span>
+                <span class="price-new" *ngIf="item.optionDef.productDiscount[0] == undefined">{{ item.optionDef.price |
+                  number }}đ</span>
               </div>
-
             </div>
           </div>
         </div>
       </div>
 
     </div>
-
-
+<br>
+<div class="row">
+  
+</div>
 
     <!--banners 7-->
     <div class="banners banners7">
@@ -533,8 +553,8 @@
                 </div>
 
                 <div class="box-label">
-                  <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
-                    {{ item.productDiscount[0].discount }}
+                  <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
+                    {{ item.optionDef.productDiscount[0].discount }}
                   </span>
                 </div>
                 <div style="margin-top: 30px">
@@ -578,15 +598,15 @@
                     {{ item.name }}
                   </h4>
                   <div class="price">
-                    <div *ngIf="item.productDiscount[0] != undefined">
+                    <div *ngIf="item.optionDef.productDiscount[0] != undefined">
                       <span class="price-new">{{
                         (item.optionDef.price *
-                        (100 - item.productDiscount[0].discount)) /
+                        (100 - item.optionDef.productDiscount[0].discount)) /
                         100 | number
                         }}đ</span>
                       <span class="price-old">{{ item.optionDef.price | number }}đ</span>
                     </div>
-                    <span class="price-new" *ngIf="item.productDiscount[0] == undefined">{{ item.optionDef.price |
+                    <span class="price-new" *ngIf="item.optionDef.productDiscount[0] == undefined">{{ item.optionDef.price |
                       number }}đ</span>
                   </div>
                 </div>
