@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ede.edeproductservice.entity.Evaluate;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
@@ -101,4 +102,21 @@ public interface ProductDao extends JpaRepository<Product, String> {
 
 	@Query("Select p FROM ProductSearch p")
 	Page<ProductSearch> testFilterProductNew(Pageable of);
+	
+	
+	/**
+	 * @author Kim Thanh
+	 * @return 
+	 * 
+	 */
+
+	@Query("SELECT o.evaluate from Product o where o.id=:id")
+	List<Evaluate> findAllCommnentByIdProduct(String id);
+	
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=?1 and p not in"
+			+ " (SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=?1 and p.productDiscount is EMPTY)")
+	Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest);
+	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=?1")
+	Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest);
+
 }

@@ -26,5 +26,7 @@ export class OrderShopService {
     console.log("vào đc getOrderDetailShop ")
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/orderDetail/shop/getAll/'+id+"?keyword="+keyword+"&page="+page+"&size="+size, this.httpOptions);
   }
-
+  public getAllOrderShop() {
+    return this.httpClient.get<any>(this.REST_API_SERVER + '/view/order/getAll', this.httpOptions);
+  }
 }

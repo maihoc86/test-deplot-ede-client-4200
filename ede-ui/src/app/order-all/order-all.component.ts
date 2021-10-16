@@ -9,6 +9,7 @@ import {
 } from '@angular/router';
 import { OrderShopService } from '../Services/order-shop/order-shop.service';
 import Swal from 'sweetalert2';
+import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
 @Component({
   selector: 'app-order-all',
   templateUrl: './order-all.component.html',
@@ -22,11 +23,17 @@ export class OrderAllComponent implements OnInit {
   public pDaGiao: number = 1;
   public pDetail: number = 1;
   public itemsAll: any = [];
+  public staticItemsAll: any = [];
   public itemsDaGiao: any = [];
   public itemsDaHuy: any = [];
   public itemsDetail: any = [];
   public idDetail: any;
   public count: any;
+  public countitemsDaHuy: any=0;
+  public total: any=0;
+  public total7Day: any=0;
+  public totalMonth: any=0;
+  public toMonth: any=1;
   public countDetail: any;
   public size: number = 5;
   public status: string = '';
@@ -79,7 +86,31 @@ export class OrderAllComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.getAllOrder();
     this.loadOrderAll(this.keywordAll, this.status, this.pAll, this.size);
+    
+  }
+  public getAllOrder(){
+  this.orderShopService.getAllOrderShop().subscribe(data=>{
+    this.staticItemsAll=data;
+    
+    
+    this.staticItemsAll.forEach((e:any) => {
+       var dateE2:Date= new Date(e.create_date);
+        e.status=='Đã hủy'?this.countitemsDaHuy++:(this.total+=e.total_amount,
+          dateE2.getMonth()==new Date().getMonth()?this.totalMonth+=e.total_amount:'');
+       
+        console.log(dateE2.getMonth()+1)
+       
+
+        var dateE:any = new Date();
+       
+        if((Date.parse(e.create_date)-((Date.parse(dateE)-(1000*60*60*24*7))))>=0){
+          this.total7Day+=e.total_amount;
+        }
+        
+    });
+    })
   }
   public loadOrderAll(
     keyword: string,
@@ -89,7 +120,7 @@ export class OrderAllComponent implements OnInit {
   ) {
     page = page - 1;
     this.orderShopService.getOrderShop(keyword, status, page, size).subscribe(
-      (data) => {
+      (data) => {      
         const item = data.content.map(function (obj: {
           id: string;
           phone: string;
@@ -108,7 +139,8 @@ export class OrderAllComponent implements OnInit {
           : status == 'Đã hủy'
           ? (this.itemsDaHuy = item)
           : (this.itemsAll = item);
-        this.count = this.page.totalElements;
+       
+       this.count = this.page.totalElements;
       },
       (err) => {
         if (err.status == 401) {
@@ -119,6 +151,7 @@ export class OrderAllComponent implements OnInit {
           });
           this.router.navigate(['/login']);
         } else {
+          console.log(err)
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
