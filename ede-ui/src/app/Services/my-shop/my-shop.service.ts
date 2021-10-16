@@ -18,7 +18,7 @@ export class MyShopService {
   ) {}
 
   private REST_API_SERVER = 'http://localhost:8080/ede-customer/shop';
-  private REST_API_SERVER2 = 'http://localhost:8080/ede-product/';
+
   public updateInfoShop(data: Shop) {
     return this.httpClient.put<any>(
       this.REST_API_SERVER + '/info/update/',
@@ -35,11 +35,5 @@ export class MyShopService {
       this.REST_API_SERVER + '/view/info/' + idShop,
       this.httpOptions
     );
-  }
-  public getProductSale(id:any,p:any){
-    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productsale/byshop/'+id+'?page='+p);
-  }
-  public getProductNew(id:any,p:any){
-    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productnew/byshop/'+id+'?page='+p);
   }
 }
