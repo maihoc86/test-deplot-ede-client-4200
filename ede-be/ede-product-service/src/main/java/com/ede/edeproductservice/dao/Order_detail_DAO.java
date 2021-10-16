@@ -10,6 +10,6 @@ public interface Order_detail_DAO extends JpaRepository<Orderdetail, String> {
 
 	
 	@Query("SELECT p FROM Orderdetail p where p.productOption.id =:id")
-	Orderdetail findProductOption(String id);
+	Order_detail_service findProductOption(String id);
 
 }
