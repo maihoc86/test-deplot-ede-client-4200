@@ -318,9 +318,9 @@
                   <div class="product_page_price price" itemprop="offerDetails" itemscope=""
                     itemtype="http://data-vocabulary.org/Offer">
 
-                    <div *ngIf="product.productDiscount.length!=0">
+                    <div *ngIf="product.optionDef.productDiscount.length!=0">
                       <span class="price-new" itemprop="price">{{product.optionDef.price * (100 -
-                        product.productDiscount[0].discount) / 100 | number}}đ</span>
+                        product.optionDef.productDiscount[0].discount) / 100 | number}}đ</span>
                       <span class="price-old">{{product.optionDef.price | number}}đ</span>
                     </div>
                     <span class="price-new" itemprop="price"
@@ -599,8 +599,8 @@
                       </a>
                     </div>
                     <div class="box-label">
-                      <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
-                        -{{ item.productDiscount[0].discount}}%
+                      <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
+                        -{{ item.optionDef.productDiscount[0].discount}}%
                       </span>
 
                     </div>
@@ -679,8 +679,8 @@
                     </a>
                   </div>
                   <div class="box-label">
-                    <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
-                      -{{ item.productDiscount[0].discount}}%
+                    <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
+                      -{{ item.optionDef.productDiscount[0].discount}}%
                     </span>
 
                   </div>

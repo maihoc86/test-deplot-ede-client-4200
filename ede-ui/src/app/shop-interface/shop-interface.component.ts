@@ -18,11 +18,12 @@ export class ShopInterfaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInterfaceShop(this.getParam());
-    this.loadProductSale(1);
+    this.loadProductSale();
   }
   public toBot(){
     document.getElementById('table')?.scrollIntoView({behavior:"smooth"});
   }
+  public fakeArrayDiscount5: any = []
   public cart: Array<any> = [];
   public load:any='sale';
   public count: number = 0;
@@ -44,6 +45,7 @@ export class ShopInterfaceComponent implements OnInit {
     this.shopService.getShopInfo(idShop).subscribe((data) => {
       this.shopInfor=data;
       console.log(data)
+      this.load5ProductDiscount(idShop);
     },err=>{
       this.router.navigate([''])
     });
@@ -54,21 +56,23 @@ export class ShopInterfaceComponent implements OnInit {
   public LoadProductTable(){
 
     if(this.load=='sale'){
-      this.loadProductSale(1);
+      this.loadProductSale();
     }else if(this.load=='Selling'){
 
     }else if(this.load=='new'){
       
     }
   }
-  public loadProductSale(p:any){
+  public loadProductSale(){
     this.route.queryParams.subscribe((params) => {
     this.page = params['page'];
     })
-      this.shopService.getProductSale(this.getParam(),p-1).subscribe(data=>{
+      this.page==undefined?this.page=1:0
+      this.shopService.getProductSale(this.getParam(),this.page-1).subscribe(data=>{
         this.listProduct=data.content;
         console.log(data)
-        this.count=data.totalElements;
+        this.count=0;
+        this.count=data.content.length;
       },err=>{
         console.log(err)
       })
@@ -85,7 +89,7 @@ export class ShopInterfaceComponent implements OnInit {
       ),
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
-    this.loadProductSale(this.page);
+    this.loadProductSale();
   }
   getRequestParams(
     page: number
@@ -120,5 +124,10 @@ export class ShopInterfaceComponent implements OnInit {
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
+  }
+  public load5ProductDiscount(idshop:any){
+    this.shopService.get5ProductDiscount(idshop).subscribe(data=>{
+      this.fakeArrayDiscount5=data;
+    })
   }
 }

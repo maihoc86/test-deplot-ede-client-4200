@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -41,7 +42,11 @@ public class Product_option implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product product;
-
+	
+//	@ManyToOne
+//	@JoinColumn(name = "id_product")
+//	ProductSearch productSearch;
+	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productoption")
 	@Fetch(value = FetchMode.SUBSELECT)
