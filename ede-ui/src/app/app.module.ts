@@ -33,6 +33,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CategoryShopComponent } from './category-shop/category-shop.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { CategoryShopComponent } from './category-shop/category-shop.component';
     RevenueShopComponent,
     ProductDetailComponent,
     CategoryShopComponent,
+    ShoppingCartComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
