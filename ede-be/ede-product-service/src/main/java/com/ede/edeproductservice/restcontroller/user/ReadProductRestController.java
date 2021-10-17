@@ -446,6 +446,13 @@ public class ReadProductRestController {
 		}
 		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
 	}
+	@GetMapping("/view/5productnew/byshop/{id}")
+	public ResponseEntity<?> get5ProductNewByShop(@PathVariable("id") String id,
+			@RequestParam("page") Optional<Integer> page) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 5);
+		Page<ProductSearch> listPage = service.getProductNewByIdShop(id, pageRequest);
+		return ResponseEntity.ok(listPage);
+	}
 	@GetMapping("/view/productnew/byshop/{id}")
 	public ResponseEntity<?> getProductNewByShop(@PathVariable("id") String id,
 			@RequestParam("page") Optional<Integer> page) {

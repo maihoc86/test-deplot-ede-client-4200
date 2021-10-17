@@ -36,6 +36,9 @@ export class MyShopService {
       this.httpOptions
     );
   }
+  public get5ProductNew(id:any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productnew/byshop/'+id);
+  }
   public get5ProductDiscount(id:any){
     return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productdiscount/byshop/'+id);
   }
