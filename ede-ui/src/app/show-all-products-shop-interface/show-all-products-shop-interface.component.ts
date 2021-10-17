@@ -421,13 +421,8 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
     });
   }
-  async sortNewProduct() {
-    this.sortBy = 'ctime';
-    this.routeParams();
-  }
-
-  async sortDiscountProduct() {
-    this.sortBy = 'discount';
+  async sortProduct(value : any) {
+    this.sortBy = value;
     this.routeParams();
   }
 

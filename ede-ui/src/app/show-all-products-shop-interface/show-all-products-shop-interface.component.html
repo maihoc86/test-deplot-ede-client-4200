@@ -123,7 +123,7 @@
         [ngClass]="
           sortBy == 'ctime' ? 'btn btn-default active' : 'btn btn-default'
         "
-        (click)="sortNewProduct()"
+        (click)="sortProduct('ctime')"
       >
         Mới nhất
       </button>
@@ -132,7 +132,7 @@
         [ngClass]="
           sortBy == 'discount' ? 'btn btn-default active' : 'btn btn-default'
         "
-        (click)="sortDiscountProduct()"
+        (click)="sortProduct('discount')"
       >
         Giảm giá
       </button>
