@@ -291,7 +291,7 @@
     </div>
 <br>
 <div class="row">
-  
+
 </div>
 
     <!--banners 7-->
@@ -512,17 +512,23 @@
         padding-left: 20px;
       ">
       Sắp xếp theo
-      <button style="margin-left: 10px" class="btn btn-default">
-        Phổ biến
+      <button style="margin-left: 10px" class="btn btn-default"         [ngClass]="
+          sortBy == 'discount' ? 'btn btn-default active' : 'btn btn-default'
+        "
+        (click)="sortProduct('discount')">
+      Giảm giá
       </button>
-      <button style="margin-left: 10px" class="btn btn-default">
+      <button style="margin-left: 10px" class="btn btn-default"         [ngClass]="
+          sortBy == 'ctime' ? 'btn btn-default active' : 'btn btn-default'
+        "
+        (click)="sortProduct('ctime')">
         Mới nhất
       </button>
       <button style="margin-left: 10px" class="btn btn-default">Bán chạy</button>&nbsp;&nbsp;
-      <select name="cars" id="cars" style="width: 200px; height: 30px">
-        <option hidden value="volvo">Giá</option>
-        <option value="saab">Giá: Thấp đến cao</option>
-        <option value="opel">Giá: Cao đến thấp</option>
+      <select style="width: 200px; height: 30px"         (change)="sortPriceProduct($event)">
+        <option hidden [selected]="sortBy ==''">Giá</option>
+        <option value="ASC" [selected]="sortBy == 'ASC'">Giá: Thấp đến cao</option>
+        <option value="DESC" [selected]="sortBy == 'DESC'">Giá: Cao đến thấp</option>
       </select>
     </div>
     <!-------------------------------------------------------------------------------------------------- -->
