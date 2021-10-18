@@ -19,50 +19,54 @@ export class LoginComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl('')
   })
-  constructor(private loginService:LoginServiceService,private cookieService:CookieService, private router: Router) { }
+  public loading = false;
+  constructor(private loginService: LoginServiceService, private cookieService: CookieService, private router: Router) { }
 
   ngOnInit(): void {
   }
-  doLogin(){
-      this.loginService.doLogin(this.form.controls['username'].value,this.form.controls['password'].value)
-      .toPromise().then(data=>{
-        this.cookieService.set('auth',data.token);
+  doLogin() {
+    this.loginService.doLogin(this.form.controls['username'].value, this.form.controls['password'].value)
+      .toPromise().then(data => {
+        this.cookieService.set('auth', data.token);
+        this.loading = false;
         console.log(data)
-      }).catch(error=>{
-        this.cookieService.set('auth','');
+      }).catch(error => {
+        this.cookieService.set('auth', '');
         console.log(error)
       })
-  } 
+  }
 
-  public doLogin2(){
-    this.loginService.doLogin(this.form.controls['username'].value,this.form.controls['password'].value)
-    .subscribe(data=>{
-      console.log(data);
+  public doLogin2() {
+    this.loading = true;
+    this.loginService.doLogin(this.form.controls['username'].value, this.form.controls['password'].value)
+      .subscribe(data => {
+        this.loading = false;
         Swal.fire({
           icon: 'success',
           title: 'Thông báo',
           text: 'Đăng nhập thành công!',
           confirmButtonText: `OK`,
         }).then((result) => {
-          this.cookieService.set('auth',data.token);
-          document.location.href='';
+          this.cookieService.set('auth', data.token);
+          document.location.href = '';
         })
-    },
-    (err) => {
-      if(err.status==503){
-         Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: "Máy chủ không hoạt động",
-      });
-      }else{
-         Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: "Sai thông tin đăng nhập",
-      });
-      }
-    })
+      },
+        (err) => {
+          this.loading = false;
+          if (err.status == 503) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi',
+              text: "Máy chủ không hoạt động",
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi',
+              text: "Sai thông tin đăng nhập",
+            });
+          }
+        })
 
   }
 }
