@@ -40,17 +40,21 @@ public class User implements Serializable {
 	Boolean is_delete;
 	Boolean is_active;
 	String otp;
-	
+
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Authorities> authorities;
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@Fetch(value = FetchMode.SUBSELECT)
+	List<Product_meta> product_metas;
+
 	@Override
 	public String toString() {
-		return String.format("%s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s ",
-				this.id, this.username, this.password, this.first_name, this.last_name,
-				this.email, this.photo, this.address, this.phone, this.is_delete,
-				this.is_active, this.otp);
+		return String.format("%s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s ", this.id, this.username,
+				this.password, this.first_name, this.last_name, this.email, this.photo, this.address, this.phone,
+				this.is_delete, this.is_active, this.otp);
 	}
 }
