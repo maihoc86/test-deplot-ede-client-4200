@@ -15,22 +15,25 @@ export class HeaderComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private manageAccountService: ManageAccountsService) {  }
   public userLogin:any="";
+  public loading=true;
   ngOnInit(): void {
     this.getUserLogin()
   }
   public async getUserLogin() {
+    
     await this.manageAccountService
       .getUserByToken()
-      .toPromise()
-      .then((data) => {
+      .subscribe((data) => {
+        this.loading=false;
         this.userLogin=data.id;
+      },err=>{
+         document.location.href='http://localhost:4200/login'
+         console.log(err);
       })
-      .catch((err) => {
-        console.log(err);
-        this.erros(err);
-      });
+     
   }
   erros(err:any){
+    document.location.href='http://localhost:4200/login'
     if(err.status==401){
       // Swal.fire({
       //   icon: 'error',

@@ -35,7 +35,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { CategoryShopComponent } from './category-shop/category-shop.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-
+import { NgxLoadingModule } from 'ngx-loading';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,8 +77,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     MatIconModule,
     MatDatepickerModule,
     NgxPaginationModule,
-    MatProgressBarModule
-
+    MatProgressBarModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent],
