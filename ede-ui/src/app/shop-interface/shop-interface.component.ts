@@ -60,7 +60,7 @@ export class ShopInterfaceComponent implements OnInit {
         this.load5ProductSalling(idShop);
       },
       (err) => {
-        //this.router.navigate(['']);
+        this.router.navigate(['']);
       }
     );
   }
