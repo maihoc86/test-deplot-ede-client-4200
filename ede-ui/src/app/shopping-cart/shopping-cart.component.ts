@@ -8,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class ShoppingCartComponent implements OnInit {
 
   constructor() { }
-
+  public cart: Array<any> = [];
   ngOnInit(): void {
+    this.loadCart()
   }
+  loadCart() {
+    var json = localStorage.getItem('cart');
 
+    this.cart = json ? JSON.parse(json) : [];
+    
+  }
 }
