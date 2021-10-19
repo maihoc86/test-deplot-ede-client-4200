@@ -1,5 +1,6 @@
 package com.ede.edeproductservice.restcontroller.user;
 
+import java.io.Console;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ede.edeproductservice.ResponseHandler;
 import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_discount;
+import com.ede.edeproductservice.entity.Product_meta;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_tag;
@@ -29,6 +31,7 @@ import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_discount_service;
+import com.ede.edeproductservice.service.Product_meta_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
@@ -63,6 +66,9 @@ public class CreateProductShopRestController {
 	@Autowired
 	ShopService shopService;
 
+	@Autowired
+	Product_meta_service product_meta_service;
+
 	public String generateUUID() {
 		return UUID.randomUUID().toString();
 	}
@@ -89,8 +95,8 @@ public class CreateProductShopRestController {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/")
-	public ResponseEntity addProductOptions(@RequestBody Product_option product_option,HttpServletRequest req) {
-		
+	public ResponseEntity addProductOptions(@RequestBody Product_option product_option, HttpServletRequest req) {
+
 		if (product_option_service.countItemByProductID(product_option.getProduct().getId()) == 10) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 					"Bạn đã có 10 thuộc tính sản phẩm, vui lòng xóa bớt !", "", null);
@@ -138,7 +144,7 @@ public class CreateProductShopRestController {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/tag")
 	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
-		
+
 		String[] words = product_tag.getTag().split(",");
 		for (int i = 0; i < words.length; i++) {
 			Optional<Product_tag> findTag = product_Tag_service.findById(generateUUID().toString());
@@ -163,5 +169,12 @@ public class CreateProductShopRestController {
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
+
+	@PostMapping("/view/product-meta/add")
+	public ResponseEntity addProductMeta(@RequestBody Product_meta product_meta) {
+		product_meta.setId(generateUUID().toString());
+		return ResponseEntity.status(HttpStatus.OK).body(product_meta_service.save(product_meta));
+	}
+	
 
 }

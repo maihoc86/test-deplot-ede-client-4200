@@ -1,10 +1,10 @@
 package com.ede.edeproductservice.restcontroller.user;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +26,7 @@ import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_discount;
+import com.ede.edeproductservice.entity.Product_meta;
 import com.ede.edeproductservice.entity.Product_option;
 import com.ede.edeproductservice.entity.Product_option_image;
 import com.ede.edeproductservice.entity.Product_parent_category;
@@ -40,16 +41,16 @@ import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
 import com.ede.edeproductservice.service.Product_child_parent_category_service;
 import com.ede.edeproductservice.service.Product_discount_service;
+import com.ede.edeproductservice.service.Product_meta_service;
 import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.Product_parent_category_service;
 import com.ede.edeproductservice.service.ShopService;
 
-import net.bytebuddy.asm.Advice.Return;
-
 @RestController
 @RefreshScope
 @RequestMapping("/ede-product")
+@SuppressWarnings("rawtypes")
 public class ReadProductRestController {
 
 	/**
@@ -83,6 +84,9 @@ public class ReadProductRestController {
 	Product_discount_service product_discount_service;
 
 	@Autowired
+	Product_meta_service product_meta_service;
+
+	@Autowired
 	ShopService shopService;
 
 	@Autowired
@@ -91,11 +95,19 @@ public class ReadProductRestController {
 	@Autowired
 	HttpServletRequest req;
 
+	// Product Option
 	@GetMapping("/view/getproductbyid/{id}")
 	public ResponseEntity<?> getProductByID(@PathVariable("id") String id) {
 		if (product_option_service.findById(id).getIs_delete())
 			return ResponseEntity.badRequest().build();
 		return ResponseEntity.ok(product_option_service.findProductById(id));
+	}
+
+	@GetMapping("/view/getProduct/{id}")
+	public ResponseEntity getProduct(@PathVariable("id") String id) {
+		if (service.findById(id).getDeleted())
+			return ResponseEntity.badRequest().build();
+		return ResponseEntity.ok(service.findById(id));
 	}
 
 	@GetMapping("/view/getproductoption/{id}")
@@ -122,7 +134,6 @@ public class ReadProductRestController {
 		return ResponseEntity.ok(pages);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/quantity0")
 	public ResponseEntity getAllProductOptionQuantity0(@RequestParam(name = "keyword") String keyword,
 			@RequestParam(name = "page", defaultValue = "0") int page,
@@ -138,7 +149,6 @@ public class ReadProductRestController {
 		return ResponseEntity.ok(pages);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/getAllProductOption/enable")
 	public ResponseEntity getAllProductOptionEnableTrue(@RequestParam(name = "keyword") String keyword,
 			@RequestParam(name = "value") Boolean value, @RequestParam(name = "page", defaultValue = "0") int page,
@@ -278,7 +288,6 @@ public class ReadProductRestController {
 	}
 
 	// TODO: NEED OPTIMIZE IF ELSE
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product/filter")
 	public ResponseEntity getListProductShopFilterCategory(@RequestParam("idShop") Optional<String> idShop,
 			@RequestParam("category") Optional<String> category, @RequestParam("location") Optional<String> location,
@@ -347,7 +356,6 @@ public class ReadProductRestController {
 	}
 
 	/* GET CATEGORY SHOP */
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/category")
 	public ResponseEntity getListCategoryShop(@RequestParam("idShop") Optional<String> idShop) {
 		String valueIdShop = idShop.orElse("");
@@ -356,7 +364,6 @@ public class ReadProductRestController {
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
 
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product")
 	public ResponseEntity getAllListProductByCustomer(@RequestParam("idShop") Optional<String> idShop,
 			@RequestParam("page") Optional<Integer> page) {
@@ -373,7 +380,6 @@ public class ReadProductRestController {
 	}
 
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/view/customer/shop/all/product/discount")
 	public ResponseEntity getAllListProductDiscountByCustomer() {
 		Shop shop = new Shop();
@@ -384,7 +390,7 @@ public class ReadProductRestController {
 		}
 
 		long millis = System.currentTimeMillis();
-		Date date = new java.sql.Date(millis);
+		Date date = new Date(millis);
 		// TODO: Sửa product discount
 		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
 		return ResponseEntity.ok(pageF);
@@ -415,37 +421,40 @@ public class ReadProductRestController {
 	}
 
 	@GetMapping("/view/productsale/byshop/{id}")
-	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,
+			@RequestParam("page") Optional<Integer> page) {
 		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
-		List<ProductSearch>	listP = service.getProductAllByIdShop(id);
-		List<ProductSearch>	listResultList= new ArrayList<>();
+		List<ProductSearch> listP = service.getProductAllByIdShop(id);
+		List<ProductSearch> listResultList = new ArrayList<>();
 		for (ProductSearch e : listP) {
-			 e.getProductOptions().stream().forEach(item->{
-				if(!item.getProductDiscount().isEmpty()) {
+			e.getProductOptions().stream().forEach(item -> {
+				if (!item.getProductDiscount().isEmpty()) {
 					listResultList.add(e);
 				}
-			 });
+			});
 		}
-		listResultList.stream().forEach((e->System.err.println(e)));
-		Page<ProductSearch> pages= new PageImpl<>(listResultList, pageRequest, 10);
+		listResultList.stream().forEach((e -> System.err.println(e)));
+		Page<ProductSearch> pages = new PageImpl<>(listResultList, pageRequest, 10);
 		return ResponseEntity.ok(pages);
 	}
+
 	@GetMapping("/view/5productdiscount/byshop/{id}")
 	public ResponseEntity<?> get5ProductSaleByShop(@PathVariable("id") String id) {
-		List<ProductSearch>	listP = service.getProductAllByIdShop(id);
-		List<ProductSearch>	listResultList= new ArrayList<>();
+		List<ProductSearch> listP = service.getProductAllByIdShop(id);
+		List<ProductSearch> listResultList = new ArrayList<>();
 		for (ProductSearch e : listP) {
-			 e.getProductOptions().stream().forEach(item->{
-				if(!item.getProductDiscount().isEmpty()) {
+			e.getProductOptions().stream().forEach(item -> {
+				if (!item.getProductDiscount().isEmpty()) {
 					listResultList.add(e);
 				}
-			 });
+			});
 		}
-		if(listResultList.size()>=5) {
-		return ResponseEntity.ok(listResultList.subList(0, 5));
+		if (listResultList.size() >= 5) {
+			return ResponseEntity.ok(listResultList.subList(0, 5));
 		}
 		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
 	}
+
 	@GetMapping("/view/5productnew/byshop/{id}")
 	public ResponseEntity<?> get5ProductNewByShop(@PathVariable("id") String id,
 			@RequestParam("page") Optional<Integer> page) {
@@ -453,6 +462,7 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.getProductNewByIdShop(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
+
 	@GetMapping("/view/productnew/byshop/{id}")
 	public ResponseEntity<?> getProductNewByShop(@PathVariable("id") String id,
 			@RequestParam("page") Optional<Integer> page) {
@@ -460,5 +470,17 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.getProductNewByIdShop(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-	
+
+	@GetMapping("/view/product-meta/byIdUser")
+
+	public ResponseEntity getProductMetaByIdUser(@RequestParam("idUser") Optional<String> idUser,
+			@RequestParam("idProduct") Optional<String> idProduct) {
+		long millis = System.currentTimeMillis();
+		Date date = new Date(millis);
+		String id_user = idUser.orElse("");
+		String id_product = idProduct.orElse("");
+
+		Product_meta find = product_meta_service.findByIdUser(id_user, id_product, date);
+		return ResponseEntity.ok(find);
+	}
 }
