@@ -25,10 +25,11 @@ export class ShopInterfaceComponent implements OnInit {
   public toBot() {
     document.getElementById('table')?.scrollIntoView({ behavior: 'smooth' });
   }
+  public fakeArraySalling5: any = [];
   public fakeArrayNew5: any = [];
   public fakeArrayDiscount5: any = [];
   public cart: Array<any> = [];
-  public location: any = 'new';
+  public location: any = 'selling';
   public count: number = 0;
   public page: number = 0;
   public listProduct: any = [];
@@ -51,6 +52,7 @@ export class ShopInterfaceComponent implements OnInit {
         this.shopInfor = data;
         this.load5ProductDiscount(idShop);
         this.load5ProductNew(idShop);
+        this.load5ProductSalling(idShop);
       },
       (err) => {
         this.router.navigate(['']);
@@ -64,7 +66,8 @@ export class ShopInterfaceComponent implements OnInit {
   public LoadProductTable() {
     if (this.location == 'discount') {
       this.loadProductSale();
-    } else if (this.location == 'Selling') {
+    } else if (this.location == 'selling') {
+      this.loadProductSalling();
     } else if (this.location == 'new') {
       this.loadProductNew();
     }
@@ -92,6 +95,23 @@ export class ShopInterfaceComponent implements OnInit {
     });
     this.page == undefined ? (this.page = 1) : 0;
     this.shopService.getProductNew(this.getParam(), this.page - 1).subscribe(
+      (data) => {
+        this.listProduct = data.content;
+        this.count = 0;
+        this.count = data.content.length;
+        this.sortHandler();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  public loadProductSalling() {
+    this.route.queryParams.subscribe((params) => {
+      this.page = params['page'];
+    });
+    this.page == undefined ? (this.page = 1) : 0;
+    this.shopService.getProductSalling(this.getParam(), this.page - 1).subscribe(
       (data) => {
         this.listProduct = data.content;
         this.count = 0;
@@ -145,9 +165,9 @@ export class ShopInterfaceComponent implements OnInit {
         name: product.name,
         id: product.optionDef.id,
         price: product.optionDef.price,
-        discount: product.productDiscount[0]
-          ? product.productDiscount[0]?.discount
-          : 0,
+        discount: product.optionDef.productDiscount[0]
+        ? product.optionDef.productDiscount[0]?.discount
+        : 0,
       });
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -156,12 +176,17 @@ export class ShopInterfaceComponent implements OnInit {
   public load5ProductDiscount(idshop: any) {
     this.shopService.get5ProductDiscount(idshop).subscribe((data) => {
       this.fakeArrayDiscount5 = data;
+      console.log(data)
     });
   }
   public load5ProductNew(idshop: any) {
     this.shopService.get5ProductNew(idshop).subscribe((data) => {
       this.fakeArrayNew5 = data.content;
-      console.log(data);
+    });
+  }
+  public load5ProductSalling(idshop: any) {
+    this.shopService.get5ProductSalling(idshop).subscribe((data) => {
+      this.fakeArraySalling5 = data;
     });
   }
   public ClickProductNew() {
@@ -178,7 +203,13 @@ export class ShopInterfaceComponent implements OnInit {
       this.routeParams();
     }
   }
-
+  public ClickProductSalling() {
+    if (this.location != 'selling') {
+      this.location = 'selling';
+      this.page = 1;
+      this.routeParams();
+    }
+  }
   /**
    * Hàm truyền param sắp xếp
    */
@@ -231,5 +262,8 @@ export class ShopInterfaceComponent implements OnInit {
         return a.optionDef.price < b.optionDef.price ? -1 : 1;
       });
     }
+  }
+  showDetailProduct(product: any) {
+    this.router.navigate([`/product/detail/${product}`]);
   }
 }
