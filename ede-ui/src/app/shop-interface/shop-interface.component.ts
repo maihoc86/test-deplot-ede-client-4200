@@ -16,7 +16,7 @@ export class ShopInterfaceComponent implements OnInit {
     private shopService: MyShopService,
     private headerService: HeaderService,
     private cookieService: CookieService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadInterfaceShop(this.getParam());
@@ -25,6 +25,11 @@ export class ShopInterfaceComponent implements OnInit {
   public toBot() {
     document.getElementById('table')?.scrollIntoView({ behavior: 'smooth' });
   }
+  public loadingProductSelling = true;
+  public loadingProductNew = true;
+  public loadingProductDiscount = true;
+  public loadingProductTable = true;
+
   public fakeArraySalling5: any = [];
   public fakeArrayNew5: any = [];
   public fakeArrayDiscount5: any = [];
@@ -55,7 +60,7 @@ export class ShopInterfaceComponent implements OnInit {
         this.load5ProductSalling(idShop);
       },
       (err) => {
-        this.router.navigate(['']);
+        //this.router.navigate(['']);
       }
     );
   }
@@ -73,6 +78,7 @@ export class ShopInterfaceComponent implements OnInit {
     }
   }
   public loadProductSale() {
+    this.loadingProductTable = true;
     this.route.queryParams.subscribe((params) => {
       this.page = params['page'];
     });
@@ -82,14 +88,17 @@ export class ShopInterfaceComponent implements OnInit {
         this.listProduct = data.content;
         this.count = 0;
         this.count = data.content.length;
+        this.loadingProductTable = false;
         this.sortHandler();
       },
       (err) => {
         console.log(err);
+        this.loadingProductTable = false;
       }
     );
   }
   public loadProductNew() {
+    this.loadingProductTable = true;
     this.route.queryParams.subscribe((params) => {
       this.page = params['page'];
     });
@@ -99,14 +108,17 @@ export class ShopInterfaceComponent implements OnInit {
         this.listProduct = data.content;
         this.count = 0;
         this.count = data.content.length;
+        this.loadingProductTable = false;
         this.sortHandler();
       },
       (err) => {
+        this.loadingProductTable = false;
         console.log(err);
       }
     );
   }
   public loadProductSalling() {
+    this.loadingProductTable = true;
     this.route.queryParams.subscribe((params) => {
       this.page = params['page'];
     });
@@ -116,9 +128,11 @@ export class ShopInterfaceComponent implements OnInit {
         this.listProduct = data.content;
         this.count = 0;
         this.count = data.content.length;
+        this.loadingProductTable = false;
         this.sortHandler();
       },
       (err) => {
+        this.loadingProductTable = false;
         console.log(err);
       }
     );
@@ -166,27 +180,42 @@ export class ShopInterfaceComponent implements OnInit {
         id: product.optionDef.id,
         price: product.optionDef.price,
         discount: product.optionDef.productDiscount[0]
-        ? product.optionDef.productDiscount[0]?.discount
-        : 0,
+          ? product.optionDef.productDiscount[0]?.discount
+          : 0,
       });
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
   }
   public load5ProductDiscount(idshop: any) {
+    this.loadingProductDiscount = true;
     this.shopService.get5ProductDiscount(idshop).subscribe((data) => {
       this.fakeArrayDiscount5 = data;
+      this.loadingProductDiscount = false;
       console.log(data)
+    }, err => {
+      console.log(err)
+      this.loadingProductDiscount = false;
     });
   }
   public load5ProductNew(idshop: any) {
+    this.loadingProductNew = true;
     this.shopService.get5ProductNew(idshop).subscribe((data) => {
       this.fakeArrayNew5 = data.content;
+      this.loadingProductNew = false;
+    }, err => {
+      console.log(err)
+      this.loadingProductNew = false;
     });
   }
   public load5ProductSalling(idshop: any) {
+    this.loadingProductSelling = true;
     this.shopService.get5ProductSalling(idshop).subscribe((data) => {
       this.fakeArraySalling5 = data;
+      this.loadingProductSelling = false;
+    }, err => {
+      console.log(err);
+      this.loadingProductSelling = false;
     });
   }
   public ClickProductNew() {
@@ -236,13 +265,13 @@ export class ShopInterfaceComponent implements OnInit {
           b.optionDef.productDiscount.length == 0
           ? 0
           : a.optionDef.productDiscount.length == 0
-          ? 1
-          : b.optionDef.productDiscount.length == 0
-          ? -1
-          : a.optionDef.productDiscount[0].discount >
-            b.optionDef.productDiscount[0].discount
-          ? -1
-          : 1;
+            ? 1
+            : b.optionDef.productDiscount.length == 0
+              ? -1
+              : a.optionDef.productDiscount[0].discount >
+                b.optionDef.productDiscount[0].discount
+                ? -1
+                : 1;
       });
     } else if (this.sortBy === 'ctime') {
       // mới nhất
@@ -250,8 +279,8 @@ export class ShopInterfaceComponent implements OnInit {
         return a == null || b == null
           ? 0
           : a.createdate > b.createdate
-          ? -1
-          : 1;
+            ? -1
+            : 1;
       });
     } else if (this.sortBy == 'DESC') {
       this.listProduct.sort((a: any, b: any) => {
