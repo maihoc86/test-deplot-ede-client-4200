@@ -42,10 +42,16 @@ export class MyShopService {
   public get5ProductDiscount(id:any){
     return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productdiscount/byshop/'+id);
   }
+  public get5ProductSalling(id:any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productsalling/byshop/'+id);
+  }
   public getProductSale(id:any,p:any){
     return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productsale/byshop/'+id+'?page='+p);
   }
   public getProductNew(id:any,p:any){
     return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productnew/byshop/'+id+'?page='+p);
+  }
+  public getProductSalling(id:any,p:any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productsalling/byshop/'+id+'?page='+p);
   }
 }

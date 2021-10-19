@@ -34,6 +34,7 @@ import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
 import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.Auth_Service;
+import com.ede.edeproductservice.service.Order_detail_service;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
@@ -90,6 +91,9 @@ public class ReadProductRestController {
 
 	@Autowired
 	HttpServletRequest req;
+
+	@Autowired
+	Order_detail_service order_detail_service;
 
 	@GetMapping("/view/getproductbyid/{id}")
 	public ResponseEntity<?> getProductByID(@PathVariable("id") String id) {
@@ -415,37 +419,39 @@ public class ReadProductRestController {
 	}
 
 	@GetMapping("/view/productsale/byshop/{id}")
-	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,@RequestParam("page") Optional<Integer> page ) {
+	public ResponseEntity<?> getProductSaleByShop(@PathVariable("id") String id,
+			@RequestParam("page") Optional<Integer> page) {
 		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
-		List<ProductSearch>	listP = service.getProductAllByIdShop(id);
-		List<ProductSearch>	listResultList= new ArrayList<>();
+		List<ProductSearch> listP = service.getProductAllByIdShop(id);
+		List<ProductSearch> listResultList = new ArrayList<>();
 		for (ProductSearch e : listP) {
-			 e.getProductOptions().stream().forEach(item->{
-				if(!item.getProductDiscount().isEmpty()) {
+			e.getProductOptions().stream().forEach(item -> {
+				if (!item.getProductDiscount().isEmpty()) {
 					listResultList.add(e);
 				}
-			 });
+			});
 		}
-		listResultList.stream().forEach((e->System.err.println(e)));
-		Page<ProductSearch> pages= new PageImpl<>(listResultList, pageRequest, 10);
+		Page<ProductSearch> pages = new PageImpl<>(listResultList, pageRequest, 10);
 		return ResponseEntity.ok(pages);
 	}
+
 	@GetMapping("/view/5productdiscount/byshop/{id}")
 	public ResponseEntity<?> get5ProductSaleByShop(@PathVariable("id") String id) {
-		List<ProductSearch>	listP = service.getProductAllByIdShop(id);
-		List<ProductSearch>	listResultList= new ArrayList<>();
+		List<ProductSearch> listP = service.getProductAllByIdShop(id);
+		List<ProductSearch> listResultList = new ArrayList<>();
 		for (ProductSearch e : listP) {
-			 e.getProductOptions().stream().forEach(item->{
-				if(!item.getProductDiscount().isEmpty()) {
+			e.getProductOptions().stream().forEach(item -> {
+				if (!item.getProductDiscount().isEmpty()) {
 					listResultList.add(e);
 				}
-			 });
+			});
 		}
-		if(listResultList.size()>=5) {
-		return ResponseEntity.ok(listResultList.subList(0, 5));
+		if (listResultList.size() >= 5) {
+			return ResponseEntity.ok(listResultList.subList(0, 5));
 		}
 		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
 	}
+
 	@GetMapping("/view/5productnew/byshop/{id}")
 	public ResponseEntity<?> get5ProductNewByShop(@PathVariable("id") String id,
 			@RequestParam("page") Optional<Integer> page) {
@@ -453,6 +459,7 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.getProductNewByIdShop(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
+
 	@GetMapping("/view/productnew/byshop/{id}")
 	public ResponseEntity<?> getProductNewByShop(@PathVariable("id") String id,
 			@RequestParam("page") Optional<Integer> page) {
@@ -460,5 +467,46 @@ public class ReadProductRestController {
 		Page<ProductSearch> listPage = service.getProductNewByIdShop(id, pageRequest);
 		return ResponseEntity.ok(listPage);
 	}
-	
+
+	@GetMapping("/view/productsalling/byshop/{id}")
+	public ResponseEntity<?> getProductSallingByShop(@PathVariable("id") String id,
+			@RequestParam("page") Optional<Integer> page) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+		List<ProductSearch> listP = service.getProductAllByIdShop(id);
+		List<Object> listop = order_detail_service.findAllOptionProductInOrderDetailByIdShop(id);
+		List<ProductSearch> listResultList = new ArrayList<>();
+		List<Product_option> listProductionInOrder = new ArrayList<>();
+		for (int i = 0; i < listop.size() - 1; i++) {
+			Object[] row = (Object[]) listop.get(i);
+			for (ProductSearch e : listP) {
+				if (e.getIdProduct().equals(row[0])) {
+					listResultList.add(e);
+				}
+			}
+		}
+		Page<ProductSearch> pages = new PageImpl<>(listResultList, pageRequest, 10);
+		return ResponseEntity.ok(pages);
+	}
+
+	@GetMapping("/view/5productsalling/byshop/{id}")
+	public ResponseEntity<?> get5ProductSallingByShop(@PathVariable("id") String id,
+			@RequestParam("page") Optional<Integer> page) {
+		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
+		List<ProductSearch> listP = service.getProductAllByIdShop(id);
+		List<Object> listop = order_detail_service.findAllOptionProductInOrderDetailByIdShop(id);
+		List<ProductSearch> listResultList = new ArrayList<>();
+		List<Product_option> listProductionInOrder = new ArrayList<>();
+		for (int i = 0; i < listop.size() - 1; i++) {
+			Object[] row = (Object[]) listop.get(i);
+			for (ProductSearch e : listP) {
+				if (e.getIdProduct().equals(row[0])) {
+					listResultList.add(e);
+				}
+			}
+		}
+		if (listResultList.size() >= 5) {
+			return ResponseEntity.ok(listResultList.subList(0, 5));
+		}
+		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+	}
 }
