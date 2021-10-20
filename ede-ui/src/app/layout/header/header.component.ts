@@ -80,6 +80,7 @@ export class HeaderComponent implements OnInit {
     );
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
+    this.headerService.myMethod(this.cart);
   }
   /**
    * Hàm thay đổi số lượng
@@ -94,6 +95,7 @@ export class HeaderComponent implements OnInit {
     qtyCurrent.qty == 0 ? this.removeItemCart(qtyCurrent) : '';
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
+    this.headerService.myMethod(this.cart);
   }
   /**
    * Hàm chỉ được dùng số
