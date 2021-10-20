@@ -18,14 +18,17 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.ede.edeproductservice.entity.Evaluate;
 import com.ede.edeproductservice.entity.Product_brand;
 import com.ede.edeproductservice.entity.Product_child_category;
 import com.ede.edeproductservice.entity.Product_tag;
 import com.ede.edeproductservice.entity.Shop;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.asm.Advice.This;
 
 @Data
 @NoArgsConstructor
@@ -56,25 +59,26 @@ public class ProductSearch {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date createdate;
-	
+
 	// ------------------------
 	@ManyToOne
 	@JoinColumn(name = "id_shop", table = "product")
 	Shop shop;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_brand", table = "product")
 	Product_brand brand;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_category", table = "product")
 	Product_child_category childCategory;
-	// ------------------------
 
+	@OneToMany(mappedBy = "product")
+	List<ProductEvaluateView> evaluate;
+	// ------------------------
 
 	@OneToMany(mappedBy = "product")
 	List<ProductOptionView> productOptions;
-
 
 	@OneToMany(mappedBy = "producttag")
 	List<Product_tag> producTags;
@@ -87,17 +91,20 @@ public class ProductSearch {
 		return this.getProductOptions().get(0);
 	}
 
-//	@Transient
-//	public Product_discount discountDef;
-//
-//	public Product_discount getDiscountDef() {
-//		if (this.getProductOptions() != null) {
-//			return this.getProductDiscount().get(0);
-//		} else {
-//			System.err.println(this.getProductDiscount());
-//			return null;
-//		}
-//
-//	}
+	@Transient
+	public double evaluateDef;
+
+	public double getEvaluateDef() {
+		if (this.getEvaluate() != null && this.getEvaluate().size() > 0) {
+			double evaluateTotal = 0;
+			for (int i = 0; i < this.getEvaluate().size(); i++) {
+				evaluateTotal += this.getEvaluate().get(i).getRate();
+			}
+			return evaluateTotal / this.getEvaluate().size();
+		} else {
+			return 0;
+		}
+
+	}
 
 }
