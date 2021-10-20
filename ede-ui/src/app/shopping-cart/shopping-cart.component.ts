@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { HeaderService } from 'src/app/Services/header/header.service';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShoppingCartComponent implements OnInit {
 
-  constructor() { }
+  constructor( private headerService: HeaderService) { this.headerService.myMethod$.subscribe((data) => {
+    this.cart = data;
+  }); }
   public cart: Array<any> = [];
   ngOnInit(): void {
     this.loadCart()
