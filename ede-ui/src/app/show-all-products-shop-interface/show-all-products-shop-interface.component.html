@@ -118,6 +118,16 @@
       "
     >
       Sắp xếp theo
+
+      <button
+        style="margin-left: 10px"
+        [ngClass]="
+          sortBy == 'evaluate' ? 'btn btn-default active' : 'btn btn-default'
+        "
+        (click)="sortProduct('evaluate')"
+      >
+        Yêu thích
+      </button>
       <button
         style="margin-left: 10px"
         [ngClass]="
@@ -136,15 +146,18 @@
       >
         Giảm giá
       </button>
-      <button style="margin-left: 10px" class="btn btn-default">Bán chạy</button
-      >&nbsp;&nbsp;
+      &nbsp;&nbsp;
       <select
         style="width: 200px; height: 30px"
         (change)="sortPriceProduct($event)"
       >
-        <option hidden  [selected]="sortBy ==''">Giá</option>
-        <option value="ASC" [selected]="sortBy == 'ASC'" >Giá: Thấp đến cao</option>
-        <option value="DESC" [selected]="sortBy == 'DESC'">Giá: Cao đến thấp</option>
+        <option hidden [selected]="sortBy == ''">Giá</option>
+        <option value="ASC" [selected]="sortBy == 'ASC'">
+          Giá: Thấp đến cao
+        </option>
+        <option value="DESC" [selected]="sortBy == 'DESC'">
+          Giá: Cao đến thấp
+        </option>
       </select>
     </div>
     <!-------------------------------------------------------------------------------------------------- -->
@@ -229,7 +242,7 @@
                     class="label-product label-sale"
                     *ngIf="product.optionDef.productDiscount[0] != undefined"
                   >
-                    {{ product.optionDef.productDiscount[0].discount }}
+                    -{{ product.optionDef.productDiscount[0].discount }}%
                   </span>
                 </div>
                 <div style="margin-top: 30px">

@@ -121,6 +121,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
+        console.log(this.listAllProducts);
         this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
@@ -421,7 +422,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
     });
   }
-  async sortProduct(value : any) {
+  async sortProduct(value: any) {
     this.sortBy = value;
     this.routeParams();
   }
@@ -456,6 +457,19 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
             b.optionDef.productDiscount[0].discount
           ? -1
           : 1;
+      });
+    } else if (this.sortBy == 'evaluate') {
+      this.listAllProducts.sort((a: any, b: any) => {
+
+      return a.evaluateDef == null && b.evaluateDef == null
+        ? 0
+        : a.evaluateDef == null
+        ? 1
+        : b.evaluateDef == null
+        ? -1
+        : a.evaluateDef > b.evaluateDef
+        ? -1
+        : 1;
       });
     } else if (this.sortBy == 'DESC') {
       this.listAllProducts.sort((a: any, b: any) => {
