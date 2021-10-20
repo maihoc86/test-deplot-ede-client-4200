@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="table">
   <div class="col-sm-2">
     <aside class="content-aside" id="column-left">
       <ul class="breadcrumb">
@@ -163,44 +163,12 @@
     <!-------------------------------------------------------------------------------------------------- -->
     <!--changed listings-->
     <div class="related titleLine products-list grid module">
-      <div *ngIf="listAllProducts.length == 0">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-body cart">
-              <div class="col-sm-12 empty-cart-cls text-center">
-                <img
-                  src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png"
-                  width="130"
-                  height="130"
-                  class="img-fluid mb-4 mr-3"
-                />
-                <h3>
-                  <strong
-                    >Hix. Không có sản phẩm nào. Bạn thử tắt điều kiện lọc và
-                    tìm lại nhé?</strong
-                  >
-                </h3>
-                <h4>hoặc</h4>
-                <span class="input-group-btn">
-                  <a
-                    href="http://localhost:4200/shop/showall/interface?idShop={{
-                      shopForm.controls.id.value
-                    }}"
-                  >
-                    <button
-                      type="submit"
-                      class="button-search btn btn-danger"
-                      name="submit_search"
-                    >
-                      <i class="fa fa-trash"></i> Xóa bộ lọc
-                    </button>
-                  </a>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
+      <div *ngIf="loadingProductTable">
+        <div class="loader4"></div>
       </div>
+
       <div *ngIf="listAllProducts.length > 0">
         <div
           class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12"
@@ -342,6 +310,45 @@
                     >
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="listAllProducts.length == 0">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body cart">
+              <div class="col-sm-12 empty-cart-cls text-center">
+                <img
+                  src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png"
+                  width="130"
+                  height="130"
+                  class="img-fluid mb-4 mr-3"
+                />
+                <h3>
+                  <strong
+                    >Hix. Không có sản phẩm nào. Bạn thử tắt điều kiện lọc và
+                    tìm lại nhé?</strong
+                  >
+                </h3>
+                <h4>hoặc</h4>
+                <span class="input-group-btn">
+                  <a
+                    href="http://localhost:4200/shop/showall/interface?idShop={{
+                      shopForm.controls.id.value
+                    }}"
+                  >
+                    <button
+                      type="submit"
+                      class="button-search btn btn-danger"
+                      name="submit_search"
+                    >
+                      <i class="fa fa-trash"></i> Xóa bộ lọc
+                    </button>
+                  </a>
+                </span>
               </div>
             </div>
           </div>

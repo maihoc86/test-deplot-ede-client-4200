@@ -39,6 +39,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public sortBy: any;
   public hiddenLocation: boolean = true;
   public hiddenShowLocationMore: boolean = true;
+  public loadingProductTable = true;
   public idShop: any;
   ngOnInit(): void {
     this.getCities();
@@ -47,6 +48,10 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.getBrands(this.idShop);
     this.showShopInfo(this.idShop);
     this.getChildCategory(this.idShop);
+  }
+
+  public toBot() {
+    document.getElementById('table')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   /**
@@ -71,6 +76,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param brand nhãn hàng []
    */
   public listProduct() {
+    this.toBot();
     var param = this.route.snapshot.queryParamMap;
 
     this.category = param.get('category') ? param.get('category') : '';
@@ -112,6 +118,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param page trang số
    */
   public getAllProductDefault(idShop: any, page: any) {
+    this.loadingProductTable = true;
     this.ProductService.getAllProductShopByCustomer(idShop, page).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: {
@@ -121,12 +128,13 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
-        console.log(this.listAllProducts);
+        this.loadingProductTable = false;
         this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
       },
       (error) => {
+        this.loadingProductTable = false;
         if (error.error.message == 'Của hàng không tồn tại') {
           this.router.navigate(['/']);
         }
@@ -153,6 +161,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     brand: any,
     page: any
   ) {
+    this.loadingProductTable = true;
     this.ProductService.getAllProductShowInterfaceFilter(
       idShop,
       category,
@@ -168,11 +177,14 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
+        this.loadingProductTable = false;
+
         this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
       },
       (error) => {
+        this.loadingProductTable = false;
         if (error.error.message == 'Của hàng không tồn tại') {
           this.router.navigate(['/']);
         }
@@ -270,6 +282,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param category loại sản phẩm
    */
   clickFilterCategory(category: any) {
+    this.toBot();
     this.category = category;
     this.routeParams();
   }
@@ -460,16 +473,15 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
     } else if (this.sortBy == 'evaluate') {
       this.listAllProducts.sort((a: any, b: any) => {
-
-      return a.evaluateDef == null && b.evaluateDef == null
-        ? 0
-        : a.evaluateDef == null
-        ? 1
-        : b.evaluateDef == null
-        ? -1
-        : a.evaluateDef > b.evaluateDef
-        ? -1
-        : 1;
+        return a.evaluateDef == null && b.evaluateDef == null
+          ? 0
+          : a.evaluateDef == null
+          ? 1
+          : b.evaluateDef == null
+          ? -1
+          : a.evaluateDef > b.evaluateDef
+          ? -1
+          : 1;
       });
     } else if (this.sortBy == 'DESC') {
       this.listAllProducts.sort((a: any, b: any) => {

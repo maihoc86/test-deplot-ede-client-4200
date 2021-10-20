@@ -16,7 +16,7 @@ export class ShopInterfaceComponent implements OnInit {
     private shopService: MyShopService,
     private headerService: HeaderService,
     private cookieService: CookieService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadInterfaceShop(this.getParam());
@@ -123,19 +123,21 @@ export class ShopInterfaceComponent implements OnInit {
       this.page = params['page'];
     });
     this.page == undefined ? (this.page = 1) : 0;
-    this.shopService.getProductSalling(this.getParam(), this.page - 1).subscribe(
-      (data) => {
-        this.listProduct = data.content;
-        this.count = 0;
-        this.count = data.content.length;
-        this.loadingProductTable = false;
-        this.sortHandler();
-      },
-      (err) => {
-        this.loadingProductTable = false;
-        console.log(err);
-      }
-    );
+    this.shopService
+      .getProductSalling(this.getParam(), this.page - 1)
+      .subscribe(
+        (data) => {
+          this.listProduct = data.content;
+          this.count = 0;
+          this.count = data.content.length;
+          this.loadingProductTable = false;
+          this.sortHandler();
+        },
+        (err) => {
+          this.loadingProductTable = false;
+          console.log(err);
+        }
+      );
   }
   public handlePageChange(event: number) {
     this.page = event;
@@ -189,34 +191,43 @@ export class ShopInterfaceComponent implements OnInit {
   }
   public load5ProductDiscount(idshop: any) {
     this.loadingProductDiscount = true;
-    this.shopService.get5ProductDiscount(idshop).subscribe((data) => {
-      this.fakeArrayDiscount5 = data;
-      this.loadingProductDiscount = false;
-      console.log(data)
-    }, err => {
-      console.log(err)
-      this.loadingProductDiscount = false;
-    });
+    this.shopService.get5ProductDiscount(idshop).subscribe(
+      (data) => {
+        this.fakeArrayDiscount5 = data;
+        this.loadingProductDiscount = false;
+        console.log(data);
+      },
+      (err) => {
+        console.log(err);
+        this.loadingProductDiscount = false;
+      }
+    );
   }
   public load5ProductNew(idshop: any) {
     this.loadingProductNew = true;
-    this.shopService.get5ProductNew(idshop).subscribe((data) => {
-      this.fakeArrayNew5 = data.content;
-      this.loadingProductNew = false;
-    }, err => {
-      console.log(err)
-      this.loadingProductNew = false;
-    });
+    this.shopService.get5ProductNew(idshop).subscribe(
+      (data) => {
+        this.fakeArrayNew5 = data.content;
+        this.loadingProductNew = false;
+      },
+      (err) => {
+        console.log(err);
+        this.loadingProductNew = false;
+      }
+    );
   }
   public load5ProductSalling(idshop: any) {
     this.loadingProductSelling = true;
-    this.shopService.get5ProductSalling(idshop).subscribe((data) => {
-      this.fakeArraySalling5 = data;
-      this.loadingProductSelling = false;
-    }, err => {
-      console.log(err);
-      this.loadingProductSelling = false;
-    });
+    this.shopService.get5ProductSalling(idshop).subscribe(
+      (data) => {
+        this.fakeArraySalling5 = data;
+        this.loadingProductSelling = false;
+      },
+      (err) => {
+        console.log(err);
+        this.loadingProductSelling = false;
+      }
+    );
   }
   public ClickProductNew() {
     if (this.location != 'new') {
@@ -239,24 +250,26 @@ export class ShopInterfaceComponent implements OnInit {
       this.routeParams();
     }
   }
-  /**
-   * Hàm truyền param sắp xếp
-   */
   async sortProduct(value: any) {
     this.sortBy = value;
     this.routeParams();
   }
 
-  /**
-   * Hàm truyền param sắp xếp price
-   */
   async sortPriceProduct(event: any) {
     this.sortBy = event.target.value;
     this.routeParams();
   }
 
   sortHandler() {
-    if (this.sortBy == 'discount') {
+    if (this.sortBy === 'ctime') {
+      this.listProduct.sort((a: any, b: any) => {
+        return a == null || b == null
+          ? 0
+          : a.createdate > b.createdate
+          ? -1
+          : 1;
+      });
+    } else if (this.sortBy === 'discount') {
       this.listProduct.sort((a: any, b: any) => {
         // 0 có nghĩa là giống nhau
         // -1 có nghĩa là a < b
@@ -265,22 +278,25 @@ export class ShopInterfaceComponent implements OnInit {
           b.optionDef.productDiscount.length == 0
           ? 0
           : a.optionDef.productDiscount.length == 0
-            ? 1
-            : b.optionDef.productDiscount.length == 0
-              ? -1
-              : a.optionDef.productDiscount[0].discount >
-                b.optionDef.productDiscount[0].discount
-                ? -1
-                : 1;
+          ? 1
+          : b.optionDef.productDiscount.length == 0
+          ? -1
+          : a.optionDef.productDiscount[0].discount >
+            b.optionDef.productDiscount[0].discount
+          ? -1
+          : 1;
       });
-    } else if (this.sortBy === 'ctime') {
-      // mới nhất
+    } else if (this.sortBy == 'evaluate') {
       this.listProduct.sort((a: any, b: any) => {
-        return a == null || b == null
+        return a.evaluateDef == null && b.evaluateDef == null
           ? 0
-          : a.createdate > b.createdate
-            ? -1
-            : 1;
+          : a.evaluateDef == null
+          ? 1
+          : b.evaluateDef == null
+          ? -1
+          : a.evaluateDef > b.evaluateDef
+          ? -1
+          : 1;
       });
     } else if (this.sortBy == 'DESC') {
       this.listProduct.sort((a: any, b: any) => {
