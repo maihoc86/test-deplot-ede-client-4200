@@ -1,14 +1,14 @@
 <body class="res layout-1">
-    
+
     <div id="wrapper" class="wrapper-fluid banners-effect-5">
-    
+
 	<!-- Main Container  -->
 	<div class="main-container container">
 		<ul class="breadcrumb">
 			<li><a href="#"><i class="fa fa-home"></i></a></li>
 			<li><a href="#">Shopping Cart</a></li>
 		</ul>
-		
+
 		<div class="row">
 			<!--Middle Part Start-->
         <div id="content" class="col-sm-12">
@@ -31,14 +31,17 @@
                     <td class="text-left"><a href="product.html">{{item.name}}</a><br />
                      </td>
                     <td class="text-left">What is Model</td>
-                    <td class="text-left" width="200px"><div class="input-group btn-block quantity">
-                        <input type="text" name="quantity" [value]="item.qty" size="1" class="form-control" />
-                        <span class="input-group-btn">
-                        <button type="submit" data-toggle="tooltip" title="Update" class="btn btn-primary"><i class="fa fa-clone"></i></button>
-                        <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-danger" onClick=""><i class="fa fa-times-circle"></i></button>
-                        </span></div></td>
+                    <td class="text-left" width="200px">
+                      <div class="input-group btn-block quantity">
+                          <input type="number" value={{item.qty}} #qty  class="form-control"
+                              (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)">
+                      </div>
+                   </td>
                     <td class="text-right"><span>{{(item.discount==0?item.price:(item.price)-((item.discount/100)*item.price))| currency :'VND'}}</span></td>
                     <td class="text-right"><span>{{(item.discount==0?item.qty*item.price:(item.price*item.qty)-((item.discount/100)*item.price))| currency :'VND'}}</span></td>
+                    <td class="text-right">
+                        <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-danger" (click)="removeItemCart(item)"><i class="fa fa-times-circle"></i></button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -49,8 +52,8 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a href="#collapse-coupon" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" aria-expanded="true">Use Coupon Code 
-							
+						<a href="#collapse-coupon" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" aria-expanded="true">Use Coupon Code
+
 							<i class="fa fa-caret-down"></i>
 						</a>
 					</h4>
@@ -68,8 +71,8 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a href="#collapse-shipping" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false">Estimate Shipping &amp; Taxes 
-							
+						<a href="#collapse-shipping" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false">Estimate Shipping &amp; Taxes
+
 							<i class="fa fa-caret-down"></i>
 						</a>
 					</h4>
@@ -117,8 +120,8 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a href="#collapse-voucher" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle collapsed" aria-expanded="false">Use Gift Certificate 
-							
+						<a href="#collapse-voucher" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle collapsed" aria-expanded="false">Use Gift Certificate
+
 							<i class="fa fa-caret-down"></i>
 						</a>
 					</h4>
@@ -134,7 +137,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-8">
 				<table class="table table-bordered">
@@ -180,16 +183,16 @@
           </div>
         </div>
         <!--Middle Part End -->
-			
+
 		</div>
 	</div>
 	<!-- //Main Container -->
-	
+
 
 
 
     </div>
-	
-	
-	
+
+
+
 </body>
