@@ -532,7 +532,7 @@
   </div>
   <div class="col-sm-10" style="margin-top: 44px">
     <div
-      class="product-filter product-filter-top filters-panel"
+      class=" product-filter product-filter-top filters-panel"
       style="
         background-color: rgb(223, 223, 223);
         height: 60px;
@@ -540,7 +540,8 @@
         padding-left: 20px;
       "
     >
-      Sắp xếp theo
+      <div class="col-sm-8">
+        Sắp xếp theo
 
       <button
         style="margin-left: 10px"
@@ -582,7 +583,18 @@
           Giá: Cao đến thấp
         </option>
       </select>
+      </div>
+     <!-- Search -->
+      <form class="col-sm-4" >
+          <div class="input-group" >
+            <input value={{keySearch}} style="background-color: #ffff; color: black; width: 200px;border: none;" type="text" class="form-control" #search placeholder="Nhập tìm kiếm..."/>
+           <button (click)="searchProduct(search.value)" class=" btn input-group-addon" style="width: 50px; background-color: orangered; color: #fff;" type="submit"><b>Tìm</b></button>
+        </div>
+      </form>
+    <!-- //end Search -->
+        
     </div>
+
     <!-------------------------------------------------------------------------------------------------- -->
     <!--changed listings-->
     <div class="related titleLine products-list grid module">
@@ -612,10 +624,10 @@
       <div class="adjust" *ngIf="loadingProductTable">
         <div class="loader4"></div>
      </div>
-      <div>
+      <div *ngIf="!loadingProductTable">
         <div class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of listProduct | paginate
         : { itemsPerPage: 10, currentPage: page, totalItems: count };
-    let i = index">
+          let i = index">
           <div>
             <div class="product-item-container" style="height: 300px" (click)="showDetailProduct(item.idProduct)">
               <div class="left-block">

@@ -217,13 +217,13 @@ public class ProductImpl implements ProductService {
 		return dao.findAllCommnentByIdProduct(id);
 	}
 	@Override
-	public List<ProductSearch> getProductAllByIdShop(String id) {
-		return dao.getProductAllByIdShop(id);
+	public List<ProductSearch> getProductAllByIdShop(String id, String keySearch) {
+		return dao.getProductAllByIdShop(id, "%"+keySearch+"%");
 	}
 
 	@Override
-	public Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest) {
-		return dao.getProductNewByIdShop(id,pageRequest);
+	public Page<ProductSearch> getProductNewByIdShop(String id,String keySearch, PageRequest pageRequest) {
+		return dao.getProductNewByIdShop(id, "%"+keySearch+"%",pageRequest);
 	}
 
 }

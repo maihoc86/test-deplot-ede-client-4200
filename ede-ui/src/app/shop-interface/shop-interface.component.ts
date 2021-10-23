@@ -37,6 +37,7 @@ export class ShopInterfaceComponent implements OnInit {
   public location: any = 'selling';
   public count: number = 0;
   public page: number = 0;
+  public keySearch : any = '';
   public listProduct: any = [];
   public listNew: any = [];
   public listSelling: any = [];
@@ -83,7 +84,7 @@ export class ShopInterfaceComponent implements OnInit {
       this.page = params['page'];
     });
     this.page == undefined ? (this.page = 1) : 0;
-    this.shopService.getProductSale(this.getParam(), this.page - 1).subscribe(
+    this.shopService.getProductSale(this.getParam(), this.page - 1, this.keySearch).subscribe(
       (data) => {
         this.listProduct = data.content;
         this.count = 0;
@@ -103,7 +104,7 @@ export class ShopInterfaceComponent implements OnInit {
       this.page = params['page'];
     });
     this.page == undefined ? (this.page = 1) : 0;
-    this.shopService.getProductNew(this.getParam(), this.page - 1).subscribe(
+    this.shopService.getProductNew(this.getParam(), this.page - 1, this.keySearch).subscribe(
       (data) => {
         this.listProduct = data.content;
         this.count = 0;
@@ -124,7 +125,7 @@ export class ShopInterfaceComponent implements OnInit {
     });
     this.page == undefined ? (this.page = 1) : 0;
     this.shopService
-      .getProductSalling(this.getParam(), this.page - 1)
+      .getProductSalling(this.getParam(), this.page - 1, this.keySearch)
       .subscribe(
         (data) => {
           this.listProduct = data.content;
@@ -146,12 +147,12 @@ export class ShopInterfaceComponent implements OnInit {
   routeParams() {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.getRequestParams(this.location, this.page, this.sortBy),
+      queryParams: this.getRequestParams(this.location, this.page, this.sortBy, this.keySearch),
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
     this.LoadProductTable();
   }
-  getRequestParams(location: any, page: number, sortBy: any): any {
+  getRequestParams(location: any, page: number, sortBy: any, keySearch: any): any {
     let params: any = {};
     if (page) {
       params[`page`] = page;
@@ -162,6 +163,13 @@ export class ShopInterfaceComponent implements OnInit {
     if (sortBy) {
       params[`sortBy`] = sortBy;
     }
+    if (this.keySearch !=''){
+      params['keySearch'] = keySearch;
+    }
+    if (this.keySearch ==''){
+      params['keySearch'] = '';
+    }
+    console.log(params)
     return params;
   }
   addToCart(product: any) {
@@ -233,6 +241,7 @@ export class ShopInterfaceComponent implements OnInit {
     if (this.location != 'new') {
       this.location = 'new';
       this.page = 1;
+      this.keySearch = '';
       this.routeParams();
     }
   }
@@ -240,6 +249,7 @@ export class ShopInterfaceComponent implements OnInit {
     if (this.location != 'discount') {
       this.location = 'discount';
       this.page = 1;
+      this.keySearch = '';
       this.routeParams();
     }
   }
@@ -247,6 +257,7 @@ export class ShopInterfaceComponent implements OnInit {
     if (this.location != 'selling') {
       this.location = 'selling';
       this.page = 1;
+      this.keySearch = '';
       this.routeParams();
     }
   }
@@ -310,5 +321,10 @@ export class ShopInterfaceComponent implements OnInit {
   }
   showDetailProduct(product: any) {
     this.router.navigate([`/product/detail/${product}`]);
+  }
+
+  searchProduct(keySearch: any){   
+    this.keySearch = keySearch;
+    this.routeParams();
   }
 }
