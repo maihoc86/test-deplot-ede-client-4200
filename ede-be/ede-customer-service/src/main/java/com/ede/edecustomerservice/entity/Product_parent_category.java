@@ -1,13 +1,11 @@
 package com.ede.edecustomerservice.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,27 +14,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "cart")
+@Table(name = "product_parent_category")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cart implements Serializable {
+public class Product_parent_category {
 	@Id
 	String id;
-
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	User user;
+	String name;
+	String image_url;
+	Boolean is_enable;
+	
+	Boolean is_delete;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "cart")
-	List<Cart_item> cart_items;
-	
-	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parentcategory")
+	List<Product_parent_child_category> productParentChildCategory;
+
 	@Override
 	public String toString() {
-		return "";
+		return String.format("%s | %s | %s | %s | %s | %s  ", this.id, this.name, this.image_url, this.is_enable,
+				this.is_enable, this.is_delete);
 	}
 }

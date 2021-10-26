@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,22 +18,19 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "cart")
+@Table(name = "product_brand")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cart implements Serializable {
+public class Product_brand implements Serializable  {
 	@Id
 	String id;
-
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	User user;
+	String name;
+	String avatar;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "cart")
-	List<Cart_item> cart_items;
-	
-	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "brand")
+	List<Product> product;
+
 	@Override
 	public String toString() {
 		return "";
