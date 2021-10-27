@@ -71,50 +71,68 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a href="#collapse-shipping" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false">Estimate Shipping &amp; Taxes
+						<a href="#collapse-shipping" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false">Chọn địa chỉ &amp; đơn vị vận chuyển
 
 							<i class="fa fa-caret-down"></i>
 						</a>
 					</h4>
 				</div>
 				<div id="collapse-shipping" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+          <form [formGroup]="address">
 					<div class="panel-body">
-						<p>Enter your destination to get a shipping estimate.</p>
+						<p>‎Nhập địa chỉ nhận hàng để có được ước tính phí vận chuyển.‎</p>
 						<div class="form-horizontal">
 							<div class="form-group required">
-								<label class="col-sm-2 control-label" for="input-country">Country</label>
+								<label class="col-sm-2 control-label" for="input-country">Tỉnh / thành</label>
 								<div class="col-sm-10">
-									<select name="country_id" id="input-country" class="form-control">
-										<option value=""> --- Please Select --- </option>
-										<option value="244">Aaland Islands</option>
-										<option value="1">Afghanistan</option>
-										<option value="2">Albania</option>
-										<option value="3">Algeria</option>
+									<select name="country_id" id="input-country" class="form-control" formControlName="city" (change)="getDistricts()">
+										<option [ngValue]="null" disabled> --- Chọn tỉnh thành --- </option>
+                      <option *ngFor="let prf of listCitys" [ngValue]="prf">
+                      {{ prf.name }}
+                      </option>
 									</select>
 								</div>
 							</div>
-							<div class="form-group required">
-								<label class="col-sm-2 control-label" for="input-zone">Region / State</label>
+							<div class="form-group required" *ngIf="!isHiddenDistrict">
+								<label class="col-sm-2 control-label" for="input-zone">Quận / huyện</label>
+								<div class="col-sm-10">
+									<select name="zone_id" id="input-zone" class="form-control" formControlName="district" (change)="getWards()" >
+										<option [ngValue]="null" disabled> --- Chọn quận huyện --- </option>
+                      <option *ngFor="let prf of listDistricts" [ngValue]="prf">
+                        {{ prf.name }}
+                      </option>
+									</select>
+								</div>
+							</div>
+              	<div class="form-group required" *ngIf="!isHiddenWards">
+								<label class="col-sm-2 control-label" for="input-zone">Phường / xã</label>
+								<div class="col-sm-10">
+									<select name="zone_id" id="input-zone" class="form-control" formControlName="wards">
+										<option [ngValue]="null" disabled> --- Chọn phường xã --- </option>
+                      <option *ngFor="let prf of listWards" [ngValue]="prf">
+                        {{ prf.name }}
+                      </option>
+									</select>
+								</div>
+							</div>
+              <div class="form-group required">
+								<label class="col-sm-2 control-label" for="input-postcode">Địa chỉ</label>
+								<div class="col-sm-10"><input type="text" name="postcode" value="" placeholder="Địa chỉ" id="input-postcode" class="form-control">
+                  <span style="color: #ff3c20;cursor: pointer;">+ Chọn địa chỉ hiện có</span>
+                </div>
+
+							</div>
+										<div class="form-group required">
+								<label class="col-sm-2 control-label" for="input-zone">Đơn vị vận chuyện</label>
 								<div class="col-sm-10">
 									<select name="zone_id" id="input-zone" class="form-control">
-										<option value=""> --- Please Select --- </option>
-										<option value="3513">Aberdeen</option>
-										<option value="3514">Aberdeenshire</option>
-										<option value="3515">Anglesey</option>
-										<option value="3516">Angus</option>
-										<option value="3517">Argyll and Bute</option>
-										<option value="3518">Bedfordshire</option>
-										<option value="3519">Berkshire</option>
+										<option value=""> --- Chọn đơn vị --- </option>
 									</select>
 								</div>
 							</div>
-							<div class="form-group required">
-								<label class="col-sm-2 control-label" for="input-postcode">Post Code</label>
-								<div class="col-sm-10"><input type="text" name="postcode" value="" placeholder="Post Code" id="input-postcode" class="form-control"></div>
-							</div>
-								<button type="button" id="button-quote" data-loading-text="Loading..." class="btn btn-primary">Get Quotes</button>
 						</div>
 					</div>
+          </form>
 				</div>
 			</div>
 			<div class="panel panel-default">
@@ -150,9 +168,9 @@
 						</tr>
 						<tr>
 							<td class="text-right">
-								<strong>Flat Shipping Rate:</strong>
+								<strong>Phí vận chuyển:</strong>
 							</td>
-							<td class="text-right">$4.69</td>
+							<td class="text-right">2.000</td>
 						</tr>
 						<tr>
 							<td class="text-right">
