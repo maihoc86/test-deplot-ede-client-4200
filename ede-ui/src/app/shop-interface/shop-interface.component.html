@@ -125,9 +125,9 @@
       </div>
       <div *ngFor="let item of fakeArraySalling5" class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
 
-        <div class="product-item-container" style="height: 300px" (click)="showDetailProduct(item.idProduct)">
+        <div class="product-item-container" style="height: 300px" >
           <div class="left-block">
-            <div class="product-image-container second_img" style="height: 150px">
+            <div class="product-image-container second_img" style="height: 150px" (click)="showDetailProduct(item.idProduct)">
               <a target="_self" title="Chicken swinesha">
                 <img src="http://localhost:8080/ede-file/get/image/{{
                   item.optionDef.optionImageDef.image
@@ -236,9 +236,9 @@
 
       <div *ngFor="let item of fakeArrayDiscount5" class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
 
-        <div class="product-item-container" style="height: 300px" (click)="showDetailProduct(item.idProduct)">
+        <div class="product-item-container" style="height: 300px">
           <div class="left-block">
-            <div class="product-image-container second_img" style="height: 150px">
+            <div class="product-image-container second_img" style="height: 150px"  (click)="showDetailProduct(item.idProduct)">
               <a target="_self" title="Chicken swinesha">
                 <img src="http://localhost:8080/ede-file/get/image/{{
                   item.optionDef.optionImageDef.image
@@ -373,9 +373,9 @@
 
       <div *ngFor="let item of fakeArrayNew5" class="product-layout col-lg-15 col-md-4 col-sm-6 col-xs-12">
 
-        <div class="product-item-container" style="height: 300px" (click)="showDetailProduct(item.idProduct)">
+        <div class="product-item-container" style="height: 300px" >
           <div class="left-block">
-            <div class="product-image-container second_img" style="height: 150px">
+            <div class="product-image-container second_img" style="height: 150px" (click)="showDetailProduct(item.idProduct)">
               <a target="_self" title="Chicken swinesha">
                 <img src="http://localhost:8080/ede-file/get/image/{{
                   item.optionDef.optionImageDef.image
@@ -629,9 +629,9 @@
         : { itemsPerPage: 10, currentPage: page, totalItems: count };
           let i = index">
           <div>
-            <div class="product-item-container" style="height: 300px" (click)="showDetailProduct(item.idProduct)">
+            <div class="product-item-container" style="height: 300px" >
               <div class="left-block">
-                <div class="product-image-container second_img" style="height: 150px">
+                <div class="product-image-container second_img" style="height: 150px" (click)="showDetailProduct(item.idProduct)">
                   <a target="_self" title="Chicken swinesha">
                     <img src="http://localhost:8080/ede-file/get/image/{{
                       item.optionDef.optionImageDef.image
