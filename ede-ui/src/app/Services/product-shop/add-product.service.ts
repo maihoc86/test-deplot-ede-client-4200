@@ -383,4 +383,5 @@ export class AddProductService {
       this.httpOptions
     );
   }
+
 }

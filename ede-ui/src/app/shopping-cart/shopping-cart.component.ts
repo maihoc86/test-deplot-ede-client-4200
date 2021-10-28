@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
+import { ShipService } from '../Services/ship/ship.service';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -10,7 +11,7 @@ import { ApiAddressService } from '../Services/api-address/api-address.service';
 export class ShoppingCartComponent implements OnInit {
   constructor(
     private headerService: HeaderService,
-    private apiAddressService: ApiAddressService
+    private address_ship: ShipService
   ) {
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
@@ -19,13 +20,15 @@ export class ShoppingCartComponent implements OnInit {
   public listCitys: any = [];
   public listDistricts: any = [];
   public listWards: any = [];
+  public listShippingCompany: any = [];
+  isHiddenCity: boolean = true;
   isHiddenAddress: boolean = true;
   isHiddenWards: boolean = true;
   isHiddenDistrict: boolean = true;
   public cart: Array<any> = [];
   public totalCart: any = 0;
   ngOnInit(): void {
-    this.getApiCity();
+    this.getShippingCompany();
     this.loadCart();
   }
   loadCart() {
@@ -34,7 +37,8 @@ export class ShoppingCartComponent implements OnInit {
     this.cart = json ? JSON.parse(json) : [];
   }
 
-  public address = new FormGroup({
+  public ship = new FormGroup({
+    company: new FormControl(''),
     city: new FormControl(''),
     district: new FormControl(''),
     wards: new FormControl(''),
@@ -101,21 +105,36 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-  /**
-   * Hàm lấy ra tất cả các thành phố
-   * @returns {obj} danh sách thành phố
-   */
-  public getApiCity() {
-    this.apiAddressService.getApiCity().subscribe((data) => {
-      const listCity = data.map(function (obj: {
+  public getShippingCompany() {
+    this.address_ship.getShippingCompany().subscribe((data) => {
+      const listShippingCompany = data.map(function (obj: {
         id: any;
-        code: any;
         name: any;
       }) {
         return obj;
       });
-      this.listCitys = listCity;
+      this.listShippingCompany = listShippingCompany;
     });
+  }
+
+  /**
+   * Hàm lấy ra tất cả các thành phố
+   * @param method phương thức vận chuyển đến tp
+   * @returns {obj} danh sách thành phố
+   */
+  public getApiCity() {
+    this.address_ship
+      .getApiCity(this.ship.controls['company'].value.id)
+      .subscribe((data) => {
+        const listCity = data.map(function (obj: {
+          id: any;
+          code: any;
+          name: any;
+        }) {
+          return obj;
+        });
+        this.listCitys = listCity;
+      });
   }
 
   /**
@@ -124,13 +143,15 @@ export class ShoppingCartComponent implements OnInit {
    * @returns {obj} danh sách quận
    */
   public getApiDistricts(id: any) {
-    this.apiAddressService.getApiDistricts(id).subscribe((data) => {
-      const listDistrict = data.map(function (obj: { id: any; name: any }) {
-        return obj;
+    this.address_ship
+      .getApiDistricts_byCity(this.ship.controls['company'].value.id, id)
+      .subscribe((data) => {
+        const listDistrict = data.map(function (obj: { id: any; name: any }) {
+          return obj;
+        });
+        console.log(listDistrict);
+        this.listDistricts = listDistrict;
       });
-      console.log(listDistrict);
-      this.listDistricts = listDistrict;
-    });
   }
 
   /**
@@ -139,27 +160,31 @@ export class ShoppingCartComponent implements OnInit {
    * @returns {obj} danh sách phường
    */
   public getApiWards(id: any) {
-    this.apiAddressService.getApiWards(id).subscribe((data) => {
-      const listWard = data.map(function (obj: { id: any; name: any }) {
-        return obj;
+    this.address_ship
+      .getApiWards_byDisctrict(this.ship.controls['company'].value.id, id)
+      .subscribe((data) => {
+        const listWard = data.map(function (obj: { id: any; name: any }) {
+          return obj;
+        });
+        this.listWards = listWard;
       });
-      this.listWards = listWard;
-    });
   }
 
+  chooseShippingCompany() {
+    this.isHiddenCity = !this.isHiddenCity;
+    this.getApiCity();
+  }
   showSelectionAddress() {
-    this.address.controls['address'].setValue('');
+    this.ship.controls['address'].setValue('');
     this.isHiddenAddress = !this.isHiddenAddress;
   }
 
   getDistricts() {
     this.isHiddenDistrict = false;
-    console.log(this.address.controls['city'].value);
-    this.getApiDistricts(this.address.controls['city'].value.id);
+    this.getApiDistricts(this.ship.controls['city'].value.id);
   }
   getWards() {
     this.isHiddenWards = false;
-
-    this.getApiWards(this.address.controls['district'].value.id);
+    this.getApiWards(this.ship.controls['district'].value.id);
   }
 }

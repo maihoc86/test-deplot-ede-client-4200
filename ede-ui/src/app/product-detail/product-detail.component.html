@@ -329,9 +329,53 @@
                   <div class="stock"><span>Availability:</span> <span class="status-stock">In Stock</span></div>
                 </div>
 
+                <div id="ship"[formGroup]="ship">
+                  <h4>Vận Chuyển</h4>
+                  <div class="row">
+                    <div class="form-group required col-md-12">
+                      <label class="control-label">Đơn vị vận chuyển</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="company" (change)="chooseShippingCompany()">
+                          <option [ngValue]="null" disabled> --- Chọn đơn vị vận chuyển --- </option>
+                            <option *ngFor="let prf of listShippingCompany" [ngValue]="prf">
+                            {{ prf.name }}
+                            </option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group required col-md-4" *ngIf="!isHiddenCity">
+                      <label class="control-label">Tỉnh thành</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="city" (change)="getDistricts()">
+                          <option [ngValue]="null" disabled> --- Chọn tỉnh thành --- </option>
+                          <option *ngFor="let prf of listCitys" [ngValue]="prf">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                    <div class="form-group required col-md-4" *ngIf="!isHiddenDistrict">
+                      <label class="control-label">Quận huyện</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="district" (change)="getWards()">
+                          <option [ngValue]="null" disabled> --- Chọn quận huyện --- </option>
+                          <option *ngFor="let prf of listDistricts" [ngValue]="prf">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                    <div class="form-group required col-md-4" *ngIf="!isHiddenWards">
+                      <label class="control-label">Phường xã</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="wards" (change)="showSelectionAddress()">
+                          <option [ngValue]="null" disabled> --- Chọn phường xã --- </option>
+                          <option *ngFor="let prf of listWards" [ngValue]="prf">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="product-box-desc">
                   <div class="inner-box-desc">
-                    <div class="price-tax"><span>Ex Tax:</span> $60.00</div>
+                    <div class="price-tax"><span>Phí vận chuyển:</span> $60.00</div>
                     <div class="reward"><span>Price in reward points:</span> 400</div>
                     <div class="brand"><span>Brand:</span><a href="#">Apple</a> </div>
                     <div class="model"><span>Product Code:</span> Product 15</div>
