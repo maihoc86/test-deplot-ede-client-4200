@@ -25,5 +25,5 @@
     Port: 8084
     Name: ede-voucher
 ##Ede-System-Service:
-    Port: 8084
+    Port: 8085
     Name: ede-system
