@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "cart", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_cart", "id_product_option" }) })
+@Table(name = "cart_item", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_cart", "id_product_option" }) })
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cart_item implements Serializable {

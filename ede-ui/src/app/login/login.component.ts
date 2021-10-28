@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { LoginServiceService } from '../Services/login/login-service.service';
 import { CookieService } from 'ngx-cookie-service';
+import { HeaderService } from '../Services/header/header.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,8 +20,13 @@ export class LoginComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl('')
   })
+  public cart: Array<any> = [];
   public loading = false;
-  constructor(private loginService: LoginServiceService, private cookieService: CookieService, private router: Router) { }
+  constructor(private loginService: LoginServiceService,
+    private cookieService: CookieService,
+    private router: Router,
+    private headerService: HeaderService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -41,6 +47,25 @@ export class LoginComponent implements OnInit {
     this.loginService.doLogin(this.form.controls['username'].value, this.form.controls['password'].value)
       .subscribe(data => {
         this.loading = false;
+        console.log(data)
+        var json = localStorage.getItem('cart');
+        this.cart = json ? JSON.parse(json) : [];
+        if(this.cart.length<1){
+          alert("get db")
+          this.headerService.getCart(data.id).subscribe(cartitem=>{
+             if(cartitem!=null){
+              console.log(cartitem)
+              this.cart=cartitem as any;
+              localStorage.setItem('cart', JSON.stringify(this.cart));
+              this.headerService.myMethod(this.cart);
+             }
+          })
+        }else{
+          alert("update cart")
+          this.headerService.updateCart(this.cart,data.id).subscribe(data=>{
+
+           })
+        }
         Swal.fire({
           icon: 'success',
           title: 'Thông báo',

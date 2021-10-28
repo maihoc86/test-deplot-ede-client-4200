@@ -15,6 +15,8 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +39,7 @@ public class Product_discount implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date enddate;
 	Boolean status;
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_product_option")
 	Product_option productdiscount;

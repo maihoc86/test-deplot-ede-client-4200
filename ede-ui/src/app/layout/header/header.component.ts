@@ -26,6 +26,11 @@ export class HeaderComponent implements OnInit {
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
       this.loadTotal();
+      if(this.login){
+        this.headerService.updateCart(this.cart,this.u.id).subscribe(data=>{
+          console.log(data)
+        })
+      }
     });
   }
 

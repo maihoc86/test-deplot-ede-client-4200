@@ -48,7 +48,7 @@ public class Product_option implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Product_option_image> product_option_images;
 
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "productdiscount")
 	List<Product_discount> productDiscount;
 	

@@ -19,6 +19,12 @@ export class HeaderService {
     this.myMethodSubject.next(data);
   }
 
+  public getCart(id:any){
+    return this.http.get('http://localhost:8080/ede-customer/getcartitem/'+id);
+  }
+  public updateCart(data:any,id:any){
+    return this.http.put('http://localhost:8080/ede-customer/updatecartitem/'+id,data);
+  }
   private url = 'http://localhost:8080/ede-customer/getuserlogin';
   public getUserByToken(token: String) {
     return this.http.get<User>(`${this.url}/` + token)
