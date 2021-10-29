@@ -1118,14 +1118,13 @@
                             </a>
                           </td>
                           <td class="text-left">
-                            <a class="cart_product_name limit" href="product.html">{{item.name}}</a>
+                            <a class="cart_product_name limit" href="product.html">{{item.product_option.product.name}}</a>
                           </td>
                           <td class="text-left">
-                            <input type="number" value={{item.qty}} #qty style="width:35px"
+                            <input type="number" value={{item.quantity}} #qty style="width:35px"
                               (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)">
                           </td>
-                          <td> <span>{{(item.discount==0?item.qty*item.price:(item.price*item.qty)-((item.discount/100)*item.price))| currency :'VND'}}</span></td>
-
+                          <td> <span>{{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-((item.product_option.price*item.quantity)*(item.product_option.productDiscount[0].discount/100)):item.product_option.price*item.quantity)| currency :'VND'}}</span></td>
                           <td class="text-right">
                             <a href="product.html" class="fa fa-edit"></a>
                           </td>

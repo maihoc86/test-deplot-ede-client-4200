@@ -90,21 +90,16 @@ export class ProductDetailComponent implements OnInit {
     this.cart = json ? JSON.parse(json) : [];
     var item: any;
     this.cart.forEach((e) => {
-      if (e.id == product.optionDef.id) {
+      if (e.product_option.id == product.optionDef.id) {
         item = e;
       }
     });
     if (item) {
-      item.qty += qty as number;
+      item.quantity += qty as number;
     } else {
       this.cart.push({
-        qty: 1,
-        name: product.name,
-        id: product.optionDef.id,
-        price: product.optionDef.price,
-        discount: product.optionDef.productDiscount[0]
-          ? product.optionDef.productDiscount[0]?.discount
-          : 0,
+        quantity: 1,
+        product_option: product.optionDef
       });
     }
 
