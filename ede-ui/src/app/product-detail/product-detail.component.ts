@@ -365,7 +365,7 @@ export class ProductDetailComponent implements OnInit {
     let idCity = '';
 
     for (let i = 0; i < this.listCitys.length; i++) {
-      if (this.listCitys[i].name === split[3].trim()) {
+      if (this.listCitys[i].name.includes(split[3].trim())) {
         idCity = this.listCitys[i].id;
       }
     }
