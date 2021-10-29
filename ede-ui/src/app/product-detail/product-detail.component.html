@@ -371,11 +371,22 @@
                         </select>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="form-group required col-md-12" *ngIf="!isHiddenMethodShip">
+                      <label class="control-label">Chọn phương thức giao hàng</label>
+                        <select name="method_ship" id="input-method" class="form-control" formControlName="method"  (change)="getFeeShip()">
+                          <option [ngValue]="null" disabled> --- Chọn phương thức giao hàng --- </option>
+                          <option *ngFor="let prf of listMethodShip" [ngValue]="prf">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="product-box-desc">
                   <div class="inner-box-desc">
-                    <div class="price-tax"><span>Phí vận chuyển:</span> $60.00</div>
+                    <div class="price-tax"><span>Phí vận chuyển:</span> {{feeShip}} VNĐ</div>
                     <div class="reward"><span>Price in reward points:</span> 400</div>
                     <div class="brand"><span>Brand:</span><a href="#">Apple</a> </div>
                     <div class="model"><span>Product Code:</span> Product 15</div>

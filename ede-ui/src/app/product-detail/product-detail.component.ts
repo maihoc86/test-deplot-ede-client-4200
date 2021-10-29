@@ -7,8 +7,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { error } from '@angular/compiler/src/util';
-import { ProductMeta } from '../models/product-meta.models';
 import { ShipService } from '../Services/ship/ship.service';
 
 @Component({
@@ -46,9 +44,11 @@ export class ProductDetailComponent implements OnInit {
   public ship = new FormGroup({
     company: new FormControl(''),
     city: new FormControl(''),
-    district: new FormControl(''),
+    from_district: new FormControl(''), // district của shop
+    district: new FormControl(''), // to_district
     wards: new FormControl(''),
     address: new FormControl(''),
+    method: new FormControl(''), // phương thức vận chuyện [đi bộ, máy bay ...]
   });
 
   public fromComment = new FormGroup({
@@ -77,6 +77,8 @@ export class ProductDetailComponent implements OnInit {
   isHiddenAddress: boolean = true;
   isHiddenWards: boolean = true;
   isHiddenDistrict: boolean = true;
+  isHiddenMethodShip: boolean = true;
+  public feeShip: number = 0; // phí ship sau khi tính toán
   public fakeArrayRate: any = [];
   public nameOption: any = 'nameOption';
   ngOnInit(): void {
@@ -322,9 +324,9 @@ export class ProductDetailComponent implements OnInit {
    * @param {string} id id của thành phố
    * @returns {obj} danh sách quận
    */
-  public getApiDistricts(id: any) {
+  public getApiDistricts(idCity: any) {
     this.address_ship
-      .getApiDistricts_byCity(this.ship.controls['company'].value.id, id)
+      .getApiDistricts_byCity(this.ship.controls['company'].value.id, idCity)
       .subscribe((data) => {
         const listDistrict = data.map(function (obj: { id: any; name: any }) {
           return obj;
@@ -356,20 +358,57 @@ export class ProductDetailComponent implements OnInit {
    * @returns {obj} danh sách phường
    */
   public getApiMethodShip() {
-    const split = this.product.shop.address.split(',');
-    console.log(split); // TODO cắt lấy quận huyện, so sánh vs api quận huyện lấy về r lấy ra id truyền vào get API
+    var split = this.product.shop.address.split(',');
+
+    console.log(split[3].trim());
+
+    let idCity = '';
+
+    for (let i = 0; i < this.listCitys.length; i++) {
+      if (this.listCitys[i].name.includes(split[3].trim())) {
+        idCity = this.listCitys[i].id;
+      }
+    }
+
+    // TODO Optimize code
     this.address_ship
-      .getApiMethodShip(
-        this.ship.controls['company'].value.id,
-        'test',
-        this.ship.controls['district'].value.id
-      )
-      .subscribe((data) => {
-        const listMethodShip = data.map(function (obj: { id: any; name: any }) {
-          return obj;
-        });
-        this.listMethodShip = listMethodShip;
-      });
+      .getApiDistricts_byCity(this.ship.controls['company'].value.id, idCity)
+      .subscribe(
+        (data) => {
+          const listDistrict = data.map(function (obj: { id: any; name: any }) {
+            return obj;
+          });
+          for (let i = 0; i < listDistrict.length; i++) {
+            if (listDistrict[i].name.includes(split[2].trim())) {
+              this.ship.controls['from_district'].setValue(listDistrict[i]);
+
+              this.address_ship
+                .getApiMethodShip(
+                  this.ship.controls['company'].value.id,
+                  this.ship.controls['from_district'].value.id,
+                  this.ship.controls['district'].value.id
+                )
+                .subscribe(
+                  (data) => {
+                    const listMethodShip = data.map(function (obj: {
+                      id: any;
+                      name: any;
+                    }) {
+                      return obj;
+                    });
+                    this.listMethodShip = listMethodShip;
+                  },
+                  (error) => {
+                    console.log(error);
+                  }
+                );
+            }
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   chooseShippingCompany() {
@@ -377,16 +416,36 @@ export class ProductDetailComponent implements OnInit {
     this.getApiCity();
   }
   showSelectionAddress() {
+    this.isHiddenMethodShip = !this.isHiddenMethodShip;
     this.ship.controls['address'].setValue('');
     this.isHiddenAddress = !this.isHiddenAddress;
   }
 
   getDistricts() {
-    this.isHiddenDistrict = false;
+    this.isHiddenDistrict = !this.isHiddenDistrict;
     this.getApiDistricts(this.ship.controls['city'].value.id);
   }
   getWards() {
-    this.isHiddenWards = false;
+    this.isHiddenWards = !this.isHiddenWards;
     this.getApiWards(this.ship.controls['district'].value.id);
+  }
+
+  getFeeShip() {
+    this.address_ship
+      .getFeeShip(
+        this.ship.controls['company'].value.id,
+        this.ship.controls['from_district'].value.id,
+        this.ship.controls['district'].value.id,
+        this.ship.controls['method'].value.id,
+        300
+      )
+      .subscribe(
+        (data: any) => {
+          this.feeShip = data.total;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 }
