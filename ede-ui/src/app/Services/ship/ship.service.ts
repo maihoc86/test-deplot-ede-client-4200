@@ -56,27 +56,29 @@ export class ShipService {
 
   /**
    * Tính phí vận chuyển
-   * @param methodShip đơn vị vận chuyển
+   * @param company đơn vị vận chuyển
    * @param from_district_id từ quận huyện
    * @param to_district_id  đến quận huyện
    * @param service_id dịch vụ vận chuyển (đi bộ, xe) // này chưa có làm, để data cứng test []
    * @param weight trọng lượng
    * @returns
    */
-  public feeShip(
-    methodShip: string,
+  public getFeeShip(
+    company: string,
     from_district_id: any,
     to_district_id: any,
+    service_id: any,
     weight: any
   ) {
     const url =
       this.REST_API_SERVER +
-      methodShip +
-      'get-transport-fee?from_district_id=' +
+      company +
+      '/get-transport-fee?from_district=' +
       from_district_id +
-      '&to_district_id=' +
+      '&to_district=' +
       to_district_id +
-      'service_id=53320' +
+      '&service_id=' +
+      service_id +
       '&weight=' +
       weight;
     return this.httpClient.get<any>(url, this.httpOptions);
