@@ -336,47 +336,38 @@
                       <label class="control-label">Đơn vị vận chuyển</label>
                         <select name="country_id" id="input-country" class="form-control" formControlName="company" (change)="chooseShippingCompany()">
                           <option [ngValue]="null" disabled> --- Chọn đơn vị vận chuyển --- </option>
-                            <option *ngFor="let prf of listShippingCompany" [ngValue]="prf">
+                            <option *ngFor="let prf of listShippingCompany" [ngValue]="prf.id"  [attr.selected]="prf.id == ship.controls['company'].value ? true : null">
                             {{ prf.name }}
                             </option>
                         </select>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group required col-md-4" *ngIf="!isHiddenCity">
+                    <div class="form-group required col-md-6">
                       <label class="control-label">Tỉnh thành</label>
-                        <select name="country_id" id="input-country" class="form-control" formControlName="city" (change)="getDistricts()">
+                        <select name="country_id" id="input-country" class="form-control" formControlName="city" (change)="chooseCity()">
                           <option [ngValue]="null" disabled> --- Chọn tỉnh thành --- </option>
-                          <option *ngFor="let prf of listCitys" [ngValue]="prf">
+                          <option *ngFor="let prf of listCitys" [ngValue]="prf.id">
                             {{ prf.name }}
                           </option>
                         </select>
                     </div>
-                    <div class="form-group required col-md-4" *ngIf="!isHiddenDistrict">
+                    <div class="form-group required col-md-6">
                       <label class="control-label">Quận huyện</label>
-                        <select name="country_id" id="input-country" class="form-control" formControlName="district" (change)="getWards()">
+                        <select name="country_id" id="input-country" class="form-control" formControlName="district">
                           <option [ngValue]="null" disabled> --- Chọn quận huyện --- </option>
-                          <option *ngFor="let prf of listDistricts" [ngValue]="prf">
-                            {{ prf.name }}
-                          </option>
-                        </select>
-                    </div>
-                    <div class="form-group required col-md-4" *ngIf="!isHiddenWards">
-                      <label class="control-label">Phường xã</label>
-                        <select name="country_id" id="input-country" class="form-control" formControlName="wards" (change)="showSelectionAddress()">
-                          <option [ngValue]="null" disabled> --- Chọn phường xã --- </option>
-                          <option *ngFor="let prf of listWards" [ngValue]="prf">
+                          <option *ngFor="let prf of listDistricts" [ngValue]="prf.id">
                             {{ prf.name }}
                           </option>
                         </select>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group required col-md-12" *ngIf="!isHiddenMethodShip">
+                    <div class="form-group required col-md-12">
                       <label class="control-label">Chọn phương thức giao hàng</label>
                         <select name="method_ship" id="input-method" class="form-control" formControlName="method"  (change)="getFeeShip()">
                           <option [ngValue]="null" disabled> --- Chọn phương thức giao hàng --- </option>
-                          <option *ngFor="let prf of listMethodShip" [ngValue]="prf">
+                          <option *ngFor="let prf of listMethodShip" [ngValue]="prf.id">
                             {{ prf.name }}
                           </option>
                         </select>
