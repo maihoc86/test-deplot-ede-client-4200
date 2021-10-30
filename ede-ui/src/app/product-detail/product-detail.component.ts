@@ -38,17 +38,19 @@ export class ProductDetailComponent implements OnInit {
           );
           this.loadListProductRelatedCategory(result.childCategory.id);
           this.getShippingCompany();
+          this.getApiCity();
+          this.getApiDistricts(this.ship.controls.city.value);
+          this.getApiMethodShip();
         });
     });
   }
   public ship = new FormGroup({
-    company: new FormControl(''),
-    city: new FormControl(''),
+    company: new FormControl('GHN'), // Đối tác vận chuyển default Giao hàng nhanh
+    city: new FormControl('267'), // city default Hòa Bình
     from_district: new FormControl(''), // district của shop
-    district: new FormControl(''), // to_district
-    wards: new FormControl(''),
-    address: new FormControl(''),
-    method: new FormControl(''), // phương thức vận chuyện [đi bộ, máy bay ...]
+    district: new FormControl('2270'), // to_district Huyện Yên Thủy
+    wards: new FormControl('231013'), // wards default Xã Yên Trị
+    method: new FormControl('53322'), // phương thức vận chuyện [đi bộ, máy bay ...] default là bay
   });
 
   public fromComment = new FormGroup({
@@ -73,11 +75,6 @@ export class ProductDetailComponent implements OnInit {
   public listShippingCompany: any = [];
   public listMethodShip: any = [];
   public listComment: Array<any> = [];
-  isHiddenCity: boolean = true;
-  isHiddenAddress: boolean = true;
-  isHiddenWards: boolean = true;
-  isHiddenDistrict: boolean = true;
-  isHiddenMethodShip: boolean = true;
   public feeShip: number = 0; // phí ship sau khi tính toán
   public fakeArrayRate: any = [];
   public nameOption: any = 'nameOption';
@@ -99,7 +96,7 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.cart.push({
         quantity: 1,
-        product_option: product.optionDef
+        product_option: product.optionDef,
       });
     }
 
@@ -287,6 +284,9 @@ export class ProductDetailComponent implements OnInit {
       });
   }
 
+  /**
+   * Lấy ra đơn vị vận chuyển
+   */
   public getShippingCompany() {
     this.address_ship.getShippingCompany().subscribe((data) => {
       const listShippingCompany = data.map(function (obj: {
@@ -301,12 +301,12 @@ export class ProductDetailComponent implements OnInit {
 
   /**
    * Hàm lấy ra tất cả các thành phố
-   * @param method phương thức vận chuyển đến tp
+   * @param company đơn vị vận chuyển
    * @returns {obj} danh sách thành phố
    */
   public getApiCity() {
     this.address_ship
-      .getApiCity(this.ship.controls['company'].value.id)
+      .getApiCity(this.ship.controls['company'].value)
       .subscribe((data) => {
         const listCity = data.map(function (obj: {
           id: any;
@@ -316,38 +316,24 @@ export class ProductDetailComponent implements OnInit {
           return obj;
         });
         this.listCitys = listCity;
+        this.getApiMethodShip();
       });
   }
 
   /**
    * Hàm lấy ra tất cả các quận theo id của thành phố
+   * @param company đơn vị vận chuyển
    * @param {string} id id của thành phố
    * @returns {obj} danh sách quận
    */
   public getApiDistricts(idCity: any) {
     this.address_ship
-      .getApiDistricts_byCity(this.ship.controls['company'].value.id, idCity)
+      .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
       .subscribe((data) => {
         const listDistrict = data.map(function (obj: { id: any; name: any }) {
           return obj;
         });
         this.listDistricts = listDistrict;
-      });
-  }
-
-  /**
-   * Hàm lấy ra tất cả các phường theo id của quận
-   * @param {string} id id của quận
-   * @returns {obj} danh sách phường
-   */
-  public getApiWards(id: any) {
-    this.address_ship
-      .getApiWards_byDisctrict(this.ship.controls['company'].value.id, id)
-      .subscribe((data) => {
-        const listWard = data.map(function (obj: { id: any; name: any }) {
-          return obj;
-        });
-        this.listWards = listWard;
         this.getApiMethodShip();
       });
   }
@@ -358,35 +344,35 @@ export class ProductDetailComponent implements OnInit {
    * @returns {obj} danh sách phường
    */
   public getApiMethodShip() {
-    var split = this.product.shop.address.split(',');
-
-    console.log(split[3].trim());
-
+    var split = this.product.shop.address.split(','); // lấy ra địa chỉ của shop
     let idCity = '';
 
+    // Lấy ra id của thành phố khi shop có địa chỉ thành phố trùng
     for (let i = 0; i < this.listCitys.length; i++) {
       if (this.listCitys[i].name.includes(split[3].trim())) {
         idCity = this.listCitys[i].id;
       }
     }
 
-    // TODO Optimize code
+    // Lấy ra danh sách quận huyện theo id của thành phố
     this.address_ship
-      .getApiDistricts_byCity(this.ship.controls['company'].value.id, idCity)
+      .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
       .subscribe(
         (data) => {
           const listDistrict = data.map(function (obj: { id: any; name: any }) {
             return obj;
           });
+
+          // Lấy ra id của quận huyện khi shop có địa chỉ quận huyện trùng
           for (let i = 0; i < listDistrict.length; i++) {
             if (listDistrict[i].name.includes(split[2].trim())) {
-              this.ship.controls['from_district'].setValue(listDistrict[i]);
-
+              this.ship.controls['from_district'].setValue(listDistrict[i].id);
+              // Bắt đầu tính phương tiện vận chuyển từ quận huyện shop tới địa chỉ đã chọn
               this.address_ship
                 .getApiMethodShip(
-                  this.ship.controls['company'].value.id,
-                  this.ship.controls['from_district'].value.id,
-                  this.ship.controls['district'].value.id
+                  this.ship.controls['company'].value,
+                  this.ship.controls['from_district'].value,
+                  this.ship.controls['district'].value
                 )
                 .subscribe(
                   (data) => {
@@ -397,6 +383,7 @@ export class ProductDetailComponent implements OnInit {
                       return obj;
                     });
                     this.listMethodShip = listMethodShip;
+                    this.getFeeShip();
                   },
                   (error) => {
                     console.log(error);
@@ -411,33 +398,25 @@ export class ProductDetailComponent implements OnInit {
       );
   }
 
+  // Chọn đơn vị vận chuyển sau đó hiển thị lên danh sách thành phố
   chooseShippingCompany() {
-    this.isHiddenCity = !this.isHiddenCity;
     this.getApiCity();
   }
-  showSelectionAddress() {
-    this.isHiddenMethodShip = !this.isHiddenMethodShip;
-    this.ship.controls['address'].setValue('');
-    this.isHiddenAddress = !this.isHiddenAddress;
+
+  // Chọn thành phố, sau đó hiển thị danh sách quận huyện
+  chooseCity() {
+    this.getApiDistricts(this.ship.controls['city'].value);
   }
 
-  getDistricts() {
-    this.isHiddenDistrict = !this.isHiddenDistrict;
-    this.getApiDistricts(this.ship.controls['city'].value.id);
-  }
-  getWards() {
-    this.isHiddenWards = !this.isHiddenWards;
-    this.getApiWards(this.ship.controls['district'].value.id);
-  }
-
+  // Tính toán phí vận chuyển
   getFeeShip() {
     this.address_ship
       .getFeeShip(
-        this.ship.controls['company'].value.id,
-        this.ship.controls['from_district'].value.id,
-        this.ship.controls['district'].value.id,
-        this.ship.controls['method'].value.id,
-        300
+        this.ship.controls['company'].value,
+        this.ship.controls['from_district'].value,
+        this.ship.controls['district'].value,
+        this.ship.controls['method'].value,
+        300 // Cân nặng mẫu, ch có cân nặng
       )
       .subscribe(
         (data: any) => {
