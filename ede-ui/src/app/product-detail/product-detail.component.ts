@@ -46,11 +46,11 @@ export class ProductDetailComponent implements OnInit {
   }
   public ship = new FormGroup({
     company: new FormControl('GHN'), // Đối tác vận chuyển default Giao hàng nhanh
-    city: new FormControl('267'), // city default Hòa Bình
+    city: new FormControl(''), // city default Hòa Bình
     from_district: new FormControl(''), // district của shop
-    district: new FormControl('2270'), // to_district Huyện Yên Thủy
-    wards: new FormControl('231013'), // wards default Xã Yên Trị
-    method: new FormControl('53322'), // phương thức vận chuyện [đi bộ, máy bay ...] default là bay
+    district: new FormControl(''), // to_district Huyện Yên Thủy
+    wards: new FormControl(''), // wards default Xã Yên Trị
+    method: new FormControl(''), // phương thức vận chuyện [đi bộ, máy bay ...] default là bay
   });
 
   public fromComment = new FormGroup({
@@ -316,7 +316,7 @@ export class ProductDetailComponent implements OnInit {
           return obj;
         });
         this.listCitys = listCity;
-        this.getApiMethodShip();
+        this.ship.controls['city'].setValue(this.listCitys[0].id);
       });
   }
 
@@ -334,6 +334,7 @@ export class ProductDetailComponent implements OnInit {
           return obj;
         });
         this.listDistricts = listDistrict;
+        this.ship.controls['district'].setValue(this.listDistricts[0].id);
         this.getApiMethodShip();
       });
   }
@@ -383,6 +384,9 @@ export class ProductDetailComponent implements OnInit {
                       return obj;
                     });
                     this.listMethodShip = listMethodShip;
+                    this.ship.controls['method'].setValue(
+                      this.listMethodShip[0].id
+                    );
                     this.getFeeShip();
                   },
                   (error) => {
@@ -400,7 +404,15 @@ export class ProductDetailComponent implements OnInit {
 
   // Chọn đơn vị vận chuyển sau đó hiển thị lên danh sách thành phố
   chooseShippingCompany() {
-    this.getApiCity();
+    if (
+      this.ship.controls['city'].value != '' &&
+      this.ship.controls['district'].value != '' &&
+      this.ship.controls['method'].value != ''
+    ) {
+      this.getFeeShip();
+    } else {
+      this.getApiCity();
+    }
   }
 
   // Chọn thành phố, sau đó hiển thị danh sách quận huyện
