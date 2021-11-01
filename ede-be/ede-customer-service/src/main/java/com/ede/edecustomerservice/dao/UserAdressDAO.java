@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ede.edecustomerservice.entity.UserAddress;
 
-public interface UserAddressDao extends JpaRepository<UserAddress, String>{
+public interface UserAdressDAO extends JpaRepository<UserAddress,String>{
 
 }

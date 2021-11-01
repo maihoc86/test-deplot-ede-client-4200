@@ -31,11 +31,13 @@ import com.ede.edecustomerservice.entity.Authorities;
 import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
+import com.ede.edecustomerservice.entity.UserAddress;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
 import com.ede.edecustomerservice.service.ShopService;
+import com.ede.edecustomerservice.service.UserAddress_Service;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
@@ -61,6 +63,9 @@ public class CreateCustomerRestController {
 
 	@Autowired
 	private MailService mailService;
+
+	@Autowired
+	UserAddress_Service address_Service;
 
 	/**
 	 * Register Account
@@ -318,4 +323,10 @@ public class CreateCustomerRestController {
 
 	}
 
+	@PostMapping("/add-new-address")
+	public ResponseEntity<UserAddress> addNewAddress(@RequestBody UserAddress userAddress) {
+		userAddress.setId(generateUUID());
+		System.err.println(userAddress);
+		return ResponseEntity.ok(address_Service.saveAddress(userAddress));
+	}
 }
