@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import {LocationStrategy} from '@angular/common';
+
 
 @Component({
   selector: 'app-header',
@@ -20,8 +22,13 @@ export class HeaderComponent implements OnInit {
     private cookieService: CookieService,
     private headerService: HeaderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {
+    router.events.subscribe(
+    ()=>{
+      this.hidenSearch();
+    }
+    );
     this.u = {} as User;
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
@@ -45,6 +52,10 @@ export class HeaderComponent implements OnInit {
 
   public login: boolean = false;
   public u: User;
+  public active: boolean = false;
+
+
+
 
   public async getUserLogin() {
     await this.headerService
@@ -141,4 +152,14 @@ export class HeaderComponent implements OnInit {
     )
     //
   }
+
+  hidenSearch(){
+    const segments: any = window.location.href;
+    if (segments.indexOf('/shop/') > -1) {
+      this.active = true;
+     
+    }
+  }
+
+
 }
