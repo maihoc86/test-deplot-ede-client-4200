@@ -27,4 +27,5 @@ public class UserAddress implements Serializable {
 	@JoinColumn(name = "user_id")
 	User user;
 
+
 }
