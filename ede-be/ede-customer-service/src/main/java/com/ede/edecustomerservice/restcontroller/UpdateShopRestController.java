@@ -21,6 +21,7 @@ import com.ede.edecustomerservice.service.ShopService;
 public class UpdateShopRestController {
 	@Autowired
 	ShopService shopService;
+	
 	@Autowired
 	Auth_Service auth_service;
 

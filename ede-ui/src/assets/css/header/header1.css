@@ -426,7 +426,7 @@
   .typeheader-1 #sosearchpro .search {
     position: relative;
     margin: 0;
-    width: 100%;
+    width: 680px;
     border-radius: 3px; }
   .typeheader-1 #sosearchpro .search .select_category {
     border: none;
@@ -439,7 +439,7 @@
     height: 40px;
     line-height: 40px;
     color: #666;
-    font-size: 12px;
+    font-size: 16px;
     padding: 0 15px; }
   .typeheader-1 #sosearchpro .search .select_category select:hover {
     cursor: pointer; }
@@ -460,14 +460,14 @@
     text-align: center;
     line-height: 40px;
     padding: 0 35px;
-    font-size: 14px;
+    font-size: 16px;
     color: #fff;
     border-radius: 0;
     text-transform: upper-case;
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px; }
   .typeheader-1 #sosearchpro .search button i {
-    font-size: 12px;
+    font-size: 16px;
     color: #fff; }
   .typeheader-1 #sosearchpro .search input {
     border: none;
@@ -478,7 +478,7 @@
     z-index: 0;
     height: 40px;
     padding-left: 20px;
-    font-size: 12px;
+    font-size: 16px;
     width: 100%;
     background-color: #fff;
     color: #999; }
@@ -667,7 +667,7 @@
           .typeheader-1 .container-megamenu.vertical .vertical-wrapper ul.megamenu .loadmore i {
             top: 12px; }
     .typeheader-1 #sosearchpro .search .select_category {
-      width: 26%; } }
+      width: 28%; } }
 
 @media (min-width: 1366px) and (max-width: 1649px) {
   .typeheader-1 .telephone ul li:first-child {
