@@ -39,8 +39,7 @@ export class ProductDetailComponent implements OnInit {
           this.loadListProductRelatedCategory(result.childCategory.id);
           this.getShippingCompany();
           this.getApiCity();
-          this.getApiDistricts(this.ship.controls.city.value);
-          this.getApiMethodShip();
+          // this.getApiMethodShip();
         });
     });
   }
@@ -316,7 +315,6 @@ export class ProductDetailComponent implements OnInit {
           return obj;
         });
         this.listCitys = listCity;
-        this.ship.controls['city'].setValue(this.listCitys[0].id);
       });
   }
 
