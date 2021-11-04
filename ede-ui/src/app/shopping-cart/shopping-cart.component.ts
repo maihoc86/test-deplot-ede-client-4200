@@ -142,6 +142,8 @@ export class ShoppingCartComponent implements OnInit {
           return obj;
         });
         this.listCitys = listCity;
+        this.ship.controls['city'].setValue(this.listCitys[0].id);
+        this.getApiDistricts(this.listCitys[0].id);
       });
   }
 
