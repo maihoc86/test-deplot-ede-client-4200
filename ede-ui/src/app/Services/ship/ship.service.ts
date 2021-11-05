@@ -32,7 +32,7 @@ export class ShipService {
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 
-  public getApiWards_byDisctrict(methodShip: string, id: any) {
+  public getApiWardsByDisctrict(methodShip: string, id: any) {
     const url =
       this.REST_API_SERVER + methodShip + '/get-wards?district_id=' + id;
 
