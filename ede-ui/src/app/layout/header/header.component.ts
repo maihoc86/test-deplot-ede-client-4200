@@ -102,13 +102,13 @@ export class HeaderComponent implements OnInit {
    * Hàm thay đổi số lượng
    */
   changeQty(qtyCurrent: any, qtyChange: any) {
-    qtyCurrent.qty = qtyChange;
+    qtyCurrent.quantity = qtyChange;
     qtyChange > qtyCurrent.qty
-      ? qtyCurrent.qty++
-      : qtyCurrent.qty == qtyChange
-      ? (qtyCurrent.qty = qtyChange)
-      : qtyCurrent.qty--;
-    qtyCurrent.qty == 0 ? this.removeItemCart(qtyCurrent) : '';
+      ? qtyCurrent.quantity++
+      : qtyCurrent.quantity == qtyChange
+      ? (qtyCurrent.quantity = qtyChange)
+      : qtyCurrent.quantity--;
+    qtyCurrent.quantity == 0 ? this.removeItemCart(qtyCurrent) : '';
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
     this.headerService.myMethod(this.cart);

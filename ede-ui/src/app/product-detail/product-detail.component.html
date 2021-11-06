@@ -446,10 +446,10 @@
                     <div class="option quantity">
                       <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
                         <label>Qty</label>
-                        <input class="form-control" name="quantity" value="1" #qty>
-                        <input type="hidden" name="product_id" value="50">
-                        <span class="input-group-addon product_quantity_down">−</span>
-                        <span class="input-group-addon product_quantity_up">+</span>
+                        <input class="form-control" style="min-width: max-content;" type="number" name="quantity" value="1" #qty min="1" max="{{product.optionDef.quantity}}">
+                        
+                        <!-- <span class="input-group-addon product_quantity_down">−</span>
+                        <span class="input-group-addon product_quantity_up">+</span> -->
                       </div>
                     </div>
                     <div class="cart">
@@ -458,7 +458,7 @@
                         onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(product,qty.value)"
                         data-original-title="Add to Cart">
                     </div>
-                    <div class="add-to-links wish_comp">
+                    <!-- <div class="add-to-links wish_comp">
                       <ul class="blank list-inline">
                         <li class="wishlist">
                           <a class="icon" data-toggle="tooltip" title="" onclick="wishlist.add('50');"
@@ -471,7 +471,8 @@
                           </a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
+                    <p>Có sẵn {{product.optionDef.quantity}}</p>
                   </div>
 
                 </div>
