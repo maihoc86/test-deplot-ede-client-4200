@@ -8,10 +8,11 @@ public interface UserAddress_Service {
 
 	UserAddress saveAddress(UserAddress userAddress);
 
-	List<UserAddress> findByUserId(String userId,String address);
+	List<UserAddress> getAllAddressByUser(String userId);
 
 	void deleteById(String id);
 
-	UserAddress findByUserId(String id);
+	UserAddress getAddressByUser(String userId , String address);
+
 
 }

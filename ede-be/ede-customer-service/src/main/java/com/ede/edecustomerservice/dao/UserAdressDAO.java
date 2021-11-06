@@ -10,7 +10,10 @@ import com.ede.edecustomerservice.entity.UserAddress;
 public interface UserAdressDAO extends JpaRepository<UserAddress,String>{
 
 	
+	@Query("Select a from UserAddress a where a.user.id =:userId")
+	List<UserAddress> getAllAddressByUser(String userId);
+
 	@Query("Select a from UserAddress a where a.user.id =:userId and a.address =:address")
-	List<UserAddress> findByUserId(String userId, String address);
+	UserAddress getAddressByUser(String userId, String address);
 
 }

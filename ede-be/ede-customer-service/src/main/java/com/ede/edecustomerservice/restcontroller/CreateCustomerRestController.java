@@ -1,7 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -344,7 +343,7 @@ public class CreateCustomerRestController {
 						null);
 			}
 
-			List<UserAddress> findByUserId = address_Service.findByUserId(userAddress.getUser().getId(),
+			UserAddress findByUserId = address_Service.getAddressByUser(userAddress.getUser().getId(),
 					userAddress.getAddress());
 			if (findByUserId != null) {
 				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,

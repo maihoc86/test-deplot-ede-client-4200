@@ -371,12 +371,12 @@ export class ProductShopComponent implements OnInit {
               });
             };
         }
-          Swal.fire({
-            title: 'Thông báo!',
-            text: 'Thêm thuộc tính sản phẩm thành công',
-            icon: 'success',
-          });
-
+        Swal.fire({
+          title: 'Thông báo!',
+          text: 'Thêm thuộc tính sản phẩm thành công',
+          icon: 'success',
+        });
+        window.location.reload();
       },
       (error) => {
         if (error.status == 400) {

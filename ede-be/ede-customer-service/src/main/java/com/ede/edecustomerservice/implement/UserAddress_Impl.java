@@ -20,8 +20,8 @@ public class UserAddress_Impl implements UserAddress_Service {
 	}
 
 	@Override
-	public List<UserAddress> findByUserId(String userId ,String address) {
-		return dao.findByUserId(userId,address);
+	public List<UserAddress> getAllAddressByUser(String userId) {
+		return dao.getAllAddressByUser(userId);
 	}
 
 	@Override
@@ -31,8 +31,9 @@ public class UserAddress_Impl implements UserAddress_Service {
 	}
 
 	@Override
-	public UserAddress findByUserId(String id) {
-		return dao.findById(id).get();
+	public UserAddress getAddressByUser(String userId, String address) {
+		return dao.getAddressByUser(userId,address);
 	}
+
 
 }

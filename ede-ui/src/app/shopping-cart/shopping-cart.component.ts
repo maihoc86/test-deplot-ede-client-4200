@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { ShipService } from '../Services/ship/ship.service';
+import { AddressUserService } from '../Services/address-user/address-user.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -10,7 +12,9 @@ import { ShipService } from '../Services/ship/ship.service';
 export class ShoppingCartComponent implements OnInit {
   constructor(
     private headerService: HeaderService,
-    private address_ship: ShipService
+    private address_ship: ShipService,
+    private address_user: AddressUserService,
+    private cookieService: CookieService
   ) {
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
@@ -21,6 +25,7 @@ export class ShoppingCartComponent implements OnInit {
   public listWards: any = [];
   public listShippingCompany: any = [];
   public listMethodShip: any = [];
+  public listAddressUser: any = [];
   public feeShip: number = 0; // phí ship sau khi tính toán
   isHiddenCity: boolean = true;
   isHiddenAddress: boolean = true;
@@ -28,9 +33,41 @@ export class ShoppingCartComponent implements OnInit {
   isHiddenDistrict: boolean = true;
   public cart: Array<any> = [];
   public totalCart: any = 0;
+  public user: any = {};
+
   ngOnInit(): void {
     this.loadCart();
     this.showInfoAddress();
+    this.getAddressMainUser();
+  }
+
+  getAddressMainUser() {
+    if (this.cookieService.get('auth') != '') {
+      this.headerService
+        .getUserByToken(this.cookieService.get('auth'))
+        .subscribe(
+          (data) => {
+            this.user = data;
+            this.changeAddressUser(this.user.address);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      this.user = {};
+    }
+  }
+  getAllAddressUser() {
+    this.address_user.getAllAdressByUser().subscribe((data) => {
+      const listAddressUser = data.map(function (obj: {
+        id: any;
+        address: any;
+      }) {
+        return obj;
+      });
+      this.listAddressUser = listAddressUser;
+    });
   }
 
   showInfoAddress() {
@@ -52,6 +89,7 @@ export class ShoppingCartComponent implements OnInit {
     district: new FormControl(''), // to_district Huyện Yên Thủy
     wards: new FormControl(''), // wards default Xã Yên Trị
     method: new FormControl(''), // phương thức vận chuyện [đi bộ, máy bay ...] default là bay
+    address: new FormControl(''), // địa chỉ nhận hàng
   });
 
   /**
@@ -293,5 +331,44 @@ export class ShoppingCartComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  changeAddressUser(address: string) {
+    let idCity = '';
+    let idDistrict = '';
+    let idWard = '';
+    let address_split = address.split(',');
+    this.ship.controls['address'].setValue(address_split[0]);
+
+    // Lấy ra id của thành phố khi user có địa chỉ thành phố trùng
+    setTimeout(() => {
+      for (let i = 0; i < this.listCitys.length; i++) {
+        if (this.listCitys[i].name.includes(address_split[3].trim())) {
+          idCity = this.listCitys[i].id;
+          this.ship.controls['city'].setValue(idCity);
+          this.getApiDistricts(idCity);
+        }
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      // Lấy ra id của quận khi user có địa chỉ quận trùng
+      for (let i = 0; i < this.listDistricts.length; i++) {
+        if (this.listDistricts[i].name.includes(address_split[2].trim())) {
+          idDistrict = this.listDistricts[i].id;
+          this.ship.controls['district'].setValue(idDistrict);
+          this.getApiWards(this.ship.controls['district'].value);
+        }
+      }
+    }, 2500);
+    setTimeout(() => {
+      // Lấy ra id của phường khi user có địa chỉ phường trùng
+      for (let i = 0; i < this.listWards.length; i++) {
+        if (this.listWards[i].name.includes(address_split[1].trim())) {
+          idWard = this.listWards[i].id;
+          this.ship.controls['wards'].setValue(idWard);
+        }
+      }
+    }, 4000);
   }
 }

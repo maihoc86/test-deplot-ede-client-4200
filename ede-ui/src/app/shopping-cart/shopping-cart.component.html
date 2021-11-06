@@ -128,12 +128,54 @@
 									</select>
 								</div>
 							</div>
-              <div class="form-group required" *ngIf="!isHiddenAddress">
+              <div class="form-group required">
 								<label class="col-sm-2 control-label" for="input-address">Địa chỉ</label>
 								<div class="col-sm-10"><input type="text" name="address" formControlName="address"  placeholder="Địa chỉ" id="input-address" class="form-control">
-                  <span style="color: #ff3c20;cursor: pointer;" >+ Chọn địa chỉ hiện có</span>
+                  <span *ngIf="ship.controls['address'].value != ''"><a style="color: #ff3c20; cursor: pointer;" data-toggle="modal" data-target="#exampleModal" (click)="getAllAddressUser()"> + Chọn địa chỉ hiện có</a></span>
                 </div>
 							</div>
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Địa chỉ nhận hàng</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="row">
+              <div class="col-sm-12" style="margin-top: 16px;">
+                  <input  type="submit" class="btn btn-danger"
+                    value="Thêm địa chỉ mới" style="border-radius:4px 4px; width: 130px;">
+                  &nbsp;
+              </div>
+            </div><br>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td>Địa chỉ</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr (click)="changeAddressUser(user.address)" data-dismiss="modal">
+                    <td style="cursor: pointer; height: 60px">{{user.address}} <span style="color: #ff3c20;"> > MẶC ĐỊNH</span> </td>
+                  </tr>
+                  <tr style="cursor: pointer;height: 60px" *ngFor="let a of listAddressUser" (click)="changeAddressUser(a.address)" data-dismiss="modal">
+                    <td>{{a.address}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 						</div>
 					</div>

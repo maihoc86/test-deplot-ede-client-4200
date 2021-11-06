@@ -81,7 +81,6 @@ export class ShipService {
       service_id +
       '&weight=' +
       weight;
-    console.log(url);
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 }

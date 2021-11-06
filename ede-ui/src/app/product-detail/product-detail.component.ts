@@ -98,8 +98,6 @@ export class ProductDetailComponent implements OnInit {
         product_option: product.optionDef,
       });
     }
-
-    console.log(this.cart);
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
   }
@@ -166,8 +164,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public CreateComment() {
-    console.log(this.fromComment);
-    console.log(this.product);
     this.headerService.getUserByToken(this.cookieService.get('auth')).subscribe(
       (data) => {
         if (!this.fromComment.valid) {
