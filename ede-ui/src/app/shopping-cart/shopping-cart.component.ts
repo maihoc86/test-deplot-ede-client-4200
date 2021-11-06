@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { ShipService } from '../Services/ship/ship.service';
+import { AddressUserService } from '../Services/address-user/address-user.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -10,7 +12,9 @@ import { ShipService } from '../Services/ship/ship.service';
 export class ShoppingCartComponent implements OnInit {
   constructor(
     private headerService: HeaderService,
-    private address_ship: ShipService
+    private address_ship: ShipService,
+    private address_user: AddressUserService,
+    private cookieService: CookieService
   ) {
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
@@ -22,6 +26,7 @@ export class ShoppingCartComponent implements OnInit {
   public listWards: any = [];
   public listShippingCompany: any = [];
   public listMethodShip: any = [];
+  public listAddressUser: any = [];
   public feeShip: number = 0; // phí ship sau khi tính toán
   isHiddenCity: boolean = true;
   isHiddenAddress: boolean = true;
@@ -29,8 +34,41 @@ export class ShoppingCartComponent implements OnInit {
   isHiddenDistrict: boolean = true;
   public cart: Array<any> = [];
   public totalCart: any = 0;
+  public user: any = {};
+
   ngOnInit(): void {
     this.loadCart();
+    this.showInfoAddress();
+    this.getAddressMainUser();
+  }
+
+  getAddressMainUser() {
+    if (this.cookieService.get('auth') != '') {
+      this.headerService
+        .getUserByToken(this.cookieService.get('auth'))
+        .subscribe(
+          (data) => {
+            this.user = data;
+            this.changeAddressUser(this.user.address);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      this.user = {};
+    }
+  }
+  getAllAddressUser() {
+    this.address_user.getAllAdressByUser().subscribe((data) => {
+      const listAddressUser = data.map(function (obj: {
+        id: any;
+        address: any;
+      }) {
+        return obj;
+      });
+      this.listAddressUser = listAddressUser;
+    });
   }
 
   showInfoAddress() {
@@ -62,6 +100,7 @@ export class ShoppingCartComponent implements OnInit {
     district: new FormControl(''), // to_district Huyện Yên Thủy
     wards: new FormControl(''), // wards default Xã Yên Trị
     method: new FormControl(''), // phương thức vận chuyện [đi bộ, máy bay ...] default là bay
+    address: new FormControl(''), // địa chỉ nhận hàng
   });
 
   /**
@@ -153,6 +192,8 @@ export class ShoppingCartComponent implements OnInit {
           return obj;
         });
         this.listCitys = listCity;
+        this.ship.controls['city'].setValue(this.listCitys[0].id);
+        this.getApiDistricts(this.listCitys[0].id);
       });
   }
 
@@ -163,7 +204,6 @@ export class ShoppingCartComponent implements OnInit {
    * @returns {obj} danh sách quận
    */
   public getApiDistricts(idCity: any) {
-
     this.address_ship
       .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
       .subscribe(
@@ -173,77 +213,11 @@ export class ShoppingCartComponent implements OnInit {
           });
           this.listDistricts = listDistrict;
           this.ship.controls['district'].setValue(this.listDistricts[0].id);
-          console.log(this.listDistricts);
           this.getApiWards(this.ship.controls['district'].value);
-          this.getApiMethodShip();
-          // this.getApiMethodShip();
+          this.getFeeShip();
         },
         (err) => {
           console.log(err);
-        }
-      );
-  }
-  /**
-   * Hàm tính xem với quãng đường đó thì sẽ vận chuyển theo cách nào
-   * @param {string} id id của quận
-   * @returns {obj} danh sách phường
-   */
-  public getApiMethodShip() {
-    var split = this.cart[0].product_option.product.shop.address.split(','); // lấy ra địa chỉ của shop
-
-    console.log(split);
-    let idCity = '';
-
-    // Lấy ra id của thành phố khi shop có địa chỉ thành phố trùng
-    for (let i = 0; i < this.listCitys.length; i++) {
-      if (this.listCitys[i].name.includes(split[3].trim())) {
-        idCity = this.listCitys[i].id;
-      }
-    }
-
-    // Lấy ra danh sách quận huyện theo id của thành phố
-    this.address_ship
-      .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
-      .subscribe(
-        (data) => {
-          const listDistrict = data.map(function (obj: { id: any; name: any }) {
-            return obj;
-          });
-
-          // Lấy ra id của quận huyện khi shop có địa chỉ quận huyện trùng
-          for (let i = 0; i < listDistrict.length; i++) {
-            if (listDistrict[i].name.includes(split[2].trim())) {
-              this.ship.controls['from_district'].setValue(listDistrict[i].id);
-              // Bắt đầu tính phương tiện vận chuyển từ quận huyện shop tới địa chỉ đã chọn
-              this.address_ship
-                .getApiMethodShip(
-                  this.ship.controls['company'].value,
-                  this.ship.controls['from_district'].value,
-                  this.ship.controls['district'].value
-                )
-                .subscribe(
-                  (data) => {
-                    const listMethodShip = data.map(function (obj: {
-                      id: any;
-                      name: any;
-                    }) {
-                      return obj;
-                    });
-                    this.listMethodShip = listMethodShip;
-                    this.ship.controls['method'].setValue(
-                      this.listMethodShip[0].id
-                    );
-                    this.getFeeShip();
-                  },
-                  (error) => {
-                    console.log(error);
-                  }
-                );
-            }
-          }
-        },
-        (error) => {
-          console.log(error);
         }
       );
   }
@@ -255,13 +229,14 @@ export class ShoppingCartComponent implements OnInit {
    */
   public getApiWards(id: any) {
     this.address_ship
-      .getApiWards_byDisctrict(this.ship.controls['company'].value, id)
+      .getApiWardsByDisctrict(this.ship.controls['company'].value, id)
       .subscribe((data) => {
         const listWard = data.map(function (obj: { id: any; name: any }) {
           return obj;
         });
         this.listWards = listWard;
         this.ship.controls['wards'].setValue(this.listWards[0].id);
+        this.getFeeShip();
       });
   }
 
@@ -285,7 +260,6 @@ export class ShoppingCartComponent implements OnInit {
 
   chooseDistrict() {
     this.getApiWards(this.ship.controls['district'].value);
-    this.getApiMethodShip();
   }
 
   chooseWards() {
@@ -295,22 +269,117 @@ export class ShoppingCartComponent implements OnInit {
 
   // Tính toán phí vận chuyển
   getFeeShip() {
+    var address_product_cart =
+      this.cart[0].product_option.product.shop.address.split(','); // lấy ra địa chỉ của shop
+    let idCity = '';
+
+    // Lấy ra id của thành phố khi shop có địa chỉ thành phố trùng
+    for (let i = 0; i < this.listCitys.length; i++) {
+      if (this.listCitys[i].name.includes(address_product_cart[3].trim())) {
+        idCity = this.listCitys[i].id;
+      }
+    }
+
+    // Lấy ra danh sách quận huyện theo id của thành phố
     this.address_ship
-      .getFeeShip(
-        this.ship.controls['company'].value,
-        this.ship.controls['from_district'].value,
-        this.ship.controls['district'].value,
-        this.ship.controls['method'].value,
-        300 // Cân nặng mẫu, ch có cân nặng
-      )
+      .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
       .subscribe(
-        (data: any) => {
-          this.feeShip = data.total;
-          console.log(this.feeShip);
+        (data) => {
+          const listDistrict = data.map(function (obj: { id: any; name: any }) {
+            return obj;
+          });
+
+          // Lấy ra id của quận huyện khi shop có địa chỉ quận huyện trùng
+          for (let i = 0; i < listDistrict.length; i++) {
+            if (listDistrict[i].name.includes(address_product_cart[2].trim())) {
+              this.ship.controls['from_district'].setValue(listDistrict[i].id);
+              // Bắt đầu tính phương tiện vận chuyển từ quận huyện shop tới địa chỉ đã chọn
+              this.address_ship
+                .getApiMethodShip(
+                  this.ship.controls['company'].value,
+                  this.ship.controls['from_district'].value,
+                  this.ship.controls['district'].value
+                )
+                .subscribe(
+                  (data) => {
+                    const listMethodShip = data.map(function (obj: {
+                      id: any;
+                      name: any;
+                    }) {
+                      return obj;
+                    });
+                    this.listMethodShip = listMethodShip;
+                    this.ship.controls['method'].setValue(
+                      this.listMethodShip[0].id // TODO xem phí nào rẻ nhất lấy phương thức đó
+                    );
+                    let total_weight = 300 * this.cart[0].quantity;
+                    // TODO cân nặng  = cân nặng * sl
+                    this.address_ship
+                      .getFeeShip(
+                        this.ship.controls['company'].value,
+                        this.ship.controls['from_district'].value,
+                        this.ship.controls['district'].value,
+                        this.ship.controls['method'].value,
+                        total_weight // Cân nặng mẫu, ch có cân nặng
+                      )
+                      .subscribe(
+                        (data: any) => {
+                          this.feeShip = data.total; //TODO Phí vận chuyển cho từng sp trong cart
+                        },
+                        (error) => {
+                          console.log(error);
+                        }
+                      );
+                  },
+                  (error) => {
+                    console.log(error);
+                  }
+                );
+            }
+          }
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  changeAddressUser(address: string) {
+    let idCity = '';
+    let idDistrict = '';
+    let idWard = '';
+    let address_split = address.split(',');
+    this.ship.controls['address'].setValue(address_split[0]);
+
+    // Lấy ra id của thành phố khi user có địa chỉ thành phố trùng
+    setTimeout(() => {
+      for (let i = 0; i < this.listCitys.length; i++) {
+        if (this.listCitys[i].name.includes(address_split[3].trim())) {
+          idCity = this.listCitys[i].id;
+          this.ship.controls['city'].setValue(idCity);
+          this.getApiDistricts(idCity);
+        }
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      // Lấy ra id của quận khi user có địa chỉ quận trùng
+      for (let i = 0; i < this.listDistricts.length; i++) {
+        if (this.listDistricts[i].name.includes(address_split[2].trim())) {
+          idDistrict = this.listDistricts[i].id;
+          this.ship.controls['district'].setValue(idDistrict);
+          this.getApiWards(this.ship.controls['district'].value);
+        }
+      }
+    }, 2500);
+    setTimeout(() => {
+      // Lấy ra id của phường khi user có địa chỉ phường trùng
+      for (let i = 0; i < this.listWards.length; i++) {
+        if (this.listWards[i].name.includes(address_split[1].trim())) {
+          idWard = this.listWards[i].id;
+          this.ship.controls['wards'].setValue(idWard);
+        }
+      }
+    }, 4000);
   }
 }
