@@ -16,6 +16,7 @@ export class ShoppingCartComponent implements OnInit {
       this.cart = data;
     });
   }
+  public listIdShopinCart:any = [];
   public listCitys: any = [];
   public listDistricts: any = [];
   public listWards: any = [];
@@ -42,6 +43,16 @@ export class ShoppingCartComponent implements OnInit {
     var json = localStorage.getItem('cart');
 
     this.cart = json ? JSON.parse(json) : [];
+
+    const term:any=[];
+    this.cart.forEach(e=>{
+      if(term.indexOf(e.product_option.product.shop.id)===-1){
+          term.push(e.product_option.product.shop.id)
+          this.listIdShopinCart.push({'shop':e.product_option.product.shop});
+      }
+    })
+    console.log(this.cart)
+    console.log(this.listIdShopinCart)
   }
 
   public ship = new FormGroup({
@@ -59,13 +70,13 @@ export class ShoppingCartComponent implements OnInit {
    * @param qtyChange số lượng muốn thay đổi
    */
   changeQty(qtyCurrent: any, qtyChange: any) {
-    qtyCurrent.qty = qtyChange;
-    qtyChange > qtyCurrent.qty
-      ? qtyCurrent.qty++
-      : qtyCurrent.qty == qtyChange
-      ? (qtyCurrent.qty = qtyChange)
-      : qtyCurrent.qty--;
-    qtyCurrent.qty == 0 ? this.removeItemCart(qtyCurrent) : '';
+    qtyCurrent.quantity = qtyChange;
+    qtyChange > qtyCurrent.quantity
+      ? qtyCurrent.quantity++
+      : qtyCurrent.quantity == qtyChange
+      ? (qtyCurrent.quantity = qtyChange)
+      : qtyCurrent.quantity--;
+    qtyCurrent.quantity == 0 ? this.removeItemCart(qtyCurrent) : '';
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
     this.headerService.myMethod(this.cart);
