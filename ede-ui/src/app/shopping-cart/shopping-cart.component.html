@@ -41,7 +41,7 @@
                     </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-left">
                       {{item.product_option.display_name}}</td>
-                    <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-left" width="200px">
+                    <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-left" width="100px">
                       <div class="input-group btn-block quantity">
                         <input type="number" value={{item.quantity}} #qty class="form-control"
                           (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)">
@@ -52,7 +52,7 @@
 												currency :'VND'}}</span>
                     </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
-                      <span>{{feeShip | currency :'VND'}}</span></td>
+                      <span>{{item.feeShip | currency :'VND'}}</span></td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
                       <span>{{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-((item.product_option.price*item.quantity)*(item.product_option.productDiscount[0].discount/100)):item.product_option.price*item.quantity)|
 												currency :'VND'}}</span>
