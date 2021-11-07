@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
       this.loadTotal();
       if(this.login){
         this.headerService.updateCart(this.cart,this.u.id).subscribe(data=>{
-          console.log(data)
+          // console.log(data)
         })
       }
     });
@@ -162,7 +162,7 @@ export class HeaderComponent implements OnInit {
     const segments: any = window.location.href;
     if (segments.indexOf('/shop/') > -1) {
       this.active = true;
-     
+
     }
   }
 

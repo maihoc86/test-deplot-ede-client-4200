@@ -38,7 +38,6 @@ public class CartRestController {
 	public ResponseEntity updateCart(@PathVariable("iduser")String id,@RequestBody List<Cart_item> listItem) {
 		Cart cart = service.findByUserId(id);
 		Cart cartNew = new Cart();
-		System.err.println("dsadsadsa"+cart.getId());
 		if(cart==null) {
 			cartNew.setId(generateUUID());
 			cartNew.setUser(user_service.findById(id));
