@@ -388,39 +388,16 @@
 
                 <div id="product">
                   <h4>Available Options</h4>
+                  <div class="form required">
+                    <label class="control-label">Thuộc tính</label>
+                  </div>
                   <div class="image_option_type form-group required">
-                    <label class="control-label">Colors</label>
-                    <ul class="product-options clearfix" id="input-option231">
-                      <li class="radio">
-                        <label>
-                          <input class="image_radio" type="radio" name="option[231]" value="33">
-                          <img src="./../../assets/image/demo/colors/blue.jpg" data-original-title="blue +$12.00"
-                            class="img-thumbnail icon icon-color"> <i class="fa fa-check"></i>
-                          <label> </label>
-                        </label>
-                      </li>
-                      <li class="radio">
-                        <label>
-                          <input class="image_radio" type="radio" name="option[231]" value="34">
-                          <img src="./../../assets/image/demo/colors/brown.jpg" data-original-title="brown -$12.00"
-                            class="img-thumbnail icon icon-color"> <i class="fa fa-check"></i>
-                          <label> </label>
-                        </label>
-                      </li>
-                      <li class="radio">
-                        <label>
-                          <input class="image_radio" type="radio" name="option[231]" value="35"> <img
-                            src="./../../assets/image/demo/colors/green.jpg" data-original-title="green +$12.00"
-                            class="img-thumbnail icon icon-color"> <i class="fa fa-check"></i>
-                          <label> </label>
-                        </label>
-                      </li>
-                      <li class="selected-option">
-                      </li>
-                    </ul>
+                      <div style="float: left; margin-left: 15px;" *ngFor = 'let item of product.productOptions'>
+                        <input type="radio" id='item.id' name="drone" /> <label style="padding-left: 5px;" for = 'item.id'>{{item.display_name}}</label> 
+                      </div>
                   </div>
 
-                  <div class="box-checkbox form-group required">
+                  <!-- <div class="box-checkbox form-group required">
                     <label class="control-label">Checkbox</label>
                     <div id="input-option232">
                       <div class="checkbox">
@@ -440,7 +417,7 @@
                           Checkbox 4 (+$48.00)</label>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="form-group box-info-product">
                     <div class="option quantity">
@@ -650,27 +627,6 @@
                       </span>
 
                     </div>
-                    <div style="margin-top: 30px;">
-                      <div class="button-group so-quickview cartinfo--left">
-                        <button type="button" class="addToCart btn-button" title="Add to cart"> <i
-                            class="fa fa-shopping-basket"></i>
-                          <span>Add to cart</span>
-                        </button>
-                        <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
-                            class="fa fa-heart"></i><span>Add to Wish
-                            List</span>
-                        </button>
-                        <button type="button" class="compare btn-button" title="Compare this Product "><i
-                            class="fa fa-refresh"></i><span>Compare this
-                            Product</span>
-                        </button>
-                        <!--quickview-->
-                        <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
-                          title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick
-                            view</span></a>
-                        <!--end quickview-->
-                      </div>
-                    </div>
                   </div>
                   <div class="right-block">
                     <div class="caption">
@@ -728,28 +684,6 @@
                     <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
                       -{{ item.optionDef.productDiscount[0].discount}}%
                     </span>
-
-                  </div>
-                  <div style="margin-top: 30px;">
-                    <div class="button-group so-quickview cartinfo--left">
-                      <button type="button" class="addToCart btn-button" title="Add to cart"> <i
-                          class="fa fa-shopping-basket"></i>
-                        <span>Add to cart</span>
-                      </button>
-                      <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
-                          class="fa fa-heart"></i><span>Add to Wish
-                          List</span>
-                      </button>
-                      <button type="button" class="compare btn-button" title="Compare this Product "><i
-                          class="fa fa-refresh"></i><span>Compare this
-                          Product</span>
-                      </button>
-                      <!--quickview-->
-                      <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
-                        title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick
-                          view</span></a>
-                      <!--end quickview-->
-                    </div>
                   </div>
                 </div>
                 <div class="right-block">

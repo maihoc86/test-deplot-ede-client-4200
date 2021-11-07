@@ -32,6 +32,7 @@ export class ProductDetailComponent implements OnInit {
         .subscribe((result) => {
           this.product = result;
           this.ShowAllComment(idProduct);
+          console.log(this.product);
           this.loadListProductRelatedShop(
             result.shop.id,
             result.childCategory.id

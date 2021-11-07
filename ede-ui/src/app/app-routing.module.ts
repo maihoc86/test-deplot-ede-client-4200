@@ -17,6 +17,9 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { CategoryShopComponent } from './category-shop/category-shop.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
+import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -36,7 +39,12 @@ const routes: Routes = [
   { path: 'product/detail/:idProduct', component: ProductDetailComponent},
   { path: 'shop/category',component:CategoryShopComponent},
   { path: 'shopping/cart', component: ShoppingCartComponent},
-  { path: 'checkout', component:CheckoutComponent}
+  { path: 'checkout', component:CheckoutComponent},
+  { path: 'user/accout', component: UserAccountComponent},
+  { path: 'user/update/email', component: UserUpdateEmailComponent},
+  { path: 'user/update/phone', component: UserUpdatePhoneComponent}
+
+
 ];
 
 @NgModule({
