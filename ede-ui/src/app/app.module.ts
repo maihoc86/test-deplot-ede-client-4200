@@ -36,6 +36,10 @@ import { CategoryShopComponent } from './category-shop/category-shop.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { NgxLoadingModule } from 'ngx-loading';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { AsideUserComponent } from './layout/aside-user/aside-user.component';
+import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
+import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +64,10 @@ import { NgxLoadingModule } from 'ngx-loading';
     CategoryShopComponent,
     ShoppingCartComponent,
     CheckoutComponent,
+    UserAccountComponent,
+    AsideUserComponent,
+    UserUpdateEmailComponent,
+    UserUpdatePhoneComponent,
   ],
   imports: [
     BrowserModule,
