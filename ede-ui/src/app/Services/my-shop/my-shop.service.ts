@@ -21,7 +21,7 @@ export class MyShopService {
   private REST_API_SERVER2 = 'http://localhost:8080/ede-product/';
   public updateInfoShop(data: Shop) {
     return this.httpClient.put<any>(
-      this.REST_API_SERVER + '/info/update/',
+      this.REST_API_SERVER + '/user/info/update/',
       data,
       this.httpOptions
     );

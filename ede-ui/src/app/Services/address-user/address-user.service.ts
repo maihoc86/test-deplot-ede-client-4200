@@ -21,7 +21,7 @@ export class AddressUserService {
   private REST_API_SERVER = 'http://localhost:8080/ede-customer';
 
   public getAllAdressByUser() {
-    const url = this.REST_API_SERVER + '/address/getAll';
+    const url = this.REST_API_SERVER + '/user/address/getAll';
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 }

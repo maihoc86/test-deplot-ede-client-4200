@@ -1,7 +1,5 @@
 package com.ede.edecustomerservice.restcontroller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class UpdateCustomerRestController {
 	@Autowired
 	UserAddress_Service address_Service;
 
-	@PutMapping("/update-address")
+	@PutMapping("/user/update-address")
 	public ResponseEntity updateAddress(@RequestBody UserAddress address, HttpServletRequest req) {
 
 		User userLogin = new User();
@@ -44,13 +42,6 @@ public class UpdateCustomerRestController {
 		}
 
 		if (userLogin.getId().equals(address.getUser().getId())) {
-
-			List<UserAddress> findByUserId = address_Service.findByUserId(address.getUser().getId(),
-					address.getAddress()); // Nếu có thay đổi địa chỉ ms cho update
-			if (findByUserId != null) {
-				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
-						"Địa chỉ này đã tồn tại trên tài khoản của bạn", "address", null);
-			}
 			return ResponseEntity.ok(address_Service.saveAddress(address));
 		} else {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,

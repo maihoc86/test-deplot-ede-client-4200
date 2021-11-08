@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.entity.Cart;
 import com.ede.edecustomerservice.entity.Cart_item;
-import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.Cart_Service;
 import com.ede.edecustomerservice.service.Cart_item_Service;
 import com.ede.edecustomerservice.service.Product_Option_Service;

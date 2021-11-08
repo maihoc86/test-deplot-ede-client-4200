@@ -44,10 +44,14 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCart();
-    this.showInfoAddress();
+    this.getShippingCompany();
+    this.getApiCity();
     this.getAddressMainUser();
   }
 
+  /**
+   * Hàm lấy ra địa chỉ của User
+   */
   getAddressMainUser() {
     if (this.cookieService.get('auth') != '') {
       this.headerService
@@ -65,8 +69,12 @@ export class ShoppingCartComponent implements OnInit {
       this.user = {};
     }
   }
+
+  /**
+   * Hàm lấy ra tất cả địa chỉ của User bao gồm địa chỉ phụ và chính
+   */
   getAllAddressUser() {
-    this.address_user.getAllAdressByUser().subscribe((data) => {
+    this.address_user.getAllAdressByUser().subscribe((data: any) => {
       const listAddressUser = data.map(function (obj: {
         id: any;
         address: any;
@@ -75,12 +83,6 @@ export class ShoppingCartComponent implements OnInit {
       });
       this.listAddressUser = listAddressUser;
     });
-  }
-
-  showInfoAddress() {
-    this.getShippingCompany();
-    this.getApiCity();
-    // this.getApiMethodShip();
   }
 
   loadCart() {
@@ -128,6 +130,12 @@ export class ShoppingCartComponent implements OnInit {
       this.cart.findIndex((x) => x === qtyCurrent)
     );
   }
+
+  /**
+   * Hàm thay đổi phí ship khi thay đổi số lượng sản phẩm trong giỏ hàng
+   * @param cartItem sản phẩm trong giỏ hàng
+   * @param index vị trí của sản phẩm trong giỏ hàng
+   */
 
   changeFeeShipCart(cartItem: any, index: number) {
     var address_product_cart =
@@ -226,7 +234,9 @@ export class ShoppingCartComponent implements OnInit {
     this.headerService.myMethod(this.cart);
   }
 
-  // Tính tổng tiền
+  /**
+   * Hàm tính tổng tiền
+   */
   loadTotal() {
     this.totalCart = 0;
     this.cart.forEach((e) => {
@@ -254,6 +264,9 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  /**
+   * Hàm lấy ra danh sách công ty vận chuyển
+   */
   public getShippingCompany() {
     this.loadingAddress = true;
     this.address_ship.getShippingCompany().subscribe((data) => {
@@ -457,6 +470,9 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  /**
+   * Khi chọn địa chỉ trên Modal sẽ gọi hàm này để load lại địa chỉ của User
+   */
   changeAddressUser(address: string) {
     let idCity = '';
     let idDistrict = '';

@@ -36,8 +36,8 @@ public class ReadOrderAdminRestController {
 
 		Page<Order_Discount> pageF = null;
 		if ((!searchDenNgay.isEmpty() || searchTuNgay != "") && (!searchDenNgay.isEmpty() || searchDenNgay != "")) {
-			pageF = service.listAllFilter(searchTuNgay,searchDenNgay,PageRequest.of(page, size));
-		}else {
+			pageF = service.listAllFilter(searchTuNgay, searchDenNgay, PageRequest.of(page, size));
+		} else {
 			pageF = service.listAllStatusTrue(PageRequest.of(page, size));
 		}
 		return ResponseEntity.ok(pageF);
