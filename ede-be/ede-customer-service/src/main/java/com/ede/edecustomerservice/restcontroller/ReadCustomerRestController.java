@@ -73,8 +73,6 @@ public class ReadCustomerRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.print(userLogin.getId());
-
 		return ResponseEntity.ok(address_Service.getAllAddressByUser(userLogin.getId()));
 
 	}
