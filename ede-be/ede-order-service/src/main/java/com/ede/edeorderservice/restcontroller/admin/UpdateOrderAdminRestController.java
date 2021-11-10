@@ -35,7 +35,6 @@ public class UpdateOrderAdminRestController {
 	 */
 	@PutMapping("/update/discount/order")
 	public ResponseEntity createDiscountOrder(@RequestBody Order_Discount order_Discount) {
-
 		Order orderFind = order_service.findDiscount(order_Discount.getId());
 		if (orderFind != null) {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,

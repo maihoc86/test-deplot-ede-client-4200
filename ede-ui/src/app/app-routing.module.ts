@@ -20,6 +20,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
 import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
+import { UserAddressComponent } from './user-address/user-address.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -28,23 +29,29 @@ const routes: Routes = [
   { path: 'register', component: RegisterAccountComponent },
   { path: 'account/verify', component: AccountActiveComponent },
   { path: 'shop/product/manager', component: ProductShopComponent },
-  { path: 'shop/product/all', component: ProductAllComponent},
-  { path: 'shop/order/all', component:OrderAllComponent},
-  { path: 'shop/interface/:id', component: ShopInterfaceComponent},
-  { path: 'shop/showall/interface', component: ShowAllProductsShopInterfaceComponent},
-  { path: 'shop/profile', component: ShopProfileComponent},
-  { path: 'shop/product/manager/:id', component:ProductShopComponent, pathMatch: 'full'},
+  { path: 'shop/product/all', component: ProductAllComponent },
+  { path: 'shop/order/all', component: OrderAllComponent },
+  { path: 'shop/interface/:id', component: ShopInterfaceComponent },
+  {
+    path: 'shop/showall/interface',
+    component: ShowAllProductsShopInterfaceComponent,
+  },
+  { path: 'shop/profile', component: ShopProfileComponent },
+  {
+    path: 'shop/product/manager/:id',
+    component: ProductShopComponent,
+    pathMatch: 'full',
+  },
   { path: 'search', component: ProductSearchComponent },
-  { path: 'shop/revenue', component:RevenueShopComponent},
-  { path: 'product/detail/:idProduct', component: ProductDetailComponent},
-  { path: 'shop/category',component:CategoryShopComponent},
-  { path: 'shopping/cart', component: ShoppingCartComponent},
-  { path: 'checkout', component:CheckoutComponent},
-  { path: 'user/accout', component: UserAccountComponent},
-  { path: 'user/update/email', component: UserUpdateEmailComponent},
-  { path: 'user/update/phone', component: UserUpdatePhoneComponent}
-
-
+  { path: 'shop/revenue', component: RevenueShopComponent },
+  { path: 'product/detail/:idProduct', component: ProductDetailComponent },
+  { path: 'shop/category', component: CategoryShopComponent },
+  { path: 'shopping/cart', component: ShoppingCartComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'user/accout', component: UserAccountComponent },
+  { path: 'user/update/email', component: UserUpdateEmailComponent },
+  { path: 'user/update/phone', component: UserUpdatePhoneComponent },
+  { path: 'user/account/address', component: UserAddressComponent }
 ];
 
 @NgModule({

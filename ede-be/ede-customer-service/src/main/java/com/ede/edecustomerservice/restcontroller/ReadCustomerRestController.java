@@ -61,10 +61,11 @@ public class ReadCustomerRestController {
 	@GetMapping("/findbyusername/{username}")
 	public User findbyusername(@PathVariable("username") String username) {
 		String u = username.substring(1, username.length() - 1);
+		System.out.println(u);
 		return service.findByUsername(u);
 	}
 
-	@GetMapping("/address/getAll")
+	@GetMapping("/user/address/getAll")
 	public ResponseEntity getAllAddressUser(HttpServletRequest req) {
 		User userLogin = new User();
 		try {
@@ -72,8 +73,6 @@ public class ReadCustomerRestController {
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		System.err.print(userLogin.getId());
-
 		return ResponseEntity.ok(address_Service.getAllAddressByUser(userLogin.getId()));
 
 	}

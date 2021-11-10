@@ -21,11 +21,13 @@ import lombok.NoArgsConstructor;
 public class UserAddress implements Serializable {
 	@Id
 	String id;
+	String first_name;
+	String last_name;
+	String phone;
 	String address;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	User user;
-
 
 }

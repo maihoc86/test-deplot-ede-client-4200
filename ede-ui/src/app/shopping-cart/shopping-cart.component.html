@@ -113,7 +113,7 @@
                   <div class="loader4"></div>
                 </div>
 
-                <form [formGroup]="ship">
+                <form [formGroup]="ship" *ngIf="!loadingAddress">
                   <div class="panel-body">
                     <p>‎Nhập địa chỉ nhận hàng để có được ước tính phí vận chuyển.‎</p>
                     <div class="form-horizontal">
