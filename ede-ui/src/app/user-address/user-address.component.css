@@ -61,3 +61,13 @@ td {
   margin: 20px auto;
   text-align: center;
 }
+.btn-group {
+  width: 100%;
+}
+.dropdown-menu {
+  width: 100%;
+}
+
+.control-label {
+  float: left;
+}

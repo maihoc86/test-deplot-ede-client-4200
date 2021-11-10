@@ -3,73 +3,126 @@
   <div class="col-sm-2">
     <app-aside-user></app-aside-user>
   </div>
-  <div
-    class="col-sm-8"
-    style="
+  <div class="col-sm-8" style="
       background-color: #fff;
       margin-top: 20px;
       border-radius: 3px;
       box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-    "
-  >
+    ">
     <div class="row">
       <div class="col-sm-8" style="height: 70px; margin: auto; padding: 20px">
         <h3>Địa Chỉ Của Tôi</h3>
       </div>
-      <div
-        class="col-sm-4"
-        style="text-align: right; height: 70px; margin: auto; padding: 10px"
-      >
-        <button
-          class="btn btn-danger btn-add-address"
-          data-toggle="modal"
-          data-target="#openModalAddress"
-        >
+      <div class="col-sm-4" style="text-align: right; height: 70px; margin: auto; padding: 10px">
+        <button class="btn btn-danger btn-add-address" data-toggle="modal" data-target="#openModalAddress">
           <i class="fa fa-plus"></i> Thêm Địa Chỉ Mới
         </button>
-
         <!--- Modal -->
-        <div
-          class="modal fade bd-example-modal-lg"
-          id="openModalAddress"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="openModalAddressLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg" role="document">
+        <div class="modal fade bd-example-modal-lg" id="openModalAddress" tabindex="-1" role="dialog"
+          aria-labelledby="openModalAddressLabel" aria-hidden="true">
+          <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <div class="row">
-                  <div class="col-md-12">
-                    <h3
-                      class="modal-title"
-                      id="openModalAddressLabel"
-                      style="text-align: left"
-                    >
+                  <div class="col-sm-12">
+                    <h3 class="modal-title" id="openModalAddressLabel" style="text-align: left">
                       Địa chỉ nhận hàng
                     </h3>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-
                 <br />
               </div>
-              <div class="modal-body"></div>
+              <div class="modal-body">
+                <form [formGroup]="address">
+                  <div class="row">
+                    <div class="form-group required">
+                      <div class="col-sm-6">
+                        <label class="control-label">Họ và tên</label>
+                        <input class="form-control" id="fullName" formControlName="fullName" type="text"
+                          placeholder="Họ và tên">
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="control-label">Số điện thoại</label>
+                        <input class="form-control" formControlName="phone" type="text" placeholder="Số điện thoại">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="form-group required">
+                      <div class="col-sm-12">
+                        <label class="control-label">Tỉnh / Thành</label>
+                        <select name="city_id" id="input-city" class="form-control" formControlName="city"
+                          (change)="chooseCity()">
+                          <option [ngValue]="null" disabled>
+                            --- Chọn tỉnh thành ---
+                          </option>
+                          <option *ngFor="let prf of listCitys" [ngValue]="prf.id">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="form-group required">
+                      <div class="col-sm-6" *ngIf="!isHiddenDistrict">
+                        <label class="control-label">Quận / Huyện</label>
+                        <select name="district_id" id="input-district" class="form-control" formControlName="district"
+                          (change)="chooseDistrict()">
+                          <option [ngValue]="null" disabled>
+                            --- Chọn quận huyện ---
+                          </option>
+                          <option *ngFor="let prf of listDistricts" [ngValue]="prf.id">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="col-sm-6" *ngIf="!isHiddenWards">
+                        <label class="control-label">Phường / Xã</label>
+                        <select name="wards_id" id="input-wards" class="form-control" formControlName="wards"
+                          (change)="chooseWards()">
+                          <option [ngValue]="null" disabled>
+                            --- Chọn phường xã ---
+                          </option>
+                          <option *ngFor="let prf of listWards" [ngValue]="prf.id">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row" *ngIf="!isHiddenAddress">
+                    <div class="form-group required">
+                      <div class="col-sm-12">
+                        <label class="control-label">Địa chỉ cụ thể</label>
+                        <textarea class="form-control" name="" id="" cols="35" rows="4"
+                          placeholder="Địa chỉ cụ thể"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="input-group">
+                        <input type="checkbox">
+                        <label>Đặt làm địa chỉ mặc định</label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
               <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Đóng
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  TRỞ LẠI
+                </button>
+                <button type="submit" class="btn btn-danger">
+                  HOÀN THÀNH
                 </button>
               </div>
             </div>
@@ -84,68 +137,67 @@
         <table style="margin-left: 30px; width: 1100px">
           <tr>
             <td>
-              <tr>
-                <td class="td-right">Họ Và Tên</td>
-                <td class="td-left">
-                  {{ listAddressUser[0].user.first_name }}
-                  {{ listAddressUser[0].user.last_name }}
-                  <div class="main-address">Mặc định</div>
-                  <div class="delivery-address">Địa chỉ lấy hàng</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="td-right">Số Điện Thoại</td>
-                <td class="td-left">(+84) 798089717</td>
-                <!-- TODO Thêm cột số điện thoại vào DB và Entity -->
-                <td class="td-right">
-                  <button class="btn-transparent">Sửa</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="td-right">Địa Chỉ</td>
-                <td class="td-left">
-                  {{ listAddressUser[0].user.address }}
-                </td>
-                <td class="td-right">
-                  <button class="btn btn-secondary" disabled>
-                    Thiết Lập Mặc Định
-                  </button>
-                </td>
-              </tr>
-              <hr />
+          <tr>
+            <td class="td-right">Họ Và Tên</td>
+            <td class="td-left">
+              {{ listAddressUser[0].user.first_name }}
+              {{ listAddressUser[0].user.last_name }}
+              <div class="main-address">Mặc định</div>
             </td>
+          </tr>
+          <tr>
+            <td class="td-right">Số Điện Thoại</td>
+            <td class="td-left">{{listAddressUser[0].user.phone}}</td>
+            <td class="td-right">
+              <button class="btn-transparent">Sửa</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-right">Địa Chỉ</td>
+            <td class="td-left">
+              {{ listAddressUser[0].user.address }}
+            </td>
+            <td class="td-right">
+              <button class="btn btn-secondary" disabled>
+                Thiết Lập Mặc Định
+              </button>
+            </td>
+          </tr>
+          <hr />
+          </td>
           </tr>
 
           <tr *ngFor="let address of listAddressUser; let i = index">
             <td>
-              <tr>
-                <td class="td-right">Họ Và Tên</td>
-                <td class="td-left">
-                  {{ address.user.first_name }} {{ address.user.last_name }}
-                </td>
-              </tr>
-              <tr>
-                <td class="td-right">Số Điện Thoại</td>
-                <td class="td-left">(+84) 798089717</td>
-                <!-- TODO Thêm cột số điện thoại vào DB và Entity -->
-                <td class="td-right">
-                  <button class="btn-transparent">Sửa</button>
-                  <button class="btn-transparent">Xóa</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="td-right">Địa Chỉ</td>
-                <td class="td-left">
-                  {{ address.address }}
-                </td>
-                <td class="td-right">
-                  <button class="btn btn-secondary">Thiết Lập Mặc Định</button>
-                </td>
-              </tr>
-              <div *ngIf="i < listAddressUser.length - 1">
-                <hr />
-              </div>
+          <tr>
+            <td class="td-right">Họ Và Tên</td>
+            <td class="td-left">
+              {{ address.first_name }} {{ address.last_name }}
+              <div class="delivery-address">Địa chỉ lấy hàng</div>
             </td>
+          </tr>
+          <tr>
+            <td class="td-right">Số Điện Thoại</td>
+            <td class="td-left">{{address.phone}}</td>
+            <!-- TODO Thêm cột số điện thoại vào DB và Entity -->
+            <td class="td-right">
+              <button class="btn-transparent">Sửa</button>
+              <button class="btn-transparent">Xóa</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-right">Địa Chỉ</td>
+            <td class="td-left">
+              {{ address.address }}
+            </td>
+            <td class="td-right">
+              <button class="btn btn-secondary">Thiết Lập Mặc Định</button>
+            </td>
+          </tr>
+          <div *ngIf="i < listAddressUser.length - 1">
+            <hr />
+          </div>
+          </td>
           </tr>
         </table>
       </div>

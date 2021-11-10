@@ -48,4 +48,45 @@ public class UpdateCustomerRestController {
 					"Bạn không được sửa địa chỉ người khác", "address", null);
 		}
 	}
+
+	@PutMapping("/user/update-main-address")
+	public ResponseEntity updateMainAddress(@RequestBody UserAddress address, HttpServletRequest req) {
+		User userLogin = new User();
+		try {
+			userLogin = auth_service.getUserLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+
+		if (userLogin.getId().equals(address.getUser().getId())) {
+
+			userLogin.setPhone(address.getPhone());
+			userLogin.setFirst_name(address.getFirst_name());
+			userLogin.setLast_name(address.getFirst_name());
+			userLogin.setAddress(address.getAddress());
+
+			User updateAddressMainUser = service.saveUser(userLogin);
+
+			if (updateAddressMainUser != null) {
+
+				UserAddress newAddress = new UserAddress();
+				newAddress.setId(address.getId());
+				newAddress.setUser(address.getUser());
+				newAddress.setFirst_name(userLogin.getFirst_name());
+				newAddress.setLast_name(userLogin.getLast_name());
+				newAddress.setPhone(userLogin.getPhone());
+				newAddress.setAddress(userLogin.getAddress());
+
+				UserAddress updateAddressSub = address_Service.saveAddress(newAddress);
+				return ResponseEntity.ok(updateAddressSub);
+			} else {
+				return ResponseHandler.generateResponse(HttpStatus.METHOD_NOT_ALLOWED, true,
+						"Không thể cập nhật địa chỉ", "address", null);
+			}
+
+		} else {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+					"Bạn không được sửa địa chỉ người khác", "address", null);
+		}
+	}
 }

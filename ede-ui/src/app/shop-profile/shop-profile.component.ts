@@ -86,7 +86,6 @@ export class ShopProfileComponent implements OnInit {
   }
   getWards() {
     this.isHiddenWards = false;
-
     this.getApiWards(this.formShop.controls['district'].value.id);
   }
 
