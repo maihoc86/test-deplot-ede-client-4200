@@ -39,6 +39,4 @@ public interface CustomerService {
 
 	User findByUsername2(String id);
 
-	User updateAddressByUserId(String id, String phone, String first_name, String last_name, String address);
-
 }

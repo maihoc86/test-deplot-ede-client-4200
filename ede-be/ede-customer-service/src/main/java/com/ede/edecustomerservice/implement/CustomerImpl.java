@@ -127,9 +127,5 @@ public class CustomerImpl implements CustomerService {
 		return dao.findByUsername2(id);
 	}
 
-	@Override
-	public User updateAddressByUserId(String id, String phone, String first_name, String last_name, String address) {
-		return dao.updateAddressByUserId(id, phone, first_name, last_name, address);
-	}
 
 }
