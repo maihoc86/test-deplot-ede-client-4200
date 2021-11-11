@@ -4,7 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { AddressUserService } from '../Services/address-user/address-user.service';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { HeaderService } from '../Services/header/header.service';
-
+import { UserAddress } from '../models/user-address.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-user-address',
   templateUrl: './user-address.component.html',
@@ -19,11 +20,14 @@ export class UserAddressComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getUserLogin();
     this.getAllAddressUser();
     this.getApiCity();
   }
   public address = new FormGroup({
-    fullName: new FormControl(''),
+    first_name: new FormControl(''),
+    last_name: new FormControl(''),
+    user: new FormControl(''),
     phone: new FormControl(''),
     city: new FormControl(''),
     district: new FormControl(''),
@@ -37,6 +41,28 @@ export class UserAddressComponent implements OnInit {
   isHiddenAddress: boolean = true;
   isHiddenWards: boolean = true;
   isHiddenDistrict: boolean = true;
+
+  public getUserLogin() {
+    this.headerService
+      .getUserByToken(this.cookieService.get('auth'))
+      .toPromise()
+      .then((data) => {
+        this.address.controls['user'].setValue(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  private createDataAddress() {
+    const newAddress: any = {};
+    for (const controlName in this.address.controls) {
+      if (controlName) {
+        newAddress[controlName] = this.address.controls[controlName].value;
+      }
+    }
+    return newAddress as UserAddress;
+  }
 
   public getAllAddressUser() {
     this.address_user.getAllAdressByUser().subscribe(
@@ -107,5 +133,106 @@ export class UserAddressComponent implements OnInit {
 
   chooseWards() {
     this.isHiddenAddress = false;
+  }
+
+  public async updateAddressUser() {
+    await this.headerService
+      .getUserByToken(this.cookieService.get('auth'))
+      .toPromise()
+      .then((data) => {
+        this.address.controls['user'].setValue(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    this.address_user.addAddress(this.createDataAddress()).subscribe(
+      (data) => {
+        this.getAllAddressUser();
+        Swal.fire({
+          title: 'Thông báo!',
+          text: 'Thành công !',
+          icon: 'success',
+        });
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Thông báo!',
+          text: error.error.errors[0].defaultMessage,
+          icon: 'error',
+        });
+      }
+    );
+  }
+
+  public showAddressUserModal(user: any, address_user: any) {
+    if (user) {
+      this.address.controls['first_name'].setValue(user.first_name);
+      this.address.controls['last_name'].setValue(user.last_name);
+      this.address.controls['phone'].setValue(user.phone);
+      this.changeSelectionAddress(user.address);
+    } else if (address_user) {
+      this.address.controls['first_name'].setValue(address_user.first_name);
+      this.address.controls['last_name'].setValue(address_user.last_name);
+      this.address.controls['phone'].setValue(address_user.phone);
+      this.changeSelectionAddress(address_user.address);
+    }
+  }
+  public deleteAddress(id: any) {
+    this.address_user.deleteAddress(id).subscribe(
+      (data) => {
+        this.getAllAddressUser();
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Thông báo!',
+          text: error.error.errors[0].defaultMessage,
+          icon: 'error',
+        });
+      }
+    );
+  }
+
+  public changeSelectionAddress(address: any) {
+    let idCity = '';
+    let idDistrict = '';
+    let idWard = '';
+    let address_split = address.split(',');
+
+    this.address.controls['address'].setValue(address_split[0]);
+
+    // Lấy ra id của thành phố khi user có địa chỉ thành phố trùng
+    setTimeout(() => {
+      for (let i = 0; i < this.listCitys.length; i++) {
+        if (this.listCitys[i].name.includes(address_split[3].trim())) {
+          idCity = this.listCitys[i].id;
+          this.address.controls['city'].setValue(idCity);
+          this.getApiDistricts(idCity);
+          this.isHiddenDistrict = false;
+        }
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      // Lấy ra id của quận khi user có địa chỉ quận trùng
+      for (let i = 0; i < this.listDistricts.length; i++) {
+        if (this.listDistricts[i].name.includes(address_split[2].trim())) {
+          idDistrict = this.listDistricts[i].id;
+          this.address.controls['district'].setValue(idDistrict);
+          this.getApiWards(this.address.controls['district'].value);
+          this.isHiddenWards = false;
+        }
+      }
+    }, 2500);
+    setTimeout(() => {
+      // Lấy ra id của phường khi user có địa chỉ phường trùng
+      for (let i = 0; i < this.listWards.length; i++) {
+        if (this.listWards[i].name.includes(address_split[1].trim())) {
+          idWard = this.listWards[i].id;
+          this.address.controls['wards'].setValue(idWard);
+          this.isHiddenAddress = false;
+        }
+      }
+    }, 4500);
   }
 }

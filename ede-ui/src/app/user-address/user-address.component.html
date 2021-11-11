@@ -3,12 +3,7 @@
   <div class="col-sm-2">
     <app-aside-user></app-aside-user>
   </div>
-  <div class="col-sm-8" style="
-      background-color: #fff;
-      margin-top: 20px;
-      border-radius: 3px;
-      box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-    ">
+  <div class="col-sm-8 content-address-main">
     <div class="row">
       <div class="col-sm-8" style="height: 70px; margin: auto; padding: 20px">
         <h3>Địa Chỉ Của Tôi</h3>
@@ -40,13 +35,24 @@
                   <div class="row">
                     <div class="form-group required">
                       <div class="col-sm-6">
-                        <label class="control-label">Họ và tên</label>
-                        <input class="form-control" id="fullName" formControlName="fullName" type="text"
-                          placeholder="Họ và tên">
+                        <label class="control-label">Họ</label>
+                        <input class="form-control" id="first_name" formControlName="first_name" type="text"
+                          placeholder="Họ">
                       </div>
                       <div class="col-sm-6">
+                        <label class="control-label">Tên</label>
+                        <input class="form-control" id="last_name" formControlName="last_name" type="text"
+                          placeholder="Tên">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="form-group required">
+                      <div class="col-sm-12">
                         <label class="control-label">Số điện thoại</label>
-                        <input class="form-control" formControlName="phone" type="text" placeholder="Số điện thoại">
+                        <input class="form-control" id="phone" formControlName="phone" type="text"
+                          placeholder="Số điện thoại">
                       </div>
                     </div>
                   </div>
@@ -102,8 +108,8 @@
                     <div class="form-group required">
                       <div class="col-sm-12">
                         <label class="control-label">Địa chỉ cụ thể</label>
-                        <textarea class="form-control" name="" id="" cols="35" rows="4"
-                          placeholder="Địa chỉ cụ thể"></textarea>
+                        <textarea class="form-control" name="" id="" cols="35" rows="4" placeholder="Địa chỉ cụ thể"
+                          formControlName="address"></textarea>
                       </div>
                     </div>
                   </div>
@@ -121,7 +127,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                   TRỞ LẠI
                 </button>
-                <button type="submit" class="btn btn-danger">
+                <button type="submit" class="btn btn-danger" (click)="updateAddressUser()">
                   HOÀN THÀNH
                 </button>
               </div>
@@ -140,22 +146,23 @@
           <tr>
             <td class="td-right">Họ Và Tên</td>
             <td class="td-left">
-              {{ listAddressUser[0].user.first_name }}
-              {{ listAddressUser[0].user.last_name }}
+              {{ address.controls.user.value.first_name }}
+              {{ address.controls.user.value.last_name }}
               <div class="main-address">Mặc định</div>
             </td>
           </tr>
           <tr>
             <td class="td-right">Số Điện Thoại</td>
-            <td class="td-left">{{listAddressUser[0].user.phone}}</td>
+            <td class="td-left">{{ address.controls.user.value.phone }}</td>
             <td class="td-right">
-              <button class="btn-transparent">Sửa</button>
+              <button class="btn-transparent" data-toggle="modal" data-target="#openModalAddress"
+                (click)="showAddressUserModal(address.controls.user.value , null)">Sửa</button>
             </td>
           </tr>
           <tr>
             <td class="td-right">Địa Chỉ</td>
             <td class="td-left">
-              {{ listAddressUser[0].user.address }}
+              {{ address.controls.user.value.address }}
             </td>
             <td class="td-right">
               <button class="btn btn-secondary" disabled>
@@ -170,7 +177,7 @@
           <tr *ngFor="let address of listAddressUser; let i = index">
             <td>
           <tr>
-            <td class="td-right">Họ Và Tên</td>
+            <td class="td-right">Họ</td>
             <td class="td-left">
               {{ address.first_name }} {{ address.last_name }}
               <div class="delivery-address">Địa chỉ lấy hàng</div>
@@ -181,8 +188,9 @@
             <td class="td-left">{{address.phone}}</td>
             <!-- TODO Thêm cột số điện thoại vào DB và Entity -->
             <td class="td-right">
-              <button class="btn-transparent">Sửa</button>
-              <button class="btn-transparent">Xóa</button>
+              <button class="btn-transparent" data-toggle="modal" data-target="#openModalAddress"
+                (click)="showAddressUserModal(null , address)">Sửa</button>
+              <button class="btn-transparent" (click)="deleteAddress(address.id)">Xóa</button>
             </td>
           </tr>
           <tr>

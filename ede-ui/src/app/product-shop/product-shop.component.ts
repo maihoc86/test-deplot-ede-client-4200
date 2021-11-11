@@ -26,7 +26,6 @@ import { ImagesService } from '../Services/images/images.service';
   styleUrls: ['./product-shop.component.css'],
 })
 export class ProductShopComponent implements OnInit {
-
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -266,7 +265,7 @@ export class ProductShopComponent implements OnInit {
               Swal.fire({
                 title: 'Thông báo!',
                 text: 'Cập nhật giảm giá bại !!!',
-                icon: 'success',
+                icon: 'error',
               });
             };
         }

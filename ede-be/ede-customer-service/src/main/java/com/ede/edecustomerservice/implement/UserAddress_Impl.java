@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ede.edecustomerservice.dao.UserAdressDAO;
 import com.ede.edecustomerservice.entity.UserAddress;
 import com.ede.edecustomerservice.service.UserAddress_Service;
+
 @Service
 public class UserAddress_Impl implements UserAddress_Service {
 
@@ -26,14 +27,18 @@ public class UserAddress_Impl implements UserAddress_Service {
 
 	@Override
 	public void deleteById(String id) {
-		 dao.deleteById(id);
-		
+		dao.deleteById(id);
+
 	}
 
 	@Override
 	public UserAddress getAddressByUser(String userId, String address) {
-		return dao.getAddressByUser(userId,address);
+		return dao.getAddressByUser(userId, address);
 	}
 
+	@Override
+	public UserAddress findById(String id) {
+		return dao.findById(id).get();
+	}
 
 }

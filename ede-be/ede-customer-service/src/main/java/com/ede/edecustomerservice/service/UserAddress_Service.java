@@ -14,5 +14,7 @@ public interface UserAddress_Service {
 
 	UserAddress getAddressByUser(String userId , String address);
 
+	UserAddress findById(String id);
+
 
 }
