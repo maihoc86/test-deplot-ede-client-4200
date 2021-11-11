@@ -1,8 +1,5 @@
 package com.ede.edecustomerservice.restcontroller;
 
-import java.net.http.HttpRequest;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.ResponseHandler;
-import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.entity.UserAddress;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.UserAddress_Service;
 
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/ede-customer")
 public class DeleteCustomerRestController {
@@ -46,7 +43,7 @@ public class DeleteCustomerRestController {
 		}
 	}
 
-	@DeleteMapping("/delete-address")
+	@DeleteMapping("/user/delete-address")
 	public ResponseEntity deleteAddress(@RequestBody UserAddress address, HttpServletRequest req) {
 
 		User userLogin = new User();
@@ -65,7 +62,7 @@ public class DeleteCustomerRestController {
 						null);
 			}
 
-			UserAddress findById = address_Service.findByUserId(address.getUser().getId());
+			UserAddress findById = address_Service.getAddressByUser(address.getUser().getId(), address.getAddress());
 			if (findById == null) {
 				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 						"Địa chỉ này không tồn tại trên tài khoản của bạn", "address", null);
@@ -73,8 +70,8 @@ public class DeleteCustomerRestController {
 			address_Service.deleteById(address.getId());
 			return ResponseEntity.status(HttpStatus.OK).body("Xóa thành công");
 		} else {
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
-					"Bạn không được xóa địa chỉ người kh", "address", null);
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Bạn không được xóa địa chỉ người kh",
+					"address", null);
 		}
 
 	}

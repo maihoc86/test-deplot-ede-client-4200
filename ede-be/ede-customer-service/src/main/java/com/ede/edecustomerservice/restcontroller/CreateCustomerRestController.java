@@ -323,31 +323,27 @@ public class CreateCustomerRestController {
 
 	}
 
-	@PostMapping("/add-new-address")
+	@PostMapping("/user/add-new-address")
 	public ResponseEntity addNewAddress(@RequestBody UserAddress userAddress, HttpServletRequest req) {
 
 		User userLogin = new User();
 		try {
 			userLogin = auth_service.getUserLogin(req.getHeader("Authorization"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
 
 		if (userLogin.getId().equals(userAddress.getUser().getId())) {
+
 			userAddress.setId(generateUUID());
+
 
 			User findUser = service.findById(userAddress.getUser().getId()).get();
 
 			if (findUser == null) {
 				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "User không tồn tại", "user",
 						null);
-			}
-
-			UserAddress findByUserId = address_Service.getAddressByUser(userAddress.getUser().getId(),
-					userAddress.getAddress());
-			if (findByUserId != null) {
-				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
-						"Địa chỉ này đã tồn tại trên tài khoản của bạn", "address", null);
 			}
 			return ResponseEntity.ok(address_Service.saveAddress(userAddress));
 		} else {

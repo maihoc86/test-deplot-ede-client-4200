@@ -20,9 +20,8 @@ public class DeleteOrderAdminRestController {
 	Order_discount_service service;
 
 	/**
-	 * Hàm lấy tất cả giảm giá hóa đơn
+	 * Hàm xóa giảm giá hóa đơn
 	 * 
-	 * @return {listObj}
 	 */
 	@DeleteMapping("/delete/discount/order/{id}")
 	public ResponseEntity deleteById(@PathVariable("id") String id) {

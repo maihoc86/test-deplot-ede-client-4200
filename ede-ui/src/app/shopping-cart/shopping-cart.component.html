@@ -52,7 +52,10 @@
 												currency :'VND'}}</span>
                     </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
-                      <span>{{item.feeShip | currency :'VND'}}</span></td>
+                      <span>
+                        {{(item.feeShip |  currency :'VND') }}
+
+                      </span></td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
                       <span>{{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-((item.product_option.price*item.quantity)*(item.product_option.productDiscount[0].discount/100)):item.product_option.price*item.quantity)|
 												currency :'VND'}}</span>
@@ -105,7 +108,12 @@
                 </h4>
               </div>
               <div id="collapse-shipping" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                <form [formGroup]="ship">
+
+                <div *ngIf="loadingAddress">
+                  <div class="loader4"></div>
+                </div>
+
+                <form [formGroup]="ship" *ngIf="!loadingAddress">
                   <div class="panel-body">
                     <p>‎Nhập địa chỉ nhận hàng để có được ước tính phí vận chuyển.‎</p>
                     <div class="form-horizontal">

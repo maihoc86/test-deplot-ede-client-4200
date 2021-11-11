@@ -10,6 +10,8 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
+  public loadingFeeShip: boolean = true;
+  public loadingAddress: boolean = true;
   constructor(
     private headerService: HeaderService,
     private address_ship: ShipService,
@@ -36,12 +38,20 @@ export class ShoppingCartComponent implements OnInit {
   public totalCart: any = 0;
   public user: any = {};
 
+  public toBot() {
+    document.getElementById('table')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   ngOnInit(): void {
     this.loadCart();
-    this.showInfoAddress();
+    this.getShippingCompany();
+    this.getApiCity();
     this.getAddressMainUser();
   }
 
+  /**
+   * Hàm lấy ra địa chỉ của User
+   */
   getAddressMainUser() {
     if (this.cookieService.get('auth') != '') {
       this.headerService
@@ -59,8 +69,12 @@ export class ShoppingCartComponent implements OnInit {
       this.user = {};
     }
   }
+
+  /**
+   * Hàm lấy ra tất cả địa chỉ của User bao gồm địa chỉ phụ và chính
+   */
   getAllAddressUser() {
-    this.address_user.getAllAdressByUser().subscribe((data) => {
+    this.address_user.getAllAdressByUser().subscribe((data: any) => {
       const listAddressUser = data.map(function (obj: {
         id: any;
         address: any;
@@ -69,12 +83,6 @@ export class ShoppingCartComponent implements OnInit {
       });
       this.listAddressUser = listAddressUser;
     });
-  }
-
-  showInfoAddress() {
-    this.getShippingCompany();
-    this.getApiCity();
-    // this.getApiMethodShip();
   }
 
   loadCart() {
@@ -117,7 +125,99 @@ export class ShoppingCartComponent implements OnInit {
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
     this.headerService.myMethod(this.cart);
-    this.getFeeShip();
+    this.changeFeeShipCart(
+      qtyCurrent,
+      this.cart.findIndex((x) => x === qtyCurrent)
+    );
+  }
+
+  /**
+   * Hàm thay đổi phí ship khi thay đổi số lượng sản phẩm trong giỏ hàng
+   * @param cartItem sản phẩm trong giỏ hàng
+   * @param index vị trí của sản phẩm trong giỏ hàng
+   */
+
+  changeFeeShipCart(cartItem: any, index: number) {
+    var address_product_cart =
+      cartItem.product_option.product.shop.address.split(','); // lấy ra địa chỉ của shop
+    let idCity = '';
+
+    // Lấy ra id của thành phố khi shop có địa chỉ thành phố trùng
+    for (let i = 0; i < this.listCitys.length; i++) {
+      if (this.listCitys[i].name.includes(address_product_cart[3].trim())) {
+        idCity = this.listCitys[i].id;
+      }
+    }
+
+    // Lấy ra danh sách quận huyện theo id của thành phố
+    this.address_ship
+      .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
+      .subscribe(
+        (data) => {
+          const listDistrict = data.map(function (obj: { id: any; name: any }) {
+            return obj;
+          });
+
+          // Lấy ra id của quận huyện khi shop có địa chỉ quận huyện trùng
+          for (let i = 0; i < listDistrict.length; i++) {
+            if (listDistrict[i].name.includes(address_product_cart[2].trim())) {
+              this.ship.controls['from_district'].setValue(listDistrict[i].id);
+              // Bắt đầu tính phương tiện vận chuyển từ quận huyện shop tới địa chỉ đã chọn
+              this.address_ship
+                .getApiMethodShip(
+                  this.ship.controls['company'].value,
+                  this.ship.controls['from_district'].value,
+                  this.ship.controls['district'].value
+                )
+                .subscribe(
+                  (data) => {
+                    const listMethodShip = data.map(function (obj: {
+                      id: any;
+                      name: any;
+                    }) {
+                      return obj;
+                    });
+                    this.listMethodShip = listMethodShip;
+                    this.ship.controls['method'].setValue(
+                      this.listMethodShip[0].id // TODO xem phí nào rẻ nhất lấy phương thức đó
+                    );
+                    let total_weight = 300 * cartItem.quantity;
+                    this.address_ship
+                      .getFeeShip(
+                        this.ship.controls['company'].value,
+                        this.ship.controls['from_district'].value,
+                        this.ship.controls['district'].value,
+                        this.ship.controls['method'].value,
+                        total_weight // Cân nặng mẫu, ch có cân nặng
+                      )
+                      .subscribe(
+                        (data: any) => {
+                          //TODO Phí vận chuyển cho từng sp trong cart
+                          this.cart[index].feeShip = data.total;
+                          localStorage.setItem(
+                            'cart',
+                            JSON.stringify(this.cart)
+                          );
+                          this.loadTotal();
+                          this.headerService.myMethod(this.cart);
+                          this.loadingFeeShip = false;
+                        },
+                        (error) => {
+                          console.log(error);
+                        }
+                      );
+                  },
+                  (error) => {
+                    console.log(error);
+                  }
+                );
+            }
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   /**
@@ -134,7 +234,9 @@ export class ShoppingCartComponent implements OnInit {
     this.headerService.myMethod(this.cart);
   }
 
-  // Tính tổng tiền
+  /**
+   * Hàm tính tổng tiền
+   */
   loadTotal() {
     this.totalCart = 0;
     this.cart.forEach((e) => {
@@ -162,7 +264,11 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  /**
+   * Hàm lấy ra danh sách công ty vận chuyển
+   */
   public getShippingCompany() {
+    this.loadingAddress = true;
     this.address_ship.getShippingCompany().subscribe((data) => {
       const listShippingCompany = data.map(function (obj: {
         id: any;
@@ -180,6 +286,7 @@ export class ShoppingCartComponent implements OnInit {
    * @returns {obj} danh sách thành phố
    */
   public getApiCity() {
+    this.loadingAddress = true;
     this.address_ship
       .getApiCity(this.ship.controls['company'].value)
       .subscribe((data) => {
@@ -203,6 +310,7 @@ export class ShoppingCartComponent implements OnInit {
    * @returns {obj} danh sách quận
    */
   public getApiDistricts(idCity: any) {
+    this.loadingAddress = true;
     this.address_ship
       .getApiDistricts_byCity(this.ship.controls['company'].value, idCity)
       .subscribe(
@@ -227,6 +335,7 @@ export class ShoppingCartComponent implements OnInit {
    * @returns {obj} danh sách phường
    */
   public getApiWards(id: any) {
+    this.loadingAddress = true;
     this.address_ship
       .getApiWardsByDisctrict(this.ship.controls['company'].value, id)
       .subscribe((data) => {
@@ -236,6 +345,7 @@ export class ShoppingCartComponent implements OnInit {
         this.listWards = listWard;
         this.ship.controls['wards'].setValue(this.listWards[0].id);
         this.getFeeShip();
+        this.loadingAddress = false;
       });
   }
 
@@ -268,6 +378,7 @@ export class ShoppingCartComponent implements OnInit {
 
   // Tính toán phí vận chuyển
   getFeeShip() {
+    this.loadingFeeShip = true;
     for (let iCart = 0; iCart < this.cart.length; iCart++) {
       var address_product_cart =
         this.cart[iCart].product_option.product.shop.address.split(','); // lấy ra địa chỉ của shop
@@ -338,6 +449,7 @@ export class ShoppingCartComponent implements OnInit {
                             );
                             this.loadTotal();
                             this.headerService.myMethod(this.cart);
+                            this.loadingFeeShip = false;
                           },
                           (error) => {
                             console.log(error);
@@ -358,6 +470,9 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  /**
+   * Khi chọn địa chỉ trên Modal sẽ gọi hàm này để load lại địa chỉ của User
+   */
   changeAddressUser(address: string) {
     let idCity = '';
     let idDistrict = '';

@@ -26,7 +26,7 @@ import { ImagesService } from '../Services/images/images.service';
   styleUrls: ['./product-shop.component.css'],
 })
 export class ProductShopComponent implements OnInit {
-  // TODO: Thêm TAG
+
   selectable = true;
   removable = true;
   addOnBlur = true;
