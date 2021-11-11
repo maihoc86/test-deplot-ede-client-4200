@@ -30,6 +30,8 @@ export class ProductDetailComponent implements OnInit {
       this.productSearchSrv
         .getProductSearchById(idProduct)
         .subscribe((result) => {
+          this.productShow = result.optionDef;
+          console.log(result)
           this.product = result;
           this.ShowAllComment(idProduct);
           console.log(this.product);
@@ -78,16 +80,17 @@ export class ProductDetailComponent implements OnInit {
   public feeShip: number = 0; // phí ship sau khi tính toán
   public fakeArrayRate: any = [];
   public nameOption: any = 'nameOption';
+  public productShow: any = [];
   ngOnInit(): void {
     this.getUserLogin();
     this.addHistoryView();
   }
-  addToCart(product: any, qty: any) {
+  addToCart( qty: any) {
     var json = localStorage.getItem('cart');
     this.cart = json ? JSON.parse(json) : [];
     var item: any;
     this.cart.forEach((e) => {
-      if (e.product_option.id == product.optionDef.id) {
+      if (e.product_option.id == this.productShow.id) {
         item = e;
       }
     });
@@ -97,7 +100,7 @@ export class ProductDetailComponent implements OnInit {
       this.cart.push({
         quantity: qty,
         feeShip:0,
-        product_option: product.optionDef,
+        product_option: this.productShow,
       });
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -431,5 +434,9 @@ export class ProductDetailComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  changeOptione(option: any){
+    this.productShow=option
   }
 }

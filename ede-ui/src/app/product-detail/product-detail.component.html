@@ -256,8 +256,8 @@
               <div class="content-product-left class-honizol col-md-5 col-sm-12 col-xs-12">
                 <div class="large-image  ">
                   <img itemprop="image" class="product-image-zoom"
-                    [src]="HOST_ORIGIN + '/ede-file/get/image/' + product?.optionDef?.optionImageDef.image"
-                    [attr.data-zoom-image]="HOST_ORIGIN + '/ede-file/get/image/' + product?.optionDef?.optionImageDef.image"
+                    [src]="HOST_ORIGIN + '/ede-file/get/image/' + productShow?.optionImageDef.image"
+                    [attr.data-zoom-image]="HOST_ORIGIN + '/ede-file/get/image/' + productShow?.optionImageDef.image"
                     title="{{product.name}}" alt="{{product.name}}">
                 </div>
                 <a class="thumb-video pull-left" href="https://www.youtube.com/watch?v=HhabgvIIXik"><i
@@ -318,13 +318,13 @@
                   <div class="product_page_price price" itemprop="offerDetails" itemscope=""
                     itemtype="http://data-vocabulary.org/Offer">
 
-                    <div *ngIf="product.optionDef.productDiscount.length!=0">
-                      <span class="price-new" itemprop="price">{{product.optionDef.price * (100 -
-                        product.optionDef.productDiscount[0].discount) / 100 | number}}đ</span>
-                      <span class="price-old">{{product.optionDef.price | number}}đ</span>
+                    <div *ngIf="productShow.productDiscount.length!=0">
+                      <span class="price-new" itemprop="price">{{productShow.price * (100 -
+                        productShow.productDiscount[0].discount) / 100 | number}}đ</span>
+                      <span class="price-old">{{productShow.price | number}}đ</span>
                     </div>
                     <span class="price-new" itemprop="price"
-                      *ngIf="product.productDiscount!=[]">{{product.optionDef.price | number}}đ</span>
+                      *ngIf="product.productDiscount!=[]">{{productShow.price | number}}đ</span>
                   </div>
                   <div class="stock"><span>Availability:</span> <span class="status-stock">In Stock</span></div>
                 </div>
@@ -393,7 +393,7 @@
                   </div>
                   <div class="image_option_type form-group required">
                       <div style="float: left; margin-left: 15px;" *ngFor = 'let item of product.productOptions'>
-                        <input type="radio" id='item.id' name="drone" /> <label style="padding-left: 5px;" for = 'item.id'>{{item.display_name}}</label> 
+                       <div (click)="changeOptione(item)"> <input  [checked]="item.id == productShow.id? true:false" type="radio" id='item.id' name="drone" /> <label style="padding-left: 5px;" for = '{{item.id}}'>{{item.display_name}}</label> </div>
                       </div>
                   </div>
 
@@ -423,7 +423,7 @@
                     <div class="option quantity">
                       <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
                         <label>Qty</label>
-                        <input class="form-control" style="min-width: max-content;" type="number" name="quantity" value="1" #qty min="1" max="{{product.optionDef.quantity}}">
+                        <input class="form-control" style="min-width: max-content;" type="number" name="quantity" value="1" #qty min="1" max="{{productShow.quantity}}">
                         
                         <!-- <span class="input-group-addon product_quantity_down">−</span>
                         <span class="input-group-addon product_quantity_up">+</span> -->
@@ -432,7 +432,7 @@
                     <div class="cart">
                       <input type="button" data-toggle="tooltip" title="" value="Add to Cart"
                         data-loading-text="Loading..." id="button-cart" class="btn btn-mega btn-lg"
-                        onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(product,qty.value)"
+                        onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(qty.value)"
                         data-original-title="Add to Cart">
                     </div>
                     <!-- <div class="add-to-links wish_comp">
@@ -449,7 +449,7 @@
                         </li>
                       </ul>
                     </div> -->
-                    <p>Có sẵn {{product.optionDef.quantity}}</p>
+                    <p>Có sẵn {{productShow.quantity}}</p>
                   </div>
 
                 </div>
