@@ -11,32 +11,32 @@
     <div class="col-sm-7">
       <table class="table" style="margin-left: 30px; ">
         <tr style=" height: 70px;">
-          <td style="color: #999;">Tên Đăng Nhập </td>
-          <td ><input type="text" class="form-control" value="Kimthanhcute"></td>
+          <td style="color: #999;">Tên đăng nhập</td>
+          <td>{{userAcc.username}}</td>
+        </tr>
+        <tr style=" height: 70px;">
+          <td style="color: #999;">Tên</td>
+          <td ><input type="text" class="form-control" [value]='userAcc.first_name+" "+userAcc.last_name'></td>
         </tr>
         <tr style=" height: 70px;">
           <td style="color: #999;">Email</td>
-          <td>thanh@gmail.com <a href="/user/update/email"><u style="color: blue;">Thay đổi</u></a></td>
+          <td>{{userAcc.email}} <a href="/user/update/email"><u style="color: blue;">Thay đổi</u></a></td>
         </tr>
         <tr style=" height: 70px;">
           <td style="color: #999;">Số điện thoại</td>
-          <td>0329429862 <a href="/user/update/phone"><u style="color: blue;">Thay đổi</u></a></td>
+          <td>{{userAcc.phone}}<a href="/user/update/phone"><u style="color: blue;">Thay đổi</u></a></td>
         </tr>
         <tr style=" height: 70px;">
           <td style="color: #999;">Tên shop</td>
-          <td><input type="text" class="form-control" value="Kimthanhcute"></td>
+          <td><input type="text" class="form-control" [value]="shop.name"></td>
         </tr>
         <tr style=" height: 70px;">
           <td style="color: #999;">Giới tính</td>
           <td>
-            <label class="radio-inline"><input type="radio" name="optradio" checked>Nam</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Nữ</label>
-            <label class="radio-inline"><input type="radio" name="optradio">Khác</label>
+            <label class="radio-inline"><input type="radio" name="optradio" [checked]='userAcc.gender == "M"? true:false'>Nam</label>
+            <label class="radio-inline"><input type="radio" name="optradio" [checked]='userAcc.gender == "W"? true:false'>Nữ</label>
+            <label class="radio-inline"><input type="radio" name="optradio" [checked]='userAcc.gender != "M" && userAcc.gender != "W"  ? true:false'>Khác</label>
           </td>
-        </tr>
-        <tr style=" height: 70px;">
-          <td style="color: #999;">Ngày sinh</td>
-          <td></td>
         </tr>
         <tr style=" height: 70px;">
           <td colspan="2" align="center">
