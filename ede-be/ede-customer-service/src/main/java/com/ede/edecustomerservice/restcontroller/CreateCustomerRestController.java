@@ -333,6 +333,7 @@ public class CreateCustomerRestController {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
+		System.out.println(userAddress);
 
 		if (userLogin.getId().equals(userAddress.getUser().getId())) {
 

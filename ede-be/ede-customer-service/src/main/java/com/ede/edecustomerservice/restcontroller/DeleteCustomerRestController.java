@@ -43,8 +43,8 @@ public class DeleteCustomerRestController {
 		}
 	}
 
-	@DeleteMapping("/user/delete-address")
-	public ResponseEntity deleteAddress(@RequestBody UserAddress address, HttpServletRequest req) {
+	@DeleteMapping("/user/delete-address/{id}")
+	public ResponseEntity deleteAddress(@PathVariable("id") String id, HttpServletRequest req) {
 
 		User userLogin = new User();
 		try {
@@ -53,25 +53,28 @@ public class DeleteCustomerRestController {
 			return ResponseEntity.notFound().build();
 		}
 
-		if (userLogin.getId().equals(address.getUser().getId())) {
+		UserAddress findAddress = address_Service.findById(id);
 
-			User findUser = service.findById(address.getUser().getId()).get();
+		if (findAddress != null) {
 
-			if (findUser == null) {
-				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "User không tồn tại", "user",
-						null);
-			}
-
-			UserAddress findById = address_Service.getAddressByUser(address.getUser().getId(), address.getAddress());
-			if (findById == null) {
+			if (userLogin.getId().equals(findAddress.getUser().getId())) {
+				UserAddress findById = address_Service.getAddressByUser(userLogin.getId(), findAddress.getAddress());
+				if (findById == null) {
+					return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+							"Địa chỉ này không tồn tại trên tài khoản của bạn", "address", null);
+				} else {
+					System.err.println("Vào đây");
+					address_Service.deleteById(id);
+					return ResponseHandler.generateResponse(HttpStatus.OK, false, "Xóa thành công", "address", null);
+				}
+			} else {
 				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
-						"Địa chỉ này không tồn tại trên tài khoản của bạn", "address", null);
+						"Bạn không được xóa địa chỉ người khác", "address", null);
 			}
-			address_Service.deleteById(address.getId());
-			return ResponseEntity.status(HttpStatus.OK).body("Xóa thành công");
+
 		} else {
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Bạn không được xóa địa chỉ người kh",
-					"address", null);
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Địa chỉ không tồn tại", "address",
+					null);
 		}
 
 	}
