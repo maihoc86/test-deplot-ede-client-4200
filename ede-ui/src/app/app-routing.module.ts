@@ -1,3 +1,5 @@
+import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
+import { UserOderComponent } from './user-oder/user-oder.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountActiveComponent } from './account-active/account-active.component';
@@ -42,8 +44,9 @@ const routes: Routes = [
   { path: 'checkout', component:CheckoutComponent},
   { path: 'user/accout', component: UserAccountComponent},
   { path: 'user/update/email', component: UserUpdateEmailComponent},
-  { path: 'user/update/phone', component: UserUpdatePhoneComponent}
-
+  { path: 'user/update/phone', component: UserUpdatePhoneComponent},
+  { path: 'user/order', component: UserOderComponent},
+  { path: 'user/chang/pass', component: UserChangPassComponent}
 
 ];
 

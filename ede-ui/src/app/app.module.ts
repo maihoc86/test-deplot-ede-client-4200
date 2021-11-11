@@ -40,6 +40,9 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { AsideUserComponent } from './layout/aside-user/aside-user.component';
 import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
 import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
+import { UserOderComponent } from './user-oder/user-oder.component';
+import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +71,8 @@ import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.
     AsideUserComponent,
     UserUpdateEmailComponent,
     UserUpdatePhoneComponent,
+    UserOderComponent,
+    UserChangPassComponent,
   ],
   imports: [
     BrowserModule,
