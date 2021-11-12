@@ -41,4 +41,9 @@ public class UserAddress_Impl implements UserAddress_Service {
 		return dao.findById(id).get();
 	}
 
+	@Override
+	public UserAddress getAddressByUserId(String userId, String addressId) {
+		return dao.getAddressByUserId(userId,addressId);
+	}
+
 }

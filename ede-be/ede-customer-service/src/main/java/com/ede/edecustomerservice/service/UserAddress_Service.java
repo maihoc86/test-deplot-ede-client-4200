@@ -13,7 +13,8 @@ public interface UserAddress_Service {
 	void deleteById(String id);
 
 	UserAddress getAddressByUser(String userId , String address);
-
+	
+	UserAddress getAddressByUserId(String userId , String addressId);
 	UserAddress findById(String id);
 
 

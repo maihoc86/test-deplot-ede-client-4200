@@ -1,4 +1,4 @@
-<div style="background-color: #f5f5f5; height: '110%'; width: '100%'">
+<div style="background-color: #f5f5f5; width:100%">
   <div class="col-sm-1"></div>
   <div class="col-sm-2">
     <app-aside-user></app-aside-user>
@@ -9,7 +9,7 @@
         <h3>Địa Chỉ Của Tôi</h3>
       </div>
       <div class="col-sm-4" style="text-align: right; height: 70px; margin: auto; padding: 10px">
-        <button class="btn btn-danger btn-add-address" data-toggle="modal" data-target="#openModalAddress" >
+        <button class="btn btn-danger btn-add-address" data-toggle="modal" data-target="#openModalAddress">
           <i class="fa fa-plus"></i> Thêm Địa Chỉ Mới
         </button>
         <!--- Modal -->
@@ -108,7 +108,7 @@
                           <option [ngValue]="null" hidden>
                             --- Chọn tỉnh thành ---
                           </option>
-                          <option *ngFor="let prf of listCitys" [ngValue]="prf.id">
+                          <option *ngFor="let prf of listCitys" [ngValue]="prf">
                             {{ prf.name }}
                           </option>
                         </select>
@@ -135,7 +135,7 @@
                           <option [ngValue]="null" hidden>
                             --- Chọn quận huyện ---
                           </option>
-                          <option *ngFor="let prf of listDistricts" [ngValue]="prf.id">
+                          <option *ngFor="let prf of listDistricts" [ngValue]="prf">
                             {{ prf.name }}
                           </option>
                         </select>
@@ -157,7 +157,7 @@
                           <option [ngValue]="null" hidden>
                             --- Chọn phường xã ---
                           </option>
-                          <option *ngFor="let prf of listWards" [ngValue]="prf.id">
+                          <option *ngFor="let prf of listWards" [ngValue]="prf">
                             {{ prf.name }}
                           </option>
                         </select>
@@ -201,7 +201,7 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="input-group">
-                        <input type="checkbox">
+                        <input type="checkbox" formControlName="main_address">
                         <label>Đặt làm địa chỉ mặc định</label>
                       </div>
                     </div>
@@ -212,7 +212,8 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                   TRỞ LẠI
                 </button>
-                <button type="submit" [disabled]="address.invalid ? 'disabled': null" class="btn btn-danger" (click)="updateAddressUser()">
+                <button type="submit" [disabled]="address.invalid ? 'disabled': null" class="btn btn-danger"
+                  (click)="updateAddressUser()">
                   HOÀN THÀNH
                 </button>
               </div>
@@ -225,7 +226,7 @@
     <hr />
     <div class="row">
       <div class="col-sm-12">
-        <table style="margin-left: 30px; width: 1100px">
+        <table style="margin-left: 30px;">
           <tr>
             <td>
           <tr>
@@ -255,7 +256,8 @@
               </button>
             </td>
           </tr>
-          <hr />
+
+          <hr *ngIf="listAddressUser.length > 0"/>
           </td>
           </tr>
 
@@ -284,7 +286,7 @@
               {{ address.address }}
             </td>
             <td class="td-right">
-              <button class="btn btn-secondary">Thiết Lập Mặc Định</button>
+              <button class="btn btn-secondary" (click)="setAddressMain(address)">Thiết Lập Mặc Định</button>
             </td>
           </tr>
           <div *ngIf="i < listAddressUser.length - 1">
