@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AddressUserService } from '../Services/address-user/address-user.service';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { HeaderService } from '../Services/header/header.service';
 import { UserAddress } from '../models/user-address.model';
 import Swal from 'sweetalert2';
+import { C } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-user-address',
   templateUrl: './user-address.component.html',
@@ -25,14 +26,32 @@ export class UserAddressComponent implements OnInit {
     this.getApiCity();
   }
   public address = new FormGroup({
-    first_name: new FormControl(''),
-    last_name: new FormControl(''),
+    first_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"
+      ),
+    ]),
+    last_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"
+      ),
+    ]),
     user: new FormControl(''),
-    phone: new FormControl(''),
-    city: new FormControl(''),
-    district: new FormControl(''),
-    wards: new FormControl(''),
-    address: new FormControl(''),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.pattern('(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b'),
+    ]),
+    city: new FormControl(null, Validators.required),
+    district: new FormControl(null, Validators.required),
+    wards: new FormControl(null, Validators.required),
+    address: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{1,}[ \\-\\' \\.-/,]{0,}){5,}$"
+      ),
+    ]),
   });
   public listAddressUser: any = {};
   public listCitys: any = [];
@@ -41,6 +60,10 @@ export class UserAddressComponent implements OnInit {
   isHiddenAddress: boolean = true;
   isHiddenWards: boolean = true;
   isHiddenDistrict: boolean = true;
+
+  public clearAddresModal() {
+    this.address.reset();
+  }
 
   public getUserLogin() {
     this.headerService
@@ -103,6 +126,7 @@ export class UserAddressComponent implements OnInit {
       const listDistrict = data.map(function (obj: { id: any; name: any }) {
         return obj;
       });
+      console.log(this.address.controls['district'].value);
       this.listDistricts = listDistrict;
     });
   }
@@ -141,6 +165,7 @@ export class UserAddressComponent implements OnInit {
       .toPromise()
       .then((data) => {
         this.address.controls['user'].setValue(data);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
