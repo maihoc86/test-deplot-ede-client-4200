@@ -60,23 +60,22 @@ public class UpdateCustomerRestController {
 
 		if (userLogin.getId().equals(address.getUser().getId())) {
 
+			UserAddress newAddress = new UserAddress();
+			newAddress.setId(address.getId());
+			newAddress.setUser(address.getUser());
+			newAddress.setFirst_name(userLogin.getFirst_name());
+			newAddress.setLast_name(userLogin.getLast_name());
+			newAddress.setPhone(userLogin.getPhone());
+			newAddress.setAddress(userLogin.getAddress());
+
 			userLogin.setPhone(address.getPhone());
 			userLogin.setFirst_name(address.getFirst_name());
-			userLogin.setLast_name(address.getFirst_name());
+			userLogin.setLast_name(address.getLast_name());
 			userLogin.setAddress(address.getAddress());
 
 			User updateAddressMainUser = service.saveUser(userLogin);
 
 			if (updateAddressMainUser != null) {
-
-				UserAddress newAddress = new UserAddress();
-				newAddress.setId(address.getId());
-				newAddress.setUser(address.getUser());
-				newAddress.setFirst_name(userLogin.getFirst_name());
-				newAddress.setLast_name(userLogin.getLast_name());
-				newAddress.setPhone(userLogin.getPhone());
-				newAddress.setAddress(userLogin.getAddress());
-
 				UserAddress updateAddressSub = address_Service.saveAddress(newAddress);
 				return ResponseEntity.ok(updateAddressSub);
 			} else {

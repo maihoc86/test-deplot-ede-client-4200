@@ -338,7 +338,8 @@ public class CreateCustomerRestController {
 		if (userLogin.getId().equals(userAddress.getUser().getId())) {
 
 			userAddress.setId(generateUUID());
-
+			
+			System.err.print(userAddress.getId());
 
 			User findUser = service.findById(userAddress.getUser().getId()).get();
 

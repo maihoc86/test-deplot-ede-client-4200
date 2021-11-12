@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AddressUserService } from '../Services/address-user/address-user.service';
 import { ApiAddressService } from '../Services/api-address/api-address.service';
 import { HeaderService } from '../Services/header/header.service';
 import { UserAddress } from '../models/user-address.model';
 import Swal from 'sweetalert2';
+import { C } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-user-address',
   templateUrl: './user-address.component.html',
@@ -25,14 +26,34 @@ export class UserAddressComponent implements OnInit {
     this.getApiCity();
   }
   public address = new FormGroup({
-    first_name: new FormControl(''),
-    last_name: new FormControl(''),
+    id: new FormControl(''),
+    first_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"
+      ),
+    ]),
+    last_name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"
+      ),
+    ]),
     user: new FormControl(''),
-    phone: new FormControl(''),
-    city: new FormControl(''),
-    district: new FormControl(''),
-    wards: new FormControl(''),
-    address: new FormControl(''),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.pattern('(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b'),
+    ]),
+    city: new FormControl(null, Validators.required),
+    district: new FormControl(null, Validators.required),
+    wards: new FormControl(null, Validators.required),
+    address: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(
+        "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{1,}[ \\-\\' \\.-/,]{0,}){5,}$"
+      ),
+    ]),
+    main_address: new FormControl(false),
   });
   public listAddressUser: any = {};
   public listCitys: any = [];
@@ -41,6 +62,10 @@ export class UserAddressComponent implements OnInit {
   isHiddenAddress: boolean = true;
   isHiddenWards: boolean = true;
   isHiddenDistrict: boolean = true;
+
+  public clearAddresModal() {
+    this.address.reset();
+  }
 
   public getUserLogin() {
     this.headerService
@@ -123,12 +148,12 @@ export class UserAddressComponent implements OnInit {
 
   chooseCity() {
     this.isHiddenDistrict = false;
-    this.getApiDistricts(this.address.controls['city'].value);
+    this.getApiDistricts(this.address.controls['city'].value.id);
   }
 
   chooseDistrict() {
     this.isHiddenWards = false;
-    this.getApiWards(this.address.controls['district'].value);
+    this.getApiWards(this.address.controls['district'].value.id);
   }
 
   chooseWards() {
@@ -136,6 +161,15 @@ export class UserAddressComponent implements OnInit {
   }
 
   public async updateAddressUser() {
+    this.address.controls['address'].setValue(
+      this.address.controls['address'].value +
+        ',' +
+        this.address.controls['wards'].value.name +
+        ',' +
+        this.address.controls['district'].value.name +
+        ',' +
+        this.address.controls['city'].value.name
+    );
     await this.headerService
       .getUserByToken(this.cookieService.get('auth'))
       .toPromise()
@@ -146,32 +180,63 @@ export class UserAddressComponent implements OnInit {
         console.log(err);
       });
 
-    this.address_user.addAddress(this.createDataAddress()).subscribe(
-      (data) => {
-        this.getAllAddressUser();
-        Swal.fire({
-          title: 'Thông báo!',
-          text: 'Thành công !',
-          icon: 'success',
-        });
-      },
-      (error) => {
-        Swal.fire({
-          title: 'Thông báo!',
-          text: error.error.errors[0].defaultMessage,
-          icon: 'error',
-        });
+    if (this.address.controls['id'].value == '') {
+      this.address_user.addAddress(this.createDataAddress()).subscribe(
+        (data) => {
+          this.getAllAddressUser();
+          Swal.fire({
+            title: 'Thông báo!',
+            text: 'Thành công !',
+            icon: 'success',
+          }).then(() => {
+            window.location.reload();
+          });
+        },
+        (error) => {
+          Swal.fire({
+            title: 'Thông báo!',
+            text: error.error.errors[0].defaultMessage,
+            icon: 'error',
+          });
+        }
+      );
+    } else {
+      if (this.address.controls['main_address'].value == true) {
+        this.setAddressMain(this.createDataAddress());
+      } else {
+        this.address_user.updateAddress(this.createDataAddress()).subscribe(
+          (data) => {
+            this.getAllAddressUser();
+            Swal.fire({
+              title: 'Thông báo!',
+              text: 'Thành công !',
+              icon: 'success',
+            }).then(() => {
+              window.location.reload();
+            });
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Thông báo!',
+              text: error.error.errors[0].defaultMessage,
+              icon: 'error',
+            });
+          }
+        );
       }
-    );
+    }
   }
 
   public showAddressUserModal(user: any, address_user: any) {
     if (user) {
+      // this.address.controls['user'].setValue(user);
       this.address.controls['first_name'].setValue(user.first_name);
       this.address.controls['last_name'].setValue(user.last_name);
       this.address.controls['phone'].setValue(user.phone);
       this.changeSelectionAddress(user.address);
     } else if (address_user) {
+      this.address.controls['id'].setValue(address_user.id);
+      this.address.controls['user'].setValue(address_user.user);
       this.address.controls['first_name'].setValue(address_user.first_name);
       this.address.controls['last_name'].setValue(address_user.last_name);
       this.address.controls['phone'].setValue(address_user.phone);
@@ -205,9 +270,9 @@ export class UserAddressComponent implements OnInit {
     setTimeout(() => {
       for (let i = 0; i < this.listCitys.length; i++) {
         if (this.listCitys[i].name.includes(address_split[3].trim())) {
-          idCity = this.listCitys[i].id;
+          idCity = this.listCitys[i];
           this.address.controls['city'].setValue(idCity);
-          this.getApiDistricts(idCity);
+          this.getApiDistricts(this.address.controls['city'].value.id);
           this.isHiddenDistrict = false;
         }
       }
@@ -217,9 +282,9 @@ export class UserAddressComponent implements OnInit {
       // Lấy ra id của quận khi user có địa chỉ quận trùng
       for (let i = 0; i < this.listDistricts.length; i++) {
         if (this.listDistricts[i].name.includes(address_split[2].trim())) {
-          idDistrict = this.listDistricts[i].id;
+          idDistrict = this.listDistricts[i];
           this.address.controls['district'].setValue(idDistrict);
-          this.getApiWards(this.address.controls['district'].value);
+          this.getApiWards(this.address.controls['district'].value.id);
           this.isHiddenWards = false;
         }
       }
@@ -228,11 +293,33 @@ export class UserAddressComponent implements OnInit {
       // Lấy ra id của phường khi user có địa chỉ phường trùng
       for (let i = 0; i < this.listWards.length; i++) {
         if (this.listWards[i].name.includes(address_split[1].trim())) {
-          idWard = this.listWards[i].id;
+          idWard = this.listWards[i];
           this.address.controls['wards'].setValue(idWard);
           this.isHiddenAddress = false;
         }
       }
     }, 4500);
+  }
+
+  public setAddressMain(address: any) {
+    this.address_user.updateAddressMain(address).subscribe(
+      (data) => {
+        this.getAllAddressUser();
+        Swal.fire({
+          title: 'Thông báo!',
+          text: 'Thành công !',
+          icon: 'success',
+        }).then(() => {
+          window.location.reload();
+        });
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Thông báo!',
+          text: error.error.errors[0].defaultMessage,
+          icon: 'error',
+        });
+      }
+    );
   }
 }
