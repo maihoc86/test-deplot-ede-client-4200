@@ -6,4 +6,5 @@ export interface ProductOptions {
     size: String;
     quantity: number;
     is_delete: boolean;
+    weight: number;
 }
