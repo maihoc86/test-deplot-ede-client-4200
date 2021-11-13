@@ -1,5 +1,6 @@
 package com.ede.edeorderservice.restcontroller.user;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,5 +92,11 @@ public class ReadOrderRestController {
 			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Page<Orderdetail> pageLoad = order_detail_service.listAll(idOrder,keyword, PageRequest.of(page, size));
 		return ResponseEntity.ok(pageLoad);
+	}
+	
+	@GetMapping("/view/order/user/{id}")
+	 public ResponseEntity getAllOrderU(@PathVariable("id") String idUser) {
+		List<Order> listOrderU = order_service.findAllByUser(idUser);
+		return ResponseEntity.ok(listOrderU);
 	}
 }

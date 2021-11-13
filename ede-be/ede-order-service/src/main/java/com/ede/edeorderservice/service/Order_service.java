@@ -48,4 +48,12 @@ public interface Order_service {
 
 	Order findDiscount(String id);
 
+	/**
+	 * @author Kim Thanh 
+	 * @param  find order user
+	 *
+	 * 
+	 */
+	List<Order> findAllByUser(String idUser);
+
 }
