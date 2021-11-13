@@ -35,10 +35,12 @@ public class Orderdetail implements Serializable {
 	double price;
 	int quantity;
 
+	
 	@ManyToOne
 	@JoinColumn(name = "id_product_option")
 	Product_option productOption;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "orderid")
 	Order order;

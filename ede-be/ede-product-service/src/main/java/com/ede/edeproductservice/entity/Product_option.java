@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +34,7 @@ public class Product_option implements Serializable {
 	String id;
 	String display_name;
 	Double price;
+	Double weight;
 	String size;
 	Integer quantity;
 	Boolean is_delete;

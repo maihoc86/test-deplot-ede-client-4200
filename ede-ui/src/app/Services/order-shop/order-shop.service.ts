@@ -29,4 +29,7 @@ export class OrderShopService {
   public getAllOrderShop() {
     return this.httpClient.get<any>(this.REST_API_SERVER + '/view/order/getAll', this.httpOptions);
   }
+  public getAllOrderUser(id: string){
+    return this.httpClient.get<any>(this.REST_API_SERVER+'/view/order/user/'+id,this.httpOptions);
+  }
 }

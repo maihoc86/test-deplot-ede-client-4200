@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ShipService } from '../Services/ship/ship.service';
+import { ReturnAddressService } from '../Services/return-address/return-address.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -24,7 +25,8 @@ export class ProductDetailComponent implements OnInit {
     private productSearchSrv: ProductSearchService,
     private headerService: HeaderService,
     private cookieService: CookieService,
-    private address_ship: ShipService
+    private address_ship: ShipService,
+    private addAddress: ReturnAddressService
   ) {
     this.activatedRoute.params.subscribe(({ idProduct }) => {
       this.productSearchSrv
@@ -86,7 +88,8 @@ export class ProductDetailComponent implements OnInit {
     this.addHistoryView();
   }
   addToCart( qty: any) {
-    var json = localStorage.getItem('cart');
+    if( this.userLogin != null){
+      var json = localStorage.getItem('cart');
     this.cart = json ? JSON.parse(json) : [];
     var item: any;
     this.cart.forEach((e) => {
@@ -105,6 +108,10 @@ export class ProductDetailComponent implements OnInit {
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.headerService.myMethod(this.cart);
+    }
+    else{
+     this.addAddress.addAddress();
+    }
   }
   public loadListProductRelatedShop(idShop: string, idcate: string) {
     this.productSearchSrv
@@ -227,7 +234,7 @@ export class ProductDetailComponent implements OnInit {
           cancelButtonText: 'Để sau',
         }).then((rs) => {
           if (rs.isConfirmed) {
-            this.router.navigate(['/login']);
+            this.addAddress.addAddress();
           }
         });
       }

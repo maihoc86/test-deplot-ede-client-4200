@@ -1,3 +1,4 @@
+import { ReturnAddressService } from '../Services/return-address/return-address.service';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginServiceService,
     private cookieService: CookieService,
     private router: Router,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private returnAddress: ReturnAddressService
   ) { }
 
   ngOnInit(): void {
@@ -46,12 +48,12 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.loginService.doLogin(this.form.controls['username'].value, this.form.controls['password'].value)
       .subscribe(data => {
+        this.cookieService.set('auth', data.token);
         this.loading = false;
         console.log(data)
         var json = localStorage.getItem('cart');
         this.cart = json ? JSON.parse(json) : [];
         if(this.cart.length<1){
-          alert("get db")
           this.headerService.getCart(data.id).subscribe(cartitem=>{
              if(cartitem!=null){
               console.log(cartitem)
@@ -61,9 +63,7 @@ export class LoginComponent implements OnInit {
              }
           })
         }else{
-          alert("update cart")
           this.headerService.updateCart(this.cart,data.id).subscribe(data=>{
-
            })
         }
         Swal.fire({
@@ -72,8 +72,7 @@ export class LoginComponent implements OnInit {
           text: 'Đăng nhập thành công!',
           confirmButtonText: `OK`,
         }).then((result) => {
-          this.cookieService.set('auth', data.token);
-          document.location.href = '';
+         this.returnAddress.returnAddress();
         })
       },
         (err) => {
