@@ -102,6 +102,9 @@
                   <div class="row">
                     <div class="form-group required">
                       <div class="col-sm-12">
+                        <!-- <div *ngIf="loadingAddress">
+                          <div class="loader4"></div>
+                        </div> -->
                         <label class="control-label">Tỉnh / Thành</label>
                         <select name="city_id" id="input-city" class="form-control" formControlName="city"
                           (change)="chooseCity()">
@@ -257,7 +260,7 @@
             </td>
           </tr>
 
-          <hr *ngIf="listAddressUser.length > 0"/>
+          <hr *ngIf="listAddressUser.length > 0" />
           </td>
           </tr>
 
@@ -299,3 +302,11 @@
     </div>
   </div>
 </div>
+<ngx-loading [show]="loading" [config]="{
+    backdropBackgroundColour: 'rgba(0,0,0,0.1)',
+    backdropBorderRadius: '4px',
+    primaryColour: '#000000',
+    secondaryColour: '#000000',
+    tertiaryColour: '#000000',
+    fullScreenBackdrop:true
+ }"></ngx-loading>

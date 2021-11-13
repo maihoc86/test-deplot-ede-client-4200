@@ -55,6 +55,7 @@ export class UserAddressComponent implements OnInit {
     ]),
     main_address: new FormControl(false),
   });
+  public loading: boolean = true;
   public listAddressUser: any = {};
   public listCitys: any = [];
   public listDistricts: any = [];
@@ -90,10 +91,11 @@ export class UserAddressComponent implements OnInit {
   }
 
   public getAllAddressUser() {
+    this.loading = true;
     this.address_user.getAllAdressByUser().subscribe(
       (data) => {
         this.listAddressUser = data;
-        console.log(this.listAddressUser);
+        this.loading = false;
       },
       (error) => {
         console.log(error);
@@ -106,6 +108,7 @@ export class UserAddressComponent implements OnInit {
    * @returns {obj} danh sách thành phố
    */
   public getApiCity() {
+    this.loading = true;
     this.apiAddressService.getApiCity().subscribe((data) => {
       const listCity = data.map(function (obj: {
         id: any;
@@ -114,6 +117,7 @@ export class UserAddressComponent implements OnInit {
       }) {
         return obj;
       });
+      this.loading = false;
       this.listCitys = listCity;
     });
   }
@@ -124,10 +128,12 @@ export class UserAddressComponent implements OnInit {
    * @returns {obj} danh sách quận
    */
   public getApiDistricts(id: any) {
+    this.loading = true;
     this.apiAddressService.getApiDistricts(id).subscribe((data) => {
       const listDistrict = data.map(function (obj: { id: any; name: any }) {
         return obj;
       });
+      this.loading = false;
       this.listDistricts = listDistrict;
     });
   }
@@ -138,16 +144,20 @@ export class UserAddressComponent implements OnInit {
    * @returns {obj} danh sách phường
    */
   public getApiWards(id: any) {
+    this.loading = true;
     this.apiAddressService.getApiWards(id).subscribe((data) => {
       const listWard = data.map(function (obj: { id: any; name: any }) {
         return obj;
       });
+      this.loading = false;
       this.listWards = listWard;
     });
   }
 
   chooseCity() {
     this.isHiddenDistrict = false;
+    this.isHiddenWards = true;
+    this.isHiddenAddress = true;
     this.getApiDistricts(this.address.controls['city'].value.id);
   }
 

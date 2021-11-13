@@ -323,6 +323,8 @@ export class ProductShopComponent implements OnInit {
           title: 'Thông báo!',
           text: 'Cập nhật sản phẩm thành công',
           icon: 'success',
+        }).then((result) => {
+          window.location.reload();
         });
       }
     ),
@@ -462,10 +464,9 @@ export class ProductShopComponent implements OnInit {
                   title: 'Thông báo!',
                   text: 'Sản phẩm đã được đăng bán',
                   icon: 'success',
+                }).then(() => {
+                  window.location.reload();
                 });
-                // .then(() => {
-                //   window.location.reload();
-                // });
               },
               (error) => {
                 alert(error);

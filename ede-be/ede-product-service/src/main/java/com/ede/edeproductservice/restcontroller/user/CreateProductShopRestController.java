@@ -1,6 +1,7 @@
 package com.ede.edeproductservice.restcontroller.user;
 
 import java.io.Console;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -85,6 +86,7 @@ public class CreateProductShopRestController {
 
 		product.setId(generateUUID().toString());
 		product.setEnable(false);
+		product.setCreatedate(new Date());
 		/************************/
 
 		Shop sh = shopService.findByUser(us);
