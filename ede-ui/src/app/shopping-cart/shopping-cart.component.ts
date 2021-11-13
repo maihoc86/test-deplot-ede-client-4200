@@ -97,6 +97,24 @@ export class ShoppingCartComponent implements OnInit {
         this.listIdShopinCart.push({ shop: e.product_option.product.shop });
       }
     });
+
+  }
+
+  ClearShopinCart(){
+    this.listIdShopinCart.forEach((shop:any) => {
+
+      var chk:any= false;
+      this.cart.forEach((e)=>{
+        if(e.product_option.product.shop.id == shop.shop.id){
+          chk = true
+          
+        }
+      });
+      if(!chk){
+        this.listIdShopinCart.splice(this.listIdShopinCart.indexOf(shop),1)
+      }
+    });
+   
   }
 
   public ship = new FormGroup({
@@ -129,6 +147,7 @@ export class ShoppingCartComponent implements OnInit {
       qtyCurrent,
       this.cart.findIndex((x) => x === qtyCurrent)
     );
+
   }
 
   /**
@@ -218,6 +237,7 @@ export class ShoppingCartComponent implements OnInit {
           console.log(error);
         }
       );
+      
   }
 
   /**
@@ -226,12 +246,13 @@ export class ShoppingCartComponent implements OnInit {
    */
   public removeItemCart(e: any) {
     this.cart.splice(
-      this.cart.findIndex((es) => es.id == e.id),
+      this.cart.findIndex((es) => es.product_option.id == e.id),
       1
     );
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
     this.headerService.myMethod(this.cart);
+    this.ClearShopinCart();
   }
 
   /**
