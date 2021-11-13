@@ -31,6 +31,13 @@ public class UpdateCustomerRestController {
 	@Autowired
 	UserAddress_Service address_Service;
 
+	/**
+	 * Hàm cập nhật địa chỉ
+	 * 
+	 * @param address
+	 * @param req
+	 * @return ServerResponse
+	 */
 	@PutMapping("/user/update-address")
 	public ResponseEntity updateAddress(@RequestBody UserAddress address, HttpServletRequest req) {
 
@@ -49,6 +56,12 @@ public class UpdateCustomerRestController {
 		}
 	}
 
+	/**
+	 * @author thaihoc Hàm chỉnh sửa địa chỉ phụ thành địa chỉ chính
+	 * @param address
+	 * @param req
+	 * @return ServerResponse
+	 */
 	@PutMapping("/user/update-main-address")
 	public ResponseEntity updateMainAddress(@RequestBody UserAddress address, HttpServletRequest req) {
 		User userLogin = new User();

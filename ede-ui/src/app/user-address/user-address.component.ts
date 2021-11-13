@@ -68,6 +68,9 @@ export class UserAddressComponent implements OnInit {
     this.address.reset();
   }
 
+  /**
+   * Hàm lấy ra user đang đăng nhập
+   */
   public getUserLogin() {
     this.headerService
       .getUserByToken(this.cookieService.get('auth'))
@@ -80,6 +83,9 @@ export class UserAddressComponent implements OnInit {
       });
   }
 
+  /**
+   * Hàm tạo cấu trúc dữ liệu theo bảng AddressUser để gửi lên server
+   */
   private createDataAddress() {
     const newAddress: any = {};
     for (const controlName in this.address.controls) {
@@ -90,6 +96,9 @@ export class UserAddressComponent implements OnInit {
     return newAddress as UserAddress;
   }
 
+  /**
+   * Hàm lấy ra tất cả địa chỉ của User
+   */
   public getAllAddressUser() {
     this.loading = true;
     this.address_user.getAllAdressByUser().subscribe(
@@ -154,6 +163,9 @@ export class UserAddressComponent implements OnInit {
     });
   }
 
+  /**
+   * Hàm chọn địa chỉ Thành phố / tỉnh
+   */
   chooseCity() {
     this.isHiddenDistrict = false;
     this.isHiddenWards = true;
@@ -161,15 +173,24 @@ export class UserAddressComponent implements OnInit {
     this.getApiDistricts(this.address.controls['city'].value.id);
   }
 
+  /**
+   * Hàm chọn địa chỉ Quận / huyện
+   */
   chooseDistrict() {
     this.isHiddenWards = false;
     this.getApiWards(this.address.controls['district'].value.id);
   }
 
+  /**
+   * Hàm chọn địa chỉ Phường / xã
+   */
   chooseWards() {
     this.isHiddenAddress = false;
   }
 
+  /**
+   * Hàm cập nhật hoặc thêm mới địa chỉ
+   */
   public async updateAddressUser() {
     this.address.controls['address'].setValue(
       this.address.controls['address'].value +
@@ -237,6 +258,11 @@ export class UserAddressComponent implements OnInit {
     }
   }
 
+  /**
+   * Hàm hiển thị địa chỉ lên Modal
+   * @params user địa chỉ gốc (chính)
+   * @params address địa chỉ phụ
+   */
   public showAddressUserModal(user: any, address_user: any) {
     if (user) {
       // this.address.controls['user'].setValue(user);
@@ -253,6 +279,11 @@ export class UserAddressComponent implements OnInit {
       this.changeSelectionAddress(address_user.address);
     }
   }
+
+  /**
+   * Hàm xóa địa chỉ phụ
+   * @params id địa chỉ cần xóa
+   */
   public deleteAddress(id: any) {
     this.address_user.deleteAddress(id).subscribe(
       (data) => {
@@ -268,6 +299,9 @@ export class UserAddressComponent implements OnInit {
     );
   }
 
+  /**
+   * Hàm load lên địa từ cắt từ address thành city , district , wards
+   */
   public changeSelectionAddress(address: any) {
     let idCity = '';
     let idDistrict = '';
@@ -311,6 +345,9 @@ export class UserAddressComponent implements OnInit {
     }, 4500);
   }
 
+  /**
+   * Hàm chỉnh sửa địa chỉ phụ thành địa chỉ chính
+   */
   public setAddressMain(address: any) {
     this.address_user.updateAddressMain(address).subscribe(
       (data) => {
