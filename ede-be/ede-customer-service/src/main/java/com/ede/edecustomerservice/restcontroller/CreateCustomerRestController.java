@@ -31,13 +31,17 @@ import com.ede.edecustomerservice.entity.Authorities;
 import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
+import com.ede.edecustomerservice.entity.UserAddress;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
+import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
 import com.ede.edecustomerservice.service.ShopService;
+import com.ede.edecustomerservice.service.UserAddress_Service;
 import com.fasterxml.jackson.databind.JsonNode;
 
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/ede-customer")
 public class CreateCustomerRestController {
@@ -46,6 +50,9 @@ public class CreateCustomerRestController {
 
 	@Autowired
 	ShopService shopservice;
+
+	@Autowired
+	Auth_Service auth_service;
 
 	@Autowired
 	RoleDao roleDao;
@@ -62,13 +69,15 @@ public class CreateCustomerRestController {
 	@Autowired
 	private MailService mailService;
 
+	@Autowired
+	UserAddress_Service address_Service;
+
 	/**
 	 * Register Account
 	 * 
 	 * @author hoc
 	 * @see #register(User)
 	 */
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/register")
 	public ResponseEntity register(@RequestBody User user) {
 		return checkDataUser(user);
@@ -80,7 +89,6 @@ public class CreateCustomerRestController {
 	 * @author hoc
 	 * @see #addNewUser(User)
 	 */
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/admin/add-new-user")
 	public ResponseEntity addNewUser(@RequestBody User user) {
 		return checkDataUser(user);
@@ -91,7 +99,6 @@ public class CreateCustomerRestController {
 	}
 
 	// checkData user
-	@SuppressWarnings("rawtypes")
 	public ResponseEntity checkDataUser(@RequestBody User user) {
 		user.setId(generateUUID());
 		String validate = validateUser(user);
@@ -138,7 +145,6 @@ public class CreateCustomerRestController {
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/send-email-verify")
 	public ResponseEntity activeAccountRegister(@RequestBody Map<String, String> request) {
 		String email = request.get("email");
@@ -170,7 +176,6 @@ public class CreateCustomerRestController {
 		return ResponseEntity.ok(true);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/account/verify")
 	public ResponseEntity checkActiveAccount(@RequestParam String email, @RequestParam String token) {
 		User active = service.findByEmail(email);
@@ -318,4 +323,40 @@ public class CreateCustomerRestController {
 
 	}
 
+	/**
+	 * @author thaihoc Hàm thêm mới địa chỉ
+	 * @param userAddress
+	 * @param req
+	 * @return ServerResponse
+	 */
+	@PostMapping("/user/add-new-address")
+	public ResponseEntity addNewAddress(@RequestBody UserAddress userAddress, HttpServletRequest req) {
+
+		User userLogin = new User();
+		try {
+			userLogin = auth_service.getUserLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		System.out.println(userAddress);
+
+		if (userLogin.getId().equals(userAddress.getUser().getId())) {
+
+			userAddress.setId(generateUUID());
+
+			System.err.print(userAddress.getId());
+
+			User findUser = service.findById(userAddress.getUser().getId()).get();
+
+			if (findUser == null) {
+				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "User không tồn tại", "user",
+						null);
+			}
+			return ResponseEntity.ok(address_Service.saveAddress(userAddress));
+		} else {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+					"Bạn không được thêm mới địa chỉ lên tài khoản người khác", "address", null);
+		}
+	}
 }

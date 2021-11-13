@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import {LocationStrategy} from '@angular/common';
+
 
 @Component({
   selector: 'app-header',
@@ -20,12 +22,22 @@ export class HeaderComponent implements OnInit {
     private cookieService: CookieService,
     private headerService: HeaderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {
+    router.events.subscribe(
+    ()=>{
+      this.hidenSearch();
+    }
+    );
     this.u = {} as User;
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
       this.loadTotal();
+      if(this.login){
+        this.headerService.updateCart(this.cart,this.u.id).subscribe(data=>{
+          // console.log(data)
+        })
+      }
     });
   }
 
@@ -45,6 +57,10 @@ export class HeaderComponent implements OnInit {
 
   public login: boolean = false;
   public u: User;
+  public active: boolean = false;
+
+
+
 
   public async getUserLogin() {
     await this.headerService
@@ -64,6 +80,7 @@ export class HeaderComponent implements OnInit {
   public async logout() {
     this.router.navigate(['/']);
     this.cookieService.delete('auth');
+    localStorage.removeItem('cart');
     document.location.href = '';
   }
 
@@ -80,20 +97,22 @@ export class HeaderComponent implements OnInit {
     );
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
+    this.headerService.myMethod(this.cart);
   }
   /**
    * Hàm thay đổi số lượng
    */
   changeQty(qtyCurrent: any, qtyChange: any) {
-    qtyCurrent.qty = qtyChange;
+    qtyCurrent.quantity = qtyChange;
     qtyChange > qtyCurrent.qty
-      ? qtyCurrent.qty++
-      : qtyCurrent.qty == qtyChange
-      ? (qtyCurrent.qty = qtyChange)
-      : qtyCurrent.qty--;
-    qtyCurrent.qty == 0 ? this.removeItemCart(qtyCurrent) : '';
+      ? qtyCurrent.quantity++
+      : qtyCurrent.quantity == qtyChange
+      ? (qtyCurrent.quantity = qtyChange)
+      : qtyCurrent.quantity--;
+    qtyCurrent.quantity == 0 ? this.removeItemCart(qtyCurrent) : '';
     localStorage.setItem('cart', JSON.stringify(this.cart));
     this.loadTotal();
+    this.headerService.myMethod(this.cart);
   }
   /**
    * Hàm chỉ được dùng số
@@ -139,4 +158,14 @@ export class HeaderComponent implements OnInit {
     )
     //
   }
+
+  hidenSearch(){
+    const segments: any = window.location.href;
+    if (segments.indexOf('/shop/') > -1) {
+      this.active = true;
+
+    }
+  }
+
+
 }

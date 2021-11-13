@@ -39,6 +39,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public sortBy: any;
   public hiddenLocation: boolean = true;
   public hiddenShowLocationMore: boolean = true;
+  public loadingProductTable = true;
   public idShop: any;
   ngOnInit(): void {
     this.getCities();
@@ -47,6 +48,10 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.getBrands(this.idShop);
     this.showShopInfo(this.idShop);
     this.getChildCategory(this.idShop);
+  }
+
+  public toBot() {
+    document.getElementById('table')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   /**
@@ -71,6 +76,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param brand nhãn hàng []
    */
   public listProduct() {
+    this.toBot();
     var param = this.route.snapshot.queryParamMap;
 
     this.category = param.get('category') ? param.get('category') : '';
@@ -112,6 +118,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param page trang số
    */
   public getAllProductDefault(idShop: any, page: any) {
+    this.loadingProductTable = true;
     this.ProductService.getAllProductShopByCustomer(idShop, page).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: {
@@ -121,11 +128,13 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
+        this.loadingProductTable = false;
         this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
       },
       (error) => {
+        this.loadingProductTable = false;
         if (error.error.message == 'Của hàng không tồn tại') {
           this.router.navigate(['/']);
         }
@@ -152,6 +161,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     brand: any,
     page: any
   ) {
+    this.loadingProductTable = true;
     this.ProductService.getAllProductShowInterfaceFilter(
       idShop,
       category,
@@ -167,11 +177,14 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         }) {
           return obj;
         });
+        this.loadingProductTable = false;
+
         this.sortHandler();
         this.page = data;
         this.count = this.page.totalElements;
       },
       (error) => {
+        this.loadingProductTable = false;
         if (error.error.message == 'Của hàng không tồn tại') {
           this.router.navigate(['/']);
         }
@@ -269,6 +282,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param category loại sản phẩm
    */
   clickFilterCategory(category: any) {
+    this.toBot();
     this.category = category;
     this.routeParams();
   }
@@ -283,9 +297,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.location.push(location);
     } else {
       this.location.splice(this.location.indexOf(location), 1);
-      if (this.location.length == 0) {
-        this.location = [];
-      }
+      if (this.location.length == 0) this.location = [];
     }
     this.routeParams();
   }
@@ -377,21 +389,17 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.cart = json ? JSON.parse(json) : [];
     var item: any;
     this.cart.forEach((e) => {
-      if (e.id == product.optionDef.id) {
+      if (e.product_option.id == product.optionDef.id) {
         item = e;
       }
     });
     if (item) {
-      item.qty++;
+      item.quantity++;
     } else {
       this.cart.push({
-        qty: 1,
-        name: product.name,
-        id: product.optionDef.id,
-        price: product.optionDef.price,
-        discount: product.optionDef.productDiscount[0]
-          ? product.optionDef.productDiscount[0]?.discount
-          : 0,
+        quantity: 1,
+        product_option: product.optionDef
+      
       });
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -403,7 +411,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * @param product id product truyền vào
    */
   showDetailProduct(product: any) {
-    console.log(product);
     this.router.navigate([`/product/detail/${product}`]);
   }
 
@@ -424,18 +431,12 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       });
     });
   }
-  async sortNewProduct() {
-    this.sortBy = 'ctime';
-    this.routeParams();
-  }
-
-  async sortDiscountProduct() {
-    this.sortBy = 'discount';
+  async sortProduct(value: any) {
+    this.sortBy = value;
     this.routeParams();
   }
 
   async sortPriceProduct(event: any) {
-    console.log(event.target.value);
     this.sortBy = event.target.value;
     this.routeParams();
   }
@@ -466,7 +467,19 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
           ? -1
           : 1;
       });
-    } else if (this.sortBy == 'DSC') {
+    } else if (this.sortBy == 'evaluate') {
+      this.listAllProducts.sort((a: any, b: any) => {
+        return a.evaluateDef == null && b.evaluateDef == null
+          ? 0
+          : a.evaluateDef == null
+          ? 1
+          : b.evaluateDef == null
+          ? -1
+          : a.evaluateDef > b.evaluateDef
+          ? -1
+          : 1;
+      });
+    } else if (this.sortBy == 'DESC') {
       this.listAllProducts.sort((a: any, b: any) => {
         return a.optionDef.price > b.optionDef.price ? -1 : 1;
       });

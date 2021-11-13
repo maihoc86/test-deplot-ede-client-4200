@@ -123,8 +123,9 @@ public class CustomerImpl implements CustomerService {
 
 	@Override
 	public User findByUsername2(String id) {
-		System.err.println("in impl : " +id);
+		System.err.println("in impl : " + id);
 		return dao.findByUsername2(id);
 	}
-	
+
+
 }

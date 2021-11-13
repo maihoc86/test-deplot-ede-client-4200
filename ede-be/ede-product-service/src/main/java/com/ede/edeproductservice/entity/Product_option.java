@@ -34,6 +34,7 @@ public class Product_option implements Serializable {
 	String id;
 	String display_name;
 	Double price;
+	Double weight;
 	String size;
 	Integer quantity;
 	Boolean is_delete;
@@ -41,7 +42,11 @@ public class Product_option implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	Product product;
-
+	
+//	@ManyToOne
+//	@JoinColumn(name = "id_product")
+//	ProductSearch productSearch;
+	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "productoption")
 	@Fetch(value = FetchMode.SUBSELECT)

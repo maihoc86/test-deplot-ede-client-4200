@@ -21,6 +21,7 @@ import com.ede.edecustomerservice.service.ShopService;
 public class UpdateShopRestController {
 	@Autowired
 	ShopService shopService;
+	
 	@Autowired
 	Auth_Service auth_service;
 
@@ -33,7 +34,7 @@ public class UpdateShopRestController {
 	 * 
 	 */
 	@SuppressWarnings("rawtypes")
-	@PutMapping("/info/update/")
+	@PutMapping("/user/info/update/")
 	public ResponseEntity updateInfoShop(@RequestBody Shop shop, HttpServletRequest req) {
 		Shop shopLogin = new Shop();
 		try {

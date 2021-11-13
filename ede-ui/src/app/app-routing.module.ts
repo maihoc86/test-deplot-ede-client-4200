@@ -1,3 +1,5 @@
+import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
+import { UserOderComponent } from './user-oder/user-oder.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountActiveComponent } from './account-active/account-active.component';
@@ -15,6 +17,12 @@ import { ProductSearchComponent } from './product-search/product-search.componen
 import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CategoryShopComponent } from './category-shop/category-shop.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
+import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
+import { UserAddressComponent } from './user-address/user-address.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -23,16 +31,31 @@ const routes: Routes = [
   { path: 'register', component: RegisterAccountComponent },
   { path: 'account/verify', component: AccountActiveComponent },
   { path: 'shop/product/manager', component: ProductShopComponent },
-  { path: 'shop/product/all', component: ProductAllComponent},
-  { path: 'shop/order/all', component:OrderAllComponent},
-  { path: 'shop/interface/:id', component: ShopInterfaceComponent},
-  { path: 'shop/showall/interface', component: ShowAllProductsShopInterfaceComponent},
-  { path: 'shop/profile', component: ShopProfileComponent},
-  { path: 'shop/product/manager/:id', component:ProductShopComponent, pathMatch: 'full'},
+  { path: 'shop/product/all', component: ProductAllComponent },
+  { path: 'shop/order/all', component: OrderAllComponent },
+  { path: 'shop/interface/:id', component: ShopInterfaceComponent },
+  {
+    path: 'shop/showall/interface',
+    component: ShowAllProductsShopInterfaceComponent,
+  },
+  { path: 'shop/profile', component: ShopProfileComponent },
+  {
+    path: 'shop/product/manager/:id',
+    component: ProductShopComponent,
+    pathMatch: 'full',
+  },
   { path: 'search', component: ProductSearchComponent },
   { path: 'shop/revenue', component:RevenueShopComponent},
   { path: 'product/detail/:idProduct', component: ProductDetailComponent},
-  { path: 'shop/category',component:CategoryShopComponent}
+  { path: 'shop/category',component:CategoryShopComponent},
+  { path: 'shopping/cart', component: ShoppingCartComponent},
+  { path: 'checkout', component:CheckoutComponent},
+  { path: 'user/accout', component: UserAccountComponent},
+  { path: 'user/update/email', component: UserUpdateEmailComponent},
+  { path: 'user/update/phone', component: UserUpdatePhoneComponent},
+  { path: 'user/order', component: UserOderComponent},
+  { path: 'user/chang/pass', component: UserChangPassComponent},
+  { path: 'user/account/address', component: UserAddressComponent }
 ];
 
 @NgModule({

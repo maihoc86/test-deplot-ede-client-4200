@@ -236,7 +236,7 @@
                                       <div>
                                         <ul class="row-list">
                                           <li>
-                                            <a href="cart.html">Shopping Cart Page</a>
+                                            <a  routerLink="/shopping/cart"  [routerLinkActive]="'active-link'">Shopping Cart Page</a>
                                           </li>
                                           <li>
                                             <a href="checkout.html">Checkout Page</a>
@@ -492,7 +492,7 @@
                   <span class="fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu btn-xs">
-                  <li><a href="#">&nbsp;Tài khoản của tôi</a></li>
+                  <li><a href="/user/accout">&nbsp;Tài khoản của tôi</a></li>
                   <li><a href="#">&nbsp;Đơn mua </a></li>
                   <li><a href="#" (click)="logout()">&nbsp;Đăng xuất </a></li>
                 </ul>
@@ -1046,25 +1046,10 @@
               <div id="sosearchpro" class="sosearchpro-wrapper so-search">
                 <form method="GET" action="index.html">
                   <div id="search0" class="search input-group form-group">
-                    <div class="select_category filter_type icon-select hidden-sm hidden-xs">
-                      <select class="no-border" name="category_id">
-                        <option value="0">All Categories</option>
-                        <option value="78">Apparel</option>
-                        <option value="77">Cables &amp; Connectors</option>
-                        <option value="82">Cameras &amp; Photo</option>
-                        <option value="80">Flashlights &amp; Lamps</option>
-                        <option value="81">Mobile Accessories</option>
-                        <option value="79">Video Games</option>
-                        <option value="20">Jewelry &amp; Watches</option>
-                        <option value="76">
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Earings
-                        </option>
-                        <option value="26">
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wedding Rings
-                        </option>
-                        <option value="27">
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Men Watches
-                        </option>
+                    <div *ngIf="active"  class="select_category filter_type icon-select hidden-sm hidden-xs">
+                      <select  class="no-border" name="category_id">
+                        <option  value="0">Trong shop này</option>
+                        <option value="78">Trong EDE </option>
                       </select>
                     </div>
 
@@ -1118,14 +1103,13 @@
                             </a>
                           </td>
                           <td class="text-left">
-                            <a class="cart_product_name limit" href="product.html">{{item.name}}</a>
+                            <a class="cart_product_name limit" href="product.html">{{item.product_option.product.name}}</a>
                           </td>
                           <td class="text-left">
-                            <input type="number" value={{item.qty}} #qty style="width:35px"
+                            <input type="number" value={{item.quantity}} #qty style="width:35px"
                               (keypress)="numberOnly($event,item, qty.value)" (change)="changeQty(item, qty.value)">
                           </td>
-                          <td> <span>{{(item.discount==0?item.qty*item.price:(item.price*item.qty)-((item.discount/100)*item.price))| currency :'VND'}}</span></td>
-
+                          <td> <span>{{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-((item.product_option.price*item.quantity)*(item.product_option.productDiscount[0].discount/100)):item.product_option.price*item.quantity)| currency :'VND'}}</span></td>
                           <td class="text-right">
                             <a href="product.html" class="fa fa-edit"></a>
                           </td>
@@ -1167,7 +1151,7 @@
                         </tbody>
                       </table>
                       <p class="text-right">
-                        <a class="btn view-cart" href="cart.html"><i class="fa fa-shopping-cart"></i>View
+                        <a class="btn view-cart"  routerLink="/shopping/cart"><i class="fa fa-shopping-cart"></i>View
                           Cart</a>&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-mega checkout-cart" href="checkout.html"><i
                             class="fa fa-share"></i>Checkout</a>

@@ -256,8 +256,8 @@
               <div class="content-product-left class-honizol col-md-5 col-sm-12 col-xs-12">
                 <div class="large-image  ">
                   <img itemprop="image" class="product-image-zoom"
-                    [src]="HOST_ORIGIN + '/ede-file/get/image/' + product?.optionDef?.optionImageDef.image"
-                    [attr.data-zoom-image]="HOST_ORIGIN + '/ede-file/get/image/' + product?.optionDef?.optionImageDef.image"
+                    [src]="HOST_ORIGIN + '/ede-file/get/image/' + productShow?.optionImageDef.image"
+                    [attr.data-zoom-image]="HOST_ORIGIN + '/ede-file/get/image/' + productShow?.optionImageDef.image"
                     title="{{product.name}}" alt="{{product.name}}">
                 </div>
                 <a class="thumb-video pull-left" href="https://www.youtube.com/watch?v=HhabgvIIXik"><i
@@ -318,20 +318,66 @@
                   <div class="product_page_price price" itemprop="offerDetails" itemscope=""
                     itemtype="http://data-vocabulary.org/Offer">
 
-                    <div *ngIf="product.productDiscount.length!=0">
-                      <span class="price-new" itemprop="price">{{product.optionDef.price * (100 -
-                        product.productDiscount[0].discount) / 100 | number}}đ</span>
-                      <span class="price-old">{{product.optionDef.price | number}}đ</span>
+                    <div *ngIf="productShow.productDiscount.length!=0">
+                      <span class="price-new" itemprop="price">{{productShow.price * (100 -
+                        productShow.productDiscount[0].discount) / 100 | number}}đ</span>
+                      <span class="price-old">{{productShow.price | number}}đ</span>
                     </div>
                     <span class="price-new" itemprop="price"
-                      *ngIf="product.productDiscount!=[]">{{product.optionDef.price | number}}đ</span>
+                      *ngIf="product.productDiscount!=[]">{{productShow.price | number}}đ</span>
                   </div>
                   <div class="stock"><span>Availability:</span> <span class="status-stock">In Stock</span></div>
                 </div>
 
+                <div id="ship"[formGroup]="ship">
+                  <h4>Vận Chuyển</h4>
+                  <div class="row">
+                    <div class="form-group required col-md-12">
+                      <label class="control-label">Đơn vị vận chuyển</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="company" (change)="chooseShippingCompany()">
+                          <option [ngValue]="null" disabled> --- Chọn đơn vị vận chuyển --- </option>
+                            <option *ngFor="let prf of listShippingCompany" [ngValue]="prf.id"  [attr.selected]="prf.id == ship.controls['company'].value ? true : null">
+                            {{ prf.name }}
+                            </option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group required col-md-6">
+                      <label class="control-label">Tỉnh thành</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="city" (change)="chooseCity()">
+                          <option [ngValue]="null" disabled> --- Chọn tỉnh thành --- </option>
+                          <option *ngFor="let prf of listCitys" [ngValue]="prf.id">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                    <div class="form-group required col-md-6">
+                      <label class="control-label">Quận huyện</label>
+                        <select name="country_id" id="input-country" class="form-control" formControlName="district">
+                          <option [ngValue]="null" disabled> --- Chọn quận huyện --- </option>
+                          <option *ngFor="let prf of listDistricts" [ngValue]="prf.id">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group required col-md-12">
+                      <label class="control-label">Chọn phương thức giao hàng</label>
+                        <select name="method_ship" id="input-method" class="form-control" formControlName="method"  (change)="getFeeShip()">
+                          <option [ngValue]="null" disabled> --- Chọn phương thức giao hàng --- </option>
+                          <option *ngFor="let prf of listMethodShip" [ngValue]="prf.id">
+                            {{ prf.name }}
+                          </option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="product-box-desc">
                   <div class="inner-box-desc">
-                    <div class="price-tax"><span>Ex Tax:</span> $60.00</div>
+                    <div class="price-tax"><span>Phí vận chuyển:</span> {{feeShip}} VNĐ</div>
                     <div class="reward"><span>Price in reward points:</span> 400</div>
                     <div class="brand"><span>Brand:</span><a href="#">Apple</a> </div>
                     <div class="model"><span>Product Code:</span> Product 15</div>
@@ -342,39 +388,16 @@
 
                 <div id="product">
                   <h4>Available Options</h4>
+                  <div class="form required">
+                    <label class="control-label">Thuộc tính</label>
+                  </div>
                   <div class="image_option_type form-group required">
-                    <label class="control-label">Colors</label>
-                    <ul class="product-options clearfix" id="input-option231">
-                      <li class="radio">
-                        <label>
-                          <input class="image_radio" type="radio" name="option[231]" value="33">
-                          <img src="./../../assets/image/demo/colors/blue.jpg" data-original-title="blue +$12.00"
-                            class="img-thumbnail icon icon-color"> <i class="fa fa-check"></i>
-                          <label> </label>
-                        </label>
-                      </li>
-                      <li class="radio">
-                        <label>
-                          <input class="image_radio" type="radio" name="option[231]" value="34">
-                          <img src="./../../assets/image/demo/colors/brown.jpg" data-original-title="brown -$12.00"
-                            class="img-thumbnail icon icon-color"> <i class="fa fa-check"></i>
-                          <label> </label>
-                        </label>
-                      </li>
-                      <li class="radio">
-                        <label>
-                          <input class="image_radio" type="radio" name="option[231]" value="35"> <img
-                            src="./../../assets/image/demo/colors/green.jpg" data-original-title="green +$12.00"
-                            class="img-thumbnail icon icon-color"> <i class="fa fa-check"></i>
-                          <label> </label>
-                        </label>
-                      </li>
-                      <li class="selected-option">
-                      </li>
-                    </ul>
+                      <div style="float: left; margin-left: 15px;" *ngFor = 'let item of product.productOptions'>
+                       <div (click)="changeOptione(item)"> <input  [checked]="item.id == productShow.id? true:false" type="radio" id='item.id' name="drone" /> <label style="padding-left: 5px;" for = '{{item.id}}'>{{item.display_name}}</label> </div>
+                      </div>
                   </div>
 
-                  <div class="box-checkbox form-group required">
+                  <!-- <div class="box-checkbox form-group required">
                     <label class="control-label">Checkbox</label>
                     <div id="input-option232">
                       <div class="checkbox">
@@ -394,25 +417,25 @@
                           Checkbox 4 (+$48.00)</label>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="form-group box-info-product">
                     <div class="option quantity">
                       <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
                         <label>Qty</label>
-                        <input class="form-control" name="quantity" value="1" #qty>
-                        <input type="hidden" name="product_id" value="50">
-                        <span class="input-group-addon product_quantity_down">−</span>
-                        <span class="input-group-addon product_quantity_up">+</span>
+                        <input class="form-control" style="min-width: max-content;" type="number" name="quantity" value="1" #qty min="1" max="{{productShow.quantity}}">
+                        
+                        <!-- <span class="input-group-addon product_quantity_down">−</span>
+                        <span class="input-group-addon product_quantity_up">+</span> -->
                       </div>
                     </div>
                     <div class="cart">
                       <input type="button" data-toggle="tooltip" title="" value="Add to Cart"
                         data-loading-text="Loading..." id="button-cart" class="btn btn-mega btn-lg"
-                        onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(product,qty.value)"
+                        onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(qty.value)"
                         data-original-title="Add to Cart">
                     </div>
-                    <div class="add-to-links wish_comp">
+                    <!-- <div class="add-to-links wish_comp">
                       <ul class="blank list-inline">
                         <li class="wishlist">
                           <a class="icon" data-toggle="tooltip" title="" onclick="wishlist.add('50');"
@@ -425,7 +448,8 @@
                           </a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
+                    <p>Có sẵn {{productShow.quantity}}</p>
                   </div>
 
                 </div>
@@ -599,31 +623,10 @@
                       </a>
                     </div>
                     <div class="box-label">
-                      <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
-                        -{{ item.productDiscount[0].discount}}%
+                      <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
+                        -{{ item.optionDef.productDiscount[0].discount}}%
                       </span>
 
-                    </div>
-                    <div style="margin-top: 30px;">
-                      <div class="button-group so-quickview cartinfo--left">
-                        <button type="button" class="addToCart btn-button" title="Add to cart"> <i
-                            class="fa fa-shopping-basket"></i>
-                          <span>Add to cart</span>
-                        </button>
-                        <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
-                            class="fa fa-heart"></i><span>Add to Wish
-                            List</span>
-                        </button>
-                        <button type="button" class="compare btn-button" title="Compare this Product "><i
-                            class="fa fa-refresh"></i><span>Compare this
-                            Product</span>
-                        </button>
-                        <!--quickview-->
-                        <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
-                          title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick
-                            view</span></a>
-                        <!--end quickview-->
-                      </div>
                     </div>
                   </div>
                   <div class="right-block">
@@ -679,31 +682,9 @@
                     </a>
                   </div>
                   <div class="box-label">
-                    <span class="label-product label-sale" *ngIf="item.productDiscount[0] != undefined">
-                      -{{ item.productDiscount[0].discount}}%
+                    <span class="label-product label-sale" *ngIf="item.optionDef.productDiscount[0] != undefined">
+                      -{{ item.optionDef.productDiscount[0].discount}}%
                     </span>
-
-                  </div>
-                  <div style="margin-top: 30px;">
-                    <div class="button-group so-quickview cartinfo--left">
-                      <button type="button" class="addToCart btn-button" title="Add to cart"> <i
-                          class="fa fa-shopping-basket"></i>
-                        <span>Add to cart</span>
-                      </button>
-                      <button type="button" class="wishlist btn-button" title="Add to Wish List"><i
-                          class="fa fa-heart"></i><span>Add to Wish
-                          List</span>
-                      </button>
-                      <button type="button" class="compare btn-button" title="Compare this Product "><i
-                          class="fa fa-refresh"></i><span>Compare this
-                          Product</span>
-                      </button>
-                      <!--quickview-->
-                      <a class="iframe-link btn-button quickview quickview_handler visible-lg" href="quickview.html"
-                        title="Quick view" data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Quick
-                          view</span></a>
-                      <!--end quickview-->
-                    </div>
                   </div>
                 </div>
                 <div class="right-block">

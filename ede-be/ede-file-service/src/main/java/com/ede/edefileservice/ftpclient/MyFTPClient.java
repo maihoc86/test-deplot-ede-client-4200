@@ -11,9 +11,9 @@ import org.apache.commons.net.ftp.FTPReply;
 
 public class MyFTPClient implements Closeable {
 	
-	private String server = "ftp.uwfwfkql.nethost-3811.000nethost.com";
+	private String server = "files.000webhost.com"; //"ftp.pkeuutew.000nethost.com";
     private int port = 21;
-    private String user = "viovivi@uwfwfkql.nethost-3811.000nethost.com";
+    private String user = "edarkeye"; //"edarkeye@pkeuutew.000nethost.com";
     private String password = "Admin0123/";
 	private FTPClient ftp;
 	

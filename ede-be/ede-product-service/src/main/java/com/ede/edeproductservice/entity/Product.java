@@ -66,6 +66,11 @@ public class Product implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Evaluate> evaluate;
+	
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "product")
+	List<Product_meta> product_metas;
 
 	@Override
 	public String toString() {

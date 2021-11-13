@@ -41,4 +41,6 @@ public class Product_discount implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_product_option")
 	Product_option productdiscount;
+	
+	
 }

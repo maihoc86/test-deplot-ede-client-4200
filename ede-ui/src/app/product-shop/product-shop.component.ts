@@ -26,7 +26,6 @@ import { ImagesService } from '../Services/images/images.service';
   styleUrls: ['./product-shop.component.css'],
 })
 export class ProductShopComponent implements OnInit {
-  // TODO: Thêm TAG
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -83,6 +82,10 @@ export class ProductShopComponent implements OnInit {
       Validators.pattern('([0-9]{0,9})\\b'),
     ]),
     size: new FormControl(''),
+    weight: new FormControl('', [
+      Validators.required,
+      Validators.pattern('([0-9]{0,9})\\b'),
+    ]),
     quantity: new FormControl('', [
       Validators.required,
       Validators.pattern('([0-9]{0,4})\\b'),
@@ -206,6 +209,7 @@ export class ProductShopComponent implements OnInit {
     }
     return true;
   }
+
   showParent_Child() {
     this.isHiddenChild = true;
     this.isHiddenChildParent = false;
@@ -266,7 +270,7 @@ export class ProductShopComponent implements OnInit {
               Swal.fire({
                 title: 'Thông báo!',
                 text: 'Cập nhật giảm giá bại !!!',
-                icon: 'success',
+                icon: 'error',
               });
             };
         }
@@ -324,6 +328,8 @@ export class ProductShopComponent implements OnInit {
           title: 'Thông báo!',
           text: 'Cập nhật sản phẩm thành công',
           icon: 'success',
+        }).then((result) => {
+          window.location.reload();
         });
       }
     ),
@@ -371,12 +377,12 @@ export class ProductShopComponent implements OnInit {
               });
             };
         }
-          Swal.fire({
-            title: 'Thông báo!',
-            text: 'Thêm thuộc tính sản phẩm thành công',
-            icon: 'success',
-          });
-
+        Swal.fire({
+          title: 'Thông báo!',
+          text: 'Thêm thuộc tính sản phẩm thành công',
+          icon: 'success',
+        });
+        window.location.reload();
       },
       (error) => {
         if (error.status == 400) {
@@ -463,10 +469,9 @@ export class ProductShopComponent implements OnInit {
                   title: 'Thông báo!',
                   text: 'Sản phẩm đã được đăng bán',
                   icon: 'success',
+                }).then(() => {
+                  window.location.reload();
                 });
-                // .then(() => {
-                //   window.location.reload();
-                // });
               },
               (error) => {
                 alert(error);

@@ -15,7 +15,7 @@ import { ManagerCategoryComponent } from './manager-category/manager-category.co
 import { ManagerProductComponent } from './manager-product/manager-product.component';
 import { ManagerShopComponent } from './manager-shop/manager-shop.component';
 import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-order-discount.component';
-
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,7 @@ import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-
     HttpClientModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent],

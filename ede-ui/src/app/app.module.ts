@@ -33,7 +33,16 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RevenueShopComponent } from './revenue-shop/revenue-shop.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CategoryShopComponent } from './category-shop/category-shop.component';
-
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { NgxLoadingModule } from 'ngx-loading';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { AsideUserComponent } from './layout/aside-user/aside-user.component';
+import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
+import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
+import { UserOderComponent } from './user-oder/user-oder.component';
+import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
+import { UserAddressComponent } from './user-address/user-address.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +65,15 @@ import { CategoryShopComponent } from './category-shop/category-shop.component';
     RevenueShopComponent,
     ProductDetailComponent,
     CategoryShopComponent,
+    ShoppingCartComponent,
+    CheckoutComponent,
+    UserAccountComponent,
+    AsideUserComponent,
+    UserUpdateEmailComponent,
+    UserUpdatePhoneComponent,
+    UserOderComponent,
+    UserChangPassComponent,
+    UserAddressComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,8 +91,8 @@ import { CategoryShopComponent } from './category-shop/category-shop.component';
     MatIconModule,
     MatDatepickerModule,
     NgxPaginationModule,
-    MatProgressBarModule
-
+    MatProgressBarModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent],

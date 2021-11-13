@@ -21,7 +21,7 @@ export class MyShopService {
   private REST_API_SERVER2 = 'http://localhost:8080/ede-product/';
   public updateInfoShop(data: Shop) {
     return this.httpClient.put<any>(
-      this.REST_API_SERVER + '/info/update/',
+      this.REST_API_SERVER + '/user/info/update/',
       data,
       this.httpOptions
     );
@@ -36,10 +36,22 @@ export class MyShopService {
       this.httpOptions
     );
   }
-  public getProductSale(id:any,p:any){
-    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productsale/byshop/'+id+'?page='+p);
+  public get5ProductNew(id:any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productnew/byshop/'+id);
   }
-  public getProductNew(id:any,p:any){
-    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productnew/byshop/'+id+'?page='+p);
+  public get5ProductDiscount(id:any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productdiscount/byshop/'+id);
+  }
+  public get5ProductSalling(id:any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/5productsalling/byshop/'+id);
+  }
+  public getProductSale(id:any,p:any,keySearch: any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productsale/byshop/'+id+'?page='+p+'&keySearch='+keySearch);
+  }
+  public getProductNew(id:any,p:any,keySearch: any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productnew/byshop/'+id+'?page='+p+'&keySearch='+keySearch);
+  }
+  public getProductSalling(id:any,p:any,keySearch: any){
+    return this.httpClient.get<any>(this.REST_API_SERVER2+'view/productsalling/byshop/'+id+'?page='+p+'&keySearch='+keySearch);
   }
 }

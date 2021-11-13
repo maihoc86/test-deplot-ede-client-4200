@@ -206,8 +206,7 @@ public class ProductImpl implements ProductService {
 		return dao.testFilterProductNew(of);
 	}
 
-	
-	
+		
 	/**
 	 * @author Kim Thanh
 	 *
@@ -218,13 +217,13 @@ public class ProductImpl implements ProductService {
 		return dao.findAllCommnentByIdProduct(id);
 	}
 	@Override
-	public Page<ProductSearch> getProductSaleByIdShop(String id, PageRequest pageRequest) {
-		return dao.getProductSaleByIdShop(id, pageRequest);
+	public List<ProductSearch> getProductAllByIdShop(String id, String keySearch) {
+		return dao.getProductAllByIdShop(id, "%"+keySearch+"%");
 	}
 
 	@Override
-	public Page<ProductSearch> getProductNewByIdShop(String id, PageRequest pageRequest) {
-		return dao.getProductNewByIdShop(id,pageRequest);
+	public Page<ProductSearch> getProductNewByIdShop(String id,String keySearch, PageRequest pageRequest) {
+		return dao.getProductNewByIdShop(id, "%"+keySearch+"%",pageRequest);
 	}
 
 }
