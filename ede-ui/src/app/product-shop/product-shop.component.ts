@@ -82,6 +82,10 @@ export class ProductShopComponent implements OnInit {
       Validators.pattern('([0-9]{0,9})\\b'),
     ]),
     size: new FormControl(''),
+    weight: new FormControl('', [
+      Validators.required,
+      Validators.pattern('([0-9]{0,9})\\b'),
+    ]),
     quantity: new FormControl('', [
       Validators.required,
       Validators.pattern('([0-9]{0,4})\\b'),
@@ -205,6 +209,7 @@ export class ProductShopComponent implements OnInit {
     }
     return true;
   }
+
   showParent_Child() {
     this.isHiddenChild = true;
     this.isHiddenChildParent = false;

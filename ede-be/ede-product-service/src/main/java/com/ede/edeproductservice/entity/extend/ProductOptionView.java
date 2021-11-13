@@ -55,6 +55,8 @@ public class ProductOptionView {
 	Integer quantity;
 	@Column(table = "product_option")
 	Boolean is_delete;
+	@Column(table =  "product_option")
+	Double weight;
 	@ManyToOne
 	@JoinColumn(name = "id_product", table = "product_option")
 	Product product;
