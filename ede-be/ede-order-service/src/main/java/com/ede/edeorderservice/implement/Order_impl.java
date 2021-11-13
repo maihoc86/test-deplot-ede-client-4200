@@ -72,4 +72,9 @@ public class Order_impl implements Order_service {
 		return dao.findDiscount(id);
 	}
 
+	@Override
+	public List<Order> findAllByUser(String idUser) {
+		return dao.findAllByUser(idUser);
+	}
+
 }

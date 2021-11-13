@@ -39,7 +39,7 @@ public class Order implements Serializable {
 	double total_amount;
 	String note;
 	
-	@JsonIgnore
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Orderdetail> order_detail;

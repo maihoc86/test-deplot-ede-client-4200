@@ -49,4 +49,14 @@ public interface OrderDao extends JpaRepository<Order, String> {
 	@Query("SELECT o FROM Order o where o.discount.id =:id")
 	Order findDiscount(String id);
 
+
+	/**
+	 * @author Kim Thanh
+	 * @param 
+	 *
+	 * 
+	 */
+	@Query("SELECT o FROM Order o where o.user.id =?1 ")
+	List<Order> findAllByUser(String idUser);
+
 }
