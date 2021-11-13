@@ -42,6 +42,13 @@ public class DeleteCustomerRestController {
 		}
 	}
 
+	/**
+	 * @author thaihoc
+	 * Hàm xóa địa chỉ
+	 * @param id  id địa chỉ
+	 * @param req
+	 * @return ServerResponse
+	 */
 	@DeleteMapping("/user/delete-address/{id}")
 	public ResponseEntity deleteAddress(@PathVariable("id") String id, HttpServletRequest req) {
 

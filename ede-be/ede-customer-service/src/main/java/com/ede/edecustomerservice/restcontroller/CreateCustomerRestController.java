@@ -323,6 +323,12 @@ public class CreateCustomerRestController {
 
 	}
 
+	/**
+	 * @author thaihoc Hàm thêm mới địa chỉ
+	 * @param userAddress
+	 * @param req
+	 * @return ServerResponse
+	 */
 	@PostMapping("/user/add-new-address")
 	public ResponseEntity addNewAddress(@RequestBody UserAddress userAddress, HttpServletRequest req) {
 
@@ -338,7 +344,7 @@ public class CreateCustomerRestController {
 		if (userLogin.getId().equals(userAddress.getUser().getId())) {
 
 			userAddress.setId(generateUUID());
-			
+
 			System.err.print(userAddress.getId());
 
 			User findUser = service.findById(userAddress.getUser().getId()).get();
