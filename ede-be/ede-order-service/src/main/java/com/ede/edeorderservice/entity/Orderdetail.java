@@ -30,7 +30,7 @@ public class Orderdetail implements Serializable {
 	String id;
 	double price;
 	int quantity;
-	double feeShip;
+	double fee_ship;
 
 	@ManyToOne
 	@JoinColumn(name = "id_product_option")
