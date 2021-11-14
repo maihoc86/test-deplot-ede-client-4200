@@ -6,8 +6,8 @@
     <div class="col-sm-8" style="background-color: #fff; margin-top: 20px; border-radius: 3px;box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
         <ul class="nav nav-tabs" style="margin-top: 20px;">
             <li class="active"><a data-toggle="tab" href="#home">Tất cả</a></li>
-            <li><a data-toggle="tab" href="#menu1">Đã giao</a></li>
-            <li><a data-toggle="tab" href="#menu2">Đã hủy</a></li>
+            <li><a data-toggle="tab" href="#menu1" (click)="filterOrder('Đã giao')">Đã giao</a></li>
+            <li><a data-toggle="tab" href="#menu2" (click)="filterOrder('Đã hủy')">Đã hủy</a></li>
         </ul>
           <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
@@ -18,7 +18,7 @@
                         <div class="position-relative">
                           <input type="text" class="form-control" placeholder="Search..." name="keywordDetail"
                             id="keywordDetail" #keywordDetail>
-  
+
                         </div>
                       </form>
                     </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-sm-4" >
                   <p>
-                    <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> | 
+                    <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> |
                     <em style="color: #d43f3a;">ĐÃ GIAO</em>
                   </p>
                 </div>
@@ -61,19 +61,19 @@
               </div>
               </div>
             </div>
-            <div id="menu1" class="tab-pane fade">
+            <div id="menu1" class="tab-pane fade" *ngFor="let item of listOrderFilter">
               <div class="row" style="margin-top: 20px;">
                 <div class="col-sm-8">
                   <p>
                     <em style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu thích+</em>
-                    <b style="margin-right: 6px;"> KimThanhCute_Shop</b>
+                    <b style="margin-right: 6px;"> {{item.order_detail[0].productOption.product.shop.name}}</b>
                     <em style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span class="glyphicon glyphicon-comment"></span> Chat</em>
                     <em style="margin-right: 6px; border: 1px dimgray solid; padding: 5px;border-radius: 2px;"><span class="glyphicon glyphicon-calendar"></span> Xem shop</em>
                   </p>
                 </div>
                 <div class="col-sm-4">
                   <p>
-                    <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> | 
+                    <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> |
                     <em style="color: #d43f3a;">ĐÃ GIAO</em>
                   </p>
                 </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-sm-4">
                   <p>
-                    <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> trả hàng thành công</em> | 
+                    <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> trả hàng thành công</em> |
                     <em style="color: #d43f3a;">ĐÃ HỦY</em>
                   </p>
                 </div>
