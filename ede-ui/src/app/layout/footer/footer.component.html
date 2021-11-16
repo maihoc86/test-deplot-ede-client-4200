@@ -16,15 +16,30 @@
               </div>
 
               <div class="block_content">
-                <form method="post" id="signup" name="signup" class="form-group form-inline signup send-mail">
+                <form [formGroup]="subscribe" class="form-group form-inline signup send-mail">
                   <div class="form-group">
                     <div class="input-box">
-                      <input type="email" placeholder="Địa chỉ Email của bạn..." value="" class="form-control"
-                        id="txtemail" name="txtemail" size="55">
+                      <input type="email" placeholder="Địa chỉ Email của bạn..." class="form-control"
+                        formControlName="email" id="txtemail" name="txtemail" required>
+                      <div *ngIf="
+                              subscribe.controls['email'].invalid &&
+                              (subscribe.controls['email'].dirty ||
+                                subscribe.controls['email'].touched)
+                            " class="alert alert-danger">
+                        <span *ngIf="
+                              subscribe.controls['email'].errors &&
+                              subscribe.controls['email'].errors.required
+                            ">Email là bắt buộc.</span>
+                        <span *ngIf="
+                              subscribe.controls['email'].errors &&
+                              subscribe.controls['email'].errors.email
+                            ">Email không đúng định dạng.</span>
+                      </div>
                     </div>
                     <div class="subcribe">
-                      <button class="btn btn-primary btn-default font-title" type="submit"
-                        onclick="return subscribe_newsletter();" name="submit">
+                      <button class="btn btn-primary btn-default font-title"
+                        [disabled]="subscribe.invalid ? 'disabled': null" (click)="subscribe_newsletter();"
+                        name="submit">
                         Đăng ký
                       </button>
                     </div>

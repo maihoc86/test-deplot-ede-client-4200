@@ -28,6 +28,7 @@ import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.dao.AuthoritiesDao;
 import com.ede.edecustomerservice.dao.RoleDao;
 import com.ede.edecustomerservice.entity.Authorities;
+import com.ede.edecustomerservice.entity.Receive_news;
 import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.Shop;
 import com.ede.edecustomerservice.entity.User;
@@ -37,6 +38,7 @@ import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
+import com.ede.edecustomerservice.service.Receive_news_Service;
 import com.ede.edecustomerservice.service.ShopService;
 import com.ede.edecustomerservice.service.UserAddress_Service;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -71,6 +73,9 @@ public class CreateCustomerRestController {
 
 	@Autowired
 	UserAddress_Service address_Service;
+
+	@Autowired
+	Receive_news_Service receive_news_Service;
 
 	/**
 	 * Register Account
@@ -148,7 +153,6 @@ public class CreateCustomerRestController {
 	@PostMapping("/send-email-verify")
 	public ResponseEntity activeAccountRegister(@RequestBody Map<String, String> request) {
 		String email = request.get("email");
-		System.out.println(email);
 		Random rand = new Random();
 		String otp = "";
 		for (int i = 0; i < 6; i++) {
@@ -174,6 +178,34 @@ public class CreateCustomerRestController {
 				email, token));
 		this.mailService.addMail(mail);
 		return ResponseEntity.ok(true);
+	}
+
+	/**
+	 * Đăng ký nhận email tin tức từ website
+	 * 
+	 * @param email
+	 * @param token
+	 * @return
+	 */
+	@PostMapping("/receive-email-news")
+	public ResponseEntity receiveEmailNews(@RequestBody Map<String, String> request) {
+		String email = request.get("email");
+		Receive_news checkEmail = receive_news_Service.findEmail(email);
+		if (checkEmail != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+					"Email này đã đăng ký nhận Email từ website trước đó !", "email", null);
+		} else {
+			// send mail
+			MailEntity mail = new MailEntity();
+			mail.setMailReceiver(email);
+			mail.setSubject("Đăng ký nhận Email từ Website EDE e-commerce");
+			mail.setText(String.format(
+					"<h1> Cảm ơn bạn đã đăng ký nhận email từ chúng tôi, những tin tức mới nhất - giảm giá - chương trình hấp dẫn sẽ được cập nhật đến bạn sớm nhật. </h1> </br>"
+							+ "<p> <i>Trân trọng cảm ơn !</i> </p> "));
+			this.mailService.addMail(mail);
+			return ResponseEntity.ok(true);
+		}
+
 	}
 
 	@PostMapping("/account/verify")
