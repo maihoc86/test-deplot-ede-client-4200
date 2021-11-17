@@ -6,7 +6,7 @@
   <div class="col-sm-8"
     style="background-color: #fff; margin-top: 20px; border-radius: 3px;box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
     <ul class="nav nav-tabs" style="margin-top: 20px;">
-      <li class="active"><a data-toggle="tab" href="#home">Tất cả</a></li>
+      <li class="active"><a data-toggle="tab" href="#home" (click)="getAllOrderUser()">Tất cả</a></li>
       <li><a data-toggle="tab" href="#menu1" (click)="filterOrder('Đã giao')">Đã giao</a></li>
       <li><a data-toggle="tab" href="#menu2" (click)="filterOrder('Đã hủy')">Đã hủy</a></li>
     </ul>
