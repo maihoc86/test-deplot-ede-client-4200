@@ -7,26 +7,32 @@
        <h3> Đổi Mật Khẩu</h3>
        <em> Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</em> <hr>
        <div class="col-sm-1"></div>
+       <form [formGroup]="form">
        <div class="col-sm-7">
             <table class="table" style="margin-left: 30px;color: #757575; ">
                 <tr style=" height: 70px;">
                 <td style="color: #999;">Mật Khẩu Hiện Tại </td>
-                <td ><input style="height: 40px;" type="text" class="form-control" ></td>
-                </tr>
+                <td ><input formControlName="pass" style="height: 40px;" type="text" class="form-control" ></td>
+              
+            </tr>
+              
                 <tr style=" height: 70px;">
                 <td style="color: #999;">Mật Khẩu Mới</td>
-                <td ><input style="height: 40px;" type="text" class="form-control" ></td>
+                <td ><input  formControlName="newpass" style="height: 40px;" type="text" class="form-control" ></td>
                 </tr> <tr style=" height: 70px;">
                 <td style="color: #999;">Xác nhận mật khẩu mới</td>
-                <td ><input style="height: 40px;" type="text" class="form-control" ></td>
+                <td ><input formControlName="confirm" style="height: 40px;" type="text" class="form-control" ></td>
+
                 </tr>
+                <tr><td colspan="2" align="center"><p style="color: red;">{{Error}}</p></td></tr>
                 <tr style=" height: 90px;">
                 <td colspan="2" align="center">
-                    <input  type="submit" class="btn btn-danger" value="Lưu" style="border-radius:3px 3px; width: 85px; height: 43px;margin-bottom: 80px;margin-top: 15px; ">
+                    <input (click)="changePassWord()"  type="button" class="btn btn-danger" value="Lưu" style="border-radius:3px 3px; width: 85px; height: 43px;margin-bottom: 80px;margin-top: 15px; ">
                 </td>
                 </tr>
             </table>
        </div>
+    </form>
        <div class="col-sm-2" style="margin-left: 30px;margin-top: 20px; color: #757575;">
         <p>Quên mật khẩu?</p>
        </div>

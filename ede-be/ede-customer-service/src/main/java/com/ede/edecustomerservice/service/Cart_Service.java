@@ -3,8 +3,6 @@ package com.ede.edecustomerservice.service;
 import java.util.List;
 
 import com.ede.edecustomerservice.entity.Cart;
-import com.ede.edecustomerservice.entity.Cart_item;
-import com.ede.edecustomerservice.entity.User;
 
 public interface Cart_Service {
 
