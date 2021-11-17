@@ -399,7 +399,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.cart.push({
         quantity: 1,
         product_option: product.optionDef
-      
+
       });
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -422,7 +422,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.shopForm.patchValue({
         id: res.id,
         name: res.name,
-        user: res.user,
         image: res.image,
         image_sub: res.image_sub,
         create_date: res.create_date,
