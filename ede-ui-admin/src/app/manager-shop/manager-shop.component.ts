@@ -18,10 +18,13 @@ public p: number = 1;
   public items:any={}
   public loadAllShop(){
     this.shopService.loadAllShop().subscribe(data=>{
-      console.log(data)
       this.items=data;
     },err=>{
-      console.log(err)
+      Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+      });
     })
   }
 
@@ -29,7 +32,11 @@ public p: number = 1;
     this.shopService.loadAllShopByName(name).subscribe(data=>{
       this.items=data;
     },err=>{
-      console.log(err)
+      Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+      });
     })
   }
 
@@ -44,7 +51,6 @@ public p: number = 1;
         showCancelButton: true,
         confirmButtonText: 'Khoá',
         cancelButtonText: 'Huỷ'
-
       }).then(
         (rs) =>{
           if(rs.isConfirmed){
@@ -52,7 +58,11 @@ public p: number = 1;
               this.items = data;
               this.loadAllShop();
             }, err => {
-              console.log(err);
+              Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: err.error.message,
+              });
             });
           }
         }
@@ -66,7 +76,6 @@ public p: number = 1;
         showCancelButton: true,
         confirmButtonText: 'Kích hoạt',
         cancelButtonText: 'Huỷ'
-
       }).then(
         (rs) => {
           if (rs.isConfirmed) {
@@ -74,15 +83,15 @@ public p: number = 1;
               this.items = data;
               this.loadAllShop();
             }, err => {
-              console.log(err);
+              Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: err.error.message,
+              });
             });
           }
         }
       )
     }
-
-
   }
-
-
 }
