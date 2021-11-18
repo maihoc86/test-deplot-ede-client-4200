@@ -33,9 +33,10 @@ public class ReadOrderAdminRestController {
 			@RequestParam(name = "searchDenNgay") String searchDenNgay,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) throws ParseException {
-
+		
 		Page<Order_Discount> pageF = null;
 		if ((!searchDenNgay.isEmpty() || searchTuNgay != "") && (!searchDenNgay.isEmpty() || searchDenNgay != "")) {
+			System.err.print("Vào đây");
 			pageF = service.listAllFilter(searchTuNgay, searchDenNgay, PageRequest.of(page, size));
 		} else {
 			pageF = service.listAllStatusTrue(PageRequest.of(page, size));

@@ -46,7 +46,7 @@ export class ManagerAccountsComponent implements OnInit {
         "^\\S([a-zA-Z\\xC0-\\uFFFF]{0,25}[ \\-\\']{0,}){1,25}$"
       ),
     ]),
-    gender: new FormControl('', Validators.required),
+    gender: new FormControl(null, Validators.required),
     photo: new FormControl(null),
     email: new FormControl('', [Validators.required, Validators.email]),
     is_delete: new FormControl(false),

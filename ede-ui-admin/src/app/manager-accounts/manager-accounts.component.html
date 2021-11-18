@@ -118,7 +118,7 @@
                 <div class="input-group">
                   <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
                   <select class="form-select" formControlName="gender">
-                    <option [ngValue]="null" disabled>
+                    <option [ngValue]="null" hidden>
                       --- Chọn giới tính ---
                     </option>
                     <option *ngFor="let prf of genders" [ngValue]="prf.gdName">
