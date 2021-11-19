@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -371,7 +372,6 @@ public class CreateCustomerRestController {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
-		System.out.println(userAddress);
 
 		if (userLogin.getId().equals(userAddress.getUser().getId())) {
 
@@ -390,5 +390,16 @@ public class CreateCustomerRestController {
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
 					"Bạn không được thêm mới địa chỉ lên tài khoản người khác", "address", null);
 		}
+	}
+
+	/**
+	 * Hàm gửi email liên hệ cho người dùng gửi tới email Admin
+	 * 
+	 * @author Thái Học
+	 */
+	@PostMapping("/send-contact")
+	public ResponseEntity sendContactEmail(@RequestBody String fullName, @RequestBody String email,
+			@RequestBody String content, @RequestBody File file) {
+		return ResponseEntity.ok(true); // TODO chưa gửi được email kèm file, do email đang lỗi không gửi được
 	}
 }
