@@ -43,6 +43,7 @@ import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.
 import { UserOderComponent } from './user-oder/user-oder.component';
 import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
 import { UserAddressComponent } from './user-address/user-address.component';
+import { ContactComponent } from './contact/contact.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +75,7 @@ import { UserAddressComponent } from './user-address/user-address.component';
     UserOderComponent,
     UserChangPassComponent,
     UserAddressComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

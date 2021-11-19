@@ -40,4 +40,12 @@ export class RegisterService {
       { email: email }
     );
   }
+  sendContact(fullName: any, email: any, content: any, file: any) {
+    return this.httpClient.post<any>(this.REST_API_SERVER + '/send-contact', {
+      fullName: fullName,
+      email: email,
+      content: content,
+      file: file,
+    }); // TODO
+  }
 }
