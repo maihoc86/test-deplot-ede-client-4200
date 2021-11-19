@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
 
   public async logout() {
     this.router.navigate(['/']);
-    this.cookieService.delete('auth');
+    this.cookieService.delete('auth',"/");
     localStorage.removeItem('cart');
     document.location.href = '';
   }

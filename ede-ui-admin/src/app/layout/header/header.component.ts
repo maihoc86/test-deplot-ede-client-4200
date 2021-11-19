@@ -27,8 +27,9 @@ export class HeaderComponent implements OnInit {
         this.loading=false;
         this.userLogin=data.id;
       },err=>{
-         document.location.href='http://localhost:4200/login'
-         console.log(err);
+        //  document.location.href='http://localhost:4200/login'
+        //  console.log(err);
+        this.erros(err);
       })
      
   }
