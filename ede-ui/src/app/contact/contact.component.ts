@@ -11,6 +11,7 @@ export class ContactComponent implements OnInit {
   constructor(private registerService: RegisterService) {}
 
   ngOnInit(): void {}
+  filesArray: File[] = [];
 
   public contact = new FormGroup({
     fullName: new FormControl('', [Validators.required]),
@@ -18,36 +19,36 @@ export class ContactComponent implements OnInit {
     content: new FormControl('', [Validators.required]),
     file: new FormControl('', [Validators.required]),
   });
-  onselectFile(e: any) {
-    if (e.target.files) {
-      console.log(e.target.files[0]);
-      this.contact.controls['file'].setValue(e.target.files[0]);
+
+  onselectFile(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.filesArray.push(event.target.files[0]);
+      this.contact.patchValue({
+        file: this.filesArray,
+      });
     }
   }
-  sendContact() { //TODO
-    this.registerService
-      .sendContact(
-        this.contact.controls['fullName'].value,
-        this.contact.controls['email'].value,
-        this.contact.controls['content'].value,
-        this.contact.controls['file'].value
-      )
-      .subscribe(
-        (data: any) => {
-          console.log(data);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'You have successfully send contact',
-          });
-        },
-        (error: any) => {
-          Swal.fire({
-            icon: 'error',
-            title: error.error.errors[0].defaultMessage,
-            text: error.error.message,
-          });
-        }
-      );
+
+  sendContact() {
+    //TODO
+    this.registerService.sendContact(this.contact.value).subscribe(
+      (data: any) => {
+        console.log(data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'You have successfully send contact',
+        });
+      },
+      (error: any) => {
+        Swal.fire({
+          icon: 'error',
+          title: error.error.errors[0].defaultMessage,
+          text: error.error.message,
+        });
+      }
+    );
   }
 }
