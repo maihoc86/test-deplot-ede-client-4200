@@ -12,8 +12,7 @@
     </ul>
     <div class="tab-content">
       <div id="home" class="tab-pane fade in active">
-        <div *ngFor="let item of listIdShopinOrder">
-          <div class="row">
+          <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-10">
               <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
                 <div class="position-relative">
@@ -29,127 +28,180 @@
               &nbsp;
             </div>
           </div>
-          <div class="row" style="margin-top: 20px;">
-            <div class="col-sm-8">
-              <p>
-                <em
-                  style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu
-                  thích+</em>
-                <b style="margin-right: 6px;"> {{item.shop.name}}</b>
-                <em
-                  style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span
-                    class="glyphicon glyphicon-comment"></span> Chat</em>
-                <em style="margin-right: 6px; border: 1px dimgray solid; padding: 5px;border-radius: 2px;"><span
-                    class="glyphicon glyphicon-calendar"></span> Xem shop</em>
-              </p>
+          <div *ngFor="let item of listOrder" style="margin-bottom: 50px; margin-top: 20px; background-color:rgb(255, 254, 245); padding: 30px;">
+            <div class="row" style="margin-top: 20px;">
+              <div class="col-sm-8">
+                <p>
+                  <em
+                    style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu
+                    thích+</em>
+                  <b style="margin-right: 6px;"> {{item.order_detail[0].productOption.product.shop.name}}</b>
+                  <em
+                    style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span
+                      class="glyphicon glyphicon-comment"></span> Chat</em>
+                  <em style="margin-right: 6px; border: 1px dimgray solid; padding: 5px;border-radius: 2px;"><span
+                      class="glyphicon glyphicon-calendar"></span> Xem shop</em>
+                </p>
+              </div>
+              <div class="col-sm-4">
+                <p>
+                  <em *ngIf="item.status=='Đã giao'" style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> 
+                  <em *ngIf="item.status=='Đã hủy'" style="color: #f75a00;"><span class="glyphicon glyphicon-send"></span> Giao hàng thất bại</em> 
+                  |
+                  <em style="color: #d43f3a;">{{item.status}}</em>
+                </p>
+              </div>
             </div>
-            <div class="col-sm-4">
-              <p>
-                <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> |
-                <em style="color: #d43f3a;">ĐÃ GIAO</em>
-              </p>
+            <hr>
+            <div *ngFor="let itemP of item.order_detail" style="margin-bottom: 30px;">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
+                    width="90px">
+                </div>
+                <div class="col-sm-8">
+                  <em style="font-size: 16px;">{{itemP.productOption.product.name}}</em><br>
+                  <em style="color: darkgrey;">Phân loại: {{itemP.productOption.display_name}}</em><br>
+                  <em>x{{itemP.quantity}}</em>
+                </div>
+                <div class="col-sm-2 row" >
+                  <del *ngIf="itemP.productOption.price!=itemP.price" style="color: darkgrey; margin-right: 6px;"> {{itemP.productOption.price | currency :'VND'}}</del>
+                  <em style="color: #d43f3a;">{{itemP.price | currency :'VND'}}</em>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-7"></div>
+              <div class="col-sm-5" style="margin-top: 15px;">
+                <span style="color: #d43f3a; margin-left: 50px;" class="glyphicon glyphicon-fire"></span>   Tổng tiền: <em style="color: #d43f3a; font-size: 20px;">{{item.total_amount | currency :'VND'}}</em>
+                <br>
+                <input type="submit" class="btn btn-danger" value="Đánh giá"
+                style="border-radius:4px 4px; width: 130px; height: 45px; margin-top: 14px;">
+                <input type="submit" class="btn btn-danger" value="Liên hệ người bán"
+                style="border-radius:4px 4px; width: 130px; height: 45px; margin-top: 14px; margin-left: 20px;">
+                
+              </div>
             </div>
           </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-2">
-              <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
-                width="90px">
-            </div>
-            <div class="col-sm-8">
-              <em style="font-size: 16px;">Kẹp tóc kim loại ulzzang kiểu hàn quốc</em><br>
-              <em style="color: darkgrey;">Phân loại: BB01</em><br>
-              <em>x1</em>
-            </div>
-            <div class="col-sm-2">
-              <del style="color: darkgrey; margin-right: 6px;"> 30.000</del>
-              <em style="color: #d43f3a;"> ₫ 25.000</em>
-            </div>
-          </div>
-        </div>
       </div>
       <div id="menu1" class="tab-pane fade">
-        <div *ngFor="let shop of listIdShop">
-          <div class="row" style="margin-top: 20px;">
-            <div class="col-sm-8">
-              <p>
-                <em
-                  style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu
-                  thích+</em>
-                <b style="margin-right: 6px;"> {{shop.shop.name}}</b>
-                <em
-                  style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span
-                    class="glyphicon glyphicon-comment"></span> Chat</em>
-                <button class="btn btn-secondary" style="margin-right: 6px; padding: 5px;border-radius: 2px;"><span
-                    class=" glyphicon glyphicon-calendar"></span> Xem shop</button>
-              </p>
+        <div *ngFor="let item of listOrder" >
+          <div *ngIf="item.status=='Đã giao'" style="margin-bottom: 50px; margin-top: 20px; background-color:rgb(255, 254, 245); padding: 30px;">
+            <div class="row" style="margin-top: 20px;">
+              <div class="col-sm-8">
+                <p>
+                  <em
+                    style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu
+                    thích+</em>
+                  <b style="margin-right: 6px;"> {{item.order_detail[0].productOption.product.shop.name}}</b>
+                  <em
+                    style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span
+                      class="glyphicon glyphicon-comment"></span> Chat</em>
+                  <em style="margin-right: 6px; border: 1px dimgray solid; padding: 5px;border-radius: 2px;"><span
+                      class="glyphicon glyphicon-calendar"></span> Xem shop</em>
+                </p>
+              </div>
+              <div class="col-sm-4">
+                <p>
+                  <em *ngIf="item.status=='Đã giao'" style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> 
+                  <em *ngIf="item.status=='Đã hủy'" style="color: #f75a00;"><span class="glyphicon glyphicon-send"></span> Giao hàng thất bại</em> 
+                  |
+                  <em style="color: #d43f3a;">{{item.status}}</em>
+                </p>
+              </div>
             </div>
-          </div>
-          <hr>
-          <div class="row" *ngFor="let item of listOrderFilter">
-            <div class="col-sm-2" >
-              <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
-                width="90px">
+            <hr>
+            <div *ngFor="let itemP of item.order_detail" style="margin-bottom: 30px;">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
+                    width="90px">
+                </div>
+                <div class="col-sm-8">
+                  <em style="font-size: 16px;">{{itemP.productOption.product.name}}</em><br>
+                  <em style="color: darkgrey;">Phân loại: {{itemP.productOption.display_name}}</em><br>
+                  <em>x{{itemP.quantity}}</em>
+                </div>
+                <div class="col-sm-2 row" >
+                  <del *ngIf="itemP.productOption.price!=itemP.price" style="color: darkgrey; margin-right: 6px;"> {{itemP.productOption.price | currency :'VND'}}</del>
+                  <em style="color: #d43f3a;">{{itemP.price | currency :'VND'}}</em>
+                </div>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <em style="font-size: 16px;">Kẹp tóc kim loại ulzzang kiểu hàn quốc</em><br>
-              <em style="color: darkgrey;">Ngày mua: BB01</em><br>
-              <em style="color: darkgrey;">Số lượng:</em><br>
-              <em style="color: darkgrey;">Phân loại:</em>
-            </div>
-            <div class="col-sm-4">
-              <em *ngIf="item.status == 'Đã giao'" style="color: #26aa99;"><span
-                  class="glyphicon glyphicon-send"></span>
-                Giao hàng thành công</em>
-              <em *ngIf="item.status == 'Đã hủy'" style="color: #d43f3a;"><span class="glyphicon glyphicon-alert">Đã
-                  hủy</span> </em>
-              <em *ngIf="item.status == 'Thất bại'" style="color: #fdff6c;"><span
-                  class="glyphicon glyphicon-ban-circle">Giao hàng
-                  thất bại</span> </em>
-              <br>
-              <del *ngIf="item.discount != 'null' || item.discount > 0" style="color: darkgrey; margin-right: 6px;">
-                {{item.discount}}</del>
-              <em style="color: #d43f3a;"> ₫ {{item.total_amount | number}}</em>
+            <hr>
+            <div class="row">
+              <div class="col-sm-7"></div>
+              <div class="col-sm-5" style="margin-top: 15px;">
+                <span style="color: #d43f3a; margin-left: 50px;" class="glyphicon glyphicon-fire"></span>   Tổng tiền: <em style="color: #d43f3a; font-size: 20px;">{{item.total_amount | currency :'VND'}}</em>
+                <br>
+                <input type="submit" class="btn btn-danger" value="Đánh giá"
+                style="border-radius:4px 4px; width: 130px; height: 45px; margin-top: 14px;">
+                <input type="submit" class="btn btn-danger" value="Liên hệ người bán"
+                style="border-radius:4px 4px; width: 130px; height: 45px; margin-top: 14px; margin-left: 20px;">
+                
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div id="menu2" class="tab-pane fade">
-        <div class="row" style="margin-top: 20px;">
-          <div class="col-sm-8">
-            <p>
-              <em
-                style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu
-                thích+</em>
-              <b style="margin-right: 6px;"> KimThanhCute_Shop</b>
-              <em
-                style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span
-                  class="glyphicon glyphicon-comment"></span> Chat</em>
-              <button style="margin-right: 6px; border: 1px dimgray solid; padding: 5px;border-radius: 2px;"><span
-                  class="glyphicon glyphicon-calendar"></span> Xem shop</button>
-            </p>
-          </div>
-          <div class="col-sm-4">
-            <p>
-              <em style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> trả hàng thành công</em> |
-              <em style="color: #d43f3a;">ĐÃ HỦY</em>
-            </p>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-sm-2">
-            <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
-              width="90px">
-          </div>
-          <div class="col-sm-8">
-            <em style="font-size: 16px;">Kẹp tóc kim loại ulzzang kiểu hàn quốc</em><br>
-            <em style="color: darkgrey;">Phân loại: BB01</em><br>
-            <em>x1</em>
-          </div>
-          <div class="col-sm-2">
-            <del style="color: darkgrey; margin-right: 6px;"> 30.000</del>
-            <em style="color: #d43f3a;"> ₫ 25.000</em>
+        <div *ngFor="let item of listOrder" >
+          <div *ngIf="item.status=='Đã hủy'" style="margin-bottom: 50px;margin-top: 20px; background-color:rgb(255, 254, 245); padding: 30px;">
+            <div class="row" style="margin-top: 20px;">
+              <div class="col-sm-8">
+                <p>
+                  <em
+                    style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 2px; margin-right: 6px;">Yêu
+                    thích+</em>
+                  <b style="margin-right: 6px;"> {{item.order_detail[0].productOption.product.shop.name}}</b>
+                  <em
+                    style="background-color: #d43f3a; color: #fff;border-radius: 2px; padding: 5px;margin-right: 8px;"><span
+                      class="glyphicon glyphicon-comment"></span> Chat</em>
+                  <em style="margin-right: 6px; border: 1px dimgray solid; padding: 5px;border-radius: 2px;"><span
+                      class="glyphicon glyphicon-calendar"></span> Xem shop</em>
+                </p>
+              </div>
+              <div class="col-sm-4">
+                <p>
+                  <em *ngIf="item.status=='Đã giao'" style="color: #26aa99;"><span class="glyphicon glyphicon-send"></span> Giao hàng thành công</em> 
+                  <em *ngIf="item.status=='Đã hủy'" style="color: #f75a00;"><span class="glyphicon glyphicon-send"></span> Giao hàng thất bại</em> 
+                  |
+                  <em style="color: #d43f3a;">{{item.status}}</em>
+                </p>
+              </div>
+            </div>
+            <hr>
+            <div *ngFor="let itemP of item.order_detail" style="margin-bottom: 30px;">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
+                    width="90px">
+                </div>
+                <div class="col-sm-8">
+                  <em style="font-size: 16px;">{{itemP.productOption.product.name}}</em><br>
+                  <em style="color: darkgrey;">Phân loại: {{itemP.productOption.display_name}}</em><br>
+                  <em>x{{itemP.quantity}}</em>
+                </div>
+                <div class="col-sm-2 row" >
+                  <del *ngIf="itemP.productOption.price!=itemP.price" style="color: darkgrey; margin-right: 6px;"> {{itemP.productOption.price | currency :'VND'}}</del>
+                  <em style="color: #d43f3a;">{{itemP.price | currency :'VND'}}</em>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-7"></div>
+              <div class="col-sm-5" style="margin-top: 15px;">
+                <span style="color: #d43f3a; margin-left: 50px;" class="glyphicon glyphicon-fire"></span>   Tổng tiền: <em style="color: #d43f3a; font-size: 20px;">{{item.total_amount | currency :'VND'}}</em>
+                <br>
+                <input type="submit" class="btn btn-danger" value="Đánh giá"
+                style="border-radius:4px 4px; width: 130px; height: 45px; margin-top: 14px;">
+                <input type="submit" class="btn btn-danger" value="Liên hệ người bán"
+                style="border-radius:4px 4px; width: 130px; height: 45px; margin-top: 14px; margin-left: 20px;">
+                
+              </div>
+            </div>
           </div>
         </div>
       </div>

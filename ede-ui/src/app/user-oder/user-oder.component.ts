@@ -34,7 +34,7 @@ export class UserOderComponent implements OnInit {
         this.OrderShopService.getAllOrderUser(data.id).subscribe((data) => {
           this.listOrder = data;
           console.log(data);
-          this.loadOrder();
+          // this.loadOrder();
         });
       })
       .catch((err) => {
@@ -43,20 +43,20 @@ export class UserOderComponent implements OnInit {
       });
   }
 
-  loadOrder() {
-    const term: any = [];
-    console.log(this.listOrder);
-    this.listOrder.forEach((e) => {
-      console.log('loadOrder' + e.order_detail.id);
-      if (term.indexOf(e.order_detail.productOption.product.shop.id) === -1) {
-        term.push(e.order_detail.productOption.product.shop.id);
-        this.listIdShopinOrder.push({
-          shop: e.order_detail.productOption.product.shop,
-        });
-      }
-    });
-    console.log(this.listIdShopinOrder);
-  }
+  // loadOrder() {
+  //   const term: any = [];
+  //   console.log(this.listOrder);
+  //   this.listOrder.forEach((e) => {
+  //     console.log('loadOrder' + e.order_detail.id);
+  //     if (term.indexOf(e.order_detail.productOption.product.shop.id) === -1) {
+  //       term.push(e.order_detail.productOption.product.shop.id);
+  //       this.listIdShopinOrder.push({
+  //         shop: e.order_detail.productOption.product.shop,
+  //       });
+  //     }
+  //   });
+  //   console.log(this.listIdShopinOrder);
+  // }
 
   filterOrder(value: any) {
     this.getAllOrderUser();
