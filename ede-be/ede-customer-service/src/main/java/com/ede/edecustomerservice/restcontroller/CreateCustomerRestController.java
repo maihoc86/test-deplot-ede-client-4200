@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.dao.AuthoritiesDao;
@@ -398,8 +400,8 @@ public class CreateCustomerRestController {
 	 * @author Thái Học
 	 */
 	@PostMapping("/send-contact")
-	public ResponseEntity sendContactEmail(@RequestBody String fullName, @RequestBody String email,
-			@RequestBody String content, @RequestBody File file) {
+	public ResponseEntity sendContactEmail(@RequestBody Map<String, String> requestBody) {
+		System.err.println(requestBody);
 		return ResponseEntity.ok(true); // TODO chưa gửi được email kèm file, do email đang lỗi không gửi được
 	}
 }

@@ -238,8 +238,6 @@ export class ProductShopComponent implements OnInit {
         };
         reader.readAsDataURL(event.target.files[i]);
         this.imageArray.push(event.target.files[i]);
-        console.log(typeof event.target.files[i]);
-        console.log(this.imageArray);
       }
     }
   }
@@ -836,7 +834,6 @@ export class ProductShopComponent implements OnInit {
           image: valueFile.toString(),
         });
         this.product_options_image.controls['productoption'].setValue(data);
-        console.log(this.product_options_image.value);
         if (valueFile.length > 0) {
           this.Addservice.addProductOptionImage(this.createNewOptionImage())
             .toPromise()
@@ -861,7 +858,6 @@ export class ProductShopComponent implements OnInit {
   public updateMultiImage(data: any) {
     const formData = new FormData();
     for (var i = 0; i < this.imageArray.length; i++) {
-      console.log(this.imageArray[i]);
       formData.append('files', this.imageArray[i]);
     }
     this.imageService
