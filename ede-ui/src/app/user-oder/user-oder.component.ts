@@ -61,11 +61,7 @@ export class UserOderComponent implements OnInit {
   filterOrder(value: any) {
     this.getAllOrderUser();
     this.listOrderFilter = this.listOrder = this.listOrder.filter((e) => {
-      // this.listIdShop.push({
-      //   shop: e.order_detail[0].productOption.product.shop,
-      // });
       return e.status === value;
     });
-    console.log(this.listOrderFilter);
   }
 }
