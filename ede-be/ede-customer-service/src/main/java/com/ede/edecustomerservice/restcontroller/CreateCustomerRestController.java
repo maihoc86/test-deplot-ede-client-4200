@@ -1,6 +1,5 @@
 package com.ede.edecustomerservice.restcontroller;
 
-import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.dao.AuthoritiesDao;
@@ -400,8 +398,18 @@ public class CreateCustomerRestController {
 	 * @author Thái Học
 	 */
 	@PostMapping("/send-contact")
-	public ResponseEntity sendContactEmail(@RequestBody Map<String, String> requestBody) {
-		System.err.println(requestBody);
+	public ResponseEntity sendContactEmail(@RequestPart("fullName") String fullName, @RequestPart("email") String email,
+			@RequestPart("content") String content) {
+		// send mail
+		// FIXME sửa lại tin nhắn sẽ gửi đến người dùng, tiêu đề email, và đa ngôn ngữ
+		MailEntity mail = new MailEntity();
+		mail.setMailReceiver("teamsdarkeyes2021@gmail.com");
+		mail.setSubject("Gửi yêu cầu hỗ trợ");
+		mail.setText(content);
+		mail.setText(String.format("<p>Đã nhận được một khiếu nại hoặc hỗ trợ từ: <b>%s</b></p></br>"
+				+ "<p>Có email là: %s </p></br>" + "<p>Với nội dung: %s</p>", fullName, email, content));
+//		mail.setAttachment(partFile);
+		this.mailService.addMail(mail);
 		return ResponseEntity.ok(true); // TODO chưa gửi được email kèm file, do email đang lỗi không gửi được
 	}
 }

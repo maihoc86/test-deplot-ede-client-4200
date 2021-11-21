@@ -117,7 +117,7 @@
             </fieldset>
             <div class="buttons">
               <div class="pull-right">
-                <button class="btn btn-default buttonGray" type="submit" (click)="sendContact()">
+                <button [disabled]="contact.invalid" class="btn btn-default buttonGray" type="submit" (click)="sendContact()">
                   <span>Gửi</span>
                 </button>
               </div>
