@@ -18,5 +18,7 @@ public interface ShopService {
 
 	List<Shop> findAllByName(String name);
 
+	List<Shop> getNewShop();
+
 
 }

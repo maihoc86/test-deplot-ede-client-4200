@@ -39,4 +39,6 @@ public interface CustomerService {
 
 	User findByUsername2(String id);
 
+	List<User> getNewUsers();
+
 }

@@ -19,7 +19,7 @@ export class ManageProductService {
   private REST_API_SERVER = 'http://localhost:8080/ede-product';
   public getAll(page: any, size: any) {
     return this.httpClient.get<any>(
-      this.REST_API_SERVER + '/product/getAll?page=' + page + '&size=' + size,
+      this.REST_API_SERVER + '/admin/product/getAll?page=' + page + '&size=' + size,
       this.httpOptions
     );
   }
