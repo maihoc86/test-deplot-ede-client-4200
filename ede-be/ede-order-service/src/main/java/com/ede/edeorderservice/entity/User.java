@@ -1,6 +1,7 @@
 package com.ede.edeorderservice.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -40,6 +41,7 @@ public class User implements Serializable {
 	Boolean is_delete;
 	Boolean is_active;
 	String otp;
+	Date create_date = new Date();
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")

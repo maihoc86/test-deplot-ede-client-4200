@@ -40,6 +40,12 @@ public class ReadCustomerRestController {
 	public List<User> getAccounts() {
 		return service.findAll();
 	}
+	
+	@GetMapping("/admin/getNewUsers")
+	public List<User> getNewUsers() {
+		return service.getNewUsers();
+	}
+	
 
 	/**
 	 * Create search account admin

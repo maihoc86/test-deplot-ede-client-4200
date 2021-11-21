@@ -226,4 +226,9 @@ public class ProductImpl implements ProductService {
 		return dao.getProductNewByIdShop(id, "%"+keySearch+"%",pageRequest);
 	}
 
+	@Override
+	public List<Product> getNewProduct() {
+		return dao.getNewProduct();
+	}
+
 }

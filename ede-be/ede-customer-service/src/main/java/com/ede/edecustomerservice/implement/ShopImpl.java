@@ -44,4 +44,9 @@ public class ShopImpl implements ShopService {
 		return dao.findAllByName("%"+name+"%");
 	}
 
+	@Override
+	public List<Shop> getNewShop() {
+		return dao.getNewShop();
+	}
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.entity.Shop;
+import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.ShopService;
@@ -37,7 +38,7 @@ public class ReadShopRestController {
 		}
 		return	ResponseEntity.ok(shop);
 	}
-	@GetMapping("/viewall")
+	@GetMapping("/admin/viewall")
 	public ResponseEntity<?> getAllShop() {
 		List<Shop> list = shopService.findAll();
 		return	ResponseEntity.ok(list);
@@ -56,6 +57,11 @@ public class ReadShopRestController {
 		Shop shop = shopService.findById(id).get();
 		shop.setUser(null);
 		return	ResponseEntity.ok(shop);
+	}
+	
+	@GetMapping("/admin/getNewShops")
+	public List<Shop> getNewShop() {
+		return shopService.getNewShop();
 	}
 	
 }
