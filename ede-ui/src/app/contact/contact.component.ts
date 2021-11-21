@@ -17,29 +17,28 @@ export class ContactComponent implements OnInit {
     fullName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     content: new FormControl('', [Validators.required]),
-    file: new FormControl('', [Validators.required]),
+    file: new FormControl(''),
   });
 
   onselectFile(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      this.filesArray.push(event.target.files[0]);
-      this.contact.patchValue({
-        file: this.filesArray,
-      });
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.contact.controls['file'].setValue(file);
     }
   }
 
   sendContact() {
-    //TODO
-    this.registerService.sendContact(this.contact.value).subscribe(
+    const formData = new FormData();
+    for (const controlName in this.contact.controls) {
+      formData.append(controlName, this.contact.controls[controlName].value);
+    }
+    //TODO chưa add đc hình ảnh
+    this.registerService.sendContact(formData).subscribe(
       (data: any) => {
-        console.log(data);
         Swal.fire({
           icon: 'success',
-          title: 'Success',
-          text: 'You have successfully send contact',
+          title: 'Thành công',
+          text: 'Bạn đã gửi yêu cầu hỗ trợ thành công !',
         });
       },
       (error: any) => {
