@@ -45,7 +45,7 @@ export class StatisticalService {
   }
   public selectTotalProduct() {
     return this.httpClient.get<any>(
-      this.API_PRODUCT + '/admin/product/getAll',
+      this.API_PRODUCT + '/admin/product/listAll',
       this.httpOptions
     );
   }
@@ -62,4 +62,7 @@ export class StatisticalService {
       this.httpOptions
     );
   }
+
+  public selectTotalViewPage() {}
+  public selectTotalViewPageNew() {}
 }
