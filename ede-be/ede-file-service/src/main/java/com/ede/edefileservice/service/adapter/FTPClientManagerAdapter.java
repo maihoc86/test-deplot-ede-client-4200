@@ -12,6 +12,13 @@ import org.springframework.stereotype.Service;
 import com.ede.edefileservice.ftpclient.MyFTPClient;
 import com.ede.edefileservice.service.FTPClientManager;
 
+/**
+ * Một số máy tính không chạy được lớp này, không rõ lý do
+ * Sử dụng {@link LocalFileManagerAdapter} thay thế
+ * @author vinh
+ *
+ */
+@Deprecated
 @Service
 public class FTPClientManagerAdapter implements FTPClientManager {
 

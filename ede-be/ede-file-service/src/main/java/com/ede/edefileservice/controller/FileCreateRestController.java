@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Lớp dùng để upload dữ liệu lên FTP SERVER
+ * Lớp dùng để upload dữ liệu lên kho lưu trử
  * 
  * @author Vinh
  *
@@ -60,9 +60,6 @@ public class FileCreateRestController {
 		Map<String, InputStream> mapPart = new HashMap<String, InputStream>();
 		for (MultipartFile partFile : partFiles) {
 			String fileName = createFileName(partFile);
-			System.err.println("File name: " + fileName);
-			System.err.println("Content Type: " + partFile.getContentType());
-			System.err.println(partFile.getInputStream());
 			mapPart.put(fileName, partFile.getInputStream());
 		}
 
