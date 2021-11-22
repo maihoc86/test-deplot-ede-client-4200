@@ -27,4 +27,6 @@ public interface Order_Detail_service {
 	 */
 	Page<Orderdetail> listAll(String idOrder, String keyword ,Pageable page);
 
+	List<Orderdetail> findAllByUser(String idUser);
+
 }

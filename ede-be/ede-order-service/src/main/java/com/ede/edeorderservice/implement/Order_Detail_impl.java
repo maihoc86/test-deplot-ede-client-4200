@@ -43,6 +43,11 @@ public class Order_Detail_impl implements Order_Detail_service{
 		return dao.listAll(idOrder,keyword,page);
 	}
 
+	@Override
+	public List<Orderdetail> findAllByUser(String idUser) {
+		return dao.findAllByUser(idUser);
+	}
+
 
 
 }
