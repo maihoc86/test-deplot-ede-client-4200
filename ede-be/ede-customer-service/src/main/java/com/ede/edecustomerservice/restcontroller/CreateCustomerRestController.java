@@ -29,6 +29,7 @@ import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.dao.AuthoritiesDao;
 import com.ede.edecustomerservice.dao.RoleDao;
 import com.ede.edecustomerservice.entity.Authorities;
+import com.ede.edecustomerservice.entity.HistoryViewPage;
 import com.ede.edecustomerservice.entity.Receive_news;
 import com.ede.edecustomerservice.entity.Roles;
 import com.ede.edecustomerservice.entity.Shop;
@@ -37,6 +38,7 @@ import com.ede.edecustomerservice.entity.UserAddress;
 import com.ede.edecustomerservice.implement.mail.MailEntity;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
+import com.ede.edecustomerservice.service.History_View_Page_Service;
 import com.ede.edecustomerservice.service.JsonWebTokenService;
 import com.ede.edecustomerservice.service.MailService;
 import com.ede.edecustomerservice.service.Receive_news_Service;
@@ -77,6 +79,9 @@ public class CreateCustomerRestController {
 
 	@Autowired
 	Receive_news_Service receive_news_Service;
+
+	@Autowired
+	History_View_Page_Service history_View_Page_Service;
 
 	/**
 	 * Register Account
@@ -412,4 +417,13 @@ public class CreateCustomerRestController {
 		this.mailService.addMail(mail);
 		return ResponseEntity.ok(true); // TODO chưa gửi được email kèm file, do email đang lỗi không gửi được
 	}
+
+	@PostMapping("/add/viewPage")
+	public ResponseEntity addViewPage(@RequestBody HistoryViewPage historyViewPage) {
+		historyViewPage.setId(generateUUID());
+		historyViewPage.setDate_view(new Date());
+		return ResponseEntity.ok(history_View_Page_Service.addViewPage(historyViewPage));
+	}
+	
+
 }

@@ -42,6 +42,11 @@ public class ReadProductByAdminRestControllerAdmin {
 		return ResponseEntity.ok(pageF);
 	}
 
+	@GetMapping("/admin/product/listAll")
+	public List<Product> getListAll() {
+		return service.listAll();
+	}
+
 	@GetMapping("/admin/getProductNew")
 	public List<Product> getNewProduct() {
 		return service.getNewProduct();

@@ -62,7 +62,7 @@ export class IndexComponent implements OnInit {
   selectTotalProduct() {
     this.statistical.selectTotalProduct().subscribe(
       (data: any) => {
-        this.totalProduct = data.content.length;
+        this.totalProduct = data.length;
         console.log(this.totalProduct);
       },
       (error) => {

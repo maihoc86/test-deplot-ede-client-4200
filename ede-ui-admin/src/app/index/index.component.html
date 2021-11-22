@@ -20,19 +20,17 @@
               <p class="mb-1 text-white">Người dùng mới</p>
               <h3 class="mb-3 text-white">{{totalUserNew}}</h3>
               <p class="font-13 text-white">
-
-
                 <span class="text-danger" *ngIf="(totalUsers -
                   (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 < 0"><i
                     class="lni lni-arrow-down"></i>
                   {{(totalUsers -
-                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 }}%
+                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 | number }}%
                 </span>
 
                 <span class="text-success" *ngIf="(totalUsers -
                 (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 >= 0"><i class="lni lni-arrow-up"></i>
                   {{(totalUsers -
-                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 }}%
+                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 | number}}%
                 </span>
                 so với đợt trước
               </p>
@@ -50,14 +48,13 @@
                   (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 < 0"><i
                     class="lni lni-arrow-down"></i>
                   {{(totalProduct -
-                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 }}%
+                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 | number}}%
                 </span>
-
                 <span class="text-success" *ngIf="(totalProduct -
                   (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 >= 0"><i
                     class="lni lni-arrow-up"></i>
                   {{(totalProduct -
-                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 }}%
+                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 | number }}%
                 </span>
                 so với đợt trước
               </p>
@@ -72,17 +69,15 @@
               <h3 class="mb-3 text-white">{{totalShopNew}}</h3>
               <p class="font-13 text-white">
                 <span class="text-danger" *ngIf="(totalShop -
-                                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 < 0"><i
-                    class="lni lni-arrow-down"></i>
+                    (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 < 0">
+                  <i class="lni lni-arrow-down"></i>
                   {{(totalShop -
-                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 }}%
+                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 | number}}%
                 </span>
-
                 <span class="text-success" *ngIf="(totalShop -
-                                (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 >= 0"><i
-                    class="lni lni-arrow-up"></i>
+                    (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 >= 0"><i class="lni lni-arrow-up"></i>
                   {{(totalShop -
-                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 }}%
+                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 | number }}%
                 </span>
               <div id="chart4"></div>
             </div>

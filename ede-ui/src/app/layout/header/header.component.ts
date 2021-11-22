@@ -6,8 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import {LocationStrategy} from '@angular/common';
-
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -22,21 +21,22 @@ export class HeaderComponent implements OnInit {
     private cookieService: CookieService,
     private headerService: HeaderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {
-    router.events.subscribe(
-    ()=>{
+    this.addViewPage();
+    router.events.subscribe(() => {
       this.hidenSearch();
-    }
-    );
+    });
     this.u = {} as User;
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
       this.loadTotal();
-      if(this.login){
-        this.headerService.updateCart(this.cart,this.u.id).subscribe(data=>{
-          // console.log(data)
-        })
+      if (this.login) {
+        this.headerService
+          .updateCart(this.cart, this.u.id)
+          .subscribe((data) => {
+            // console.log(data)
+          });
       }
     });
   }
@@ -59,8 +59,33 @@ export class HeaderComponent implements OnInit {
   public u: User;
   public active: boolean = false;
 
+  public viewPage = new FormGroup({
+    id: new FormControl(''),
+    ip: new FormControl(''),
+    cookie: new FormControl(null),
+    date_view: new FormControl(''),
+  });
 
-
+  addViewPage() {
+    this.headerService.getIpAddress().subscribe((ip: any) => {
+      this.headerService.getIpAddressDB(ip.ip).subscribe((data) => {
+        if (data == null) {
+          this.viewPage.controls['ip'].setValue(ip.ip);
+          if (this.cookieService.get('auth') != '') {
+            this.viewPage.controls['cookie'].setValue(
+              this.cookieService.get('auth')
+            );
+          }
+          this.headerService.insertViewPage(this.viewPage.value).subscribe(
+            (data) => {},
+            (err) => {
+              console.log(err);
+            }
+          );
+        }
+      });
+    });
+  }
 
   public async getUserLogin() {
     await this.headerService
@@ -69,7 +94,6 @@ export class HeaderComponent implements OnInit {
       .then((data) => {
         this.login = true;
         this.u = data;
-
       })
       .catch((err) => {
         console.log(err);
@@ -79,7 +103,7 @@ export class HeaderComponent implements OnInit {
 
   public async logout() {
     this.router.navigate(['/']);
-    this.cookieService.delete('auth',"/");
+    this.cookieService.delete('auth', '/');
     localStorage.removeItem('cart');
     document.location.href = '';
   }
@@ -137,35 +161,31 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  openShop(){
-    this.headerService.getShopByToken(this.cookieService.get('auth')).subscribe(
-      data => {
+  openShop() {
+    this.headerService
+      .getShopByToken(this.cookieService.get('auth'))
+      .subscribe((data) => {
         console.log(data);
-        if(data.status){
+        if (data.status) {
           this.router.navigate(['shop/product/all']);
-        }
-        else{
+        } else {
           Swal.fire({
-            title:'Thông báo',
+            title: 'Thông báo',
             text: 'Shop của bạn đã bị tạm khoá',
-            showConfirmButton:true,
-            showCancelButton:true,
+            showConfirmButton: true,
+            showCancelButton: true,
             confirmButtonText: 'Liên hệ hỗ trợ?',
-            cancelButtonText:'Trở lại'
-          })
+            cancelButtonText: 'Trở lại',
+          });
         }
-      }
-    )
+      });
     //
   }
 
-  hidenSearch(){
+  hidenSearch() {
     const segments: any = window.location.href;
     if (segments.indexOf('/shop/') > -1) {
       this.active = true;
-
     }
   }
-
-
 }
