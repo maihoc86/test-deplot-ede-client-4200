@@ -1,6 +1,8 @@
 package com.ede.edeorderservice.restcontroller.admin;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ede.edeorderservice.entity.Order;
 import com.ede.edeorderservice.entity.Order_Discount;
+import com.ede.edeorderservice.entity.Orderdetail;
+import com.ede.edeorderservice.service.Order_Detail_service;
 import com.ede.edeorderservice.service.Order_discount_service;
 
 @RestController
@@ -21,6 +26,9 @@ import com.ede.edeorderservice.service.Order_discount_service;
 public class ReadOrderAdminRestController {
 	@Autowired
 	Order_discount_service service;
+	
+	@Autowired
+	Order_Detail_service order_Detail_service;
 
 	/**
 	 * Hàm lấy tất cả giảm giá hóa đơn
@@ -53,5 +61,15 @@ public class ReadOrderAdminRestController {
 	@GetMapping("/discount/order/{id}")
 	public ResponseEntity getDiscountOrderById(@PathVariable("id") String id) {
 		return ResponseEntity.ok(service.findById(id));
+	}
+	
+	@GetMapping("/getProductSellCurrentMonth")
+	public List<Orderdetail> getProductSellCurrentMonth(){
+		return order_Detail_service.getProductSellCurrentMonth(new Date());
+	}
+	
+	@GetMapping("/getProductSell")
+	public List<Orderdetail> getProductSell(){
+		return order_Detail_service.getProductSell();
 	}
 }
