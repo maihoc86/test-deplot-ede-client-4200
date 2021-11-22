@@ -63,6 +63,30 @@ export class StatisticalService {
     );
   }
 
-  public selectTotalViewPage() {}
-  public selectTotalViewPageNew() {}
+  public selectTotalViewPageNew() {
+    return this.httpClient.get<any>(
+      this.API_USER + '/admin/getViewPageNew',
+      this.httpOptions
+    );
+  }
+
+  public selectTotalViewPage() {
+    return this.httpClient.get<any>(
+      this.API_USER + '/admin/getViewPage',
+      this.httpOptions
+    );
+  }
+
+  public selectSellProductCurrentMonth() {
+    return this.httpClient.get<any>(
+      this.API_ORDER + '/admin/getProductSellCurrentMonth',
+      this.httpOptions
+    );
+  }
+  public selectSellProduct() {
+    return this.httpClient.get<any>(
+      this.API_ORDER + '/admin/getProductSell',
+      this.httpOptions
+    );
+  }
 }

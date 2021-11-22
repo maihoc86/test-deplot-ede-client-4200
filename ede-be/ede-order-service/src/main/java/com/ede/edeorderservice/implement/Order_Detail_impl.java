@@ -1,5 +1,6 @@
 package com.ede.edeorderservice.implement;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,12 @@ import com.ede.edeorderservice.dao.OrderDetailDao;
 import com.ede.edeorderservice.entity.Orderdetail;
 import com.ede.edeorderservice.service.Order_Detail_service;
 
-
 @Service
-public class Order_Detail_impl implements Order_Detail_service{
+public class Order_Detail_impl implements Order_Detail_service {
 
 	@Autowired
 	OrderDetailDao dao;
-	
+
 	@Override
 	public Long getCountProductOder(String id) {
 		return dao.getCountProductOder(id);
@@ -40,9 +40,17 @@ public class Order_Detail_impl implements Order_Detail_service{
 	 */
 	@Override
 	public Page<Orderdetail> listAll(String idOrder, String keyword, Pageable page) {
-		return dao.listAll(idOrder,keyword,page);
+		return dao.listAll(idOrder, keyword, page);
 	}
 
+	@Override
+	public List<Orderdetail> getProductSellCurrentMonth(Date date) {
+		return dao.getProductSellCurrentMonth(date);
+	}
 
+	@Override
+	public List<Orderdetail> getProductSell() {
+		return dao.findAll();
+	}
 
 }

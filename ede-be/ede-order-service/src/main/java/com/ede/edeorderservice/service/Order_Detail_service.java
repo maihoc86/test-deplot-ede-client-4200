@@ -1,5 +1,6 @@
 package com.ede.edeorderservice.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -26,5 +27,9 @@ public interface Order_Detail_service {
 	 * 
 	 */
 	Page<Orderdetail> listAll(String idOrder, String keyword ,Pageable page);
+
+	List<Orderdetail> getProductSellCurrentMonth(Date date);
+
+	List<Orderdetail> getProductSell();
 
 }

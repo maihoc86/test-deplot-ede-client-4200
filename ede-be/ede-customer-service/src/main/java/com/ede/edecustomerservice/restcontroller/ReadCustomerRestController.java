@@ -37,38 +37,8 @@ public class ReadCustomerRestController {
 	@Autowired
 	History_View_Page_Service history_View_Page_Service;
 
-	/**
-	 * Load data on the table
-	 * 
-	 * @author thanh
-	 * @see
-	 */
-	@GetMapping("/admin/users")
-	public List<User> getAccounts() {
-		return service.findAll();
-	}
 
-	@GetMapping("/admin/getNewUsers")
-	public List<User> getNewUsers() {
-		return service.getNewUsers();
-	}
 
-	/**
-	 * Create search account admin
-	 * 
-	 * @author Thanh
-	 */
-	@GetMapping("/admin/search/{username}")
-	public List<User> search(@PathVariable("username") String username) {
-		System.out.println("username: " + username);
-		if (username == "") {
-			return this.getAccounts();
-
-		} else {
-			return service.findByUsernameContaining(username);
-		}
-
-	}
 
 	@GetMapping("/findbyusername/{username}")
 	public User findbyusername(@PathVariable("username") String username) {
@@ -91,7 +61,7 @@ public class ReadCustomerRestController {
 
 	@GetMapping("/get/ipAddress/{ip}")
 	public HistoryViewPage getIpAddress(@PathVariable("ip") String ip) {
-		HistoryViewPage findByIp = history_View_Page_Service.findByIpToDate(ip);
+		HistoryViewPage findByIp = history_View_Page_Service.findByIpToDate(ip); 
 		return findByIp;
 
 	}
