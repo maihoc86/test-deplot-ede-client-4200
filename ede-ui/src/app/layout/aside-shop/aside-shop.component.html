@@ -8,55 +8,33 @@
             <div class="modtitle"></div>
             <div class="modcontent">
               <div class="box-category">
-                <ul id="cat_accordion" class="list-group">
-                  <li class="hadchild"><a  class="cutom-parent">Quản lý Shop</a>   <span class="button-view  fa fa-plus-square-o"></span>
-                    <ul style="display: block;">
-                      <li><a href="/shop/profile">Hồ sơ shop</a></li>
-                      <li><a href="/shop/category">Danh mục shop</a></li>
+                <ul class="list-group">
+                  <li class="hadchild"><a class="cutom-parent">  Quản lý shop</a>  
+                    <ul>
+                      <li><a routerLink="/shop/profile" [routerLinkActive]="'active-link'">Hồ sơ shop</a></li>
+                      <li><a routerLink="/shop/category" [routerLinkActive]="'active-link'" >Danh mục shop</a></li>
                     </ul>
                 
                   </li>
-                  <li class="hadchild"><a  class="cutom-parent">Quản lý sản phẩm</a>   <span class="button-view  fa fa-plus-square-o"></span>
-                    <ul style="display: block;">
-                      <li><a href="/shop/product/all" >Tất cả sản phẩm</a></li>
-                      <li><a href="/shop/product/manager/">Thêm sản phẩm</a></li>
+                  <li class="hadchild"><a class="cutom-parent">  Quản lý sản phẩm</a>  
+                    <ul >
+                      <li><a  routerLink="/shop/product/all" [routerLinkActive]="'active-link'" >Tất cả sản phẩm</a></li>
+                      <li><a  routerLink="/shop/product/manager/" [routerLinkActive]="'active-link'">Thêm sản phẩm</a></li>
                       <li><a >Thống kê sản phẩm</a></li>
                     </ul>
                   </li>
-                  <li class="hadchild"><a class="cutom-parent" >Quản lý đơn hàng</a>   <span class="button-view  fa fa-plus-square-o"></span>
-                    <ul style="display: none;">
-                      <li><a href="/shop/order/all" >Tất cả đơn hàng</a></li>
+                  <li class="hadchild"><a class="cutom-parent">  Quản lý đơn hàng</a>  
+                    <ul >
+                      <li><a  routerLink="/shop/order/all" [routerLinkActive]="'active-link'" >Tất cả đơn hàng</a></li>
                       <li><a >Đơn huỷ</a></li>
                       <li><a >Trả hàng/ Hoàn tiền</a></li>
                     </ul>
                   </li>
-                  <li class="hadchild"><a  class="cutom-parent">Tài chính</a>   <span class="button-view  fa fa-plus-square-o"></span>
-                    <ul style="display: none;">
-                      <li><a routerLink ="/shop/revenue"  >Doanh thu</a></li>
+                  <li class="hadchild"><a class="cutom-parent">  Tài chính</a>  
+                    <ul >
+                      <li><a  routerLink="/shop/revenue" [routerLinkActive]="'active-link'"   >Doanh thu</a></li>
                     </ul>
                   </li>
-                  <li class="hadchild"><a href="category.html" class="cutom-parent">Watches</a>  <span class="button-view  fa fa-plus-square-o"></span>
-                    <ul style="display: none;">
-                      <li><a href="category.html">Men's Watches</a></li>
-                      <li><a href="category.html">Women's Watches</a></li>
-                      <li><a href="category.html">Kids' Watches</a></li>
-                      <li><a href="category.html">Accessories</a></li>
-                    </ul>
-                  </li>
-                  <li class="hadchild"><a href="category.html" class="cutom-parent">Jewellery</a>    <span class="button-view  fa fa-plus-square-o"></span>
-                    <ul style="display: none;">
-                      <li><a href="category.html">Sub Categories</a></li>
-                      <li><a href="category.html">Sub Categories</a></li>
-                      <li><a href="category.html">Sub Categories</a></li>
-                      <li><a href="category.html">Sub Categories</a></li>
-                      <li><a href="category.html">Sub Categories</a></li>
-                    </ul>
-                  </li>
-                  <li class=""><a href="category.html" class="cutom-parent">Health &amp; Beauty</a>  <span class="dcjq-icon"></span></li>
-                  <li class=""><a href="category.html" class="cutom-parent">Kids &amp; Babies</a>    <span class="dcjq-icon"></span></li>
-                  <li class=""><a href="category.html" class="cutom-parent">Sports</a>  <span class="dcjq-icon"></span></li>
-                  <li class=""><a href="category.html" class="cutom-parent">Home &amp; Garden</a><span class="dcjq-icon"></span></li>
-                  <li class=""><a href="category.html" class="cutom-parent">Wines &amp; Spirits</a>  <span class="dcjq-icon"></span></li>
                 </ul>
               </div>
 
