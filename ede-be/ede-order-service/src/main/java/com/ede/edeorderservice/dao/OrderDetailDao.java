@@ -34,4 +34,8 @@ public interface OrderDetailDao extends JpaRepository<Orderdetail, String> {
 	@Query("Select o from Orderdetail o WHERE EXTRACT(YEAR FROM o.order.create_date ) =  EXTRACT(YEAR FROM :date) and EXTRACT(MONTH FROM o.order.create_date ) =  EXTRACT(MONTH FROM :date)")
 	List<Orderdetail> getProductSellCurrentMonth(Date date);
 
+	
+	@Query("SELECT o FROM Orderdetail o where o.order.user.id=?1")
+	List<Orderdetail> findAllByUser(String idUser);
+
 }

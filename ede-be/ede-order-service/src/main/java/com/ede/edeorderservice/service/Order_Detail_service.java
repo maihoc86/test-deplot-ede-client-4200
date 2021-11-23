@@ -28,8 +28,12 @@ public interface Order_Detail_service {
 	 */
 	Page<Orderdetail> listAll(String idOrder, String keyword ,Pageable page);
 
+
 	List<Orderdetail> getProductSellCurrentMonth(Date date);
 
 	List<Orderdetail> getProductSell();
+
+	List<Orderdetail> findAllByUser(String idUser);
+
 
 }

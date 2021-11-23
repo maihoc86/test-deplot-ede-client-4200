@@ -455,7 +455,8 @@ public class ReadProductRestController {
 		if (listResultList.size() >= 5) {
 			return ResponseEntity.ok(listResultList.subList(0, 5));
 		}
-		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+	//	return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+		return ResponseEntity.ok(listResultList);
 	}
 
 	@GetMapping("/view/5productnew/byshop/{id}")

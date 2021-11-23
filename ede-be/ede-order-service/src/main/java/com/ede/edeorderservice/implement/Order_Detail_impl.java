@@ -44,9 +44,16 @@ public class Order_Detail_impl implements Order_Detail_service {
 	}
 
 	@Override
+
 	public List<Orderdetail> getProductSellCurrentMonth(Date date) {
 		return dao.getProductSellCurrentMonth(date);
 	}
+
+	public List<Orderdetail> findAllByUser(String idUser) {
+		return dao.findAllByUser(idUser);
+	}
+
+
 
 	@Override
 	public List<Orderdetail> getProductSell() {
