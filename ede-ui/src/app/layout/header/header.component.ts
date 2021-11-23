@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HeaderService } from 'src/app/Services/header/header.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-header',

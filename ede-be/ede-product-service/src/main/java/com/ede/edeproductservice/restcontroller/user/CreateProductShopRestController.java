@@ -1,6 +1,5 @@
 package com.ede.edeproductservice.restcontroller.user;
 
-import java.io.Console;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,6 +36,7 @@ import com.ede.edeproductservice.service.Product_option_image_service;
 import com.ede.edeproductservice.service.Product_option_service;
 import com.ede.edeproductservice.service.ShopService;
 
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/ede-product")
 public class CreateProductShopRestController {
@@ -74,7 +74,6 @@ public class CreateProductShopRestController {
 		return UUID.randomUUID().toString();
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop")
 	public ResponseEntity addProductAndSell(@RequestBody Product product, HttpServletRequest req) {
 		User us = new User();
@@ -95,7 +94,6 @@ public class CreateProductShopRestController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/")
 	public ResponseEntity addProductOptions(@RequestBody Product_option product_option, HttpServletRequest req) {
 
@@ -109,7 +107,6 @@ public class CreateProductShopRestController {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/options/images")
 	public ResponseEntity addProductOptionImage(@RequestBody Product_option_image product_option_image) {
 		String[] words = product_option_image.getImage().split(",");
@@ -128,7 +125,6 @@ public class CreateProductShopRestController {
 		return ResponseHandler.generateResponse(HttpStatus.OK, true, "Thêm hình ảnh thành công", "", null);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/discount")
 	public ResponseEntity addProductDiscount(@RequestBody Product_discount product_discount) {
 		try {
@@ -143,7 +139,6 @@ public class CreateProductShopRestController {
 
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/user/create/product-shop/tag")
 	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
 
@@ -164,7 +159,6 @@ public class CreateProductShopRestController {
 
 	}
 
-	@SuppressWarnings("rawtypes")
 	@PutMapping("/user/enable/product-shop/{id}")
 	public ResponseEntity enableProductAndSell(@PathVariable("id") String id) {
 		Product product = service.findById(id);
@@ -177,6 +171,5 @@ public class CreateProductShopRestController {
 		product_meta.setId(generateUUID().toString());
 		return ResponseEntity.status(HttpStatus.OK).body(product_meta_service.save(product_meta));
 	}
-	
 
 }

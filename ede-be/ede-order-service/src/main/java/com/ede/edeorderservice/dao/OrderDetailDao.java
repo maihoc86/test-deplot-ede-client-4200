@@ -1,6 +1,6 @@
 package com.ede.edeorderservice.dao;
 
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ede.edeorderservice.entity.Orderdetail;
 
-public interface OrderDetailDao extends JpaRepository<Orderdetail, String>{
+public interface OrderDetailDao extends JpaRepository<Orderdetail, String> {
 
 	@Query("select sum(o.quantity) from Orderdetail o where o.productOption.id =?1 ")
 	Long getCountProductOder(String id);
@@ -29,6 +29,13 @@ public interface OrderDetailDao extends JpaRepository<Orderdetail, String>{
 	 * 
 	 */
 	@Query("SELECT o FROM Orderdetail o where o.order.id= ?1 and ( o.productOption.product.name like %?2% or o.productOption.display_name like %?2%)")
-	Page<Orderdetail> listAll(String idOrder,String keyword, Pageable page);
+	Page<Orderdetail> listAll(String idOrder, String keyword, Pageable page);
+
+	@Query("Select o from Orderdetail o WHERE EXTRACT(YEAR FROM o.order.create_date ) =  EXTRACT(YEAR FROM :date) and EXTRACT(MONTH FROM o.order.create_date ) =  EXTRACT(MONTH FROM :date)")
+	List<Orderdetail> getProductSellCurrentMonth(Date date);
+
+	
+	@Query("SELECT o FROM Orderdetail o where o.order.user.id=?1")
+	List<Orderdetail> findAllByUser(String idUser);
 
 }

@@ -6,10 +6,22 @@
         <div class="col border-end border-light-2">
           <div class="card bg-transparent shadow-none mb-0">
             <div class="card-body text-center">
-              <p class="mb-1 text-white">Lượt truy cập trang</p>
-              <h3 class="mb-3 text-white">876</h3>
-              <p class="font-13 text-white"><span class="text-success"><i class="lni lni-arrow-up"></i>2.1%</span> vs
-                last 7 days</p>
+              <p class="mb-1 text-white">Lượt truy cập trang mới</p>
+              <h3 class="mb-3 text-white">{{totalViewPageNew}}</h3>
+              <p class="font-13 text-white">
+                <span class="text-danger" *ngIf="(totalViewPage -
+                    (totalViewPage - totalViewPageNew))/(totalViewPage - totalViewPageNew) * 100 < 0">
+                  <i class="lni lni-arrow-down"></i>
+                  {{(totalViewPage -
+                  (totalViewPage - totalViewPageNew))/(totalViewPage - totalViewPageNew) * 100 | number : '1.2-2'}}%
+                </span>
+                <span class="text-success" *ngIf="(totalViewPage -
+                    (totalViewPage - totalViewPageNew))/(totalViewPage - totalViewPageNew) * 100 >= 0"><i
+                    class="lni lni-arrow-up"></i>
+                  {{(totalViewPage -
+                  (totalViewPage - totalViewPageNew))/(totalViewPage - totalViewPageNew) * 100 | number : '1.2-2' }}%
+                </span>so với đợt trước
+
               <div id="chart1"></div>
             </div>
           </div>
@@ -24,13 +36,13 @@
                   (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 < 0"><i
                     class="lni lni-arrow-down"></i>
                   {{(totalUsers -
-                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 | number }}%
+                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 | number : '1.2-2' }}%
                 </span>
 
                 <span class="text-success" *ngIf="(totalUsers -
                 (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 >= 0"><i class="lni lni-arrow-up"></i>
                   {{(totalUsers -
-                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 | number}}%
+                  (totalUsers - totalUserNew))/(totalUsers - totalUserNew) * 100 | number : '1.2-2'}}%
                 </span>
                 so với đợt trước
               </p>
@@ -48,13 +60,13 @@
                   (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 < 0"><i
                     class="lni lni-arrow-down"></i>
                   {{(totalProduct -
-                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 | number}}%
+                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 | number : '1.2-2'}}%
                 </span>
                 <span class="text-success" *ngIf="(totalProduct -
                   (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 >= 0"><i
                     class="lni lni-arrow-up"></i>
                   {{(totalProduct -
-                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 | number }}%
+                  (totalProduct - totalProductNew))/(totalProduct - totalProductNew) * 100 | number : '1.2-2' }}%
                 </span>
                 so với đợt trước
               </p>
@@ -72,13 +84,13 @@
                     (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 < 0">
                   <i class="lni lni-arrow-down"></i>
                   {{(totalShop -
-                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 | number}}%
+                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 | number : '1.2-2'}}%
                 </span>
                 <span class="text-success" *ngIf="(totalShop -
                     (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 >= 0"><i class="lni lni-arrow-up"></i>
                   {{(totalShop -
-                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 | number }}%
-                </span>
+                  (totalShop - totalShopNew))/(totalShop - totalShopNew) * 100 | number : '1.2-2' }}%
+                </span>so với đợt trước
               <div id="chart4"></div>
             </div>
           </div>
@@ -86,10 +98,25 @@
         <div class="col col-md-12">
           <div class="card bg-transparent shadow-none mb-0">
             <div class="card-body text-center">
-              <p class="mb-1 text-white">Số sản phẩm được bán ra trong tháng</p>
-              <h3 class="mb-3 text-white">00:04:60</h3>
-              <p class="font-13 text-white"><span class="text-danger"><i class="lni lni-arrow-down"></i> 5.2%</span> vs
-                last 7 days</p>
+              <p class="mb-1 text-white">Sản phẩm bán trong tháng</p>
+              <h3 class="mb-3 text-white">{{totalProductSellMonth}}</h3>
+              <p class="font-13 text-white">
+                <span class="text-danger" *ngIf="(totalProductSell -
+                  (totalProductSell - totalProductSellMonth))/(totalProductSell - totalProductSellMonth) * 100 < 0">
+                  <i class="lni lni-arrow-down"></i>
+                  {{(totalProductSell -
+                  (totalProductSell - totalProductSellMonth))/(totalProductSell - totalProductSellMonth) * 100 |
+                  number : '1.2-2'}}%
+                </span>
+                <span class="text-success" *ngIf="(totalProductSell -
+                  (totalProductSell - totalProductSellMonth))/(totalProductSell - totalProductSellMonth) * 100 >= 0"><i
+                    class="lni lni-arrow-up"></i>
+                  {{(totalProductSell -
+                  (totalProductSell - totalProductSellMonth))/(totalProductSell - totalProductSellMonth) * 100 | number
+                  : '1.2-2'
+                  }}%
+                </span>so với đợt trước
+              </p>
               <div id="chart5"></div>
             </div>
           </div>

@@ -38,11 +38,6 @@ public class ReadShopRestController {
 		}
 		return	ResponseEntity.ok(shop);
 	}
-	@GetMapping("/admin/viewall")
-	public ResponseEntity<?> getAllShop() {
-		List<Shop> list = shopService.findAll();
-		return	ResponseEntity.ok(list);
-	}
 	
 	@GetMapping("/viewallbyname")
 	public ResponseEntity<?> getAllShopbyName(@RequestParam("name")String name) {
@@ -59,9 +54,5 @@ public class ReadShopRestController {
 		return	ResponseEntity.ok(shop);
 	}
 	
-	@GetMapping("/admin/getNewShops")
-	public List<Shop> getNewShop() {
-		return shopService.getNewShop();
-	}
 	
 }
