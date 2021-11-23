@@ -175,6 +175,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getProductOptionImage/only/{id}")
 	public Product_option_image getImageOnly(@PathVariable("id") String id) {
+		System.err.println(id);
 		return productImageService.findImageByIdOption(id).get(0);
 	}
 
