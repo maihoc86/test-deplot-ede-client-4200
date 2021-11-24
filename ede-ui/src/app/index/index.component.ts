@@ -48,4 +48,12 @@ export class IndexComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Hàm xem chi tiết sản phẩm từ cửa hàng
+   * @param product id product truyền vào
+   */
+  showDetailProduct(product: any) {
+    this.router.navigate([`/product/detail/${product}`]);
+  }
 }

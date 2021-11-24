@@ -950,7 +950,7 @@
                 <div class="item">
                   <div class="product-thumb" *ngFor="let item of listProductSelling">
                     <div class="row">
-                      <div class="inner">
+                      <div class="inner" (click)="showDetailProduct(item.idProduct)">
                         <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
                           <div class="image">
                             <span class="label-product label-product-sale"
@@ -986,9 +986,20 @@
                           <div class="caption">
                             <h4><a href="#" target="_self" title="Yutculpa ullamco">Yutculpa ullamco</a>
                             </h4>
-                            <p class="price"> <span class="price-new">$60.00</span> &nbsp;
-                              <span class="price-old">$77.00</span>
-                            </p>
+                            <div class="price">
+                              <div *ngIf="item.optionDef.productDiscount[0] != undefined">
+                                <span class="price-new">{{
+                                  (item.optionDef.price *
+                                  (100 -
+                                  item.optionDef.productDiscount[0].discount)) /
+                                  100 | number
+                                  }}đ</span>
+                                <span class="price-old">{{ item.optionDef.price | number }}đ</span>
+                              </div>
+                              <span class="price-new" *ngIf="item.optionDef.productDiscount[0] == undefined">{{
+                                item.optionDef.price | number
+                                }}đ</span>
+                            </div>
                             <div class="item-available">
                               <div class="row">
                                 <p class="col-xs-6 a1">Còn: <b>{{item.optionDef.quantity}}</b>
