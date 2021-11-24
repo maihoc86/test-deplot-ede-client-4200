@@ -168,6 +168,7 @@ public class CreateProductShopRestController {
 
 	@PostMapping("/view/product-meta/add")
 	public ResponseEntity addProductMeta(@RequestBody Product_meta product_meta) {
+		System.err.println(product_meta);
 		product_meta.setId(generateUUID().toString());
 		return ResponseEntity.status(HttpStatus.OK).body(product_meta_service.save(product_meta));
 	}

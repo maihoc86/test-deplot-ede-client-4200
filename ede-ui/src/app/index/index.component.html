@@ -2,7 +2,7 @@
   <div id="content">
     <div class="box-top hidden-lg hidden-md hidden-sm ">
       <div class="module sohomepage-slider ">
-        <div class="yt-content-slider" data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4"
+        <div class="yt-content-slider" data-rtl="yes" data-autoplay="yes" data-autoheight="no" data-delay="4"
           data-speed="0.6" data-margin="0" data-items_column0="1" data-items_column1="1" data-items_column2="1"
           data-items_column3="1" data-items_column4="1" data-arrows="no" data-pagination="yes" data-lazyload="yes"
           data-loop="no" data-hoverpause="yes">
@@ -51,7 +51,7 @@
           <div class="modcontent">
             <div id="so_extra_slider_1" class="extraslider">
               <!-- Begin extraslider-inner -->
-              <div class="yt-content-slider extraslider-inner" data-rtl="yes" data-pagination="yes" data-autoplay="no"
+              <div class="yt-content-slider extraslider-inner" data-rtl="yes" data-pagination="yes" data-autoplay="yes"
                 data-delay="4" data-speed="0.6" data-margin="0" data-items_column0="1" data-items_column1="1"
                 data-items_column2="1" data-items_column3="1" data-items_column4="1" data-arrows="no"
                 data-lazyload="yes" data-loop="no" data-buttonpage="top">
@@ -891,7 +891,7 @@
 
           <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 col2">
             <div class="module sohomepage-slider ">
-              <div class="yt-content-slider" data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4"
+              <div class="yt-content-slider" data-rtl="yes" data-autoplay="yes" data-autoheight="no" data-delay="4"
                 data-speed="0.6" data-margin="0" data-items_column0="1" data-items_column1="1" data-items_column2="1"
                 data-items_column3="1" data-items_column4="1" data-arrows="no" data-pagination="yes" data-lazyload="yes"
                 data-loop="no" data-hoverpause="yes">
@@ -943,20 +943,20 @@
           <h3 class="modtitle"><span>Sản phẩm bán chạy</span></h3>
           <div class="modcontent">
             <div id="so_deal_1" class="so-deal style2">
-              <div class="extraslider-inner products-list yt-content-slider" data-rtl="yes" data-autoplay="no"
+              <div class="extraslider-inner products-list yt-content-slider" data-rtl="yes" data-autoplay="yes"
                 data-autoheight="no" data-delay="4" data-speed="0.6" data-margin="30" data-items_column0="2"
                 data-items_column1="1" data-items_column2="1" data-items_column3="1" data-items_column4="1"
                 data-arrows="yes" data-pagination="yes" data-lazyload="yes" data-loop="no" data-hoverpause="yes">
-                <div class="item">
+                <div class="item" *ngFor="let item of listProductSelling">
                   <!-- TODO FIX FOR UI -->
-                  <div class="product-thumb" *ngFor="let item of listProductSelling">
+                  <div class="product-thumb">
                     <div class="row" (click)="showDetailProduct(item.idProduct)">
                       <div class="inner">
                         <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
                           <div class="image">
                             <span class="label-product label-product-sale"
                               *ngIf="item.optionDef.productDiscount[0] != undefined">
-                              {{ item.optionDef.productDiscount[0].discount }}
+                              -{{ item.optionDef.productDiscount[0].discount }}%
                             </span>
                             <a (click)="showDetailProduct(item.idProduct)" target="_self" title="{{item.name}}">
                               <img
@@ -964,10 +964,6 @@
                                 style="width:320px  ; height:320px" alt="{{item.name}}" class="img-responsive">
                             </a>
                             <div class="button-group so-quickview">
-                              <button class="btn-button addToCart" title="Add to Cart" type="button"
-                                onclick="cart.add('69');"><i class="fa fa-shopping-basket"></i> <span>Thêm giỏ
-                                  hàng</span>
-                              </button>
                               <button class="btn-button wishlist" type="button" title="Add to Wish List"
                                 onclick="wishlist.add('69');"><i class="fa fa-heart"></i><span>Thêm yêu thích
                                   List</span>
@@ -977,8 +973,8 @@
                               </button>
                               <!--quickview-->
                               <a class="iframe-link btn-button quickview quickview_handler visible-lg"
-                                href="quickview.html" title="Quick view" data-fancybox-type="iframe"><i
-                                  class="fa fa-eye"></i><span>Xem chi tiết</span></a>
+                                (click)="showDetailProduct(item.idProduct)" title="Quick view"
+                                data-fancybox-type="iframe"><i class="fa fa-eye"></i><span>Xem chi tiết</span></a>
                               <!--end quickview-->
                             </div>
                           </div>
@@ -1075,7 +1071,7 @@
           <h3 class="modtitle"><span>Daily Deals</span></h3>
           <div class="modcontent">
             <div id="so_deal_1" class="so-deal style2">
-              <div class="extraslider-inner products-list yt-content-slider" data-rtl="yes" data-autoplay="no"
+              <div class="extraslider-inner products-list yt-content-slider" data-rtl="yes" data-autoplay="yes"
                 data-autoheight="no" data-delay="4" data-speed="0.6" data-margin="30" data-items_column0="2"
                 data-items_column1="1" data-items_column2="1" data-items_column3="1" data-items_column4="1"
                 data-arrows="yes" data-pagination="yes" data-lazyload="yes" data-loop="no" data-hoverpause="yes">
@@ -2117,7 +2113,7 @@
 
       </div>
       <div class="slider-brands col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="yt-content-slider contentslider" data-autoplay="no" data-delay="4" data-speed="0.6" data-margin="0"
+        <div class="yt-content-slider contentslider" data-autoplay="yes" data-delay="4" data-speed="0.6" data-margin="0"
           data-items_column0="8" data-items_column1="6" data-items_column2="3" data-items_column3="2"
           data-items_column4="1" data-arrows="yes" data-pagination="no" data-lazyload="yes" data-loop="no">
           <div class="item">
