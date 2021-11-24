@@ -90,6 +90,8 @@ export class ShoppingCartComponent implements OnInit {
 
     this.cart = json ? JSON.parse(json) : [];
 
+    console.log(this.cart)
+    
     const term: any = [];
     this.cart.forEach((e) => {
       if (term.indexOf(e.product_option.product.shop.id) === -1) {
