@@ -1,5 +1,6 @@
 package com.ede.edecustomerservice.schedule;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,14 +53,15 @@ public class MailSchedule {
 			helper.setSubject(mailEntity.getSubject());
 			helper.setText(mailEntity.getText(), true);
 			helper.setReplyTo(mailEntity.getReplyTo());
+			helper.addAttachment(createFileName(mailEntity.getAttachment()), mailEntity.getAttachment());
 			this.sender.send(message);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private String createFileName(MultipartFile partFile) {
-		String extend = partFile.getOriginalFilename().substring(partFile.getOriginalFilename().lastIndexOf("."));
+	private String createFileName(File partFile) {
+		String extend = partFile.getName();
 		String result = "f_" + Long.toHexString(new Date().getTime()) + "_" + UUID.randomUUID().toString() + extend;
 		return result;
 	}
