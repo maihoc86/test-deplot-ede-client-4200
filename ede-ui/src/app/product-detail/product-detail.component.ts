@@ -258,32 +258,33 @@ export class ProductDetailComponent implements OnInit {
     this.headerService
       .getUserByToken(this.cookieService.get('auth'))
       .subscribe((user) => {
-        this.productService
-          .getProduct(this.product.idProduct)
-          .subscribe((product) => {
-            ProductMetaList = {
-              date_view: new Date(),
-              cookie: this.cookieService.get('auth'),
-              user: user,
-              product: product,
-            };
+            this.activatedRoute.params.subscribe(({ idProduct }) => {
+        this.productService.getProduct(idProduct).subscribe((product) => {
+          ProductMetaList = {
+            date_view: new Date(),
+            cookie: this.cookieService.get('auth'),
+            user: user,
+            product: product,
+          };
 
-            this.productService
-              .getProductMetaView(user.id, product.id)
-              .subscribe((dataGet: any) => {
-                if (dataGet == null) {
-                  this.productService
-                    .addProductMetaView(ProductMetaList)
-                    .subscribe(
-                      (data: any) => {},
-                      (error: any) => {
-                        console.log(error);
-                      }
-                    );
-                }
-              });
-          });
+          this.productService
+            .getProductMetaView(user.id, product.id)
+            .subscribe((dataGet: any) => {
+              if (dataGet == null) {
+                this.productService
+                  .addProductMetaView(ProductMetaList)
+                  .subscribe(
+                    (data: any) => {},
+                    (error: any) => {
+                      console.log(error);
+                    }
+                  );
+              }
+            });
+        });
+
       });
+    })
   }
 
   /**

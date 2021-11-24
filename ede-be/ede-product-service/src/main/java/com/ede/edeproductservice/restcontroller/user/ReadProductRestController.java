@@ -511,6 +511,9 @@ public class ReadProductRestController {
 		String id_product = idProduct.orElse("");
 
 		Product_meta find = product_meta_service.findByIdUser(id_user, id_product, date);
+		if(find!= null ) {
+			find.setUser(null);
+		}
 		return ResponseEntity.ok(find);
 	}
 
@@ -523,8 +526,10 @@ public class ReadProductRestController {
 			Object[] row = (Object[]) listop.get(i);
 			for (ProductSearch e : listP) {
 				if (e.getIdProduct().equals(row[0])) {
+					Shop shop = e.getShop();
+					shop.setUser(null);
+					e.setShop(shop);
 					listResultList.add(e);
-
 				}
 			}
 
@@ -535,7 +540,6 @@ public class ReadProductRestController {
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
 	@GetMapping("/view/customer/shop/all/product/discount")
 	public ResponseEntity getAllListProductDiscountByCustomer() {
-		System.err.println("Vào đây 22222");
 		Shop shop = new Shop();
 		try {
 			shop = auservice.getShopLogin(req.getHeader("Authorization"));
