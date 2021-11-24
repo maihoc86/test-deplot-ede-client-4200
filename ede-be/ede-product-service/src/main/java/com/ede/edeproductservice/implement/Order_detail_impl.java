@@ -29,5 +29,9 @@ public class Order_detail_impl implements Order_detail_service {
 	public List<Object> findAllOptionProductInOrderDetailByIdShop(String id) {
 		return dao.findAllOptionProductInOrderDetailByIdShop(id);
 	}
+	@Override
+	public List<Object> findAllOptionProductInOrderDetail() {
+		return dao.findAllOptionProductInOrderDetail();
+	}
 	
 }

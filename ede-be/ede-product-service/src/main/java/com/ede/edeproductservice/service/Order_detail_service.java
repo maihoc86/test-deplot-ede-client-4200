@@ -12,5 +12,6 @@ public interface Order_detail_service {
 	List<Product_option> findAllOptionProductByIduser(String idUser, String id);
 	Orderdetail findProductOption(String id);
 	List<Object> findAllOptionProductInOrderDetailByIdShop(String id);
+	List<Object> findAllOptionProductInOrderDetail();
 
 }

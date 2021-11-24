@@ -231,4 +231,9 @@ public class ProductImpl implements ProductService {
 		return dao.getNewProduct();
 	}
 
+	@Override
+	public List<ProductSearch> getListProductSearch() {
+		return dao.getListProductSearch();
+	}
+
 }

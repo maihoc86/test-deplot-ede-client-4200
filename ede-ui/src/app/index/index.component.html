@@ -938,10 +938,9 @@
             </a>
           </div>
         </div>
-
         <!-- Deals -->
         <div class="module deals-layout1">
-          <h3 class="modtitle"><span>Daily Deals</span></h3>
+          <h3 class="modtitle"><span>Sản phẩm bán chạy</span></h3>
           <div class="modcontent">
             <div id="so_deal_1" class="so-deal style2">
               <div class="extraslider-inner products-list yt-content-slider" data-rtl="yes" data-autoplay="no"
@@ -949,36 +948,36 @@
                 data-items_column1="1" data-items_column2="1" data-items_column3="1" data-items_column4="1"
                 data-arrows="yes" data-pagination="yes" data-lazyload="yes" data-loop="no" data-hoverpause="yes">
                 <div class="item">
-                  <div class="product-thumb">
+                  <div class="product-thumb" *ngFor="let item of listProductSelling">
                     <div class="row">
-                      <div class="inner">
+                      <div class="inner" (click)="showDetailProduct(item.idProduct)">
                         <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
                           <div class="image">
-                            <span class="label-product label-product-sale">
-                              -22%
+                            <span class="label-product label-product-sale"
+                              *ngIf="item.optionDef.productDiscount[0] != undefined">
+                              {{ item.optionDef.productDiscount[0].discount }}
                             </span>
                             <a href="#" target="_self" title="product">
-                              <img src="/assets/image/catalog/demo/product/320/1.jpg" alt="Yutculpa ullamco"
-                                class="img-responsive">
+                              <img
+                                src="http://localhost:8080/ede-file/get/image/{{item.optionDef.optionImageDef.image}}"
+                                style="width:320px; height:320px" alt="Yutculpa ullamco" class="img-responsive">
                             </a>
                             <div class="button-group so-quickview">
                               <button class="btn-button addToCart" title="Add to Cart" type="button"
-                                onclick="cart.add('69');"><i class="fa fa-shopping-basket"></i> <span>Add
-                                  to Cart</span>
+                                onclick="cart.add('69');"><i class="fa fa-shopping-basket"></i> <span>Thêm giỏ
+                                  hàng</span>
                               </button>
                               <button class="btn-button wishlist" type="button" title="Add to Wish List"
-                                onclick="wishlist.add('69');"><i class="fa fa-heart"></i><span>Add to Wish
+                                onclick="wishlist.add('69');"><i class="fa fa-heart"></i><span>Thêm yêu thích
                                   List</span>
                               </button>
                               <button class="btn-button compare" type="button" title="Compare this Product"
-                                onclick="compare.add('69');"><i class="fa fa-refresh"></i><span>Compare this
-                                  Product</span>
+                                onclick="compare.add('69');"><i class="fa fa-refresh"></i><span>So sánh sản phẩm</span>
                               </button>
                               <!--quickview-->
                               <a class="iframe-link btn-button quickview quickview_handler visible-lg"
                                 href="quickview.html" title="Quick view" data-fancybox-type="iframe"><i
-                                  class="fa fa-eye"></i><span>Quick
-                                  view</span></a>
+                                  class="fa fa-eye"></i><span>Xem chi tiết</span></a>
                               <!--end quickview-->
                             </div>
                           </div>
@@ -987,258 +986,42 @@
                           <div class="caption">
                             <h4><a href="#" target="_self" title="Yutculpa ullamco">Yutculpa ullamco</a>
                             </h4>
-                            <p class="price"> <span class="price-new">$60.00</span>
-                              <span class="price-old">$77.00</span>
-                            </p>
-                            <p class="desc">Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit, sed do eiusmod tempor incididunt
-                              ut labore..</p>
+                            <div class="price">
+                              <div *ngIf="item.optionDef.productDiscount[0] != undefined">
+                                <span class="price-new">{{
+                                  (item.optionDef.price *
+                                  (100 -
+                                  item.optionDef.productDiscount[0].discount)) /
+                                  100 | number
+                                  }}đ</span>
+                                <span class="price-old">{{ item.optionDef.price | number }}đ</span>
+                              </div>
+                              <span class="price-new" *ngIf="item.optionDef.productDiscount[0] == undefined">{{
+                                item.optionDef.price | number
+                                }}đ</span>
+                            </div>
                             <div class="item-available">
                               <div class="row">
-                                <p class="col-xs-6 a1">Available: <b>98</b>
+                                <p class="col-xs-6 a1">Còn: <b>{{item.optionDef.quantity}}</b>
                                 </p>
-                                <p class="col-xs-6 a2">Sold: <b>32</b>
+                                <p class="col-xs-6 a2">Đã bán: <b>32</b>
                                 </p>
                               </div>
                               <div class="available"> <span class="color_width" data-title="75%" data-toggle="tooltip"
                                   title="75%" style="width: 75%"></span>
                               </div>
                             </div>
-                            <!--countdown box-->
-                            <div class="item-time-w">
-                              <div class="time-title"><span>Hurry Up!</span> Offer
-                                ends in:</div>
-                              <div class="item-time">
-                                <div class="item-timer">
-                                  <div class="defaultCountdown-30"></div>
-                                </div>
-                              </div>
+                            <div class="">
+                              Mô tả: <p>Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit, sed do eiusmod tempor incididunt
+                                ut labore..</p>
                             </div>
-                            <!--end countdown box-->
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="item">
-                  <div class="product-thumb ">
-                    <div class="row">
-                      <div class="inner">
-                        <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
-                          <div class="image">
-                            <span class="label-product label-product-sale">
-                              -10%
-                            </span>
-                            <a href="#" target="_self" title="Xancetta bresao">
-                              <img src="/assets/image/catalog/demo/product/320/2.jpg" alt="Xancetta bresao"
-                                class="img-responsive">
-                            </a>
-                            <div class="button-group so-quickview">
-                              <button class="btn-button addToCart" title="Add to Cart" type="button"
-                                onclick="cart.add('75');"><i class="fa fa-shopping-basket"></i> <span>Add
-                                  to Cart</span>
-                              </button>
-                              <button class="btn-button wishlist" type="button" title="Add to Wish List"
-                                onclick="wishlist.add('75');"><i class="fa fa-heart"></i><span>Add to Wish
-                                  List</span>
-                              </button>
-                              <button class="btn-button compare" type="button" title="Compare this Product"
-                                onclick="compare.add('75');"><i class="fa fa-refresh"></i><span>Compare this
-                                  Product</span>
-                              </button>
-                              <!--quickview-->
-                              <a class="iframe-link btn-button quickview quickview_handler visible-lg"
-                                href="quickview.html" title="Quick view" data-fancybox-type="iframe"><i
-                                  class="fa fa-eye"></i><span>Quick
-                                  view</span></a>
-                              <!--end quickview-->
-                            </div>
-                          </div>
-                        </div>
-                        <div class="item-right col-lg-6 col-md-7 col-sm-7 col-xs-12">
-                          <div class="caption">
-                            <h4><a href="#" target="_self" title="Xancetta bresao">Xancetta bresao</a></h4>
-                            <p class="price"> <span class="price-new">$80.00</span>
-                              <span class="price-old">$89.00</span>
-                            </p>
-                            <p class="desc">Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit, sed do eiusmod tempor incididunt
-                              ut labore..</p>
-                            <div class="item-available">
-                              <div class="row">
-                                <p class="col-xs-6 a1">Available: <b>555</b>
-                                </p>
-                                <p class="col-xs-6 a2">Sold: <b>0</b>
-                                </p>
-                              </div>
-                              <div class="available"> <span class="color_width" data-title="0%" data-toggle="tooltip"
-                                  title="75%" style="width: 0%"></span>
-                              </div>
-                            </div>
-                            <!--countdown box-->
-                            <div class="item-time-w">
-                              <div class="time-title"><span>Hurry Up!</span> Offer
-                                ends in:</div>
-                              <div class="item-time">
-                                <div class="item-timer">
-                                  <div class="defaultCountdown-30"></div>
-                                </div>
-                              </div>
-
-                            </div>
-                            <!--end countdown box-->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="product-thumb transition ">
-                    <div class="row">
-                      <div class="inner">
-                        <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
-                          <div class="image">
-                            <span class="label-product label-product-sale">-17%</span>
-                            <a href="#" target="_self" title="Wamboudin ribeye">
-                              <img src="/assets/image/catalog/demo/product/320/3.jpg" alt="Wamboudin ribeye"
-                                class="img-responsive">
-                            </a>
-                            <div class="button-group so-quickview">
-                              <button class="btn-button addToCart" title="Add to Cart" type="button"
-                                onclick="cart.add('79');"><i class="fa fa-shopping-basket"></i> <span>Add
-                                  to Cart</span>
-                              </button>
-                              <button class="btn-button wishlist" type="button" title="Add to Wish List"
-                                onclick="wishlist.add('79');"><i class="fa fa-heart"></i><span>Add to Wish
-                                  List</span>
-                              </button>
-                              <button class="btn-button compare" type="button" title="Compare this Product"
-                                onclick="compare.add('79');"><i class="fa fa-refresh"></i><span>Compare this
-                                  Product</span>
-                              </button>
-                              <!--quickview-->
-                              <a class="iframe-link btn-button quickview quickview_handler visible-lg"
-                                href="quickview.html" title="Quick view" data-fancybox-type="iframe"><i
-                                  class="fa fa-eye"></i><span>Quick
-                                  view</span></a>
-                              <!--end quickview-->
-                            </div>
-                          </div>
-                        </div>
-                        <div class="item-right col-lg-6 col-md-7 col-sm-7 col-xs-12">
-                          <div class="caption">
-                            <h4><a href="#" target="_self" title="Wamboudin ribeye">Wamboudin ribeye</a>
-                            </h4>
-                            <p class="price"> <span class="price-new">$70.00</span>
-                              <span class="price-old">$84.00</span>
-                            </p>
-                            <p class="desc">Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit, sed do eiusmod tempor incididunt
-                              ut labore..</p>
-                            <div class="item-available">
-                              <div class="row">
-                                <p class="col-xs-6 a1">Available: <b>100</b>
-                                </p>
-                                <p class="col-xs-6 a2">Sold: <b>60</b>
-                                </p>
-                              </div>
-                              <div class="available"> <span class="color_width" data-title="63%" data-toggle="tooltip"
-                                  title="63%" style="width: 63%"></span>
-                              </div>
-                            </div>
-                            <!--countdown box-->
-                            <div class="item-time-w">
-                              <div class="time-title"><span>Hurry Up!</span> Offer
-                                ends in:</div>
-                              <div class="item-time">
-                                <div class="item-timer">
-                                  <div class="defaultCountdown-30"></div>
-                                </div>
-                              </div>
-
-                            </div>
-                            <!--end countdown box-->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="product-thumb transition ">
-                    <div class="row">
-                      <div class="inner">
-                        <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
-                          <div class="image">
-                            <span class="label-product label-product-sale">-16%</span>
-                            <a href="#" target="_self" title="Proident leerkas">
-                              <img src="/assets/image/catalog/demo/product/320/4.jpg" alt="Proident leerkas"
-                                class="img-responsive">
-                            </a>
-                            <div class="button-group so-quickview">
-                              <button class="btn-button addToCart" title="Add to Cart" type="button"
-                                onclick="cart.add('55');"><i class="fa fa-shopping-basket"></i> <span>Add
-                                  to Cart</span>
-                              </button>
-                              <button class="btn-button wishlist" type="button" title="Add to Wish List"
-                                onclick="wishlist.add('55');"><i class="fa fa-heart"></i><span>Add to Wish
-                                  List</span>
-                              </button>
-                              <button class="btn-button compare" type="button" title="Compare this Product"
-                                onclick="compare.add('55');"><i class="fa fa-refresh"></i><span>Compare this
-                                  Product</span>
-                              </button>
-                              <!--quickview-->
-                              <a class="iframe-link btn-button quickview quickview_handler visible-lg"
-                                href="quickview.html" title="Quick view" data-fancybox-type="iframe"><i
-                                  class="fa fa-eye"></i><span>Quick
-                                  view</span></a>
-                              <!--end quickview-->
-                            </div>
-                          </div>
-                        </div>
-                        <div class="item-right col-lg-6 col-md-7 col-sm-7 col-xs-12">
-                          <div class="caption">
-                            <h4><a href="#" target="_self" title="Wamboudin ribeye">Proident leerkas</a>
-                            </h4>
-                            <p class="price"> <span class="price-new">$46.00</span>
-                              <span class="price-old">$55.00</span>
-                            </p>
-                            <p class="desc">Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit, sed do eiusmod tempor incididunt
-                              ut labore..</p>
-                            <div class="item-available">
-                              <div class="row">
-                                <p class="col-xs-6 a1">Available: <b>310</b>
-                                </p>
-                                <p class="col-xs-6 a2">Sold: <b>2</b>
-                                </p>
-                              </div>
-                              <div class="available"> <span class="color_width" data-title="99%" data-toggle="tooltip"
-                                  title="99%" style="width: 99%"></span>
-                              </div>
-                            </div>
-                            <!--countdown box-->
-                            <div class="item-time-w">
-                              <div class="time-title"><span>Hurry Up!</span> Offer
-                                ends in:</div>
-                              <div class="item-time">
-                                <div class="item-timer">
-                                  <div class="defaultCountdown-30"></div>
-                                </div>
-                              </div>
-
-                            </div>
-                            <!--end countdown box-->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
@@ -1288,6 +1071,7 @@
             </div>
           </div>
         </div>
+        <!-- TODO -->
         <div class="module deals-layout1">
           <h3 class="modtitle"><span>Daily Deals</span></h3>
           <div class="modcontent">
@@ -1591,7 +1375,7 @@
             </div>
           </div>
         </div>
-        <!-- Listing tabs custom -->
+        <!-- TODO Listing tabs custom -->
         <div class="module listingtab1-custom listingtab-layout1">
           <h3 class="modtitle"><span>New items</span></h3>
           <div id="so_listing_tabs_2" class="so-listing-tabs first-load">

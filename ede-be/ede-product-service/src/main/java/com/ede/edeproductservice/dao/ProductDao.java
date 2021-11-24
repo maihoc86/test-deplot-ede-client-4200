@@ -114,6 +114,9 @@ public interface ProductDao extends JpaRepository<Product, String> {
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=?1 and p.name like ?2 ")
 	List<ProductSearch> getProductAllByIdShop(String id, String keySearch);
+	
+	@Query("Select p From ProductSearch p WHERE p.enable = true and p.deleted = false")
+	List<ProductSearch> getListProductSearch();
 
 	@Query("SELECT p FROM ProductSearch p WHERE p.enable = true and p.deleted = false and p.shop.id=?1 and p.name like ?2 and p.createdate > (getdate()-7)")
 	Page<ProductSearch> getProductNewByIdShop(String id, String keySearch, PageRequest pageRequest);
