@@ -104,4 +104,12 @@ public class ProductSearch {
 
 	}
 
+	@Transient
+	public int totalProductSelling;
+
+	public int getTotalProductSelling() {
+		return 0;
+
+	}
+
 }

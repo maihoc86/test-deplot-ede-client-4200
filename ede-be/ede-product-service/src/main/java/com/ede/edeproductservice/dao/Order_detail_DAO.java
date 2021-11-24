@@ -23,4 +23,7 @@ public interface Order_detail_DAO extends JpaRepository<Orderdetail, String> {
 	@Query("select o.productOption.product.id,sum(o.quantity) from Orderdetail o group by o.productOption.product.id order by sum(o.quantity) desc")
 	List<Object> findAllOptionProductInOrderDetailByIdShop(String id);
 
+	@Query("select o.productOption.product.id,sum(o.quantity) from Orderdetail o group by o.productOption.product.id order by sum(o.quantity) desc")
+	List<Object> findAllOptionProductInOrderDetail();
+
 }

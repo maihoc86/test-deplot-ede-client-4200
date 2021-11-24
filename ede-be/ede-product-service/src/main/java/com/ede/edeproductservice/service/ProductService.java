@@ -101,8 +101,6 @@ public interface ProductService {
 
 	List<Product> getNewProduct();
 
-	
-
-
+	List<ProductSearch> getListProductSearch();
 
 }
