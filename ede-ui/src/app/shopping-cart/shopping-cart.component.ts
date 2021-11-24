@@ -498,13 +498,13 @@ export class ShoppingCartComponent implements OnInit {
     let idCity = '';
     let idDistrict = '';
     let idWard = '';
-    let address_split = address.split(',');
+    let address_split = (address || "").split(',');
     this.ship.controls['address'].setValue(address_split[0]);
 
     // Lấy ra id của thành phố khi user có địa chỉ thành phố trùng
     setTimeout(() => {
       for (let i = 0; i < this.listCitys.length; i++) {
-        if (this.listCitys[i].name.includes(address_split[3].trim())) {
+        if (this.listCitys[i].name.includes(address_split[3]?.trim())) {
           idCity = this.listCitys[i].id;
           this.ship.controls['city'].setValue(idCity);
           this.getApiDistricts(idCity);
@@ -515,7 +515,7 @@ export class ShoppingCartComponent implements OnInit {
     setTimeout(() => {
       // Lấy ra id của quận khi user có địa chỉ quận trùng
       for (let i = 0; i < this.listDistricts.length; i++) {
-        if (this.listDistricts[i].name.includes(address_split[2].trim())) {
+        if (this.listDistricts[i].name.includes(address_split[2]?.trim())) {
           idDistrict = this.listDistricts[i].id;
           this.ship.controls['district'].setValue(idDistrict);
           this.getApiWards(this.ship.controls['district'].value);
@@ -525,7 +525,7 @@ export class ShoppingCartComponent implements OnInit {
     setTimeout(() => {
       // Lấy ra id của phường khi user có địa chỉ phường trùng
       for (let i = 0; i < this.listWards.length; i++) {
-        if (this.listWards[i].name.includes(address_split[1].trim())) {
+        if (this.listWards[i].name.includes(address_split[1]?.trim())) {
           idWard = this.listWards[i].id;
           this.ship.controls['wards'].setValue(idWard);
         }
