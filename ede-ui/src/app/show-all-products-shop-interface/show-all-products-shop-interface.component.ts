@@ -43,7 +43,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
   public idShop: any;
   ngOnInit(): void {
     this.getCities();
-    this.getAllDiscountProduct();
     this.listProduct();
     this.getBrands(this.idShop);
     this.showShopInfo(this.idShop);
@@ -197,23 +196,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     );
   }
 
-  /**
-   * Hàm lấy ra sản phẩm được giảm giá
-   */
-  public getAllDiscountProduct() {
-    this.ProductService.getAllProductDiscountShopByCustomer().subscribe(
-      (data) => {
-        this.listAllProductsDiscount = data;
-      },
-      (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: 'Không thể truy vấn giảm giá!',
-        });
-      }
-    );
-  }
 
   /**
    * Hàm lấy ra địa điểm

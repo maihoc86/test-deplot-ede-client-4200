@@ -948,19 +948,20 @@
                 data-items_column1="1" data-items_column2="1" data-items_column3="1" data-items_column4="1"
                 data-arrows="yes" data-pagination="yes" data-lazyload="yes" data-loop="no" data-hoverpause="yes">
                 <div class="item">
+                  <!-- TODO FIX FOR UI -->
                   <div class="product-thumb" *ngFor="let item of listProductSelling">
-                    <div class="row">
-                      <div class="inner" (click)="showDetailProduct(item.idProduct)">
+                    <div class="row" (click)="showDetailProduct(item.idProduct)">
+                      <div class="inner">
                         <div class="item-left col-lg-6 col-md-5 col-sm-5 col-xs-12">
                           <div class="image">
                             <span class="label-product label-product-sale"
                               *ngIf="item.optionDef.productDiscount[0] != undefined">
                               {{ item.optionDef.productDiscount[0].discount }}
                             </span>
-                            <a href="#" target="_self" title="product">
+                            <a (click)="showDetailProduct(item.idProduct)" target="_self" title="{{item.name}}">
                               <img
                                 src="http://localhost:8080/ede-file/get/image/{{item.optionDef.optionImageDef.image}}"
-                                style="width:320px; height:320px" alt="Yutculpa ullamco" class="img-responsive">
+                                style="width:320px  ; height:320px" alt="{{item.name}}" class="img-responsive">
                             </a>
                             <div class="button-group so-quickview">
                               <button class="btn-button addToCart" title="Add to Cart" type="button"
@@ -984,7 +985,7 @@
                         </div>
                         <div class="item-right col-lg-6 col-md-7 col-sm-7 col-xs-12">
                           <div class="caption">
-                            <h4><a href="#" target="_self" title="Yutculpa ullamco">Yutculpa ullamco</a>
+                            <h4><a href="#" target="_self" title="{{item.name}}">{{item.name}}</a>
                             </h4>
                             <div class="price">
                               <div *ngIf="item.optionDef.productDiscount[0] != undefined">
@@ -1011,11 +1012,9 @@
                                   title="75%" style="width: 75%"></span>
                               </div>
                             </div>
-                            <div class="">
-                              Mô tả: <p>Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit, sed do eiusmod tempor incididunt
-                                ut labore..</p>
-                            </div>
+                            Mô tả: <p
+                              style="  display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical; overflow: hidden;">
+                              {{item.description}}</p>
                           </div>
                         </div>
                       </div>

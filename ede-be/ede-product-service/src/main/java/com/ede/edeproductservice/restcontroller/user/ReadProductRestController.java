@@ -382,23 +382,6 @@ public class ReadProductRestController {
 		return ResponseEntity.ok(pageF);
 	}
 
-	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
-	@GetMapping("/view/customer/shop/all/product/discount")
-	public ResponseEntity getAllListProductDiscountByCustomer() {
-		Shop shop = new Shop();
-		try {
-			shop = auservice.getShopLogin(req.getHeader("Authorization"));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
-
-		long millis = System.currentTimeMillis();
-		Date date = new Date(millis);
-		// TODO: Sửa product discount
-		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
-		return ResponseEntity.ok(pageF);
-	}
-
 	@GetMapping("/view/shoplogin/category")
 	public ResponseEntity<List<Product_child_category>> getallCategoryByShop() {
 		List<Product_child_category> list = child_category_service
@@ -547,5 +530,23 @@ public class ReadProductRestController {
 
 		}
 		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+	}
+
+	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */
+	@GetMapping("/view/customer/shop/all/product/discount")
+	public ResponseEntity getAllListProductDiscountByCustomer() {
+		System.err.println("Vào đây 22222");
+		Shop shop = new Shop();
+		try {
+			shop = auservice.getShopLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+
+		long millis = System.currentTimeMillis();
+		Date date = new Date(millis);
+		// TODO: Sửa product discount
+		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
+		return ResponseEntity.ok(pageF);
 	}
 }

@@ -54,6 +54,7 @@ export class IndexComponent implements OnInit {
    * @param product id product truyền vào
    */
   showDetailProduct(product: any) {
-    this.router.navigate([`/product/detail/${product}`]);
+    this.router.navigate([`/product/detail` + '/' + product]);
   }
+
 }

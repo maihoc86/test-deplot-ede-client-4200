@@ -146,12 +146,13 @@ export class AddProductService {
       this.httpOptions
     );
   }
-  public getAllProductDiscountShopByCustomer() {
+  public getAllProdyctShopDiscountByCustomer(){
     return this.httpClient.get<any>(
       this.REST_API_SERVER + '/view/customer/shop/all/product/discount',
       this.httpOptions
     );
   }
+
 
   public getAllProduct() {
     return this.httpClient.get<any>(
