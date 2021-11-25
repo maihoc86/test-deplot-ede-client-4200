@@ -174,13 +174,11 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getProductOptionImage/only/{id}")
 	public Product_option_image getImageOnly(@PathVariable("id") String id) {
-		System.err.println(id);
 		return productImageService.findImageByIdOption(id).get(0);
 	}
 
 	@GetMapping("/view/getAllproductDiscount")
 	public List<Product_discount> getAllProductDiscount() {
-		// TODO: Sửa product discount
 		return product_discount_service.findAll();
 	}
 
@@ -286,11 +284,9 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/list_product_discount")
 	public List<Product_discount> getListProduct_discount() {
-		// TODO: Sửa product discount
 		return product_discount_service.findAll();
 	}
 
-	// TODO: NEED OPTIMIZE IF ELSE
 	@GetMapping("/view/customer/shop/all/product/filter")
 	public ResponseEntity getListProductShopFilterCategory(@RequestParam("idShop") Optional<String> idShop,
 			@RequestParam("category") Optional<String> category, @RequestParam("location") Optional<String> location,
@@ -354,6 +350,15 @@ public class ReadProductRestController {
 			listPage = service.filterProductShopByCustomerLocationAndCategoryAndBrand(locationList, valueCategory,
 					brandList, valueIdShop, pageRequest);
 		}
+		List<ProductSearch> appList = listPage.getContent();
+		List<ProductSearch> temp = new ArrayList<ProductSearch>();
+		for (ProductSearch e : appList) {
+			Shop shopRemove = e.getShop();
+			shopRemove.setUser(null);
+			e.setShop(shopRemove);
+			temp.add(e);
+		}
+		listPage = new PageImpl<>(temp, pageRequest, temp.size());
 
 		return ResponseEntity.ok(listPage);
 	}
@@ -362,7 +367,8 @@ public class ReadProductRestController {
 	@GetMapping("/view/customer/shop/all/category")
 	public ResponseEntity getListCategoryShop(@RequestParam("idShop") Optional<String> idShop) {
 		String valueIdShop = idShop.orElse("");
-		return ResponseEntity.ok(child_category_service.findAllByShop(valueIdShop));
+		List<Product_child_category> list = child_category_service.findAllByShop(valueIdShop);
+		return ResponseEntity.ok(list);
 	}
 
 	/* ALL PRODUCT VIEW SHOP BY CUSTOMER */
@@ -377,8 +383,16 @@ public class ReadProductRestController {
 					null);
 		} else {
 			pageF = service.listAllProductShopByCustomer(shop.get().getId(), PageRequest.of(page.orElse(0), 10));
+			List<ProductSearch> appList = pageF.getContent();
+			List<ProductSearch> temp = new ArrayList<ProductSearch>();
+			for (ProductSearch e : appList) {
+				Shop shopRemove = e.getShop();
+				shopRemove.setUser(null);
+				e.setShop(shopRemove);
+				temp.add(e);
+			}
+			pageF = new PageImpl<>(temp, PageRequest.of(page.orElse(0), 10), temp.size());
 		}
-
 		return ResponseEntity.ok(pageF);
 	}
 
@@ -465,7 +479,6 @@ public class ReadProductRestController {
 		List<ProductSearch> listP = service.getProductAllByIdShop(id, keySearch);
 		List<Object> listop = order_detail_service.findAllOptionProductInOrderDetailByIdShop(id);
 		List<ProductSearch> listResultList = new ArrayList<>();
-		List<Product_option> listProductionInOrder = new ArrayList<>();
 		for (int i = 0; i < listop.size() - 1; i++) {
 			Object[] row = (Object[]) listop.get(i);
 			for (ProductSearch e : listP) {
@@ -482,11 +495,9 @@ public class ReadProductRestController {
 	@GetMapping("/view/5productsalling/byshop/{id}")
 	public ResponseEntity<?> get5ProductSallingByShop(@PathVariable("id") String id,
 			@RequestParam("page") Optional<Integer> page) {
-		PageRequest pageRequest = PageRequest.of(page.orElse(0), 10);
 		List<ProductSearch> listP = service.getProductAllByIdShop(id, "");
 		List<Object> listop = order_detail_service.findAllOptionProductInOrderDetailByIdShop(id);
 		List<ProductSearch> listResultList = new ArrayList<>();
-		List<Product_option> listProductionInOrder = new ArrayList<>();
 		for (int i = 0; i < listop.size() - 1; i++) {
 			Object[] row = (Object[]) listop.get(i);
 			for (ProductSearch e : listP) {
@@ -511,14 +522,14 @@ public class ReadProductRestController {
 		String id_product = idProduct.orElse("");
 
 		Product_meta find = product_meta_service.findByIdUser(id_user, id_product, date);
-		if(find!= null ) {
+		if (find != null) {
 			find.setUser(null);
 		}
 		return ResponseEntity.ok(find);
 	}
 
 	@GetMapping("/view/productSelling")
-	public ResponseEntity productSelling(@RequestParam("page") Optional<Integer> page) {
+	public ResponseEntity productSelling() {
 		List<ProductSearch> listP = service.getListProductSearch();
 		List<Object> listop = order_detail_service.findAllOptionProductInOrderDetail();
 		List<ProductSearch> listResultList = new ArrayList<>();
@@ -532,9 +543,8 @@ public class ReadProductRestController {
 					listResultList.add(e);
 				}
 			}
-
 		}
-		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+		return ResponseEntity.ok(listResultList);
 	}
 
 	/* ALL PRODUCT DISCOUNT VIEW SHOP BY CUSTOMER */

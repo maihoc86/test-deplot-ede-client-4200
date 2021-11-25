@@ -26,25 +26,17 @@ export class IndexComponent implements OnInit {
   }
   public loadingProductSelling = true;
   public listProductSelling: any = [];
-  public count: number = 0;
-  public page: number = 0;
-  public keySearch: any = '';
 
   public loadProductSalling() {
     this.loadingProductSelling = true;
-    this.route.queryParams.subscribe((params) => {
-      this.page = params['page'];
-    });
-    this.page == undefined ? (this.page = 1) : 0;
-    this.indexService.getProductSelling(this.page - 1).subscribe(
+    this.indexService.getProductSelling().subscribe(
       (data) => {
-        console.log(data);
         this.listProductSelling = data;
         this.loadingProductSelling = false;
       },
       (err) => {
-        this.loadingProductSelling = false;
         console.log(err);
+        this.loadingProductSelling = false;
       }
     );
   }
@@ -56,5 +48,4 @@ export class IndexComponent implements OnInit {
   showDetailProduct(product: any) {
     this.router.navigate([`/product/detail` + '/' + product]);
   }
-
 }

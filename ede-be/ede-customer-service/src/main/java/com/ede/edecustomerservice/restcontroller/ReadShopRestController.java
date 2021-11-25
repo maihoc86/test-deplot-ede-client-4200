@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.entity.Shop;
-import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.ShopService;

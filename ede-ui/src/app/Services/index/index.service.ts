@@ -19,9 +19,7 @@ export class IndexService {
   ) {}
   private API_PRODUCT = 'http://localhost:8080/ede-product';
 
-  public getProductSelling(p: any) {
-    return this.httpClient.get<any>(
-      this.API_PRODUCT + '/view/productSelling?page=' + p
-    );
+  public getProductSelling() {
+    return this.httpClient.get<any>(this.API_PRODUCT + '/view/productSelling');
   }
 }
