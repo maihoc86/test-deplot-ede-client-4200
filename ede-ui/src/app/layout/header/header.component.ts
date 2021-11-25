@@ -1,3 +1,4 @@
+import { AddProductService } from './../../Services/product-shop/add-product.service';
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
     private cookieService: CookieService,
     private headerService: HeaderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private producService: AddProductService,
   ) {
     this.addViewPage();
     router.events.subscribe(() => {
@@ -49,6 +51,7 @@ export class HeaderComponent implements OnInit {
       this.txtKeysearch = params.search;
     });
     this.loadCart();
+    this.getAllCategory();
   }
   public totalCart: any = 0;
   public cart: Array<any> = [];
@@ -57,6 +60,10 @@ export class HeaderComponent implements OnInit {
   public login: boolean = false;
   public u: User;
   public active: boolean = false;
+
+  public list_parent_category: any = [];
+  public list_parent_child_category: any = [];
+  public list_child_category: any = [];
 
   public viewPage = new FormGroup({
     id: new FormControl(''),
@@ -187,4 +194,18 @@ export class HeaderComponent implements OnInit {
       this.active = true;
     }
   }
+
+  getAllCategory(){
+    this.producService.getChildCategories().subscribe(data => {
+      this.list_child_category = data;
+    })
+    this.producService.getParentChildCategories().subscribe(data => {
+      this.list_parent_child_category = data;
+    })
+    this.producService.getParentCategories().subscribe(data => {
+      this.list_parent_category = data;
+    })
+  }
+
+
 }
