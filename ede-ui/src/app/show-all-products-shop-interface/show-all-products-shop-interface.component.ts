@@ -120,6 +120,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
     this.loadingProductTable = true;
     this.ProductService.getAllProductShopByCustomer(idShop, page).subscribe(
       (data) => {
+        console.log(data);
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
           name: any;
@@ -169,6 +170,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       page
     ).subscribe(
       (data) => {
+        console.log(data)
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
           name: any;

@@ -1,18 +1,14 @@
 package com.ede.edecustomerservice.restcontroller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.entity.HistoryViewPage;
 import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.Auth_Service;
