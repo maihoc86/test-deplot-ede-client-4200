@@ -59,7 +59,9 @@
           <div *ngFor="let itemP of item.order_detail" style="margin-bottom: 30px;">
             <div class="row">
               <div class="col-sm-2">
-                <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
+                <img src="http://localhost:8080/ede-file/get/image/{{
+                  itemP.productOption.product_option_images[0].image
+                }}" height="90px"
                   width="90px">
               </div>
               <div class="col-sm-8">
@@ -127,7 +129,9 @@
             <div *ngFor="let itemP of item.order_detail" style="margin-bottom: 30px;">
               <div class="row">
                 <div class="col-sm-2">
-                  <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
+                  <img src="http://localhost:8080/ede-file/get/image/{{
+                    itemP.productOption.product_option_images[0].image
+                  }}"  height="90px"
                     width="90px">
                 </div>
                 <div class="col-sm-8">
@@ -192,7 +196,9 @@
             <div *ngFor="let itemP of item.order_detail" style="margin-bottom: 30px;">
               <div class="row">
                 <div class="col-sm-2">
-                  <img src="https://banhbeoshop.com/210611132-362279608795483-7775672572098723662-n.jpg" height="90px"
+                  <img src="http://localhost:8080/ede-file/get/image/{{
+                    itemP.productOption.product_option_images[0].image
+                  }}"  height="90px"
                     width="90px">
                 </div>
                 <div class="col-sm-8">

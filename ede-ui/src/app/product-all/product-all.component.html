@@ -75,14 +75,14 @@
                   </thead>
                   <tbody>
                     <tr
-                      *ngFor="let e of items  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count, id: 'first'}">
-                      <td>{{e.product.name}}</td>
-                      <td>{{e.product.brand.name}}</td>
-                      <td>{{e.display_name}}</td>
-                      <td>{{e.price}}</td>
-                      <td>{{e.quantity}}</td>
+                    *ngFor="let e of itemProduct  | paginate: {itemsPerPage: size, currentPage: p, totalItems: count, id: 'first'}">
+                      <td>{{e.name}}</td>
+                      <td>{{e.brand.name}}</td>
+                      <td>{{e.productOptions[0].display_name}}</td>
+                      <td>{{e.productOptions[0].price}}</td>
+                      <td>{{e.productOptions[0].quantity}}</td>
                       <td>chưa có</td>
-                      <td><a (click)="editProduct(e.id)">Sửa</a></td>
+                      <td><a (click)="showProductOption(e.idProduct)"  data-toggle="modal" data-target="#exampleModal"> Chi tiết</a></td>
                     </tr>
                   </tbody>
                 </table>
@@ -323,15 +323,15 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let e of itemsEnableFalse  | paginate: {itemsPerPage: sizeEnableFalse, currentPage: pEnableFalse, totalItems: countEnableFalse ,id: 'four'}">
-                    <td>{{e.product?.name}}</td>
+                    *ngFor="let e of itemProduct  | paginate: {itemsPerPage: sizeEnableFalse, currentPage: pEnableFalse, totalItems: countEnableFalse ,id: 'four'}">
+                    <!-- <td>{{e.name}}</td>
                     <td>{{e.id}}</td>
                     <td>{{e.product.brand.name}}</td>
                     <td>{{e.display_name}}</td>
                     <td>{{e.price}}</td>
                     <td>{{e.quantity}}</td>
                     <td>chưa có</td>
-                    <td><a (click)="editProduct(e.id)">Sửa</a></td>
+                    <td><a (click)="editProduct(e.id)">Sửa</a></td> -->
                   </tr>
                 </tbody>
               </table>
@@ -347,5 +347,59 @@
       </div>
     </div>
   </div>
+
+ <!-- Modal -->
+
+ <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
+ aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">Chi tiết các loại của sản phẩm</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body">
+       <div class="table-responsive">
+         <table class="table table-bordered table-hover">
+           <thead>
+             <tr>
+               <td>Hình ảnh</td>
+               <td><strong>Tên loại</strong></td>
+               <td><strong>Nhãn hàng</strong></td>
+               <td><strong>Giá</strong></td>
+               <td><strong>Số lượng</strong></td>
+               <td><strong>Đã bán</strong></td>
+               <td ><strong>Hành động</strong></td>
+             </tr>
+           </thead>
+           <tbody>
+             <tr *ngFor="let item of listProductOption"
+              >
+               <td>ảnh
+                 <!-- <img src="http://localhost:8080/ede-file/get/image/idProductOption/{{e.productOption.id}}"
+                   width="50" height="50"> -->
+               </td>
+               <td>{{item.display_name}}</td>
+               <td>{{item.product.brand.name}}</td>
+               <td>{{item.price}}</td>
+               <td>{{item.quantity}}</td>
+               <td>{{true}}</td>
+               <td><a href="http://localhost:4200/shop/product/manager/{{item.id}}">Sua</a></td>
+             </tr>
+           </tbody>
+         </table>
+         <pagination-controls  id="detail"></pagination-controls>
+       </div>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+
 
 </div>
