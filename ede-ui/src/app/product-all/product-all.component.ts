@@ -454,7 +454,8 @@ export class ProductAllComponent implements OnInit {
         this.itemProduct = data.content;
         this.count = data.totalElements;
         this.page = data;
-        if(this.p>this.page.totalPages){
+        if(this.p-1>this.page.totalPages){
+          alert("dasdasd")
           this.p=1
         }
      // this.arrays = [];
