@@ -141,7 +141,7 @@ public class CreateProductShopRestController {
 
 	@PostMapping("/user/create/product-shop/tag")
 	public ResponseEntity addProductTag(@RequestBody Product_tag product_tag) {
-
+		product_Tag_service.deleteAllTagByIdProduct(product_tag.getProducttag().getId());
 		String[] words = product_tag.getTag().split(",");
 		for (int i = 0; i < words.length; i++) {
 			Optional<Product_tag> findTag = product_Tag_service.findById(generateUUID().toString());
