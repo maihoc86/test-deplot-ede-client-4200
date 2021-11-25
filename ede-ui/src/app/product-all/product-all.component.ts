@@ -1,3 +1,5 @@
+import { CookieService } from 'ngx-cookie-service';
+import { HeaderService } from 'src/app/Services/header/header.service';
 import { Component, OnInit } from '@angular/core';
 import { ProductOptions } from '../models/product-options.model';
 import { Product } from '../models/product.model';
@@ -12,7 +14,7 @@ import { filter } from 'rxjs/operators';
 })
 export class ProductAllComponent implements OnInit {
 
-  constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute) {
+  constructor(private productService: AddProductService, private router: Router, private route: ActivatedRoute, private cookieService: CookieService,    private headerService: HeaderService,) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
           // Show loading indicator
@@ -28,6 +30,7 @@ export class ProductAllComponent implements OnInit {
           }
           if(getPage !== undefined){
             this.p = getPage;
+           
           }
           if(getSize !== undefined){
             this.size = getSize;
@@ -47,6 +50,11 @@ export class ProductAllComponent implements OnInit {
 
   ngOnInit(): void {
         this.loadProductAll(this.keywordProductAll,this.p,this.size);
+        this.headerService.getShopByToken(this.cookieService.get('auth')).subscribe(data=>{
+          console.log(data);
+          this.idShop=data.id;
+          this.getAllProductDefault(this.idShop,0,5);
+        })
   }
   filterEnableFalse() {
     this.loadProductEnableFalse("",false, 1,5);
@@ -57,7 +65,7 @@ export class ProductAllComponent implements OnInit {
   filterQuantity0() {
     this.loadProductQty0("",1,5);
   }
-
+  public idShop:string="";
   public keywordProductAll: string="";
   public keywordEnableTrue: string="";
   public keywordEnableFalse: string="";
@@ -92,6 +100,8 @@ export class ProductAllComponent implements OnInit {
   public itemsEnableTrue: any = [];
   public itemsEnableFalse: any = [];
   public itemsQuantity0: any = [];
+
+  public itemProduct: any = [];
 
   public loadProductAll(keyword: any, page: any, size: any) {
     page= page-1;
@@ -264,7 +274,7 @@ export class ProductAllComponent implements OnInit {
     //this.router.navigate(["/shop/product/all?page=" + this.p+"&size="+this]);
     this.showParamsURL("",this.p,this.size);
       console.log("handlePageChange nè")
-    this.loadProductAll(this.keywordProductAll,this.p,this.size);
+    this.getAllProductDefault(this.idShop,this.p-1,this.size);
   }
 
 
@@ -343,7 +353,7 @@ export class ProductAllComponent implements OnInit {
     this.p = 1;
     this.size = event.target.value;
     console.log("size nè: "+event.target.value);
-    this.loadProductAll(this.keywordProductAll,this.p, this.size);
+    this.getAllProductDefault(this.idShop,this.p-1, this.size);
 
   }
 
@@ -437,5 +447,33 @@ export class ProductAllComponent implements OnInit {
     this.loadProductQty0(this.keywordQty0,this.pQty0,this.sizeQuantity0)
   }
 
+  public getAllProductDefault(idShop: any, page: any, size: any) {
+    this.productService.getAllProductShopByCustomer(idShop, page, size).subscribe(
+      (data) => {
+        console.log(data);
+        this.itemProduct = data.content;
+        this.count = data.totalElements;
+        this.page = data;
+        if(this.p>this.page.totalPages){
+          this.p=1
+        }
+     // this.arrays = [];
+      //this.arrays = Array(this.page.totalPages).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}`}));
+      }
+    
+    );
+  }
+
+  public showProductOption(id:string){
+    this.listProductOption=[]
+    this.itemProduct.forEach((e:any) => {
+        
+        if(e.idProduct==id){
+          this.listProductOption=e.productOptions  
+        }
+    });
+    
+    console.log( this.listProductOption)
+  }
 
 }
