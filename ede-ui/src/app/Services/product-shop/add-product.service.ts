@@ -136,13 +136,15 @@ export class AddProductService {
     );
   }
 
-  public getAllProductShopByCustomer(idShop: any, page: any) {
+  public getAllProductShopByCustomer(idShop: any, page: any, size: any) {
     return this.httpClient.get<any>(
       this.REST_API_SERVER +
         '/view/customer/shop/all/product?idShop=' +
         idShop +
         '&page=' +
-        page,
+        page +
+        '&size='+
+        size,
       this.httpOptions
     );
   }
