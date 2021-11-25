@@ -1,5 +1,6 @@
 package com.ede.edeoauth.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class User implements Serializable {
 	Boolean is_delete;
 	Boolean is_active;
 	String otp;
+	Date create_date = new Date();
 	
 	
 	@JsonIgnore

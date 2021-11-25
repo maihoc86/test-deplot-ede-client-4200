@@ -39,10 +39,10 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { AsideUserComponent } from './layout/aside-user/aside-user.component';
 import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
-import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
 import { UserOderComponent } from './user-oder/user-oder.component';
-import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
+import { UserChangPassComponent } from './user-change-pass/user-chang-pass.component';
 import { UserAddressComponent } from './user-address/user-address.component';
+import { ContactComponent } from './contact/contact.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,10 +70,10 @@ import { UserAddressComponent } from './user-address/user-address.component';
     UserAccountComponent,
     AsideUserComponent,
     UserUpdateEmailComponent,
-    UserUpdatePhoneComponent,
     UserOderComponent,
     UserChangPassComponent,
     UserAddressComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

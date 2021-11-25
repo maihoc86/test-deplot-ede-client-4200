@@ -97,7 +97,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.location == '' &&
         this.brand == ''
       ) {
-        this.getAllProductDefault(this.idShop, this.page);
+        this.getAllProductDefault(this.idShop, this.page, 10);
       } else {
         this.filter(
           this.idShop,
@@ -109,7 +109,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       }
     } else {
       // DEFAULT IF NO PRESENT PAGE
-      this.getAllProductDefault(this.idShop, 0);
+      this.getAllProductDefault(this.idShop, 0, 10);
     }
   }
 
@@ -117,9 +117,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * Hàm lấy ra tất cả sản phẩm của shop
    * @param page trang số
    */
-  public getAllProductDefault(idShop: any, page: any) {
+  public getAllProductDefault(idShop: any, page: any, size: any) {
     this.loadingProductTable = true;
-    this.ProductService.getAllProductShopByCustomer(idShop, page).subscribe(
+    this.ProductService.getAllProductShopByCustomer(idShop, page, size).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
@@ -399,7 +399,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.cart.push({
         quantity: 1,
         product_option: product.optionDef
-      
+
       });
     }
     localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -422,7 +422,6 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       this.shopForm.patchValue({
         id: res.id,
         name: res.name,
-        user: res.user,
         image: res.image,
         image_sub: res.image_sub,
         create_date: res.create_date,

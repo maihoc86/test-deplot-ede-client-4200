@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,22 @@ public class UpdateCustomerRestController {
 					"Bạn không được sửa địa chỉ người khác", "address", null);
 		}
 	}
-
+	@PutMapping("/user/changepassword/{id}")
+	public ResponseEntity updatePassword(@RequestBody String newpass,@PathVariable("id") String id 	) {
+		System.err.println(newpass);
+		System.err.println(id);
+		User user = service.findById(id).get();
+		user.setPassword(newpass);
+		service.saveUser(user);
+		return ResponseEntity.ok(user);
+//
+//		if (userLogin.getId().equals(address.getUser().getId())) {
+//			return ResponseEntity.ok(address_Service.saveAddress(address));
+//		} else {
+//			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
+//					"Bạn không được sửa địa chỉ người khác", "address", null);
+//		}
+	}
 	/**
 	 * @author thaihoc Hàm chỉnh sửa địa chỉ phụ thành địa chỉ chính
 	 * @param address

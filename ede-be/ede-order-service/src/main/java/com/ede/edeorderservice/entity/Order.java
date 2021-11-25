@@ -34,10 +34,10 @@ public class Order implements Serializable {
 	@Id
 	String id;
 	String phone;
-	String status;
 	Date create_date;
 	double total_amount;
 	String note;
+	String status;
 	
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")

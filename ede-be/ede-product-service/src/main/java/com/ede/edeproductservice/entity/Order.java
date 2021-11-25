@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,12 +32,11 @@ public class Order implements Serializable {
 	@Id
 	String id;
 	String phone;
-	String status;
 	Date create_date;
 	double total_amount;
 	String note;
+	String status;
 	
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Orderdetail> order_detail;

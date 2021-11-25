@@ -1,4 +1,4 @@
-import { UserChangPassComponent } from './user-chang-pass/user-chang-pass.component';
+import { UserChangPassComponent } from './user-change-pass/user-chang-pass.component';
 import { UserOderComponent } from './user-oder/user-oder.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -21,8 +21,8 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { UserUpdateEmailComponent } from './user-update-email/user-update-email.component';
-import { UserUpdatePhoneComponent } from './user-update-phone/user-update-phone.component';
 import { UserAddressComponent } from './user-address/user-address.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -45,21 +45,21 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   { path: 'search', component: ProductSearchComponent },
-  { path: 'shop/revenue', component:RevenueShopComponent},
-  { path: 'product/detail/:idProduct', component: ProductDetailComponent},
-  { path: 'shop/category',component:CategoryShopComponent},
-  { path: 'shopping/cart', component: ShoppingCartComponent},
-  { path: 'checkout', component:CheckoutComponent},
-  { path: 'user/accout', component: UserAccountComponent},
-  { path: 'user/update/email', component: UserUpdateEmailComponent},
-  { path: 'user/update/phone', component: UserUpdatePhoneComponent},
-  { path: 'user/order', component: UserOderComponent},
-  { path: 'user/chang/pass', component: UserChangPassComponent},
-  { path: 'user/account/address', component: UserAddressComponent }
+  { path: 'shop/revenue', component: RevenueShopComponent },
+  { path: 'product/detail/:idProduct', component: ProductDetailComponent },
+  { path: 'shop/category', component: CategoryShopComponent },
+  { path: 'shopping/cart', component: ShoppingCartComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'user/account', component: UserAccountComponent },
+  { path: 'user/update/email', component: UserUpdateEmailComponent },
+  { path: 'user/order', component: UserOderComponent },
+  { path: 'user/change/pass', component: UserChangPassComponent },
+  { path: 'user/account/address', component: UserAddressComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

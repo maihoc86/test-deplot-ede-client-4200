@@ -1,5 +1,9 @@
 package com.ede.edecustomerservice.implement.mail;
 
+import java.io.File;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +30,9 @@ public class MailEntity {
 	@Setter
 	@Getter
 	private String subject;
+	@Setter
+	@Getter
+	private File attachment;
 	/**
 	 * Format text is html, this is content of mail
 	 */

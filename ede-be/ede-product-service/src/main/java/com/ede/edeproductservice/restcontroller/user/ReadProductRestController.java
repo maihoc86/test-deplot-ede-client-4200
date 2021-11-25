@@ -175,6 +175,7 @@ public class ReadProductRestController {
 
 	@GetMapping("/view/getProductOptionImage/only/{id}")
 	public Product_option_image getImageOnly(@PathVariable("id") String id) {
+		System.err.println(id);
 		return productImageService.findImageByIdOption(id).get(0);
 	}
 
@@ -455,7 +456,8 @@ public class ReadProductRestController {
 		if (listResultList.size() >= 5) {
 			return ResponseEntity.ok(listResultList.subList(0, 5));
 		}
-		return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+	//	return ResponseEntity.ok(listResultList.subList(0, listResultList.size()));
+		return ResponseEntity.ok(listResultList);
 	}
 
 	@GetMapping("/view/5productnew/byshop/{id}")

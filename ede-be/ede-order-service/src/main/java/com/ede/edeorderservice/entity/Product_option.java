@@ -31,6 +31,7 @@ public class Product_option implements Serializable {
 	String id;
 	String display_name;
 	Double price;
+	Double weight;
 	String size;
 	Integer quantity;
 

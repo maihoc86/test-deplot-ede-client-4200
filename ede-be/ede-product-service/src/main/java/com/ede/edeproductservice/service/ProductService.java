@@ -99,6 +99,8 @@ public interface ProductService {
 
 	Page<ProductSearch> getProductNewByIdShop(String id,String keySearch , PageRequest pageRequest);
 
+	List<Product> getNewProduct();
+
 	
 
 

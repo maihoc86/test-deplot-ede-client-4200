@@ -151,9 +151,7 @@ public class UpdateProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 		Shop sh = shopService.findByUser(us);
-
-		Product_option findProductOption = product_option_service.findById(product_option.getId());
-
+		Product_option findProductOption = product_option_service.findById(product_option.getProductoption().getId());
 		if (findProductOption != null) {
 			if (sh.getId() != findProductOption.getProduct().getShop().getId()) {
 				return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true,
@@ -180,7 +178,6 @@ public class UpdateProductRestController {
 	@SuppressWarnings("rawtypes")
 	@PutMapping("/user/enable/product-shop/")
 	public ResponseEntity enableProductAndSell(@RequestBody Product product) {
-		System.err.println(product);
 		product.setEnable(true);
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
 	}
@@ -196,7 +193,6 @@ public class UpdateProductRestController {
 			return ResponseEntity.notFound().build();
 		}
 		Shop sh = shopService.findByUser(us);
-
 		Product_tag findProductTag = product_Tag_service.findById(product_tag.getId()).get();
 		if (findProductTag != null) {
 			if (sh.getId() != findProductTag.getProducttag().getShop().getId()) {

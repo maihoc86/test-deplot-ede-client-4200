@@ -5,6 +5,8 @@
  */
 package com.ede.edeproductservice.restcontroller.admin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ede.edeproductservice.entity.Product;
 import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.ProductService;
 import com.ede.edeproductservice.service.Product_option_service;
@@ -32,10 +35,21 @@ public class ReadProductByAdminRestControllerAdmin {
 	@Autowired
 	Product_option_service product_option_service;
 
-	@GetMapping("/product/getAll")
+	@GetMapping("/admin/product/getAll")
 	public ResponseEntity getList(@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
 		Page<ProductSearch> pageF = service.listAllProductSearch(PageRequest.of(page, size));
 		return ResponseEntity.ok(pageF);
 	}
+
+	@GetMapping("/admin/product/listAll")
+	public List<Product> getListAll() {
+		return service.listAll();
+	}
+
+	@GetMapping("/admin/getProductNew")
+	public List<Product> getNewProduct() {
+		return service.getNewProduct();
+	}
+
 }

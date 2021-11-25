@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ManageProductService } from '../Services/manage-product/manage-product.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-manager-product',
   templateUrl: './manager-product.component.html',
@@ -37,7 +37,11 @@ export class ManagerProductComponent implements OnInit {
         this.count = this.page.totalElements;
       },
       (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+        });
       }
     );
   }
@@ -47,7 +51,11 @@ export class ManagerProductComponent implements OnInit {
         this.loadAllData(this.p, this.size);
       },
       (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: err.error.message,
+        });
       }
     );
   }

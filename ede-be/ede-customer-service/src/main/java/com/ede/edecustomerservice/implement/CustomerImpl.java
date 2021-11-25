@@ -127,5 +127,9 @@ public class CustomerImpl implements CustomerService {
 		return dao.findByUsername2(id);
 	}
 
+	@Override
+	public List<User> getNewUsers() {
+		return dao.getNewUsers();
+	}
 
 }

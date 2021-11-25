@@ -9,28 +9,9 @@
             <li class="breadcrumb-item">
               <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Quản lý danh mục</li>
+            <li class="breadcrumb-item active" aria-current="page">Quản lý danh mục (loại sản phẩm)</li>
           </ol>
         </nav>
-      </div>
-      <div class="ms-auto">
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary">Settings</button>
-          <button type="button" class="
-              btn btn-primary
-              split-bg-primary
-              dropdown-toggle dropdown-toggle-split
-            " data-bs-toggle="dropdown">
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-            <a class="dropdown-item" href="javascript:;">Action</a>
-            <a class="dropdown-item" href="javascript:;">Another action</a>
-            <a class="dropdown-item" href="javascript:;">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="javascript:;">Separated link</a>
-          </div>
-        </div>
       </div>
     </div>
     <div class="row row-cols-2">
@@ -54,7 +35,7 @@
                     <div class="d-flex align-items-center">
                       <div class="tab-icon"><i class='bx bx-comment-detail font-18 me-1'></i>
                       </div>
-                      <div class="tab-title">Category Parent</div>
+                      <div class="tab-title">Danh mục 1</div>
                     </div>
                   </a>
                 </li>
@@ -63,7 +44,7 @@
                     <div class="d-flex align-items-center">
                       <div class="tab-icon"><i class='bx bx-bookmark-alt font-18 me-1'></i>
                       </div>
-                      <div class="tab-title">Category Parent Child</div>
+                      <div class="tab-title">Danh mục 2</div>
                     </div>
                   </a>
                 </li>
@@ -72,7 +53,7 @@
                     <div class="d-flex align-items-center">
                       <div class="tab-icon"><i class='bx bx-star font-18 me-1'></i>
                       </div>
-                      <div class="tab-title">Category Child</div>
+                      <div class="tab-title">Danh mục 3</div>
                     </div>
                   </a>
                 </li>
@@ -140,30 +121,30 @@
                     <div class="col">
                       <button type="submit" [disabled]="parent.invalid || urlParent == '' ? 'disabled': null "
                         class="btn btn-success px-5" (click)="addNewParentCategory()">
-                        Create
+                        Thêm
                       </button>
                       <button [disabled]="!idParentCategory ? 'disabled' : null "
                         (click)="updateParentCategory()" type="submit" class="btn btn-primary px-5"
                         style="margin-left: 10px">
-                        Update
+                        Sửa
                       </button>
                       <button type="submit" [disabled]="!idParentCategory"
                         (click)="DeleteParent_Category(idParentCategory)" class="btn btn-danger px-5"
                         style="margin-left: 10px">
-                        Delete
+                        Xóa
                       </button>
                       <button (click)="idParentCategory = ''" type="reset" class="btn btn-secondary px-5"
                         style="margin-left: 10px">
-                        Reset
+                        Làm mới
                       </button>
                     </div>
                   </form><br>
                   <br><br>
                   <div class="row">
-                    <div class="col-md-6">DATATABLE EXAMPLE</div>
+                    <div class="col-md-6">Danh sách danh mục</div>
                     <div class="col-md-6">
                       <div class="position-relative">
-                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm danh mục"
                           (keyup)="SearchP(myInput.value)" #myInput> <span
                           class="position-absolute top-50 product-show translate-middle-y"><i
                             class="bx bx-search"></i></span>
@@ -181,11 +162,10 @@
                         <table class="table mb-0">
                           <thead class="table-light">
                             <tr>
-                              <th>#Name</th>
-                              <th>Image</th>
-                              <th>Is enable</th>
-
-                              <th>Acctions</th>
+                              <th>Tên danh mục</th>
+                              <th>Hình ảnh</th>
+                              <th>Trạng thái</th>
+                              <th>Hành động</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -264,9 +244,10 @@
                       <br>
                       <div class="col-12">
                         <div>
-                          <label class="form-label">Category Parent</label>
+                          <label class="form-label">Loại danh mục 1</label>
                           <select class="form-select" formControlName="parentcategory">
-                            <option [ngValue]="null" disabled>
+                            <option [ngValue]="null" hidden>
+                              --- Chọn loại danh mục 1 ---
                             </option>
                             <option *ngFor="let prf of listParentFilterOption" [ngValue]="prf.id">
                               {{ prf.name }}
@@ -303,29 +284,29 @@
                     <div class="col">
                       <button type="submit" [disabled]="parent_child_category.invalid ? 'disabled': null"
                         class="btn btn-success px-5" (click)="addNewParent_child_Category()">
-                        Create
+                        Thêm
                       </button>
                       <button [disabled]="!idParentChildCategory" (click)="updateParentChildCategory()" type="submit"
                         class="btn btn-primary px-5" style="margin-left: 10px">
-                        Update
+                        Sửa
                       </button>
                       <button type="submit" [disabled]="!idParentChildCategory"
                         (click)="DeleteParent_Child_Category(idParentChildCategory)" class="btn btn-danger px-5"
                         style="margin-left: 10px">
-                        Delete
+                        Xóa
                       </button>
                       <button (click)="idParentChildCategory = ''" type="reset" class="btn btn-secondary px-5"
                         style="margin-left: 10px">
-                        Reset
+                        Làm mới
                       </button>
                     </div>
                   </form>
                   <br><br><br>
                   <div class="row">
-                    <div class="col-md-6">DATATABLE EXAMPLE</div>
+                    <div class="col-md-6">Danh sách danh mục</div>
                     <div class="col-md-6">
                       <div class="position-relative">
-                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm danh mục"
                           (keyup)="SearchPC(myInputPC.value)" #myInputPC> <span
                           class="position-absolute top-50 product-show translate-middle-y"><i
                             class="bx bx-search"></i></span>
@@ -343,11 +324,11 @@
                         <table class="table mb-0">
                           <thead class="table-light">
                             <tr>
-                              <th>#Name</th>
-                              <th>Name Parent</th>
-                              <th>Image</th>
-                              <th>Is enable</th>
-                              <th>Acctions</th>
+                              <th>Tên danh mục</th>
+                              <th>Tên danh mục 1</th>
+                              <th>Hình ảnh</th>
+                              <th>Đang hoạt động ?</th>
+                              <th>Hành động</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -433,9 +414,10 @@
                       <br>
                       <div class="col-12">
                         <div>
-                          <label class="form-label">Category Parent Child</label>
+                          <label class="form-label">Loại danh mục 2</label>
                           <select class="form-select" formControlName="parentcategory">
-                            <option [ngValue]="null" disabled>
+                            <option [ngValue]="null" hidden>
+                              --- Chọn loại danh mục 2 ---
                             </option>
                             <option *ngFor="let prf of listParent_Child_FilterOption" [ngValue]="prf.id">
                               {{ prf ? prf.name : 'Không có' }}
@@ -472,28 +454,28 @@
                     <div class="col">
                       <button type="submit" [disabled]="child_category.invalid ? 'disabled': null"
                         class="btn btn-success px-5" (click)="addNew_child_Category()">
-                        Create
+                        Thêm
                       </button>
                       <button [disabled]="!idChildCategory" (click)="updateChildCategory()" type="submit"
                         class="btn btn-primary px-5" style="margin-left: 10px">
-                        Update
+                        Sửa
                       </button>
                       <button type="submit" class="btn btn-danger px-5" [disabled]="!idChildCategory"
                         (click)="DeleteChild_Category(idChildCategory)" style="margin-left: 10px">
-                        Delete
+                        Xóa
                       </button>
                       <button (click)="idChildCategory = ''" type="reset" class="btn btn-secondary px-5"
                         style="margin-left: 10px">
-                        Reset
+                        Làm mới
                       </button>
                     </div>
                   </form>
                   <br><br><br>
                   <div class="row">
-                    <div class="col-md-6">DATATABLE EXAMPLE</div>
+                    <div class="col-md-6">Danh sách danh mục</div>
                     <div class="col-md-6">
                       <div class="position-relative">
-                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm danh mục"
                           (keyup)="SearchC(myInputC.value)" #myInputC> <span
                           class="position-absolute top-50 product-show translate-middle-y"><i
                             class="bx bx-search"></i></span>
@@ -511,12 +493,12 @@
                         <table class="table mb-0">
                           <thead class="table-light">
                             <tr>
-                              <th>#Name</th>
-                              <th>Name Parent Child</th>
-                              <th>Image</th>
-                              <th>Is enable</th>
+                              <th>Tên danh mục</th>
+                              <th>Tên danh mục 2</th>
+                              <th>Hình ảnh</th>
+                              <th>Đang hoạt động ?</th>
 
-                              <th>Acctions</th>
+                              <th>Hành động</th>
                             </tr>
                           </thead>
                           <tbody>

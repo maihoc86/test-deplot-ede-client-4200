@@ -37,7 +37,6 @@ public class FileGetRestController {
 	@GetMapping(value = "get/image/{filename}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE,
 			MediaType.IMAGE_GIF_VALUE })
 	ResponseEntity<byte[]> getFile(@PathVariable("filename") String fileName) throws IOException {
-		System.err.println(fileName);
 		return this.getFile(fileName, FTP.BINARY_FILE_TYPE);
 	}
 

@@ -88,7 +88,7 @@ export class ManagerOrderDiscountComponent implements OnInit {
    */
   public getAll(searchTuNgay: any, searchDenNgay: any, page: any, size: any) {
     page = page - 1;
-    this.service.getAll(searchTuNgay,searchDenNgay,page, size).subscribe(
+    this.service.getAll(searchTuNgay, searchDenNgay, page, size).subscribe(
       (data) => {
         const item = data.content.map(function (obj: {
           id: string;
@@ -216,8 +216,12 @@ export class ManagerOrderDiscountComponent implements OnInit {
    * @param event sự kiện nhập trên bàn phím
    */
   search() {
-    this.getAll(this.searchGroup.value.searchTuNgay, this.searchGroup.value.searchDenNgay, 1, this.size);
-    console.log(this.listOrderDiscount);
+    this.getAll(
+      this.searchGroup.value.searchTuNgay,
+      this.searchGroup.value.searchDenNgay,
+      1,
+      this.size
+    );
   }
   /**
    * Hàm làm mới

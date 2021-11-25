@@ -87,7 +87,7 @@ export class ManagerCategoryComponent implements OnInit {
       ),
     ]),
     image_url: new FormControl(''),
-    parentcategory: new FormControl('', Validators.required),
+    parentcategory: new FormControl(null, Validators.required),
     is_delete: new FormControl(false),
     is_enable: new FormControl('true'),
   });
@@ -99,7 +99,7 @@ export class ManagerCategoryComponent implements OnInit {
       ),
     ]),
     image_url: new FormControl(''),
-    parentcategory: new FormControl(''),
+    parentcategory: new FormControl(null, Validators.required),
     is_delete: new FormControl(false),
     is_enable: new FormControl('true'),
   });

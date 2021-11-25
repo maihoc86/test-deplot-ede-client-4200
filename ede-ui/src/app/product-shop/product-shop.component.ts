@@ -238,8 +238,6 @@ export class ProductShopComponent implements OnInit {
         };
         reader.readAsDataURL(event.target.files[i]);
         this.imageArray.push(event.target.files[i]);
-        console.log(typeof event.target.files[i]);
-        console.log(this.imageArray);
       }
     }
   }
@@ -274,8 +272,10 @@ export class ProductShopComponent implements OnInit {
               });
             };
         }
-        if (this.imageArray.length > 0) {
-          console.log(this.product_tags.controls['id'].value);
+        if (
+          this.tagArray.length > 0 &&
+          this.product_tags.controls['id'].value != ''
+        ) {
           this.product_tags.controls['producttag'].setValue(data);
           this.Addservice.updateProductTag(this.createDataTag())
             .toPromise()
@@ -285,6 +285,21 @@ export class ProductShopComponent implements OnInit {
                 title: 'Thông báo!',
                 text: 'Cập nhật tag thất bại !!!',
                 icon: 'success',
+              });
+            };
+        } else if (
+          this.tagArray.length > 0 &&
+          this.product_tags.controls['id'].value == ''
+        ) {
+          this.product_tags.controls['producttag'].setValue(data);
+          this.Addservice.addProductTags(this.createDataTag()).subscribe(
+            (data: any) => {}
+          ),
+            (error: any) => {
+              Swal.fire({
+                title: 'Thông báo!',
+                text: error.error.errors[0].defaultMessage,
+                icon: 'error',
               });
             };
         }
@@ -303,6 +318,7 @@ export class ProductShopComponent implements OnInit {
                     .deleteMultiImageProductOption(this.imageArrayDelete)
                     .subscribe(
                       (data) => {
+                        console.log(dataOption);
                         this.updateMultiImage(dataOption);
                       },
                       (error) => {
@@ -668,7 +684,6 @@ export class ProductShopComponent implements OnInit {
                 this.product.controls[controlName].setValue(data[node]);
               }
             }
-            console.log(this.product.value);
           }
           if (data['brand']) {
             this.product.controls['brand'].setValue(data['brand']);
@@ -681,7 +696,6 @@ export class ProductShopComponent implements OnInit {
                     this.product_options.controls[controlName].setValue(
                       data[node]
                     );
-                    console.log(this.product_options.controls['id'].value);
                   }
                 }
               }
@@ -719,7 +733,7 @@ export class ProductShopComponent implements OnInit {
                       }
                     }),
                     (error: any) => {
-                      alert('Lỗi update hình ảnh');
+                      console.log(error);
                     };
                 }
               });
@@ -754,8 +768,6 @@ export class ProductShopComponent implements OnInit {
                   tag: this.tagArray.toString(),
                 });
               });
-              console.log(this.tags);
-              console.log(this.tagArray);
             }
           );
         },
@@ -795,7 +807,7 @@ export class ProductShopComponent implements OnInit {
           (data) => {
             Swal.fire({
               icon: 'success',
-              title: 'success',
+              title: 'Thành công',
               text: 'Đã xóa sản phẩm',
             });
             this.router.navigate(['/shop/product/manager']);
@@ -803,8 +815,8 @@ export class ProductShopComponent implements OnInit {
           (err) => {
             Swal.fire({
               icon: 'error',
-              title: 'Error',
-              text: err,
+              title: 'Lỗi',
+              text: err.error.message,
             });
           }
         );
@@ -836,7 +848,6 @@ export class ProductShopComponent implements OnInit {
           image: valueFile.toString(),
         });
         this.product_options_image.controls['productoption'].setValue(data);
-        console.log(this.product_options_image.value);
         if (valueFile.length > 0) {
           this.Addservice.addProductOptionImage(this.createNewOptionImage())
             .toPromise()
@@ -861,7 +872,6 @@ export class ProductShopComponent implements OnInit {
   public updateMultiImage(data: any) {
     const formData = new FormData();
     for (var i = 0; i < this.imageArray.length; i++) {
-      console.log(this.imageArray[i]);
       formData.append('files', this.imageArray[i]);
     }
     this.imageService
@@ -872,6 +882,7 @@ export class ProductShopComponent implements OnInit {
           image: valueFile.toString(),
         });
         this.product_options_image.controls['productoption'].setValue(data);
+        console.log(this.createNewOptionImage());
         this.Addservice.updateProductOptionImage(
           this.createNewOptionImage()
         ).subscribe((data) => {

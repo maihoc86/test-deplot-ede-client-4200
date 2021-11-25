@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ede.edecustomerservice.entity.Shop;
+import com.ede.edecustomerservice.entity.User;
 import com.ede.edecustomerservice.service.Auth_Service;
 import com.ede.edecustomerservice.service.CustomerService;
 import com.ede.edecustomerservice.service.ShopService;
@@ -37,11 +38,6 @@ public class ReadShopRestController {
 		}
 		return	ResponseEntity.ok(shop);
 	}
-	@GetMapping("/viewall")
-	public ResponseEntity<?> getAllShop() {
-		List<Shop> list = shopService.findAll();
-		return	ResponseEntity.ok(list);
-	}
 	
 	@GetMapping("/viewallbyname")
 	public ResponseEntity<?> getAllShopbyName(@RequestParam("name")String name) {
@@ -50,10 +46,13 @@ public class ReadShopRestController {
 	}
 	
 	// Lấy ra thông tin cửa hàng bằng ID
+	
 	@GetMapping("/view/info/{id}")
 	public ResponseEntity<?> getShopById(@PathVariable("id") String id) {
 		Shop shop = shopService.findById(id).get();
+		shop.setUser(null);
 		return	ResponseEntity.ok(shop);
 	}
+	
 	
 }
