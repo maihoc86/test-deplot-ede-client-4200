@@ -32,7 +32,7 @@ public class MailEntity {
 	private String subject;
 	@Setter
 	@Getter
-	private MultipartFile attachment;
+	private File attachment;
 	/**
 	 * Format text is html, this is content of mail
 	 */

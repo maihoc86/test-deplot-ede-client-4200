@@ -96,7 +96,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
         this.location == '' &&
         this.brand == ''
       ) {
-        this.getAllProductDefault(this.idShop, this.page);
+        this.getAllProductDefault(this.idShop, this.page, 10);
       } else {
         this.filter(
           this.idShop,
@@ -108,7 +108,7 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
       }
     } else {
       // DEFAULT IF NO PRESENT PAGE
-      this.getAllProductDefault(this.idShop, 0);
+      this.getAllProductDefault(this.idShop, 0, 10);
     }
   }
 
@@ -116,9 +116,9 @@ export class ShowAllProductsShopInterfaceComponent implements OnInit {
    * Hàm lấy ra tất cả sản phẩm của shop
    * @param page trang số
    */
-  public getAllProductDefault(idShop: any, page: any) {
+  public getAllProductDefault(idShop: any, page: any, size: any) {
     this.loadingProductTable = true;
-    this.ProductService.getAllProductShopByCustomer(idShop, page).subscribe(
+    this.ProductService.getAllProductShopByCustomer(idShop, page, size).subscribe(
       (data) => {
         this.listAllProducts = data.content.map(function (obj: {
           idProduct: any;
