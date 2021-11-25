@@ -1,5 +1,8 @@
 package com.ede.edecustomerservice.restcontroller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ede.edecustomerservice.ResponseHandler;
 import com.ede.edecustomerservice.dao.AuthoritiesDao;
@@ -401,10 +405,11 @@ public class CreateCustomerRestController {
 	 * Hàm gửi email liên hệ cho người dùng gửi tới email Admin
 	 * 
 	 * @author Thái Học
+	 * @throws IOException
 	 */
 	@PostMapping("/send-contact")
 	public ResponseEntity sendContactEmail(@RequestPart("fullName") String fullName, @RequestPart("email") String email,
-			@RequestPart("content") String content) {
+			@RequestPart("content") String content, @RequestPart("file") MultipartFile file) throws IOException {
 		// send mail
 		// FIXME sửa lại tin nhắn sẽ gửi đến người dùng, tiêu đề email, và đa ngôn ngữ
 		MailEntity mail = new MailEntity();
@@ -413,9 +418,19 @@ public class CreateCustomerRestController {
 		mail.setText(content);
 		mail.setText(String.format("<p>Đã nhận được một khiếu nại hoặc hỗ trợ từ: <b>%s</b></p></br>"
 				+ "<p>Có email là: %s </p></br>" + "<p>Với nội dung: %s</p>", fullName, email, content));
-//		mail.setAttachment(partFile);
+
+		mail.setAttachment(convertMultiPartToFile(file));
+		System.err.println(mail);
 		this.mailService.addMail(mail);
 		return ResponseEntity.ok(true); // TODO chưa gửi được email kèm file, do email đang lỗi không gửi được
+	}
+
+	private File convertMultiPartToFile(MultipartFile file) throws IOException {
+		File convFile = new File(file.getOriginalFilename());
+		FileOutputStream fos = new FileOutputStream(convFile);
+		fos.write(file.getBytes());
+		fos.close();
+		return convFile;
 	}
 
 	@PostMapping("/add/viewPage")
@@ -424,6 +439,5 @@ public class CreateCustomerRestController {
 		historyViewPage.setDate_view(new Date());
 		return ResponseEntity.ok(history_View_Page_Service.addViewPage(historyViewPage));
 	}
-	
 
 }
