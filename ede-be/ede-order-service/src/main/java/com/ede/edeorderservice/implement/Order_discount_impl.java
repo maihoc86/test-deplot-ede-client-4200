@@ -56,4 +56,10 @@ public class Order_discount_impl implements Order_discount_service {
 		return dao.listAllFilter(searchTuNgayDate, searchDenNgayDate, of);
 	}
 
+	@Override
+	public List<Order_Discount> listDiscountOrderUserTrue(Date date) {
+		return dao.listDiscountOrderUserTrue(date);
+	}
+
+
 }

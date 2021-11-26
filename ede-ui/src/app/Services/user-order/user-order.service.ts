@@ -18,5 +18,12 @@ export class UserOrderService {
     }),
   };
 
+  private API_SERVER = 'http://localhost:8080/ede-order';
 
+  getAllDiscountOrderSystem() {
+    return this.httpClient.get(
+      `${this.API_SERVER}/view/all/discount/order`,
+      this.httpOptions
+    );
+  }
 }

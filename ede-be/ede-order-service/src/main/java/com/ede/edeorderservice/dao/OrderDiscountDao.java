@@ -16,7 +16,7 @@ public interface OrderDiscountDao extends JpaRepository<Order_Discount, String> 
 	@Query("Select o from Order_Discount o where status = true")
 	List<Order_Discount> listAllStatusTrue();
 
-	@Query("Select o from Order_Discount o where enddate>:todate")
+	@Query("Select o from Order_Discount o where enddate>:todate and status = true")
 	Order_Discount findOrderDiscountDate(Date todate);
 
 	@Query("Select o from Order_Discount o where status = true")
@@ -25,6 +25,9 @@ public interface OrderDiscountDao extends JpaRepository<Order_Discount, String> 
 	@Query(value = "SELECT * FROM order_discount WHERE ?1 BETWEEN toDate AND endDate Or ?2 BETWEEN toDate AND endDate and status = true", nativeQuery = true)
 	Page<Order_Discount> listAllFilter(@Param("searchTuNgay") String searchTuNgayDate,
 			@Param("searchDenNgay") String searchDenNgayDate, PageRequest of);
+
+	@Query("Select o from Order_Discount o where enddate>:todate and status = true")
+	List<Order_Discount> listDiscountOrderUserTrue(Date todate);
 
 
 }

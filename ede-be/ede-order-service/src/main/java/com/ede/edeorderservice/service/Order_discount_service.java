@@ -24,6 +24,5 @@ public interface Order_discount_service {
 
 	Page<Order_Discount> listAllFilter(String searchTuNgayDate, String searchDenNgayDate, PageRequest of);
 
-
-	
+	List<Order_Discount> listDiscountOrderUserTrue(Date date);	
 }
