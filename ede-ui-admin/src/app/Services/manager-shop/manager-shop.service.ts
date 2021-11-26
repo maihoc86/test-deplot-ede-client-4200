@@ -8,15 +8,21 @@ export class ManagerShopService {
   constructor(private http:HttpClient) { }
   private REST_API_SERVER = 'http://localhost:8080/ede-customer';
   public loadAllShop(){
-    return this.http.get<any>(this.REST_API_SERVER+'/shop/viewall')
+    //FIXME: thêm /admin vào
+    return this.http.get<any>(this.REST_API_SERVER + '/shop/viewall');
   }
 
   public loadAllShopByName(name:string){
-    return this.http.get<any>(this.REST_API_SERVER+'/shop/viewallbyname?name='+name)
+    //FIXME: thêm /admin vào
+    return this.http.get<any>(
+      this.REST_API_SERVER + '/shop/viewallbyname?name=' + name
+    );
   }
 
   public updateStatusShop(id:string, status: any){
-    console.log("updateStatusShop lala")
-    return this.http.get<any>(this.REST_API_SERVER +'/updateStatus/shop/'+id+"?status="+status)
+    //FIXME: thêm /admin vào
+    return this.http.get<any>(
+      this.REST_API_SERVER + '/updateStatus/shop/' + id + '?status=' + status
+    );
   }
 }

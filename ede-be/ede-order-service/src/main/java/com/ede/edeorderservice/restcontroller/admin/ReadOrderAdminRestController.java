@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ede.edeorderservice.entity.Order;
 import com.ede.edeorderservice.entity.Order_Discount;
 import com.ede.edeorderservice.entity.Orderdetail;
 import com.ede.edeorderservice.service.Order_Detail_service;
@@ -44,7 +43,6 @@ public class ReadOrderAdminRestController {
 		
 		Page<Order_Discount> pageF = null;
 		if ((!searchDenNgay.isEmpty() || searchTuNgay != "") && (!searchDenNgay.isEmpty() || searchDenNgay != "")) {
-			System.err.print("Vào đây");
 			pageF = service.listAllFilter(searchTuNgay, searchDenNgay, PageRequest.of(page, size));
 		} else {
 			pageF = service.listAllStatusTrue(PageRequest.of(page, size));

@@ -4,7 +4,6 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl,
   FormBuilder,
 } from '@angular/forms';
 import { of } from 'rxjs';
@@ -15,7 +14,6 @@ import { Child_Category } from '../models/Child_category.model';
 import { ManageCategotyService } from '../Services/manage-category/manage-categoty.service';
 import { ImagesService } from '../Services/images/images.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-manager-category',
   templateUrl: './manager-category.component.html',

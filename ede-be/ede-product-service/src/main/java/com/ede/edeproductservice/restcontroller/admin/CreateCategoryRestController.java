@@ -52,7 +52,7 @@ public class CreateCategoryRestController {
 	}
 	
 	/*thêm child_parent_category */
-	@PostMapping("/create/child_parent_category")
+	@PostMapping("/admin/create/child_parent_category")
 	public ResponseEntity create_parent_child(@RequestBody Product_parent_child_category child_parent_category) {
 		UUID uuid = UUID.randomUUID();
 		Optional<Product_parent_child_category> findCategory = product_child_parent_category_service
@@ -69,7 +69,7 @@ public class CreateCategoryRestController {
 	}
 
 	/*thêm child_category */
-	@PostMapping("/create/child_category")
+	@PostMapping("/admin/create/child_category")
 	public ResponseEntity create_child(@RequestBody Product_child_category child_categories) {
 		UUID uuid = UUID.randomUUID();
 		Optional<Product_child_category> findCategory = product_child_category_service.findById(uuid.toString());

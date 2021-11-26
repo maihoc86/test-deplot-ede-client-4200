@@ -6,6 +6,7 @@ import { ManagerCategoryComponent } from './manager-category/manager-category.co
 import { ManagerProductComponent } from './manager-product/manager-product.component';
 import { ManagerShopComponent } from './manager-shop/manager-shop.component';
 import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-order-discount.component';
+import { MapAddressComponent } from './map-address/map-address.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'manage-product', component: ManagerProductComponent },
   { path: 'manage-shop', component: ManagerShopComponent },
   { path: 'manage-order-discount', component: ManagerOrderDiscountComponent },
+  { path: 'map-address', component: MapAddressComponent },
 ];
 
 @NgModule({

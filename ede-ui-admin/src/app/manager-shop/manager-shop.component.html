@@ -40,7 +40,6 @@
                     <th>Địa chỉ</th>
                     <th>Ngày tham gia</th>
                     <th>Trạng thái</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -50,18 +49,18 @@
                     <td *ngIf="e">{{e.address}}</td>
                     <td *ngIf="e">{{e.create_date| date :'dd-MM-yyyy'}}</td>
                     <td *ngIf="e">
-                      <button (click)="UpdateStatusShop(e.id,e.status)" *ngIf="e.status"style=" border: none;  outline: none;"
+                      <button (click)="UpdateStatusShop(e.id,e.status)" *ngIf="e.status"
+                        style=" border: none;  outline: none;"
                         class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3"><i
                           class='bx bxs-circle me-1'></i>Đang hoạt động</button>
-                      <button  (click)="UpdateStatusShop(e.id,e.status)" *ngIf="!e.status" style=" border: none;  outline: none;"
+                      <button (click)="UpdateStatusShop(e.id,e.status)" *ngIf="!e.status"
+                        style=" border: none;  outline: none;"
                         class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">
                         <i class='bx bxs-circle me-1'></i>Bị khoá
                       </button>
                     </td>
-
                   </tr>
                 </tbody>
-
               </table>
               <pagination-controls (pageChange)="p = $event"></pagination-controls>
             </div>
