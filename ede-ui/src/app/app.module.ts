@@ -43,6 +43,7 @@ import { UserOderComponent } from './user-oder/user-oder.component';
 import { UserChangPassComponent } from './user-change-pass/user-chang-pass.component';
 import { UserAddressComponent } from './user-address/user-address.component';
 import { ContactComponent } from './contact/contact.component';
+// import { UserCheckoutCartComponent } from './user-checkout-cart/user-checkout-cart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +75,7 @@ import { ContactComponent } from './contact/contact.component';
     UserChangPassComponent,
     UserAddressComponent,
     ContactComponent,
+    // UserCheckoutCartComponent,
   ],
   imports: [
     BrowserModule,
