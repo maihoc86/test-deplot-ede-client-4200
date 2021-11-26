@@ -215,47 +215,44 @@
                         <table class="table table-bordered">
                           <thead>
                             <tr>
-                              <td class="text-center">Image</td>
-                              <td class="text-left">Product Name</td>
-                              <td class="text-left">Quantity</td>
-                              <td class="text-right">Unit Price</td>
-                              <td class="text-right">Total</td>
+                              <td class="text-center">Ảnh đại diện</td>
+                              <td class="text-left">Tên sản phẩm</td>
+                              <td class="text-left">Số Lượng</td>
+                              <td class="text-right">Đơn giá</td>
+                              <td class="text-right">Tổng giá</td>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td class="text-center"><a href="product.html"><img width="60px" src="image/catalog/demo/product/funiture/10.jpg" alt="Xitefun Causal Wear Fancy Shoes" title="Xitefun Causal Wear Fancy Shoes" class="img-thumbnail"></a></td>
-                              <td class="text-left"><a href="product.html">Emasa rumas gacem</a></td>
-                              <td class="text-left"><div class="input-group btn-block" style="min-width: 100px;">
-                                  <input type="text" name="quantity" value="1" size="1" class="form-control">
+                            <tr *ngFor="let item of productList; let index = index">
+                              <td class="text-center">
+                                <a href="">
+                                  <img width="60px" [src]="'http://localhost:8080/ede-file/get/image/' + item?.product_option?.optionImageDef?.image" alt="Ảnh mô tả" class="img-thumbnail">
+                                </a>
+                              </td>
+                              <td class="text-left">
+                                <a href="">{{item?.product_option?.display_name}}</a>
+                              </td>
+                              <td class="text-left">
+                                <div class="input-group btn-block" style="min-width: 100px;">
+                                  <input type="text" [(ngModel)]="item.quantity" size="1" class="form-control">
                                   <span class="input-group-btn">
-                                  <button type="submit" data-toggle="tooltip" title="Update" class="btn btn-primary"><i class="fa fa-refresh"></i></button>
-                                  <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-danger" onClick=""><i class="fa fa-times-circle"></i></button>
-                                  </span></div></td>
-                              <td class="text-right">$114.35</td>
-                              <td class="text-right">$114.35</td>
+                                    <!-- <button type="submit" data-toggle="tooltip" title="Update" class="btn btn-primary"><i class="fa fa-refresh"></i></button> -->
+                                    <!-- <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-danger" onClick=""><i class="fa fa-times-circle"></i></button> -->
+                                  </span>
+                                </div>
+                              </td>
+                              <td class="text-right">${{item?.product_option?.price}}</td>
+                              <td class="text-right">${{item?.product_option?.price * item?.quantity}}</td>
                             </tr>
                           </tbody>
                           <tfoot>
                             <tr>
-                              <td class="text-right" colspan="4"><strong>Sub-Total:</strong></td>
+                              <td class="text-right" colspan="4"><strong>Phí vận chuyển:</strong></td>
                               <td class="text-right">$93.73</td>
                             </tr>
                             <tr>
-                              <td class="text-right" colspan="4"><strong>Flat Shipping Rate:</strong></td>
-                              <td class="text-right">$4.69.00</td>
-                            </tr>
-                            <tr>
-                              <td class="text-right" colspan="4"><strong>Eco Tax (-2.00):</strong></td>
-                              <td class="text-right">$3.75.00</td>
-                            </tr>
-                            <tr>
-                              <td class="text-right" colspan="4"><strong>VAT (20%):</strong></td>
-                              <td class="text-right">$19.68</td>
-                            </tr>
-                            <tr>
-                              <td class="text-right" colspan="4"><strong>Total:</strong></td>
-                              <td class="text-right">$121.85</td>
+                              <td class="text-right" colspan="4"><strong>Tổng tiền:</strong></td>
+                              <td class="text-right">${{totalprice}}</td>
                             </tr>
                           </tfoot>
                         </table>
