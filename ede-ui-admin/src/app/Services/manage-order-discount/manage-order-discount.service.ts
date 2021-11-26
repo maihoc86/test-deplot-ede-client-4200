@@ -21,7 +21,6 @@ export class ManageOrderDiscountService {
 
   /**
    * Hàm lấy tất cả giảm giá của hóa đơn được áp dụng
-   * @returns {listObj} danh sách tất cả các giảm giá dánh cho hóa đơn
    */
   public getAll(searchTuNgay: any, searchDenNgay: any, page: any, size: any) {
     return this.httpClient.get<any>(
@@ -40,8 +39,7 @@ export class ManageOrderDiscountService {
   }
 
   /**
-   * Hàm thêm giả áp dụng cho hóa đơn
-   * @returns {obj} hóa đơn được thêm giảm giá
+   * Hàm thêm giảm giá áp dụng cho hóa đơn
    */
   public create(data: Order_discount) {
     return this.httpClient.post<any>(
@@ -53,7 +51,6 @@ export class ManageOrderDiscountService {
 
   /**
    * Hàm sửa giả áp dụng cho hóa đơn
-   * @returns {obj} hóa đơn được sửa giảm giá
    */
   public update(data: Order_discount) {
     return this.httpClient.put<any>(
@@ -65,6 +62,7 @@ export class ManageOrderDiscountService {
 
   /**
    * Hàm lấy chi tiết giảm giá của hóa đơn
+   * @param id id của giảm giá hóa đơn
    */
   public getById(id: any) {
     return this.httpClient.get<any>(
@@ -75,6 +73,7 @@ export class ManageOrderDiscountService {
 
   /**
    * Hàm xóa giảm giá hóa đơn
+   * @param id id của giảm giá hóa đơn
    */
   public deleteOrderDiscountById(id: any) {
     return this.httpClient.delete<any>(

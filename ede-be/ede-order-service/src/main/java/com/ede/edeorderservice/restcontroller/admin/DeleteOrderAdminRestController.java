@@ -21,6 +21,7 @@ public class DeleteOrderAdminRestController {
 
 	/**
 	 * Hàm xóa giảm giá hóa đơn
+	 * @param id id của giảm giá hóa đơn
 	 * 
 	 */
 	@DeleteMapping("/delete/discount/order/{id}")

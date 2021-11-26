@@ -16,6 +16,7 @@ import { ManagerProductComponent } from './manager-product/manager-product.compo
 import { ManagerShopComponent } from './manager-shop/manager-shop.component';
 import { ManagerOrderDiscountComponent } from './manager-order-discount/manager-order-discount.component';
 import { NgxLoadingModule } from 'ngx-loading';
+import { MapAddressComponent } from './map-address/map-address.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     ManagerProductComponent,
     ManagerShopComponent,
     ManagerOrderDiscountComponent,
+    MapAddressComponent,
   ],
   imports: [
     BrowserModule,

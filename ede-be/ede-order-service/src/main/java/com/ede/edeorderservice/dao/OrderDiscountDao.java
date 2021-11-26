@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ede.edeorderservice.entity.Order;
 import com.ede.edeorderservice.entity.Order_Discount;
 
 public interface OrderDiscountDao extends JpaRepository<Order_Discount, String> {
@@ -23,7 +22,7 @@ public interface OrderDiscountDao extends JpaRepository<Order_Discount, String> 
 	@Query("Select o from Order_Discount o where status = true")
 	Page<Order_Discount> listAllStatusTrue(PageRequest of);
 
-	@Query(value = "SELECT * FROM order_discount WHERE ?1 BETWEEN toDate AND endDate Or ?2 BETWEEN toDate AND endDate", nativeQuery = true)
+	@Query(value = "SELECT * FROM order_discount WHERE ?1 BETWEEN toDate AND endDate Or ?2 BETWEEN toDate AND endDate and status = true", nativeQuery = true)
 	Page<Order_Discount> listAllFilter(@Param("searchTuNgay") String searchTuNgayDate,
 			@Param("searchDenNgay") String searchDenNgayDate, PageRequest of);
 

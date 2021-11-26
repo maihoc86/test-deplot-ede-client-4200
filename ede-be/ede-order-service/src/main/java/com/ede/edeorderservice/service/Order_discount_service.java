@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import com.ede.edeorderservice.entity.Order;
 import com.ede.edeorderservice.entity.Order_Discount;
 
 public interface Order_discount_service {
