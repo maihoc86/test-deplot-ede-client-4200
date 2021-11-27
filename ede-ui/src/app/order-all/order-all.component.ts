@@ -21,19 +21,26 @@ export class OrderAllComponent implements OnInit {
   public pAll: number = 1;
   public pDaHuy: number = 1;
   public pDaGiao: number = 1;
+  public pChoXacNhan: number = 1;
+  public pDangGiao: number = 1;
+
   public pDetail: number = 1;
   public itemsAll: any = [];
   public staticItemsAll: any = [];
   public itemsDaGiao: any = [];
   public itemsDaHuy: any = [];
+  public itemsChoXacNhan: any = [];
+  public itemsDangGiao: any = [];
   public itemsDetail: any = [];
   public idDetail: any;
   public count: any;
-  public countitemsDaHuy: any=0;
-  public total: any=0;
-  public total7Day: any=0;
-  public totalMonth: any=0;
-  public toMonth: any=1;
+  public countitemsDaHuy: any = 0;
+  public countitemsDangGiao: any = 0;
+  public countitemsChoXacNhan: any = 0;
+  public total: any = 0;
+  public total7Day: any = 0;
+  public totalMonth: any = 0;
+  public toMonth: any = 1;
   public countDetail: any;
   public size: number = 5;
   public status: string = '';
@@ -88,29 +95,31 @@ export class OrderAllComponent implements OnInit {
   ngOnInit(): void {
     this.getAllOrder();
     this.loadOrderAll(this.keywordAll, this.status, this.pAll, this.size);
-    
   }
-  public getAllOrder(){
-  this.orderShopService.getAllOrderShop().subscribe(data=>{
-    this.staticItemsAll=data;
-    
-    
-    this.staticItemsAll.forEach((e:any) => {
-       var dateE2:Date= new Date(e.create_date);
-        e.status=='Đã hủy'?this.countitemsDaHuy++:(this.total+=e.total_amount,
-          dateE2.getMonth()==new Date().getMonth()?this.totalMonth+=e.total_amount:'');
-       
-        console.log(dateE2.getMonth()+1)
-       
+  public getAllOrder() {
+    this.orderShopService.getAllOrderShop().subscribe((data) => {
+      this.staticItemsAll = data;
 
-        var dateE:any = new Date();
-       
-        if((Date.parse(e.create_date)-((Date.parse(dateE)-(1000*60*60*24*7))))>=0){
-          this.total7Day+=e.total_amount;
+      this.staticItemsAll.forEach((e: any) => {
+        var dateE2: Date = new Date(e.create_date);
+        e.status == 'Đã hủy'
+          ? this.countitemsDaHuy++
+          : ((this.total += e.total_amount),
+            dateE2.getMonth() == new Date().getMonth()
+              ? (this.totalMonth += e.total_amount)
+              : '');
+
+        var dateE: any = new Date();
+
+        if (
+          Date.parse(e.create_date) -
+            (Date.parse(dateE) - 1000 * 60 * 60 * 24 * 7) >=
+          0
+        ) {
+          this.total7Day += e.total_amount;
         }
-        
+      });
     });
-    })
   }
   public loadOrderAll(
     keyword: string,
@@ -120,7 +129,7 @@ export class OrderAllComponent implements OnInit {
   ) {
     page = page - 1;
     this.orderShopService.getOrderShop(keyword, status, page, size).subscribe(
-      (data) => {      
+      (data) => {
         const item = data.content.map(function (obj: {
           id: string;
           phone: string;
@@ -138,9 +147,13 @@ export class OrderAllComponent implements OnInit {
           ? (this.itemsDaGiao = item)
           : status == 'Đã hủy'
           ? (this.itemsDaHuy = item)
+          : status == 'Chờ xác nhận'
+          ? (this.itemsChoXacNhan = item)
+          : status == 'Đang giao'
+          ? (this.itemsDangGiao = item)
           : (this.itemsAll = item);
-       
-       this.count = this.page.totalElements;
+
+        this.count = this.page.totalElements;
       },
       (err) => {
         if (err.status == 401) {
@@ -151,7 +164,7 @@ export class OrderAllComponent implements OnInit {
           });
           this.router.navigate(['/login']);
         } else {
-          console.log(err)
+          console.log(err);
           Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -178,6 +191,20 @@ export class OrderAllComponent implements OnInit {
           this.pDaGiao,
           this.size
         )
+      : status == 'Chờ xác nhận'
+      ? this.loadOrderAll(
+          this.keywordTrue,
+          this.status,
+          this.pChoXacNhan,
+          this.size
+        )
+      : status == 'Đang giao'
+      ? this.loadOrderAll(
+          this.keywordTrue,
+          this.status,
+          this.pDangGiao,
+          this.size
+        )
       : this.loadOrderAll(this.keywordAll, this.status, this.pAll, this.size);
   }
   showOrderDetail(id: string) {
@@ -199,6 +226,14 @@ export class OrderAllComponent implements OnInit {
       this.status = 'Đã giao';
       this.pDaGiao = event;
       this.showParamsURL(this.pDaGiao, this.size, this.status);
+    } else if (status === 'choxacnhan') {
+      this.status = 'Chờ xác nhận';
+      this.pChoXacNhan = event;
+      this.showParamsURL(this.pChoXacNhan, this.size, this.status);
+    } else if (status === 'danggiao') {
+      this.status = '';
+      this.pDangGiao = event;
+      this.showParamsURL(this.pDangGiao, this.size, this.status);
     } else {
       this.status = '';
       this.pAll = event;

@@ -63,5 +63,6 @@ export class UserOderComponent implements OnInit {
     this.listOrderFilter = this.listOrder = this.listOrder.filter((e) => {
       return e.status === value;
     });
+    console.log(this.listOrderFilter);
   }
 }
