@@ -29,5 +29,8 @@ public interface OrderDiscountDao extends JpaRepository<Order_Discount, String> 
 	@Query("Select o from Order_Discount o where enddate>:todate and status = true")
 	List<Order_Discount> listDiscountOrderUserTrue(Date todate);
 
+	@Query("Select o from Order_Discount o where o.id =:idDiscount ")
+	Order_Discount findOrderDiscountById(String idDiscount);
+
 
 }

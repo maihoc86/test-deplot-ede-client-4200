@@ -22,6 +22,7 @@ import com.ede.edeorderservice.entity.Order;
 import com.ede.edeorderservice.entity.Order_Discount;
 import com.ede.edeorderservice.entity.Orderdetail;
 import com.ede.edeorderservice.entity.Shop;
+import com.ede.edeorderservice.entity.User;
 import com.ede.edeorderservice.service.Auth_Service;
 import com.ede.edeorderservice.service.Order_Detail_service;
 import com.ede.edeorderservice.service.Order_discount_service;
@@ -120,4 +121,24 @@ public class ReadOrderRestController {
 		return ResponseEntity.ok(list);
 	}
 
+	@GetMapping("/check/discount/order")
+	public ResponseEntity checkDiscountOrder(HttpServletRequest req, @RequestParam("idDiscount") String idDiscount) {
+		User userLogin = new User();
+		try {
+			userLogin = authservice.getUserLogin(req.getHeader("Authorization"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		Order_Discount order_Discount = order_discount_service.findOrderDiscountById(idDiscount);
+
+		if (order_Discount == null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Không tìm thấy mã giảm giá", "",
+					null);
+		} else {
+			List<Order> findOrderDiscountUser = order_service.findOrderDiscountUser(userLogin.getId(), idDiscount);
+			return ResponseEntity.ok(findOrderDiscountUser);
+		}
+
+	}
 }

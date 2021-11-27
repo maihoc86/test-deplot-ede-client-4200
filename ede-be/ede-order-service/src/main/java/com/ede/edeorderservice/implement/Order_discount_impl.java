@@ -61,5 +61,10 @@ public class Order_discount_impl implements Order_discount_service {
 		return dao.listDiscountOrderUserTrue(date);
 	}
 
+	@Override
+	public Order_Discount findOrderDiscountById(String idDiscount) {
+		return dao.findOrderDiscountById(idDiscount);
+	}
+
 
 }
