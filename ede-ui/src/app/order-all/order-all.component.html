@@ -4,41 +4,41 @@
 <div class="col-sm-10" style="margin-top: 70px; border: 1px solid rgb(211, 211, 211); border-radius: 3px;">
   <h2><b>Tổng Quan</b></h2>
   <div class="row">
-      <div class="col-sm-3">
-          <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
-              <div class="search-header-w">
-                  <div id="sosearchpro" class="sosearchpro-wrapper so-search">
-                      <h3><b>Đã Thanh toán</b></h3>
-                      <h4>Tháng này</h4>
-                      <h1><b>{{totalMonth|currency:'VND'}}</b></h1>
-                  </div>
-              </div>
+    <div class="col-sm-3">
+      <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
+        <div class="search-header-w">
+          <div id="sosearchpro" class="sosearchpro-wrapper so-search">
+            <h3><b>Đã Thanh toán</b></h3>
+            <h4>Tháng này</h4>
+            <h1><b>{{totalMonth|currency:'VND'}}</b></h1>
           </div>
+        </div>
       </div>
-      <div class="col-sm-9">
-          <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
-              <div class="search-header-w">
-                  <div id="sosearchpro" class="sosearchpro-wrapper so-search">
-                      <h3><b>Đã Thanh toán</b></h3>
-                      <div class="row">
-                          <div class="col-sm-4">
-                              <h4>7 ngày gần đây</h4>
-                              <h1><b>{{total7Day| currency:'VND'}}</b></h1>
-                          </div>
-                          <div class="col-sm-4">
-                              <h4>Số đơn hàng đã hủy</h4>
-                              <h1><b>{{countitemsDaHuy}}</b></h1>
-                          </div>
-                          <div class="col-sm-4">
-                              <h4>Tổng cộng</h4>
-                              <h1><b>{{total|currency:'VND'}}</b></h1>
-                          </div>
-                      </div>
-                  </div>
+    </div>
+    <div class="col-sm-9">
+      <div class="bottom2 col-lg-12 col-md-6 col-sm-6">
+        <div class="search-header-w">
+          <div id="sosearchpro" class="sosearchpro-wrapper so-search">
+            <h3><b>Đã Thanh toán</b></h3>
+            <div class="row">
+              <div class="col-sm-4">
+                <h4>7 ngày gần đây</h4>
+                <h1><b>{{total7Day| currency:'VND'}}</b></h1>
               </div>
+              <div class="col-sm-4">
+                <h4>Số đơn hàng đã hủy</h4>
+                <h1><b>{{countitemsDaHuy}}</b></h1>
+              </div>
+              <div class="col-sm-4">
+                <h4>Tổng cộng</h4>
+                <h1><b>{{total|currency:'VND'}}</b></h1>
+              </div>
+            </div>
           </div>
+        </div>
       </div>
-      <br>
+    </div>
+    <br>
 
   </div>
 
@@ -46,11 +46,19 @@
 </div>
 <div class="col-sm-10" style="margin-top: 70px;">
   <ul class="nav nav-tabs">
-    <li [ngClass]="activeTab == 'all' ? 'active' : ''"><a data-toggle="tab" href="#tab-1" (click)="filterOrderByStatus('')">Tất cả</a>
+    <li [ngClass]="activeTab == 'all' ? 'active' : ''"><a data-toggle="tab" href="#tab-1"
+        (click)="filterOrderByStatus('')">Tất cả</a>
     </li>
-    <li [ngClass]="activeTab == 'Đã giao' ? 'active' : ''"><a data-toggle="tab" href="#tab-2" (click)="filterOrderByStatus('Đã giao')">Đã giao</a>
+    <li [ngClass]="activeTab == 'Đã giao' ? 'active' : ''"><a data-toggle="tab" href="#tab-2"
+        (click)="filterOrderByStatus('Đã giao')">Đã giao</a>
     </li>
-    <li [ngClass]="activeTab == 'Đã hủy' ? 'active' : ''"><a data-toggle="tab" href="#tab-3" (click)="filterOrderByStatus('Đã hủy')">Đơn huỷ</a>
+    <li [ngClass]="activeTab == 'Đã hủy' ? 'active' : ''"><a data-toggle="tab" href="#tab-3"
+        (click)="filterOrderByStatus('Đã hủy')">Đơn huỷ</a>
+    </li>
+    <li [ngClass]="activeTab == 'Đang giao' ? 'active' : ''"><a data-toggle="tab" href="#tab-4"
+        (click)="filterOrderByStatus('Đang giao')">Đang giao</a>
+    <li [ngClass]="activeTab == 'Chờ xác nhận' ? 'active' : ''"><a data-toggle="tab" href="#tab-5"
+        (click)="filterOrderByStatus('Chờ xác nhận')">Chờ xác nhận</a>
     </li>
   </ul>
   <div class="tab-content">
@@ -248,6 +256,156 @@
           </div>
           <!--Middle Part End -->
 
+        </div>
+      </div>
+    </div>
+    <div [ngClass]="activeTab == 'Đang giao' ? 'tab-pane active' : 'tab-pane' " id="tab-4">
+      <div class="main-container container">
+
+
+        <div class="row">
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Search..." name="keywordFalse"
+                          id="keywordFalse" #keywordFalse>
+
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)="searchOrderFalse(keywordFalse.value)" type="submit" class="btn btn-danger"
+                      value="Tìm" style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" style="margin-top: 16px;">
+              </div>
+            </div><br>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Mã hóa đơn</strong></td>
+                    <td><strong>Tên người mua</strong></td>
+                    <td><strong>Số điện thoại</strong></td>
+                    <td><strong>Ngày mua</strong></td>
+                    <td><strong>Tổng tiền</strong></td>
+                    <td><strong>Trạng thái</strong></td>
+                    <td><strong>Ghi chú</strong></td>
+                    <td><strong>Hành động</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let e of itemsDangGiao  | paginate: {itemsPerPage: size, currentPage: pDangGiao, totalItems: count, id:'danggiao'}">
+                    <td>{{e.id}}</td>
+                    <td>{{e.user.first_name}} {{e.user.last_name}}</td>
+                    <td>{{e.phone}}</td>
+                    <td>{{e.create_date | date :'dd-MM-yyyy'}}</td>
+                    <td>{{e.total_amount}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.note}}</td>
+                    <td>
+                      <button type="submit" (click)="showOrderDetail(e.id)" data-toggle="modal"
+                        data-target="#exampleModal" class="btn btn-primary"><i class="fa fa-edit"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="handlePageChange($event, 'danggiao')" id="choxacnhan">
+              </pagination-controls>
+            </div>
+          </div>
+          <!--Middle Part End -->
+        </div>
+      </div>
+    </div>
+
+    <div [ngClass]="activeTab == 'Chờ xác nhận' ? 'tab-pane active' : 'tab-pane' " id="tab-5">
+      <div class="main-container container">
+
+
+        <div class="row">
+          <!--Middle Part Start-->
+          <div id="content" class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <form class="app-search d-none d-lg-block" style="margin-top: 15px;">
+                      <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="Search..." name="keywordFalse"
+                          id="keywordFalse" #keywordFalse>
+
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input (click)="searchOrderFalse(keywordFalse.value)" type="submit" class="btn btn-danger"
+                      value="Tìm" style="border-radius:4px 4px; width: 76px; margin-top: 14px;">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" style="margin-top: 16px;">
+              </div>
+            </div><br>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td><strong>Mã hóa đơn</strong></td>
+                    <td><strong>Tên người mua</strong></td>
+                    <td><strong>Số điện thoại</strong></td>
+                    <td><strong>Ngày mua</strong></td>
+                    <td><strong>Tổng tiền</strong></td>
+                    <td><strong>Trạng thái</strong></td>
+                    <td><strong>Ghi chú</strong></td>
+                    <td><strong>Hành động</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let e of itemsChoXacNhan  | paginate: {itemsPerPage: size, currentPage: pChoXacNhan, totalItems: count, id:'choxacnhan'}">
+                    <td>{{e.id}}</td>
+                    <td>{{e.user.first_name}} {{e.user.last_name}}</td>
+                    <td>{{e.phone}}</td>
+                    <td>{{e.create_date | date :'dd-MM-yyyy'}}</td>
+                    <td>{{e.total_amount}}</td>
+                    <td>{{e.status}}</td>
+                    <td>{{e.note}}</td>
+                    <td>
+                      <button type="submit" (click)="showOrderDetail(e.id)" data-toggle="modal"
+                        data-target="#exampleModal" class="btn btn-primary"><i class="fa fa-edit"></i></button>
+                      &nbsp;
+
+                      <button type="button" data-toggle="tooltip" title="Xác nhận" class="btn btn-success"><i
+                          class="fa fa-check-circle"></i></button>
+                      &nbsp;
+
+                      <button type="button" data-toggle="tooltip" title="Hủy" class="btn btn-danger"><i
+                          class="fa fa-times-circle"></i></button>
+
+
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="handlePageChange($event, 'choxacnhan')" id="choxacnhan">
+              </pagination-controls>
+            </div>
+          </div>
+          <!--Middle Part End -->
         </div>
       </div>
     </div>
