@@ -23,9 +23,11 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductSalling();
+    this.getTopTag();
   }
   public loadingProductSelling = true;
   public listProductSelling: any = [];
+  public listTopTag: any = [];
 
   public loadProductSalling() {
     this.loadingProductSelling = true;
@@ -47,5 +49,19 @@ export class IndexComponent implements OnInit {
    */
   showDetailProduct(product: any) {
     this.router.navigate([`/product/detail` + '/' + product]);
+  }
+
+  /**
+   * Lấy danh sách top nhãn được tìm kiếm
+   */
+  getTopTag() {
+    this.indexService.getTopTag().subscribe(
+      (data) => {
+        this.listTopTag = data;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

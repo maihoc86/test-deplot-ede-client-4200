@@ -795,14 +795,8 @@
             <span>Top tags</span>
           </h3>
           <div class="modcontent">
-            <div class="box-content">
-              <a href="#">Ground</a><a href="#">ipsum</a><a href="#">consectetur</a>
-              <a href="#">adipisicing</a><a href="#">eiusmod</a><a href="#">labore</a>
-              <a href="#">aliqua</a><a href="#">quis nostrud</a><a href="#">exercitation</a>
-              <a href="#">occaecat</a><a href="#">laboris</a><a href="#">occaecat</a>
-              <a href="#">adipisicing</a><a href="#">eiusmod</a><a href="#">labore</a>
-              <a href="#">aliqua</a><a href="#">quis nostrud</a><a href="#">exercitation</a><a href="#">occaecat</a><a
-                href="#">laboris</a><a href="#">occaecat</a>
+            <div class="box-content" *ngFor="let item of listTopTag">
+              <a href="#">{{item.tag}}</a>
             </div>
             <!--End extraslider-inner -->
           </div>

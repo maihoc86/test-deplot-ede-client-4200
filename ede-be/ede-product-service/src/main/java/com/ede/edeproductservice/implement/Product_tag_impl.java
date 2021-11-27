@@ -41,4 +41,5 @@ public class Product_tag_impl implements Product_Tag_service {
 		dao.deleteAllTagByIdProduct(id);
 	}
 
+
 }

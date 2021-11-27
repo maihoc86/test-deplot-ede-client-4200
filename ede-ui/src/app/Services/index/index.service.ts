@@ -22,4 +22,10 @@ export class IndexService {
   public getProductSelling() {
     return this.httpClient.get<any>(this.API_PRODUCT + '/view/productSelling');
   }
+
+  public getTopTag(){
+    return this.httpClient.get<any>(
+      this.API_PRODUCT + '/view/customer/product/top10/tag'
+    );
+  }
 }
