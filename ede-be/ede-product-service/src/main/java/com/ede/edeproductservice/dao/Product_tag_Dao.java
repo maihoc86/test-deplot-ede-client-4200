@@ -21,4 +21,5 @@ public interface Product_tag_Dao extends JpaRepository<Product_tag, String> {
 	@Query("DELETE FROM Product_tag o where o.producttag.id =:id")
 	void deleteAllTagByIdProduct(String id);
 
+
 }

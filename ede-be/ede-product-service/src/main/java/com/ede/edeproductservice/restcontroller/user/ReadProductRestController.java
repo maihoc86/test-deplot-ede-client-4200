@@ -36,6 +36,7 @@ import com.ede.edeproductservice.entity.extend.ProductSearch;
 import com.ede.edeproductservice.service.Auth_Service;
 import com.ede.edeproductservice.service.Order_detail_service;
 import com.ede.edeproductservice.service.ProductService;
+import com.ede.edeproductservice.service.Product_Tag_search_service;
 import com.ede.edeproductservice.service.Product_Tag_service;
 import com.ede.edeproductservice.service.Product_brand_service;
 import com.ede.edeproductservice.service.Product_child_category_service;
@@ -76,6 +77,9 @@ public class ReadProductRestController {
 
 	@Autowired
 	Product_Tag_service product_Tag_service;
+
+	@Autowired
+	Product_Tag_search_service product_tag_search_service;
 
 	@Autowired
 	Product_option_service product_option_service;
@@ -562,5 +566,21 @@ public class ReadProductRestController {
 		// TODO: Sửa product discount
 		List<Product_discount> pageF = product_discount_service.findByIdProduct(shop.getId(), date);
 		return ResponseEntity.ok(pageF);
+	}
+
+	@GetMapping("/view/customer/product/top10/tag")
+	public ResponseEntity getTop10Tag() {
+		List<Product_tag> listAll = product_Tag_service.findAll();
+		List<Object> listTop10 = product_tag_search_service.getTop10Tag();
+		List<Product_tag> listResultList = new ArrayList<>();
+		for (int i = 0; i < listTop10.size(); i++) {
+			Object[] row = (Object[]) listTop10.get(i);
+			for (Product_tag e : listAll) {
+				if (e.getId().equals(row[0])) {
+					listResultList.add(e);
+				}
+			}
+		}
+		return ResponseEntity.ok(listResultList);
 	}
 }
