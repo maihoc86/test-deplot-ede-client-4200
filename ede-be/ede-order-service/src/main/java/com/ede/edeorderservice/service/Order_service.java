@@ -56,4 +56,6 @@ public interface Order_service {
 	 */
 	List<Order> findAllByUser(String idUser);
 
+	List<Order> findOrderDiscountUser(String id, String idDiscount);
+
 }

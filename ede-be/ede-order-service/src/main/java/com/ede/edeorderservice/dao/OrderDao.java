@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ede.edeorderservice.entity.Order;
-import com.ede.edeorderservice.entity.Shop;
 
 public interface OrderDao extends JpaRepository<Order, String> {
 
@@ -58,5 +57,9 @@ public interface OrderDao extends JpaRepository<Order, String> {
 	 */
 	@Query("SELECT o FROM Order o where o.user.id =?1 ")
 	List<Order> findAllByUser(String idUser);
+
+	
+	@Query("Select o FROM Order o where o.user.id=:idUser and o.discount.id =:idDiscount")
+	List<Order> findOrderDiscountUser(String idUser, String idDiscount);
 
 }

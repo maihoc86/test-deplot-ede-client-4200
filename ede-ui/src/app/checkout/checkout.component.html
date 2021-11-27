@@ -215,8 +215,8 @@
                             readonly>
                         </div>
                         <div class="col-sm-4">
-                          <button type="button" data-toggle="tooltip" title="Xóa" class="btn btn-danger"><i
-                              class="fa fa-times-circle"></i></button>
+                          <button type="button" data-toggle="tooltip" title="Xóa" class="btn btn-danger"
+                            (click)="removeDiscount()"><i class="fa fa-times-circle"></i></button>
                         </div>
                       </div>
                     </div>
@@ -247,7 +247,7 @@
                                 <tr *ngFor="let item of listDiscountOrder" (click)="chooseDiscountOrder(item)"
                                   data-dismiss="modal" style="cursor: pointer;">
                                   <td>{{item.discount}} %</td>
-                                  <td> >= {{item.total}}</td>
+                                  <td> >= {{item.total | currency :'VND'}}</td>
                                   <td>{{item.enddate}}</td>
                                   <td>{{item.status == 1 ? 'Còn' : 'Hết'}}</td>
                                 </tr>
@@ -302,8 +302,8 @@
                                 </span>
                               </div>
                             </td>
-                            <td class="text-right">{{item?.product_option?.price | currency :'VND'}}đ</td>
-                            <td class="text-right">{{item?.product_option?.price * item?.quantity | currency :'VND'}}đ
+                            <td class="text-right">{{item?.product_option?.price | currency :'VND'}}</td>
+                            <td class="text-right">{{item?.product_option?.price * item?.quantity | currency :'VND'}}
                             </td>
                           </tr>
                         </tbody>
@@ -314,15 +314,15 @@
                           </tr>
                           <tr>
                             <td class="text-right" colspan="4"><strong>Tạm tính:</strong></td>
-                            <td class="text-right">{{totalPriceBeforeDiscount | currency :'VND'}}đ</td>
+                            <td class="text-right">{{totalPriceBeforeDiscount | currency :'VND'}}</td>
                           </tr>
                           <tr *ngIf="discountPrice > 0">
                             <td class="text-right" colspan="4"><strong>Giảm:</strong></td>
-                            <td class="text-right">{{discountPrice | currency :'VND'}}đ</td>
+                            <td class="text-right">{{discountPrice | currency :'VND'}}</td>
                           </tr>
                           <tr>
                             <td class="text-right" colspan="4"><strong>Tổng tiền:</strong></td>
-                            <td class="text-right">{{totalprice | currency :'VND'}}đ</td>
+                            <td class="text-right">{{totalprice | currency :'VND'}}</td>
                           </tr>
                         </tfoot>
                       </table>

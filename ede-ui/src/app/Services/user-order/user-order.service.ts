@@ -26,4 +26,11 @@ export class UserOrderService {
       this.httpOptions
     );
   }
+
+  checkOrderDiscount(orderId: any) {
+    return this.httpClient.get(
+      `${this.API_SERVER}/check/discount/order?idDiscount=` + orderId,
+      this.httpOptions
+    );
+  }
 }
