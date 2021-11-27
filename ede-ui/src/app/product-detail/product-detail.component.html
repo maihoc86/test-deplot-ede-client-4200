@@ -274,20 +274,6 @@
                     <img [src]="HOST_ORIGIN + '/ede-file/get/image/' + option.optionImageDef?.image"
                       title="{{option.display_name}}" alt="{{option.display_name}}">
                   </a>
-
-                  <!-- <a data-index="1" class="img thumbnail " data-image="image/catalog/demo/product/funiture/2.jpg" title="{{product.name}}">
-									<img src="./../../assets/image/catalog/demo/product/funiture/2.jpg" title="{{product.name}}" alt="{{product.name}}">
-								</a>
-								<a data-index="2" class="img thumbnail " data-image="image/catalog/demo/product/funiture/3.jpg" title="{{product.name}}">
-									<img src="./../../assets/image/catalog/demo/product/funiture/3.jpg" title="{{product.name}}" alt="{{product.name}}">
-								</a>
-								<a data-index="3" class="img thumbnail " data-image="image/catalog/demo/product/funiture/4.jpg" title="{{product.name}}">
-									<img src="./../../assets/image/catalog/demo/product/funiture/4.jpg" title="{{product.name}}" alt="{{product.name}}">
-								</a>
-								<a data-index="4" class="img thumbnail " data-image="image/catalog/demo/product/funiture/5.jpg" title="{{product.name}}">
-									<img src="./../../assets/image/catalog/demo/product/funiture/5.jpg" title="{{product.name}}" alt="{{product.name}}">
-								</a> -->
-
                 </div>
 
               </div>
@@ -318,66 +304,21 @@
                   <div class="product_page_price price" itemprop="offerDetails" itemscope=""
                     itemtype="http://data-vocabulary.org/Offer">
 
-                    <div *ngIf="productShow.productDiscount.length!=0">
+                    <div *ngIf="productShow.productDiscount.length > 0">
                       <span class="price-new" itemprop="price">{{productShow.price * (100 -
                         productShow.productDiscount[0].discount) / 100 | number}}đ</span>
                       <span class="price-old">{{productShow.price | number}}đ</span>
                     </div>
-                    <span class="price-new" itemprop="price"
-                      *ngIf="product.productDiscount!=[]">{{productShow.price | number}}đ</span>
+                    <div *ngIf="productShow.productDiscount == 'null' || productShow.productDiscount.length <= 0">
+                      <span class="price-new" itemprop="price" *ngIf="product.productDiscount!=[]">{{productShow.price |
+                        number}}đ</span>
+                    </div>
                   </div>
                   <div class="stock"><span>Availability:</span> <span class="status-stock">In Stock</span></div>
                 </div>
 
-                <div id="ship"[formGroup]="ship">
-                  <h4>Vận Chuyển</h4>
-                  <div class="row">
-                    <div class="form-group required col-md-12">
-                      <label class="control-label">Đơn vị vận chuyển</label>
-                        <select name="country_id" id="input-country" class="form-control" formControlName="company" (change)="chooseShippingCompany()">
-                          <option [ngValue]="null" disabled> --- Chọn đơn vị vận chuyển --- </option>
-                            <option *ngFor="let prf of listShippingCompany" [ngValue]="prf.id"  [attr.selected]="prf.id == ship.controls['company'].value ? true : null">
-                            {{ prf.name }}
-                            </option>
-                        </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group required col-md-6">
-                      <label class="control-label">Tỉnh thành</label>
-                        <select name="country_id" id="input-country" class="form-control" formControlName="city" (change)="chooseCity()">
-                          <option [ngValue]="null" disabled> --- Chọn tỉnh thành --- </option>
-                          <option *ngFor="let prf of listCitys" [ngValue]="prf.id">
-                            {{ prf.name }}
-                          </option>
-                        </select>
-                    </div>
-                    <div class="form-group required col-md-6">
-                      <label class="control-label">Quận huyện</label>
-                        <select name="country_id" id="input-country" class="form-control" formControlName="district">
-                          <option [ngValue]="null" disabled> --- Chọn quận huyện --- </option>
-                          <option *ngFor="let prf of listDistricts" [ngValue]="prf.id">
-                            {{ prf.name }}
-                          </option>
-                        </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group required col-md-12">
-                      <label class="control-label">Chọn phương thức giao hàng</label>
-                        <select name="method_ship" id="input-method" class="form-control" formControlName="method"  (change)="getFeeShip()">
-                          <option [ngValue]="null" disabled> --- Chọn phương thức giao hàng --- </option>
-                          <option *ngFor="let prf of listMethodShip" [ngValue]="prf.id">
-                            {{ prf.name }}
-                          </option>
-                        </select>
-                    </div>
-                  </div>
-                </div>
-
                 <div class="product-box-desc">
                   <div class="inner-box-desc">
-                    <div class="price-tax"><span>Phí vận chuyển:</span> {{feeShip}} VNĐ</div>
                     <div class="reward"><span>Price in reward points:</span> 400</div>
                     <div class="brand"><span>Brand:</span><a href="#">Apple</a> </div>
                     <div class="model"><span>Product Code:</span> Product 15</div>
@@ -392,39 +333,19 @@
                     <label class="control-label">Thuộc tính</label>
                   </div>
                   <div class="image_option_type form-group required">
-                      <div style="float: left; margin-left: 15px;" *ngFor = 'let item of product.productOptions'>
-                       <div (click)="changeOptione(item)"> <input  [checked]="item.id == productShow.id? true:false" type="radio" id='item.id' name="drone" /> <label style="padding-left: 5px;" for = '{{item.id}}'>{{item.display_name}}</label> </div>
-                      </div>
-                  </div>
-
-                  <!-- <div class="box-checkbox form-group required">
-                    <label class="control-label">Checkbox</label>
-                    <div id="input-option232">
-                      <div class="checkbox">
-                        <label for="checkbox_1"><input type="checkbox" name="option[232][]" value="36" id="checkbox_1">
-                          Checkbox 1 (+$12.00)</label>
-                      </div>
-                      <div class="checkbox">
-                        <label for="checkbox_2"><input type="checkbox" name="option[232][]" value="36" id="checkbox_2">
-                          Checkbox 2 (+$36.00)</label>
-                      </div>
-                      <div class="checkbox">
-                        <label for="checkbox_3"><input type="checkbox" name="option[232][]" value="36" id="checkbox_3">
-                          Checkbox 3 (+$24.00)</label>
-                      </div>
-                      <div class="checkbox">
-                        <label for="checkbox_4"><input type="checkbox" name="option[232][]" value="36" id="checkbox_4">
-                          Checkbox 4 (+$48.00)</label>
-                      </div>
+                    <div style="float: left; margin-left: 15px;" *ngFor='let item of product.productOptions'>
+                      <div (click)="changeOptione(item)"> <input [checked]="item.id == productShow.id? true:false"
+                          type="radio" id='item.id' name="drone" /> <label style="padding-left: 5px;"
+                          for='{{item.id}}'>{{item.display_name}}</label> </div>
                     </div>
-                  </div> -->
-
+                  </div>
                   <div class="form-group box-info-product">
                     <div class="option quantity">
                       <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
                         <label>Qty</label>
-                        <input class="form-control" style="min-width: max-content;" type="number" name="quantity" value="1" #qty min="1" max="{{productShow.quantity}}">
-                        
+                        <input class="form-control" style="min-width: max-content;" type="number" name="quantity"
+                          value="1" #qty min="1" max="{{productShow.quantity}}">
+
                         <!-- <span class="input-group-addon product_quantity_down">−</span>
                         <span class="input-group-addon product_quantity_up">+</span> -->
                       </div>
@@ -435,20 +356,6 @@
                         onclick="cart.add(this.id, '1');" id="{{product.name}}" (click)="addToCart(qty.value)"
                         data-original-title="Add to Cart">
                     </div>
-                    <!-- <div class="add-to-links wish_comp">
-                      <ul class="blank list-inline">
-                        <li class="wishlist">
-                          <a class="icon" data-toggle="tooltip" title="" onclick="wishlist.add('50');"
-                            data-original-title="Add to Wish List"><i class="fa fa-heart"></i>
-                          </a>
-                        </li>
-                        <li class="compare">
-                          <a class="icon" data-toggle="tooltip" title="" onclick="compare.add('50');"
-                            data-original-title="Compare this Product"><i class="fa fa-exchange"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div> -->
                     <p>Có sẵn {{productShow.quantity}}</p>
                   </div>
 
@@ -562,8 +469,8 @@
                           <div class="col-sm-1"><img src="../../assets/img/2.jpg" /></div>
                           <div class="col-sm-11">
                             <p>{{userLogin!=null?userLogin.username:'GUEST'}}</p>
-                            <textarea formControlName='content' style="border: 1px solid rgb(218, 218, 218);  " rows="7" cols="110%"
-                              placeholder="Nhập bình luận của bạn..."></textarea>
+                            <textarea formControlName='content' style="border: 1px solid rgb(218, 218, 218);  " rows="7"
+                              cols="110%" placeholder="Nhập bình luận của bạn..."></textarea>
                           </div>
                         </div>
                         <div class="form-group">
