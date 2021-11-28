@@ -7,6 +7,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { HeaderService } from '../Services/header/header.service';
 import { AddressUserService } from '../Services/address-user/address-user.service';
+import { PaymentSystemService } from '../Services/payment-system/payment-system.service';
+import CryptoJS from 'crypto-js';
+(window as any).global = window;
+declare const Buffer: { byteLength: (arg0: string) => any; };
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -14,6 +18,13 @@ import { AddressUserService } from '../Services/address-user/address-user.servic
 })
 export class CheckoutComponent implements OnChanges {
   @Input()
+
+  // Payment
+  public listPaymentSystem: any = [];
+  public listDetailPaymentSystem: any = [];
+  public showDetailPayment: any = '';
+
+  // End Paymen
   public productList: any = [];
   public totalPriceBeforeDiscount: number = 0;
   public totalprice: number = 0;
@@ -44,7 +55,8 @@ export class CheckoutComponent implements OnChanges {
     private address_ship: ShipService,
     private cookieService: CookieService,
     private headerService: HeaderService,
-    private address_user: AddressUserService
+    private address_user: AddressUserService,
+    private paymentSystemService: PaymentSystemService
   ) {
     this.productList = JSON.parse('' + localStorage.getItem('cart')) || [];
     this.totalprice = this.totalPriceBeforeDiscount = this.productList.reduce(
@@ -54,6 +66,7 @@ export class CheckoutComponent implements OnChanges {
     );
   }
   ngOnInit(): void {
+    this.getAllPaymentSystem();
     this.getShippingCompany();
     this.getApiCity();
     this.getAddressMainUser();
@@ -64,6 +77,50 @@ export class CheckoutComponent implements OnChanges {
         last + item?.product_option?.price * item?.quantity,
       0
     );
+  }
+
+  /**
+   * Hàm lấy ra tất cả phương thức thanh toán có trong hệ thống
+   */
+  getAllPaymentSystem() {
+    this.paymentSystemService.getAllPaymentSystem().subscribe(
+      (data: any) => {
+        this.listPaymentSystem = data;
+      },
+      (error: any) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: error.error.message,
+        });
+      }
+    );
+  }
+
+  showDetailMethodPayment(name: string) {
+    if (name == 'Cash') {
+      this.showDetailPayment = '';
+    } else {
+      this.showDetailPayment = name;
+      this.getDetailPaymentByName(name);
+    }
+  }
+
+  getDetailPaymentByName(name: String) {
+    this.listPaymentSystem
+      .filter((x: any) => x.name == name)
+      .map((x: any) => {
+        try {
+          this.listDetailPaymentSystem = JSON.parse(
+            x.detail.replace(/ 0+(?![\. }])/g, ' ')
+          );
+          if (x.name == 'Momo') {
+            this.getQrCodeMomo();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
   }
 
   public ship = new FormGroup({
@@ -460,5 +517,114 @@ export class CheckoutComponent implements OnChanges {
     } else {
       return true;
     }
+  }
+
+  getQrCodeMomo() {
+    //parameters
+    var partnerCode = 'MOMO';
+    var accessKey = 'nrb8QxS7d8mHNdIz';
+    var secretkey = 'GNQAprmcFKpKWQpEM1YxPC73tfMsTiaG';
+    var requestId = partnerCode + new Date().getTime();
+    var orderId = requestId;
+    var orderInfo = 'pay with MoMo test Thái Học';
+    var redirectUrl = 'https://momo.vn/return';
+    var ipnUrl = 'http://localhost:4200/notify';
+    // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
+    var amount = '50000';
+    var requestType = 'captureWallet';
+    var extraData = ''; //pass empty value if your merchant does not have stores
+
+    var rawSignature =
+      'accessKey=' +
+      accessKey +
+      '&amount=' +
+      amount +
+      '&extraData=' +
+      extraData +
+      '&ipnUrl=' +
+      ipnUrl +
+      '&orderId=' +
+      orderId +
+      '&orderInfo=' +
+      orderInfo +
+      '&partnerCode=' +
+      partnerCode +
+      '&redirectUrl=' +
+      redirectUrl +
+      '&requestId=' +
+      requestId +
+      '&requestType=' +
+      requestType;
+    var rawSignature =
+      'accessKey=' +
+      accessKey +
+      '&amount=' +
+      amount +
+      '&extraData=' +
+      extraData +
+      '&ipnUrl=' +
+      ipnUrl +
+      '&orderId=' +
+      orderId +
+      '&orderInfo=' +
+      orderInfo +
+      '&partnerCode=' +
+      partnerCode +
+      '&redirectUrl=' +
+      redirectUrl +
+      '&requestId=' +
+      requestId +
+      '&requestType=' +
+      requestType;
+    //puts raw signature
+    console.log('--------------------RAW SIGNATURE----------------');
+    console.log(rawSignature);
+    var signature = CryptoJS.HmacSHA256(rawSignature, secretkey);
+    console.log('--------------------SIGNATURE----------------');
+    console.log(signature);
+    //json object send to MoMo endpoint
+    const requestBody = JSON.stringify({
+      partnerCode: partnerCode,
+      accessKey: accessKey,
+      requestId: requestId,
+      amount: amount,
+      orderId: orderId,
+      orderInfo: orderInfo,
+      redirectUrl: redirectUrl,
+      ipnUrl: ipnUrl,
+      extraData: extraData,
+      requestType: requestType,
+      signature: signature,
+      lang: 'vi',
+    });
+    const options = {
+      hostname: 'test-payment.momo.vn',
+      port: 443,
+      path: '/v2/gateway/api/create',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(requestBody),
+      },
+    };
+    this.paymentSystemService.getQrCodeMomo(options.headers).subscribe(
+      (res: any) => {
+        console.log(`Status: ${res.statusCode}`);
+        console.log(`Headers: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (body: any) => {
+          console.log('Body: ');
+          console.log(body);
+          console.log('payUrl: ');
+          console.log(JSON.parse(body).payUrl);
+        });
+        res.on('end', () => {
+          console.log('No more data in response.');
+        });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
