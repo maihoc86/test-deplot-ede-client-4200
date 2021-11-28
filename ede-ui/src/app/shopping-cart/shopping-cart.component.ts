@@ -4,6 +4,7 @@ import { HeaderService } from 'src/app/Services/header/header.service';
 import { ShipService } from '../Services/ship/ship.service';
 import { AddressUserService } from '../Services/address-user/address-user.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -16,7 +17,8 @@ export class ShoppingCartComponent implements OnInit {
     private headerService: HeaderService,
     private address_ship: ShipService,
     private address_user: AddressUserService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router: Router
   ) {
     this.headerService.myMethod$.subscribe((data) => {
       this.cart = data;
@@ -90,8 +92,8 @@ export class ShoppingCartComponent implements OnInit {
 
     this.cart = json ? JSON.parse(json) : [];
 
-    console.log(this.cart)
-    
+    console.log(this.cart);
+
     const term: any = [];
     this.cart.forEach((e) => {
       if (term.indexOf(e.product_option.product.shop.id) === -1) {
@@ -99,24 +101,20 @@ export class ShoppingCartComponent implements OnInit {
         this.listIdShopinCart.push({ shop: e.product_option.product.shop });
       }
     });
-
   }
 
-  ClearShopinCart(){
-    this.listIdShopinCart.forEach((shop:any) => {
-
-      var chk:any= false;
-      this.cart.forEach((e)=>{
-        if(e.product_option.product.shop.id == shop.shop.id){
-          chk = true
-          
+  ClearShopinCart() {
+    this.listIdShopinCart.forEach((shop: any) => {
+      var chk: any = false;
+      this.cart.forEach((e) => {
+        if (e.product_option.product.shop.id == shop.shop.id) {
+          chk = true;
         }
       });
-      if(!chk){
-        this.listIdShopinCart.splice(this.listIdShopinCart.indexOf(shop),1)
+      if (!chk) {
+        this.listIdShopinCart.splice(this.listIdShopinCart.indexOf(shop), 1);
       }
     });
-   
   }
 
   public ship = new FormGroup({
@@ -149,7 +147,6 @@ export class ShoppingCartComponent implements OnInit {
       qtyCurrent,
       this.cart.findIndex((x) => x === qtyCurrent)
     );
-
   }
 
   /**
@@ -157,7 +154,6 @@ export class ShoppingCartComponent implements OnInit {
    * @param cartItem sản phẩm trong giỏ hàng
    * @param index vị trí của sản phẩm trong giỏ hàng
    */
-
   changeFeeShipCart(cartItem: any, index: number) {
     var address_product_cart =
       cartItem.product_option.product.shop.address.split(','); // lấy ra địa chỉ của shop
@@ -200,20 +196,20 @@ export class ShoppingCartComponent implements OnInit {
                     });
                     this.listMethodShip = listMethodShip;
                     this.ship.controls['method'].setValue(
-                      this.listMethodShip[0].id // TODO xem phí nào rẻ nhất lấy phương thức đó
+                      this.listMethodShip[0].id
                     );
-                    let total_weight = 300 * cartItem.quantity;
+                    let total_weight =
+                      cartItem.product_option.weight * cartItem.quantity;
                     this.address_ship
                       .getFeeShip(
                         this.ship.controls['company'].value,
                         this.ship.controls['from_district'].value,
                         this.ship.controls['district'].value,
                         this.ship.controls['method'].value,
-                        total_weight // Cân nặng mẫu, ch có cân nặng
+                        total_weight
                       )
                       .subscribe(
                         (data: any) => {
-                          //TODO Phí vận chuyển cho từng sp trong cart
                           this.cart[index].feeShip = data.total;
                           localStorage.setItem(
                             'cart',
@@ -239,7 +235,6 @@ export class ShoppingCartComponent implements OnInit {
           console.log(error);
         }
       );
-      
   }
 
   /**
@@ -451,9 +446,12 @@ export class ShoppingCartComponent implements OnInit {
                       });
                       this.listMethodShip = listMethodShip;
                       this.ship.controls['method'].setValue(
-                        this.listMethodShip[0].id // TODO xem phí nào rẻ nhất lấy phương thức đó
+                        this.listMethodShip[0].id
                       );
-                      let total_weight = 300 * this.cart[iCart].quantity;
+                      console.log(this.cart[iCart].product_option.weight);
+                      let total_weight =
+                        this.cart[iCart].product_option.weight *
+                        this.cart[iCart].quantity;
                       this.address_ship
                         .getFeeShip(
                           this.ship.controls['company'].value,
@@ -464,7 +462,6 @@ export class ShoppingCartComponent implements OnInit {
                         )
                         .subscribe(
                           (data: any) => {
-                            //TODO Phí vận chuyển cho từng sp trong cart
                             this.cart[iCart].feeShip = data.total;
                             localStorage.setItem(
                               'cart',
@@ -500,7 +497,7 @@ export class ShoppingCartComponent implements OnInit {
     let idCity = '';
     let idDistrict = '';
     let idWard = '';
-    let address_split = (address || "").split(',');
+    let address_split = (address || '').split(',');
     this.ship.controls['address'].setValue(address_split[0]);
 
     // Lấy ra id của thành phố khi user có địa chỉ thành phố trùng
@@ -533,5 +530,11 @@ export class ShoppingCartComponent implements OnInit {
         }
       }
     }, 4500);
+  }
+  /**
+   * Chuyển đến trang thêm địa chỉ mới
+   */
+  addNewAddressUser() {
+    window.location.href = '/user/account/address';
   }
 }

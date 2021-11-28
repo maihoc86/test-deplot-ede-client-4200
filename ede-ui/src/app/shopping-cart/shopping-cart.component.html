@@ -26,6 +26,8 @@
                     <td class="text-right">Giá</td>
                     <td class="text-right">Phí vận chuyển sản phẩm</td>
                     <td class="text-right">Tổng</td>
+                    <td class="text-right">Hành dộng</td>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -49,60 +51,36 @@
                     </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
                       <span>{{(item.product_option.productDiscount[0]?(item.product_option.price)-((item.product_option.price)*(item.product_option.productDiscount[0].discount/100)):item.product_option.price)|
-												currency :'VND'}}</span>
+                        currency :'VND'}}</span>
                     </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
                       <span>
-                        {{(item.feeShip |  currency :'VND') }}
+                        {{(item.feeShip | currency :'VND') }}
 
-                      </span></td>
+                      </span>
+                    </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
-                      <span>{{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-((item.product_option.price*item.quantity)*(item.product_option.productDiscount[0].discount/100)):item.product_option.price*item.quantity)|
-												currency :'VND'}}</span>
+                      <span>{{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-(((item.product_option.price
+                        + item.feeShip)
+                        *item.quantity)*(item.product_option.productDiscount[0].discount/100)):(item.product_option.price
+                        + item.feeShip)*item.quantity)|
+                        currency :'VND'}}</span>
                     </td>
                     <td *ngIf="item.product_option.product.shop.id==shop.shop.id" class="text-right">
                       <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-danger"
                         (click)="removeItemCart(item)"><i class="fa fa-times-circle"></i></button>
                     </td>
-
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <h3 class="subtitle no-margin">What would you like to do next?</h3>
-          <p>Choose if you have a discount code or reward points you want to use or would like to estimate
-            your delivery cost.</p>
           <div class="panel-group" id="accordion">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a href="#collapse-coupon" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                    aria-expanded="true">Use Coupon Code
-
-                    <i class="fa fa-caret-down"></i>
-                  </a>
-                </h4>
-              </div>
-              <div id="collapse-coupon" class="panel-collapse collapse in" aria-expanded="true">
-                <div class="panel-body">
-                  <label class="col-sm-2 control-label" for="input-coupon">Enter your coupon
-                    here</label>
-                  <div class="input-group">
-                    <input type="text" name="coupon" value="" placeholder="Enter your coupon here" id="input-coupon"
-                      class="form-control">
-                    <span class="input-group-btn"><input type="button" value="Apply Coupon" id="button-coupon"
-                        data-loading-text="Loading..." class="btn btn-primary"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
                   <a href="#collapse-shipping" class="accordion-toggle collapsed" data-toggle="collapse"
-                    data-parent="#accordion" aria-expanded="false">Chọn địa chỉ &amp; đơn vị vận chuyển
-
+                    data-parent="#accordion" aria-expanded="false">Chọn địa chỉ &amp; đơn vị
                     <i class="fa fa-caret-down"></i>
                   </a>
                 </h4>
@@ -194,7 +172,7 @@
                               <div class="row">
                                 <div class="col-sm-12" style="margin-top: 16px;">
                                   <input type="submit" class="btn btn-danger" value="Thêm địa chỉ mới"
-                                    style="border-radius:4px 4px; width: 130px;">
+                                    (click)="addNewAddressUser()" style="border-radius:4px 4px; width: 130px;">
                                   &nbsp;
                                 </div>
                               </div><br>
@@ -212,9 +190,9 @@
                                       <td style="cursor: pointer; height: 60px">{{user.address}} <span
                                           style="color: #ff3c20;"> > MẶC ĐỊNH</span> </td>
                                     </tr>
-                                    <tr style="cursor: pointer;height: 60px" *ngFor="let a of listAddressUser"
-                                      (click)="changeAddressUser(a.address)" data-dismiss="modal">
-                                      <td>{{a.address}}</td>
+                                    <tr  *ngFor="let a of listAddressUser"
+                                      data-dismiss="modal">
+                                      <td (click)="changeAddressUser(a.address)" style="cursor: pointer;height: 60px">{{a.address}}</td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -229,29 +207,6 @@
                     </div>
                   </div>
                 </form>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a href="#collapse-voucher" data-toggle="collapse" data-parent="#accordion"
-                    class="accordion-toggle collapsed" aria-expanded="false">Use Gift Certificate
-
-                    <i class="fa fa-caret-down"></i>
-                  </a>
-                </h4>
-              </div>
-              <div id="collapse-voucher" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                <div class="panel-body">
-                  <label class="col-sm-2 control-label" for="input-voucher">Enter your gift
-                    certificate code here</label>
-                  <div class="input-group">
-                    <input type="text" name="voucher" value="" placeholder="Enter your gift certificate code here"
-                      id="input-voucher" class="form-control">
-                    <span class="input-group-btn"><input type="submit" value="Apply Gift Certificate"
-                        id="button-voucher" data-loading-text="Loading..." class="btn btn-primary"></span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -290,9 +245,9 @@
           </div>
 
           <div class="buttons">
-            <div class="pull-left"><a href="index.html" class="btn btn-primary">Continue Shopping</a></div>
+            <div class="pull-left"><a routerLink="/" class="btn btn-primary">Tiếp tục mua hàng</a></div>
             <div class="pull-right"><a routerLink="/checkout" [routerLinkActive]="'active-link'"
-                class="btn btn-primary">Checkout</a></div>
+                class="btn btn-primary">Thanh toán</a></div>
           </div>
         </div>
         <!--Middle Part End -->

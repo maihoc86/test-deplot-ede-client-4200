@@ -151,41 +151,158 @@
         <div class="col-right col-sm-9">
           <div class="row">
             <div class="col-sm-12">
+
               <div class="panel panel-default no-padding">
-                <div class="col-sm-6 checkout-shipping-methods">
+                <div class="col-sm-8 checkout-shipping-methods">
                   <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-truck"></i> Delivery Method</h4>
+                    <h4 class="panel-title"><i class="fa fa-truck"></i> Phương thức vận chuyển</h4>
                   </div>
-                  <div class="panel-body ">
-                    <p>Please select the preferred shipping method to use on this order.</p>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" checked="checked" name="Free Shipping">
-                        Free Shipping - $0.00
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="Flat Shipping Rate">
-                        Flat Shipping Rate - $7.50
-                      </label>
-                    </div>
+                  <div *ngIf="loadingAddress">
+                    <div class="loader4"></div>
                   </div>
+                  <form [formGroup]="ship" *ngIf="!loadingAddress">
+                    <div class="panel-body">
+                      <p>‎Nhập địa chỉ nhận hàng để có được ước tính phí vận chuyển.‎</p>
+                      <div class="form-horizontal">
+                        <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-country">Chọn đơn vị
+                            vận chuyển</label>
+                          <div class="col-sm-10">
+                            <select name="country_id" id="input-country" class="form-control" formControlName="company"
+                              (change)="chooseShippingCompany()">
+                              <option [ngValue]="null" disabled> --- Chọn đơn vị vận chuyển
+                                --- </option>
+                              <option *ngFor="let prf of listShippingCompany" [ngValue]="prf.id">
+                                {{ prf.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-country">Tỉnh /
+                            thành</label>
+                          <div class="col-sm-10">
+                            <select name="country_id" id="input-country" class="form-control" formControlName="city"
+                              (change)="chooseCity()">
+                              <option [ngValue]="null" disabled> --- Chọn tỉnh thành ---
+                              </option>
+                              <option *ngFor="let prf of listCitys" [ngValue]="prf.id"
+                                [attr.selected]="prf.id == ship.controls['company'].value ? true : null">
+                                {{ prf.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group required">
+                          <label class="col-sm-2 control-label">Quận huyện</label>
+                          <div class="col-sm-10">
+                            <select name="country_id" id="input-country" class="form-control" formControlName="district"
+                              (change)="chooseDistrict()">
+                              <option [ngValue]="null" disabled> --- Chọn quận huyện ---
+                              </option>
+                              <option *ngFor="let prf of listDistricts" [ngValue]="prf.id">
+                                {{ prf.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-zone">Phường /
+                            xã</label>
+                          <div class="col-sm-10">
+                            <select name="zone_id" id="input-zone" class="form-control" formControlName="wards"
+                              (change)="chooseWards()">
+                              <option [ngValue]="null" disabled> --- Chọn phường xã ---
+                              </option>
+                              <option *ngFor="let prf of listWards" [ngValue]="prf.id">
+                                {{ prf.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-address">Địa chỉ</label>
+                          <div class="col-sm-10"><input type="text" name="address" formControlName="address"
+                              placeholder="Địa chỉ" id="input-address" class="form-control">
+                            <span *ngIf="ship.controls['address'].value != ''"><a
+                                style="color: #ff3c20; cursor: pointer;" data-toggle="modal" data-target="#exampleModal"
+                                (click)="getAllAddressUser()"> + Chọn địa
+                                chỉ hiện có</a></span>
+                          </div>
+                        </div>
+                        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
+                          aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">Địa chỉ nhận hàng</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="row">
+                                  <div class="col-sm-12" style="margin-top: 16px;">
+                                    <input type="submit" class="btn btn-danger" value="Thêm địa chỉ mới"
+                                      (click)="addNewAddressUser()" style="border-radius:4px 4px; width: 130px;">
+                                    &nbsp;
+                                  </div>
+                                </div><br>
+                              </div>
+                              <div class="modal-body">
+                                <div class="table-responsive">
+                                  <table class="table table-bordered table-hover">
+                                    <thead>
+                                      <tr>
+                                        <td>Địa chỉ</td>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr (click)="changeAddressUser(user.address)" data-dismiss="modal">
+                                        <td style="cursor: pointer; height: 60px">{{user.address}} <span
+                                            style="color: #ff3c20;"> > MẶC ĐỊNH</span> </td>
+                                      </tr>
+                                      <tr *ngFor="let a of listAddressUser" data-dismiss="modal">
+                                        <td (click)="changeAddressUser(a.address)" style="cursor: pointer;height: 60px">
+                                          {{a.address}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-                <div class="col-sm-6  checkout-payment-methods">
+                <div class="col-sm-4  checkout-payment-methods">
                   <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-credit-card"></i> Payment Method</h4>
+                    <h4 class="panel-title"><i class="fa fa-credit-card"></i> Phương thức thanh toán</h4>
                   </div>
                   <div class="panel-body">
-                    <p>Please select the preferred payment method to use on this order.</p>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" checked="checked" name="Cash On Delivery">Cash On Delivery</label>
+                    <p>Vui lòng chọn phương thức thanh toán ưa thích để sử dụng cho đơn hàng này.</p>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" checked="checked" name="Thanh toán khi nhận hàng"
+                        name="rdoThanhToan" id="rdoCash" style="cursor: pointer;">
+                      <label class="form-check-label" for="rdoCash" style="cursor: pointer;">
+                        <img src=" /assets/image/icon/dollar-folder-icon.png" alt="cash">&nbsp;
+                        Thanh toán khi nhận hàng</label>
                     </div>
-
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="Paypal">Paypal</label>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" name="Thanh toán qua Internet Banking"
+                        name="rdoThanhToan" id="rdoBanking" style="cursor: pointer;">
+                      <label class="form-check-label" for="rdoBanking" style="cursor: pointer;">
+                        <img src=" /assets/image/icon/iconfinder_visa_1933702.png" alt="banking">&nbsp;Thanh toán qua
+                        Internet Banking</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" name="Thanh toán qua MoMo" name="rdoThanhToan"
+                        id="rdoMoMo" style="cursor: pointer;">
+                      <label class="form-check-label" for="rdoMoMo" style="cursor: pointer;">
+                        <img src=" /assets/image/icon/icon-momo.png" alt="MoMo">&nbsp; Thanh toán qua MoMo</label>
                     </div>
                   </div>
                 </div>
@@ -278,6 +395,7 @@
                             <td class="text-left">Tên sản phẩm</td>
                             <td class="text-left">Số Lượng</td>
                             <td class="text-right">Đơn giá</td>
+                            <td class="text-right">Phí vận chuyển</td>
                             <td class="text-right">Tổng giá</td>
                           </tr>
                         </thead>
@@ -295,33 +413,32 @@
                             </td>
                             <td class="text-left">
                               <div class="input-group btn-block" style="min-width: 100px;">
-                                <input type="text" [(ngModel)]="item.quantity" size="1" class="form-control">
-                                <span class="input-group-btn">
-                                  <!-- <button type="submit" data-toggle="tooltip" title="Update" class="btn btn-primary"><i class="fa fa-refresh"></i></button> -->
-                                  <!-- <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-danger" onClick=""><i class="fa fa-times-circle"></i></button> -->
-                                </span>
+                                <input type="number" value={{item.quantity}} #qty class="form-control"
+                                  (keypress)="numberOnly($event)" (change)="changeQty(item, qty.value)">
                               </div>
                             </td>
                             <td class="text-right">{{item?.product_option?.price | currency :'VND'}}</td>
-                            <td class="text-right">{{item?.product_option?.price * item?.quantity | currency :'VND'}}
+                            <td class="text-right">{{item.feeShip| currency :'VND'}}</td>
+                            <td class="text-right">
+                              {{(item.product_option.productDiscount[0]?(item.product_option.price*item.quantity)-(((item.product_option.price
+                              + item.feeShip)
+                              *item.quantity)*(item.product_option.productDiscount[0].discount/100)):(item.product_option.price
+                              + item.feeShip)*item.quantity)|
+                              currency :'VND'}}
                             </td>
                           </tr>
                         </tbody>
                         <tfoot>
                           <tr>
-                            <td class="text-right" colspan="4"><strong>Phí vận chuyển:</strong></td>
-                            <td class="text-right">$93.73</td>
-                          </tr>
-                          <tr>
-                            <td class="text-right" colspan="4"><strong>Tạm tính:</strong></td>
+                            <td class="text-right" colspan="5"><strong>Tạm tính:</strong></td>
                             <td class="text-right">{{totalPriceBeforeDiscount | currency :'VND'}}</td>
                           </tr>
                           <tr *ngIf="discountPrice > 0">
-                            <td class="text-right" colspan="4"><strong>Giảm:</strong></td>
+                            <td class="text-right" colspan="5"><strong>Giảm:</strong></td>
                             <td class="text-right">{{discountPrice | currency :'VND'}}</td>
                           </tr>
                           <tr>
-                            <td class="text-right" colspan="4"><strong>Tổng tiền:</strong></td>
+                            <td class="text-right" colspan="5"><strong>Tổng tiền:</strong></td>
                             <td class="text-right">{{totalprice | currency :'VND'}}</td>
                           </tr>
                         </tfoot>
@@ -333,7 +450,7 @@
               <div class="col-sm-12">
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-pencil"></i> Add Comments About Your Order</h4>
+                    <h4 class="panel-title"><i class="fa fa-pencil"></i> Thêm chú thích về Đơn hàng của bạn</h4>
                   </div>
                   <div class="panel-body">
                     <textarea rows="4" class="form-control" id="confirm_comment" name="comments"></textarea>
@@ -341,8 +458,8 @@
                     <label class="control-label" for="confirm_agree">
                       <input type="checkbox" checked="checked" value="1" required="" class="validate required"
                         id="confirm_agree" name="confirm agree">
-                      <span>I have read and agree to the <a class="agree" href="#"><b>Terms &amp;
-                            Conditions</b></a></span> </label>
+                      <span>Tôi đã đọc và đồng ý với các <a class="agree" href="#"><b>Điều khoản &amp;
+                            Điều kiện</b></a></span> </label>
                     <div class="buttons">
                       <div class="pull-right">
                         <input type="button" class="btn btn-primary" id="button-confirm" value="Confirm Order">
